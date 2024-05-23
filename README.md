@@ -97,6 +97,7 @@ Algorithms for parsing
 ## NOTES
 
 Example for seperation of the tasks in this project:
-    Extracting Information, Parsing, Termcaps, Executables, Pipes and Redirections
-    Environment Variables, Builtin Functions and Signal Handling
+> Extracting Information, Parsing, Termcaps, Executables, Pipes and Redirections
+
+> Environment Variables, Builtin Functions and Signal Handling
 
