@@ -16,6 +16,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-# include "lexar.h"
+# include "lexer.h"
 
 #endif	// MINISHELL_H
