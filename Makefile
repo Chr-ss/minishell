@@ -13,7 +13,7 @@ RM			=	rm -rf
 all:			$(NAME)
 
 $(NAME):		$(OBJ)
-				@$(CC) $(OBJ) -o $(NAME)
+				@$(CC) $(OBJ) -o $(NAME) -lreadline
 				@printf "$(CREATED)" $@ $(CUR_DIR)
 
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c
