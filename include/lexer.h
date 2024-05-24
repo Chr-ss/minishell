@@ -1,21 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
+/*   lexer.h                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/24 21:12:12 by crasche       ########   odam.nl         */
+/*   Created: 2024/05/24 21:12:18 by crasche       #+#    #+#                 */
+/*   Updated: 2024/05/24 21:14:18 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	MINISHELL_H
-# define	MINISHELL_H
+#ifndef	LEXER_H
+# define	LEXER_H
 
-# include <stdio.h>
-# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
-# include "lexar.h"
+typedef struct s_cmd
+{
+	char	*cmd;
+	char	**argv;
+	char	*in;
+	char	*out;
+	s_cmd	*next;
+}	t_cmd;
 
-#endif	// MINISHELL_H
+typedef enum e_token_type
+{
+	WORD,
+	PIPE,
+	third
+}	t_token_type;
+
+#endif	// LEXER_H
