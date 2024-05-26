@@ -1,30 +1,40 @@
 NAME		=	minishell
 CC			=	cc
 CFLAGS		=	-Wall -Werror -Wextra -Wunused -Wuninitialized -Wunreachable-code -MMD -g3 # -fsanitize=address # -Ofast
+
 SRCDIR		=	src
 SRC			=	$(shell find $(SRCDIR) -iname "*.c")
+
 OBJDIR		=	.build
 OBJ			=	$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+
+LIBFT		=	libft/libft.a
+LIB			:=	$(LIBFT)
+
 RM			=	rm -rf
 
-all:			$(NAME)
+all:	$(NAME)
 
-$(NAME):		$(OBJ)
-				@$(CC) $(OBJ) -o $(NAME) -lreadline
-				@printf "$(CREATED)" $@ $(CUR_DIR)
+$(NAME):	$(OBJ)	$(LIBFT)
+		@$(CC) $(OBJ) $(LIB) -o $(NAME) -lreadline
+		@printf "$(CREATED)" $@ $(CUR_DIR)
 
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c
-				@mkdir -p $(@D)
-				@$(CC) $(CFLAGS) -c $< -o $@
-				@printf "$(UPDATED)" $@ $(CUR_DIR)
+		@mkdir -p $(@D)
+		@$(CC) $(CFLAGS) -c $< -o $@
+		@printf "$(UPDATED)" $@ $(CUR_DIR)
+
+$(LIBFT):
+		@$(MAKE) --no-print-directory -C $(@D) all
+		@printf "$(CREATED)" $@ $(dir $(abspath $(LIBFT)))
 
 clean:
-				$(RM) $(OBJDIR)
-				@printf "$(REMOVED)" $(OBJDIR) $(CUR_DIR)
+		$(RM) $(OBJDIR)
+		@printf "$(REMOVED)" $(OBJDIR) $(CUR_DIR)
 
 fclean: clean
-				$(RM) $(NAME)
-				@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
+		$(RM) $(NAME)
+		@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
 re:				fclean all
 
