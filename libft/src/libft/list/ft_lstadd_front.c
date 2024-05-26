@@ -6,14 +6,14 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/10 14:18:11 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 14:43:05 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/26 17:50:49 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/libft.h"
 
-void	ft_lstadd_front(t_libft **lst, t_libft *new)
+void	ft_lstadd_front(t_libft **lst, t_libft *lstnew)
 {
-	new->next = *lst;
-	*lst = new;
+	lstnew->next = *lst;
+	*lst = lstnew;
 }

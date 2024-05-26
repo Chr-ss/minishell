@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/03 15:23:23 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 15:19:28 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/26 17:50:41 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 t_libft	*ft_lstnew(void *content);
-void	ft_lstadd_front(t_libft **lst, t_libft *new);
+void	ft_lstadd_front(t_libft **lst, t_libft *lstnew);
 int		ft_lstsize(t_libft *lst);
 t_libft	*ft_lstlast(t_libft *lst);
-void	ft_lstadd_back(t_libft **lst, t_libft *new);
+void	ft_lstadd_back(t_libft **lst, t_libft *lstnew);
 void	ft_lstdelone(t_libft *lst, void (*del)(void*));
 void	ft_lstiter(t_libft *lst, void (*f)(void *));
 void	ft_lstclear(t_libft **lst, void (*del)(void*));
