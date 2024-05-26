@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/03 13:16:23 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 15:19:12 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/26 15:23:45 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_isspace(int c)
 {
-	if (9 <= c && c <= 13 || c == 32)
+	if ((9 <= c && c <= 13) || c == 32)
 		return (1);
 	return (0);
 }
