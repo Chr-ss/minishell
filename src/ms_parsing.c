@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:02:41 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 17:45:05 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/26 18:16:32 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ void	ms_init_cmdlist(t_cmd *cmd)
 
 void	ms_parsing(t_msdata *data)
 {
-	ms_init_cmdlist(&data->cmd);
+	ms_init_cmdlist(data->cmd);
 }

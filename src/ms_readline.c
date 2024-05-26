@@ -6,21 +6,117 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 17:45:31 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/26 19:43:48 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char *ms_readline(void)
+int	ft_isbashtoken(int c)
 {
-	char *buffer;
+	if (c == '|' || c == '>' || c == '<' || c == 0)
+		return (1);
+	return (0);
+}
+
+void	skipspace(char **string)
+{
+	while (ft_isspace((int) **string))
+		(*string)++;
+}
+
+t_token	ms_tokenizer(char *line)
+{
+	t_token	token;
+	char	*temp;
+
+	token.start = line;
+	temp = token.start;
+	token.length = 1;
+	if (!*token.start)
+	{
+		printf("EOF, ");
+		token.type = TOKEN_EOF;
+	}
+	else if (!ft_strncmp(token.start, "|", 1))
+	{
+		printf("PIPE, ");
+		token.type = TOKEN_PIPE;
+	}
+	else if (!ft_strncmp(token.start, "<<", 2))
+	{
+		printf("HEREDOC, ");
+		token.type = TOKEN_HEREDOC;
+		token.length = 2;
+	}
+	else if (!ft_strncmp(token.start, "<", 1))
+	{
+		printf("REIN, ");
+		token.type = TOKEN_REIN;
+	}
+	else if (!ft_strncmp(token.start, ">>", 2))
+	{
+		printf("APPEND, ");
+		token.type = TOKEN_APPEND;
+		token.length = 2;
+	}
+	else if (!ft_strncmp(token.start, ">", 1))
+	{
+		printf("REOUT, ");
+		token.type = TOKEN_REOUT;
+	}
+	else if (*temp && ft_isprint((int) *temp) && !ft_isbashtoken((int) *temp))
+	{
+		printf("WORD, ");
+		token.type = TOKEN_WORD;
+		token.length = 0;
+		while (*temp && ft_isprint((int) *temp) && !ft_isbashtoken((int) *temp))
+		{
+			temp++;
+			token.length++;
+		}
+	}
+	return (token);
+}
+
+void	temp_print_tokens(char *line)
+{
+	t_token	token;
+	int	i = 0;
+
+	token.start = line;
+	while (token.type != TOKEN_EOF)
+	{
+		skipspace(&token.start);
+		token = ms_tokenizer(token.start);
+		printf("%d, ", token.type);
+		i++;
+		if (token.type == TOKEN_EOF)
+			return ;
+		while (token.length)
+		{
+			token.length--;
+			token.start++;
+		}
+		// sleep(1);
+	}
+	printf("\n");
+}
+
+char	*ms_readline(void)
+{
+	char *line;
 
 	while (1)
 	{
-		buffer = readline("minishell:~$");
-		if (!buffer)
+		write(1, "\n", 1);
+		line = readline("minishell:~$");
+		if (!line)
 			ms_error("readline malloc error.");
-		printf("%s\n", buffer);
+		printf("INPUT:%s\n\n", line);
+		temp_print_tokens(line);
+		free(line);
+		line = NULL;
 	}
+	return (line);
 }
