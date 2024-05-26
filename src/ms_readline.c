@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 19:43:48 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/26 19:46:18 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,14 @@ t_token	ms_tokenizer(char *line)
 	}
 	return (token);
 }
+int	ms_token_to_cmd(t_msdata *data, t_token token)
+{
+
+
+	
+
+}
+
 
 void	temp_print_tokens(char *line)
 {
@@ -98,12 +106,12 @@ void	temp_print_tokens(char *line)
 			token.length--;
 			token.start++;
 		}
-		// sleep(1);
+		ms_token_to_cmd(data, token);
 	}
 	printf("\n");
 }
 
-char	*ms_readline(void)
+char	*ms_readline(t_msdata *data)
 {
 	char *line;
 

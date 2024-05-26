@@ -20,13 +20,13 @@ void	ms_error(char *msg)
 
 int	main(int argc, char **argv)
 {
-	// t_msdata	data;
+	t_msdata	data;
 	char		*buffer;
 
 	if (argc > 1)
 		ms_error("Invalid argument count.");
 	(void) argv;
-	buffer = ms_readline();
+	buffer = ms_readline(&data);
 //	ms_parsing(&data);
 	return (0);
 }

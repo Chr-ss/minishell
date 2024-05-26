@@ -37,7 +37,7 @@ typedef	struct s_msdata
 
 void	ms_parsing(t_msdata *data);
 void	ms_init_cmdlist(t_cmd *cmd);
-char	*ms_readline(void);
+char	*ms_readline(t_msdata *data);
 void	ms_error(char *msg);
 
 
