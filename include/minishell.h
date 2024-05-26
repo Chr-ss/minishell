@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/24 21:12:12 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/26 15:04:21 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
+# include "../libft/include/libft.h"
 # include "lexer.h"
 
 #endif	// MINISHELL_H
