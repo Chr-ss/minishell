@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/03 15:23:23 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 14:43:50 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/26 15:19:28 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ void	ft_bzero(void *s, size_t n);
 int		ft_atoi(const char *nptr);
 char	*ft_itoa(int n);
 int		ft_isdigit(int c);
+int		ft_isspace(int c);
 int		ft_isalnum(int c);
+int		ft_isupper(int c);
+int		ft_islower(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
