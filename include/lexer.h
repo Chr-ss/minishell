@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/24 21:12:18 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/24 21:14:18 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/26 14:57:39 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 
 typedef struct s_cmd
 {
-	char	*cmd;
-	char	**argv;
-	char	*in;
-	char	*out;
-	s_cmd	*next;
+	char			*cmd;
+	char			**argv;
+	char			*in;
+	char			*out;
+	struct	s_cmd	*next;
 }	t_cmd;
 
 typedef enum e_token_type
