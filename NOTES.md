@@ -1,28 +1,27 @@
-typedef struct {
-  TokenType type;
-  const char* start;
-  int length;
-  int line;
-} Token;
+At some point we have to take care of expanding still (most likely at the very beginning of the code...)
+	$PATH
 
-typedef enum {
-	// Single-character tokens.
-	TOKEN_LEFT_PAREN, TOKEN_RIGHT_PAREN,
-	TOKEN_LEFT_BRACE, TOKEN_RIGHT_BRACE,
-	TOKEN_COMMA, TOKEN_DOT, TOKEN_MINUS, TOKEN_PLUS,
-	TOKEN_SEMICOLON, TOKEN_SLASH, TOKEN_STAR,
-	// One or two character tokens.
-	TOKEN_BANG, TOKEN_BANG_EQUAL,
-	TOKEN_EQUAL, TOKEN_EQUAL_EQUAL,
-	TOKEN_GREATER, TOKEN_GREATER_EQUAL,
-	TOKEN_LESS, TOKEN_LESS_EQUAL,
-	// Literals.
-	TOKEN_IDENTIFIER, TOKEN_STRING, TOKEN_NUMBER,
-	// Keywords.
-	TOKEN_AND, TOKEN_CLASS, TOKEN_ELSE, TOKEN_FALSE,
-	TOKEN_FOR, TOKEN_FUN, TOKEN_IF, TOKEN_NIL, TOKEN_OR,
-	TOKEN_PRINT, TOKEN_RETURN, TOKEN_SUPER, TOKEN_THIS,
-	TOKEN_TRUE, TOKEN_VAR, TOKEN_WHILE,
+check string for syntax errors
+	crasche@f0r2s6:~$ | ls | ls
+	bash: syntax error near unexpected token `|'
+we don't meed to handle open quotes
+	crasche@f0r2s6:~$ echo "hello
+	> ^C
+tycho said not make this spacial case
+	crasche@f0r2s6:~$ echo "hello;\hello"
+	hello;\hello
+	crasche@f0r2s6:~$ echo "hello";\"hello"
+	> ^C
+	crasche@f0r2s6:~$ echo "hello"a b"hello"
+	helloa bhello
+	crasche@f0r2s6:~$ echo "hello"ab"hello"
+	helloabhello
+handle this too
+	crasche@f0r2s6:~$ ls | ls <
+	bash: syntax error near unexpected token `newline'
 
-	TOKEN_ERROR, TOKEN_EOF
-} TokenType;
+for bonus we'd need this
+	&& ||
+this we don't need (would make strings hard according to tycho)
+	; \
+
