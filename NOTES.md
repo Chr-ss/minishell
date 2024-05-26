@@ -25,3 +25,7 @@ for bonus we'd need this
 this we don't need (would make strings hard according to tycho)
 	; \
 
+
+
+analyze token
+	token 1 and token 2 (token )
