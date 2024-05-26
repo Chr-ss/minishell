@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 17:47:48 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/26 18:17:02 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef	struct s_msdata
 
 void	ms_parsing(t_msdata *data);
 void	ms_init_cmdlist(t_cmd *cmd);
-char *ms_readline(void);
+char	*ms_readline(void);
+void	ms_error(char *msg);
 
 
 

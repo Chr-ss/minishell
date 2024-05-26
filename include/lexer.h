@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/24 21:12:18 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 17:01:17 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/26 18:16:12 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	char			*start;
-	t_token_type	type;
 	int				length;
+	t_token_type	type;
 }	t_token;
 
 typedef struct s_tokenizer
