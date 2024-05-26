@@ -22,14 +22,18 @@ typedef struct s_cmd
 	char			**argv;
 	char			*in;
 	char			*out;
-	struct	s_cmd	*next;
+	struct	s_cmd	*pipe;
 }	t_cmd;
 
 typedef enum e_token_type
 {
-	WORD,
-	PIPE,
-	third
+	TOKEN_WORD = 1,
+	TOKEN_PIPE,
+	TOKEN_REIN,
+	TOKEN_REOUT,
+	TOKEN_APPEND,
+	TOKEN_HEREDOC,
+	TOKEN_EOF
 }	t_token_type;
 
 #endif	// LEXER_H
