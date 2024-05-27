@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 19:46:18 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/27 18:17:55 by veno          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,84 @@ t_token	ms_tokenizer(char *line)
 			token.length++;
 		}
 	}
+	else
+		token.type = TOKEN_ERROR;
 	return (token);
 }
-int	ms_token_to_cmd(t_msdata *data, t_token token)
+
+char *ms_malloc_word_token(t_token
 {
 
+}
 
-	
+int	ms_type_handler_word(t_cmd *cmd, t_token token)
+{
+	if (!cmd->cmd)
+		ms_token
+}
+
+int	ms_type_handler_pipe(t_cmd *cmd, t_token token)
+{
+
+}
+
+int	ms_type_handler_rein(t_cmd *cmd, t_token token)
+{
+
+}
+
+int	ms_type_handler_reout(t_cmd *cmd, t_token token)
+{
+
+}
+
+int	ms_type_handler_append(t_cmd *cmd, t_token token)
+{
+
+}
+
+int	ms_type_handler_heredoc(t_cmd *cmd, t_token token)
+{
+	printf("ms_type_handler_heredoc: Token heredoc");
+	return (0);
+}
+
+int	ms_type_handler_eof(t_cmd *cmd, t_token token)
+{
+	printf("ms_type_handler_eof: Token EOF");
+	return (0);
+}
+
+int	ms_type_handler_error(t_cmd *cmd, t_token token)
+{
+	(void) data;
+	(void) token;
+	ms_error("Token error.");
+	return (0);
+}
+
+int	ms_token_to_cmd(t_msdata *data, t_token token)
+{
+	t_cmd	*cmd;
+	int		(*type_handler[8])(t_cmd *cmd, t_token token);
+
+	type_handler[0] = ms_type_handler_word;
+	type_handler[1] = ms_type_handler_pipe;
+	type_handler[2] = ms_type_handler_rein;
+	type_handler[3] = ms_type_handler_reout;
+	type_handler[4] = ms_type_handler_append;
+	type_handler[5] = ms_type_handler_heredoc;
+	type_handler[6] = ms_type_handler_eof;
+	type_handler[7] = ms_type_handler_error;
+	cmd = data->cmd;
+
+
+
 
 }
 
 
-void	temp_print_tokens(char *line)
+void	temp_print_tokens(t_msdata *data, char *line)
 {
 	t_token	token;
 	int	i = 0;
@@ -122,7 +188,7 @@ char	*ms_readline(t_msdata *data)
 		if (!line)
 			ms_error("readline malloc error.");
 		printf("INPUT:%s\n\n", line);
-		temp_print_tokens(line);
+		temp_print_tokens(data, line);
 		free(line);
 		line = NULL;
 	}
