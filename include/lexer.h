@@ -6,12 +6,12 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/24 21:12:18 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/27 17:59:40 by veno          ########   odam.nl         */
+/*   Updated: 2024/05/27 21:23:55 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	LEXER_H
-# define	LEXER_H
+#ifndef LEXER_H
+# define LEXER_H
 
 typedef enum e_token_type
 {
@@ -37,6 +37,5 @@ typedef struct s_tokenizer
 	char	*start;
 	char	*curr;
 }	t_tokenizer;
-
 
 #endif	// LEXER_H
