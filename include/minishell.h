@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 18:17:02 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/27 18:11:32 by veno          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define	MINISHELL_H
 
 # include <stdio.h>
+//# include <readline/readline.h>
+//# include <readline/history.h>
+
 # include <stdlib.h>
 
 # include "../libft/include/libft.h"
@@ -26,6 +29,8 @@ typedef struct s_cmd
 	char			*in;
 	char			*out;
 	struct	s_cmd	*pipe;
+	char			*here_doc;
+	int				append;
 }	t_cmd;
 
 typedef	struct s_msdata
