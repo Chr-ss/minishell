@@ -29,3 +29,72 @@ this we don't need (would make strings hard according to tycho)
 
 analyze token
 	token 1 and token 2 (token )
+
+
+
+
+## ENUMS WITH FUNCTION POINTER DESICION
+			#include <stdio.h>
+
+			// Define the enum
+			typedef enum {
+				NEG_INF,
+				ZERO,
+				POS_INF,
+				NOT_SPECIAL
+			} CheckType;
+
+			// Define the functions for each case
+			int handleNegInf() {
+				printf("neg inf\n");
+				return 1;
+			}
+
+			int handleZero() {
+				printf("zero\n");
+				return 2;
+			}
+
+			int handlePosInf() {
+				printf("pos inf\n");
+				return 3;
+			}
+
+			int handleNotSpecial() {
+				printf("not special\n");
+				return 0;
+			}
+
+			// Array of function pointers
+			int (*handlers[])(void) = {
+				handleNegInf,
+				handleZero,
+				handlePosInf,
+				handleNotSpecial // Default case handler
+			};
+
+			// Function to handle the check
+			int handleCheck(CheckType check) {
+				if (check >= 0 && check < sizeof(handlers) / sizeof(handlers[0])) {
+					return handlers[check]();
+				} else {
+					return handleNotSpecial();
+				}
+			}
+
+			int main() {
+				// Example usage
+				CheckType check = ZERO;
+				int result = handleCheck(check);
+				printf("Return value: %d\n", result);
+
+				check = POS_INF;
+				result = handleCheck(check);
+				printf("Return value: %d\n", result);
+
+				check = NOT_SPECIAL;
+				result = handleCheck(check);
+				printf("Return value: %d\n", result);
+
+				return 0;
+			}
