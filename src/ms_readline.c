@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/27 21:36:59 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/28 10:18:29 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,6 +317,37 @@ t_token	ms_token_to_cmd(t_msdata *data, t_token token)
 	// type_handler[6] = ms_type_handler_eof;
 	// type_handler[7] = ms_type_handler_error;
 
+void	printf_cmd(t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	printf("\n\t ## CMD ## \n");
+	while (cmd)
+	{
+		if (cmd->cmd)
+			printf("CMD:%s\n", cmd->cmd);
+		i = 0;
+		while (cmd->argv && cmd->argv[i])
+		{
+			printf("ARGV[%d]:%s\n", i, cmd->argv[i]);
+			i++;
+		}
+		if (cmd->in)
+			printf("INFILE:%s\n", cmd->in);
+		i = 0;
+		while (cmd->out && cmd->out[i])
+		{
+			printf("OUT[%d]:%s\n", i, cmd->out[i]);
+			i++;
+		}
+		if (cmd->append)
+			printf("APPEND:%d\n", cmd->append);
+		cmd = cmd->pipe;
+	}
+	printf("\n\n");
+}
+
 void	temp_print_tokens(t_msdata *data, char *line)
 {
 	t_token	token;
@@ -335,11 +366,12 @@ void	temp_print_tokens(t_msdata *data, char *line)
 		token = ms_tokenizer(token.start);
 		// printf("%d, ", token.type);
 		// i++;
-		ms_token_to_cmd(data, token);
+		token = ms_token_to_cmd(data, token);
 		if (token.type == TOKEN_EOF)
-			return ;
+			break ;
 	}
 	printf("\n");
+	printf_cmd(data->cmd);
 }
 
 char	*ms_readline(t_msdata *data)
