@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/28 10:18:29 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/28 14:46:08 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,7 +380,7 @@ char	*ms_readline(t_msdata *data)
 
 	while (1)
 	{
-		write(1, "\n", 1);
+		// write(1, "\n", 1);
 		line = readline("minishell:~$");
 		if (!line)
 			ms_error("readline malloc error.");
