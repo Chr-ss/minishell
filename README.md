@@ -2,6 +2,8 @@
 
 ## ABOUT
 
+This project is about creating a Bourne-Again Shell (BASH) replica for the minishell project at Codam.
+
 ## GETTING STARTED
 
 ## COLLABORATING
