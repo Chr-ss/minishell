@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/27 21:04:11 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/28 17:34:19 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,3 +42,6 @@ int	main(int argc, char **argv)
 	ms_error("No, error.");
 	return (0);
 }
+
+
+// TEST //
