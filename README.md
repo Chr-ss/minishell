@@ -1,6 +1,14 @@
 # minishell
 
-## SOURCES
+## ABOUT
+
+## GETTING STARTED
+
+## COLLABORATING
+
+## ARCHITECTURE
+
+## SOURCES / ACKNOWLEDGEMENTS
 
 > Documentation in README
 > https://github.com/DimitriDaSilva/42_minishell?tab=readme-ov-file#1-extracting-information
