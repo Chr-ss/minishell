@@ -2,6 +2,9 @@
 
 ## ABOUT
 
+### Chriss
+Hello, I'm Chriss. A student at Codam.
+
 ## GETTING STARTED
 
 ## COLLABORATING
