@@ -1,4 +1,5 @@
 NAME		=	minishell
+RM			=	rm -rf
 CC			=	cc
 CFLAGS		=	-Wall -Werror -Wextra -Wunused -Wuninitialized -Wunreachable-code -MMD -g3 # -fsanitize=address # -Ofast
 
@@ -9,14 +10,12 @@ OBJDIR		=	.build
 OBJ			=	$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 LIBFT		=	libft/libft.a
-LIB			:=	$(LIBFT)
 
-RM			=	rm -rf
 
 all:	$(NAME)
 
 $(NAME):	$(OBJ)	$(LIBFT)
-		@$(CC) $(OBJ) $(LIB) -o $(NAME) -lreadline
+		@$(CC) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
 		@printf "$(CREATED)" $@ $(CUR_DIR)
 
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c
