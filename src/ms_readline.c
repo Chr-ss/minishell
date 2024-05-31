@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/31 17:24:05 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/31 19:20:27 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -374,124 +374,26 @@ void	temp_print_tokens(t_msdata *data, char *line)
 	printf_cmd(data->cmd);
 }
 
-void	ms_expansion_getlen(t_expend *exp_var)
+void	ms_expansion_exp_init(t_expend *exp, char *line)
 {
-	char	*str;
-
-	str = ft_strndup(exp_var->start, exp_var->length);
-	if (!str)
-		ms_error("ms_expansion_getlen, alloc error.");
-	exp_var->var = getenv(str);
-	free(str);
-	exp_var->length = ft_strlen(exp_var->var);
+	exp->line = line;
+	exp->exp_var = 0;
+	exp->exp_len = NULL;
+	exp->exp_str = 0;
+	exp->exp_slen = 0;
+	exp->capacity = DYNSTRING;
+	exp->new_line = NULL;
 }
 
-void	ms_expansion_data_init(t_linedata *data, char *line)
+char *ms_expesion(char **line)
 {
-	data->line = line;
-	data->line_pos = 0;
-	data->exp_line = NULL;
-	data->exp_pos = 0;
-	data->exp_len = ft_strlen(line);
-}
+	t_expend	exp;
 
-void	ms_expansion_var_init(t_expend *exp_var)
-{
-	exp_var->start = NULL;
-	exp_var->length = 0;
-	exp_var->var = NULL;
-	exp_var->line_chars = 0;
-}
-
-void	ms_expansion_loopline(t_linedata *data);
-
-void	ms_expansion_var(t_linedata *data, t_expend *exp_var)
-{
-
-	exp_var->start = &data->line[data->line_pos];
-	exp_var->length = 0;
-	while (data->line[data->line_pos] && data->line[data->line_pos] != '$' && ft_isalnum(data->line[data->line_pos]))
-	{
-		data->line_pos++;
-		exp_var->length++;
-	}
-	ms_expansion_getlen(exp_var);
-	exp_var->var_len = ft_strlen(exp_var->var);
-	data->exp_len += exp_var->var_len - exp_var->length;
-	ms_expansion_loopline(data);
-}
-
-void	ms_expansion_copy(t_linedata *data, t_expend exp_var)
-{
-	if (!data->exp_line)
-		data->exp_line = ft_calloc(data->exp_len + 1, sizeof(char));
-	if (!data->exp_line)
-			ms_error("ms_expansion_copy malloc error.");
-	while (exp_var.line_chars)
-	{
-		data->line_pos--;
-		data->exp_line[data->exp_len] = data->line[data->line_pos];
-		data->exp_len--;
-		exp_var.line_chars--;
-	}
-	while (exp_var.var_len)
-	{
-		data->exp_line[data->exp_len] = exp_var.var[exp_var.var_len];
-		data->exp_len--;
-		exp_var.var_len--;
-	}
-	while (exp_var.length)
-	{
-		data->line_pos--;
-		exp_var.length--;
-	}
-	printf("%s", data->exp_line);
-}
-
-void	ms_expansion_loopline(t_linedata *data)
-{
-	t_expend	exp_var;
-
-	ms_expansion_var_init(&exp_var);
-	while(data->line[data->line_pos])
-	{
-		if (data->line[data->line_pos] == '$')
-		{
-			data->line_pos++;
-			if (ft_isalpha((int) data->line[data->line_pos])) //data->line[data->line_pos] != '$' &&
-			{
-				ms_expansion_var(data, &exp_var);
-				break ;
-			}
-			else if (ft_isdigit((int) data->line[data->line_pos]))
-			{
-				exp_var.length = 2;
-				break ;
-			}
-			else if (data->line[data->line_pos] == '?')
-				break ;
-			else
-				exp_var.line_chars++;
-		}
-		else
-		{
-			data->line_pos++;
-			exp_var.line_chars++;
-		}
-	}
-	ms_expansion_copy(data, exp_var);
-}
-
-char *ms_expesion(char **argv, char **line)
-{
-	t_linedata	data;
-
-	(void) argv;
-	ms_expansion_data_init(&data, *line);
-	ms_expansion_loopline(&data);
+	ms_expansion_exp_init(&exp, *line);
+	ms_expansion_loopline();
 	free(*line);
 	*line = NULL;
-	return (data.exp_line);
+	return (exp.new_line);
 }
 
 
@@ -501,14 +403,12 @@ char	*ms_readline(t_msdata *data, char **argv)
 
 	while (1)
 	{
-		// write(1, "\n", 1);
 		line = readline("minishell:~$");
-		line = ms_expesion(argv, &line);
-		// (void) argv;
-		// printf("\n\ntest::: %s\n\n\n", getenv("PATH"));
+		line = ms_expesion(&line);
 		if (!line)
 			ms_error("readline malloc error.");
-		printf("INPUT:%s\n\n", line);
+		printf(">>>%s\n\n", line);
+		ms_error("FINISHED!!\n\n");
 		temp_print_tokens(data, line);
 		free(line);
 		line = NULL;

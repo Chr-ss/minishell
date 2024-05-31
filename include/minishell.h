@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/31 14:10:13 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/31 19:11:02 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 
 # include "../libft/include/libft.h"
 # include "lexer.h"
+
+# define DYNSTRING 8
 
 typedef struct s_cmd
 {
