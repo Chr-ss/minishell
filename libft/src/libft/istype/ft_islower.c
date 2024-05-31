@@ -6,13 +6,13 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/03 13:16:23 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 15:15:43 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/31 17:16:49 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/libft.h"
 
-int	ft_isupper(int c)
+int	ft_islower(int c)
 {
 	if (97 <= c && c <= 122)
 		return (1);
