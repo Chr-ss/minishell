@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/24 21:12:18 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/27 21:23:55 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/31 17:08:46 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,24 @@ typedef struct s_token
 	int				length;
 	t_token_type	type;
 }	t_token;
+
+typedef struct s_expend
+{
+	char			*start;
+	int				length;
+	char			*var;
+	int				var_len;
+	int				line_chars;
+}	t_expend;
+
+typedef struct s_linedata
+{
+	char			*line;
+	int				line_pos;
+	char			*exp_line;
+	int				exp_pos;
+	int				exp_len;
+}	t_linedata;
 
 typedef struct s_tokenizer
 {
