@@ -48,6 +48,14 @@ expand enviroment variable of multiple words into the to be tokenized string BEF
 
 
 
+## EXPANDING NOTES
+
+start with
+$abcxyz
+$ABCXYZ
+$?
+$_
+
 
 ### readline ignore leaks??
 https://github.com/simon-zerisenay/42_Minishell/blob/main/check_leaks.sh
@@ -114,3 +122,8 @@ tgetstr
 tgoto
 tputs
 
+
+
+
+5-4+(5)+4-2-6+(10)+3
+9 2 6
