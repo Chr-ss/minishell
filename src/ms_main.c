@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/28 18:25:05 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/31 14:07:46 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	main(int argc, char **argv)
 
 	if (argc > 1)
 		ms_error("Invalid argument count.");
-	(void) argv;
+	// (void) argv;
 	ms_parsing(&data);
-	buffer = ms_readline(&data);
+	buffer = ms_readline(&data, argv);
 	printf("MAIN: %s", buffer);
 	ms_error("No, error.");
 	return (0);

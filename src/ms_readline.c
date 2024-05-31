@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/28 14:46:08 by crasche       ########   odam.nl         */
+/*   Updated: 2024/05/31 17:24:05 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -374,7 +374,128 @@ void	temp_print_tokens(t_msdata *data, char *line)
 	printf_cmd(data->cmd);
 }
 
-char	*ms_readline(t_msdata *data)
+void	ms_expansion_getlen(t_expend *exp_var)
+{
+	char	*str;
+
+	str = ft_strndup(exp_var->start, exp_var->length);
+	if (!str)
+		ms_error("ms_expansion_getlen, alloc error.");
+	exp_var->var = getenv(str);
+	free(str);
+	exp_var->length = ft_strlen(exp_var->var);
+}
+
+void	ms_expansion_data_init(t_linedata *data, char *line)
+{
+	data->line = line;
+	data->line_pos = 0;
+	data->exp_line = NULL;
+	data->exp_pos = 0;
+	data->exp_len = ft_strlen(line);
+}
+
+void	ms_expansion_var_init(t_expend *exp_var)
+{
+	exp_var->start = NULL;
+	exp_var->length = 0;
+	exp_var->var = NULL;
+	exp_var->line_chars = 0;
+}
+
+void	ms_expansion_loopline(t_linedata *data);
+
+void	ms_expansion_var(t_linedata *data, t_expend *exp_var)
+{
+
+	exp_var->start = &data->line[data->line_pos];
+	exp_var->length = 0;
+	while (data->line[data->line_pos] && data->line[data->line_pos] != '$' && ft_isalnum(data->line[data->line_pos]))
+	{
+		data->line_pos++;
+		exp_var->length++;
+	}
+	ms_expansion_getlen(exp_var);
+	exp_var->var_len = ft_strlen(exp_var->var);
+	data->exp_len += exp_var->var_len - exp_var->length;
+	ms_expansion_loopline(data);
+}
+
+void	ms_expansion_copy(t_linedata *data, t_expend exp_var)
+{
+	if (!data->exp_line)
+		data->exp_line = ft_calloc(data->exp_len + 1, sizeof(char));
+	if (!data->exp_line)
+			ms_error("ms_expansion_copy malloc error.");
+	while (exp_var.line_chars)
+	{
+		data->line_pos--;
+		data->exp_line[data->exp_len] = data->line[data->line_pos];
+		data->exp_len--;
+		exp_var.line_chars--;
+	}
+	while (exp_var.var_len)
+	{
+		data->exp_line[data->exp_len] = exp_var.var[exp_var.var_len];
+		data->exp_len--;
+		exp_var.var_len--;
+	}
+	while (exp_var.length)
+	{
+		data->line_pos--;
+		exp_var.length--;
+	}
+	printf("%s", data->exp_line);
+}
+
+void	ms_expansion_loopline(t_linedata *data)
+{
+	t_expend	exp_var;
+
+	ms_expansion_var_init(&exp_var);
+	while(data->line[data->line_pos])
+	{
+		if (data->line[data->line_pos] == '$')
+		{
+			data->line_pos++;
+			if (ft_isalpha((int) data->line[data->line_pos])) //data->line[data->line_pos] != '$' &&
+			{
+				ms_expansion_var(data, &exp_var);
+				break ;
+			}
+			else if (ft_isdigit((int) data->line[data->line_pos]))
+			{
+				exp_var.length = 2;
+				break ;
+			}
+			else if (data->line[data->line_pos] == '?')
+				break ;
+			else
+				exp_var.line_chars++;
+		}
+		else
+		{
+			data->line_pos++;
+			exp_var.line_chars++;
+		}
+	}
+	ms_expansion_copy(data, exp_var);
+}
+
+char *ms_expesion(char **argv, char **line)
+{
+	t_linedata	data;
+
+	(void) argv;
+	ms_expansion_data_init(&data, *line);
+	ms_expansion_loopline(&data);
+	free(*line);
+	*line = NULL;
+	return (data.exp_line);
+}
+
+
+char	*ms_readline(t_msdata *data, char **argv)
 {
 	char *line;
 
@@ -382,6 +503,9 @@ char	*ms_readline(t_msdata *data)
 	{
 		// write(1, "\n", 1);
 		line = readline("minishell:~$");
+		line = ms_expesion(argv, &line);
+		// (void) argv;
+		// printf("\n\ntest::: %s\n\n\n", getenv("PATH"));
 		if (!line)
 			ms_error("readline malloc error.");
 		printf("INPUT:%s\n\n", line);
