@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ms_readline.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: crasche <crasche@student.codam.nl>           +#+                     */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/28 14:46:08 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/01 18:19:03 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,17 +377,20 @@ void	temp_print_tokens(t_msdata *data, char *line)
 char	*ms_readline(t_msdata *data)
 {
 	char *line;
-
+	(void)data;
 	while (1)
 	{
 		// write(1, "\n", 1);
 		line = readline("minishell:~$");
 		if (!line)
-			ms_error("readline malloc error.");
-		printf("INPUT:%s\n\n", line);
-		temp_print_tokens(data, line);
-		free(line);
-		line = NULL;
+		{
+			rl_on_new_line();
+			// ms_error("readline malloc error.");
+		}
+		// printf("INPUT:%s\n\n", line);
+		// temp_print_tokens(data, line);
+		// free(line);
+		// line = NULL;
 	}
 	return (line);
 }

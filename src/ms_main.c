@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/01 17:50:59 by spenning      ########   odam.nl         */
+/*   Updated: 2024/06/01 18:12:41 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 	(void)info;
 	(void)ucontext;
 	if (sig == SIGINT)
-		ft_printf("\n");
+		rl_on_new_line();
 	if (sig == SIGQUIT)
-		return;
+		rl_on_new_line();
 }
 
 void	ms_init_signal()
