@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/24 21:12:18 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/31 19:10:10 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/01 19:09:55 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ typedef struct s_expend
 	char			*exp_var;
 	int				exp_len;
 	char			*exp_str;
-	int				exp_slen;
 	char			*new_line;
+	int				nl_pos;
 	int				capacity;
 }	t_expend;
 

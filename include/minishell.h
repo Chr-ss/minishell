@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/31 19:11:02 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/01 18:55:42 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,10 @@ void	ms_parsing(t_msdata *data);
 void	ms_init_cmdlist(t_cmd **cmd);
 char	*ms_readline(t_msdata *data, char **argv);
 void	ms_error(char *msg);
+
+// UTILS_CHRISS
+int	str_double_size(char **str, int *capacity);
+int	str_expand(char **str, int *capacity);
+char	*str_expand_new(char *str, int *capacity);
 
 #endif	// MINISHELL_H
