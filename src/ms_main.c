@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ms_main.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: crasche <crasche@student.codam.nl>           +#+                     */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/28 18:05:31 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/01 17:50:59 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,32 @@ void	ms_parsing(t_msdata *data)
 	ms_init_cmdlist(&data->cmd);
 }
 
+void	handle_signal(int sig, siginfo_t *info, void *ucontext)
+{
+	(void)info;
+	(void)ucontext;
+	if (sig == SIGINT)
+		ft_printf("\n");
+	if (sig == SIGQUIT)
+		return;
+}
+
+void	ms_init_signal()
+{
+	struct sigaction	sa;
+	int					ret;
+
+	ret = 0;
+	ft_memset(&sa, 0, sizeof(sa));
+	sa.sa_sigaction = handle_signal;
+	sa.sa_flags = SA_RESTART | SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	ret += sigaction(SIGINT, &sa, 0);
+	ret += sigaction(SIGQUIT, &sa, 0);
+	if (ret)
+		exit(EXIT_FAILURE);
+}
+
 int	main(int argc, char **argv)
 {
 	t_msdata	data;
@@ -35,6 +61,7 @@ int	main(int argc, char **argv)
 
 	if (argc > 1)
 		ms_error("Invalid argument count.");
+	ms_init_signal();
 	(void) argv;
 	ms_parsing(&data);
 	buffer = ms_readline(&data);

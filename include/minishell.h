@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   minishell.h                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: crasche <crasche@student.codam.nl>           +#+                     */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/28 14:42:20 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/01 17:32:58 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 
 # include "../libft/include/libft.h"
 # include "lexer.h"
+
+# include <signal.h>
 
 typedef struct s_cmd
 {
