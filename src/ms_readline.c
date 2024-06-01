@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/31 19:20:27 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/01 19:06:28 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,12 +377,90 @@ void	temp_print_tokens(t_msdata *data, char *line)
 void	ms_expansion_exp_init(t_expend *exp, char *line)
 {
 	exp->line = line;
-	exp->exp_var = 0;
-	exp->exp_len = NULL;
-	exp->exp_str = 0;
-	exp->exp_slen = 0;
-	exp->capacity = DYNSTRING;
+	exp->exp_var = NULL;
+	exp->exp_len = 0;
+	exp->exp_str = NULL;
 	exp->new_line = NULL;
+	exp->nl_pos = 0;
+	exp->capacity = DYNSTRING;
+}
+
+void	ms_expansion_var_nl(t_expend *exp)
+{
+	while (*exp->exp_str)
+	{
+		if (exp->nl_pos == exp->capacity)
+		{
+			exp->new_line = str_expand_new(exp->new_line, &exp->capacity);
+			if(!exp->new_line)
+				ms_error("ms_expesion, malloc error.");
+		}
+		exp->new_line[exp->nl_pos] = *exp->exp_str;
+			exp->exp_str++;
+			exp->nl_pos++;
+	}
+}
+// char	*find_env(char *str, char **env, int length)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while(env[i])
+// 	{
+// 		if(ft_strncmp())
+
+// 		i++;
+// 	}
+// }
+
+void	ms_expansion_var(t_expend *exp)
+{
+	char	*str;
+
+	exp->exp_var = exp->line;
+	while(ft_isalnum((int) *exp->line))
+	{
+		exp->line++;
+		exp->exp_len++;
+	}
+	// find_endv(exp->exp_var, copied_env, exp->exp_len);
+	str = ft_strndup(exp->exp_var, exp->exp_len); //you do not need
+	if (!str)
+		ms_error("ms_expansion_getlen, alloc error.");
+	exp->exp_str = getenv(str); //you need to use find_env;
+	free(str);
+	exp->exp_var = NULL;
+	exp->exp_len = 0;
+	ms_expansion_var_nl(exp);
+}
+
+void	ms_expansion_copy(t_expend *exp)
+{
+	while (*exp->line)
+	{
+		if (exp->nl_pos == exp->capacity)
+		{
+			exp->new_line = str_expand_new(exp->new_line, &exp->capacity);
+			if(!exp->new_line)
+				ms_error("ms_expesion, malloc error.");
+		}
+		if (*exp->line != '$')
+		{
+			exp->new_line[exp->nl_pos] = *exp->line;
+			exp->line++;
+			exp->nl_pos++;
+		}
+		else if (*exp->line == '$' && ft_isdigit((int) exp->line[1]))
+		{
+			exp->line++;
+			exp->line++;
+		}
+		else if (*exp->line == '$')
+		{
+			exp->line++;
+			ms_expansion_var(exp);
+		}
+	}
 }
 
 char *ms_expesion(char **line)
@@ -390,7 +468,9 @@ char *ms_expesion(char **line)
 	t_expend	exp;
 
 	ms_expansion_exp_init(&exp, *line);
-	ms_expansion_loopline();
+	if (str_expand(&exp.new_line, &exp.capacity) == -1)
+		ms_error("ms_expesion, malloc error.");
+	ms_expansion_copy(&exp);
 	free(*line);
 	*line = NULL;
 	return (exp.new_line);
@@ -403,6 +483,7 @@ char	*ms_readline(t_msdata *data, char **argv)
 
 	while (1)
 	{
+		(void) argv;
 		line = readline("minishell:~$");
 		line = ms_expesion(&line);
 		if (!line)
