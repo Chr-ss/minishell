@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/01 18:55:42 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/02 13:51:37 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # include <stdlib.h>
 # include <stdbool.h>
+# include <limits.h>
 
 # include "../libft/include/libft.h"
 # include "lexer.h"
@@ -39,6 +40,8 @@ typedef struct s_cmd
 typedef struct s_msdata
 {
 	t_cmd	*cmd;
+	char	**argv;
+	char	**envp;
 }	t_msdata;
 
 // FUNCTIONS:
@@ -48,8 +51,10 @@ char	*ms_readline(t_msdata *data, char **argv);
 void	ms_error(char *msg);
 
 // UTILS_CHRISS
-int	str_double_size(char **str, int *capacity);
-int	str_expand(char **str, int *capacity);
-char	*str_expand_new(char *str, int *capacity);
+char	*str_expand(char *str, int *capacity);
+
+// MS_INITDATA.c
+void	ms_initdata_cpy_envp(t_msdata *data, char **envp);
+void	ms_initdata(t_msdata *data, char **argv, char **envp);
 
 #endif	// MINISHELL_H

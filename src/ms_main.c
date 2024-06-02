@@ -6,39 +6,21 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/01 18:34:30 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/02 13:51:52 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ms_error(char *msg)
-{
-	perror(msg);
-	exit(1);
-}
-
-void	ms_init_cmdlist(t_cmd **cmd)
-{
-	*cmd = ft_calloc(sizeof(t_cmd), 1);
-}
-
-void	ms_parsing(t_msdata *data)
-{
-	ms_init_cmdlist(&data->cmd);
-}
-
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	t_msdata	data;
 	char		*buffer;
 
 	if (argc > 1)
 		ms_error("Invalid argument count.");
-	// (void) argv;
-	// copy_envp();
-	ms_parsing(&data);
-	buffer = ms_readline(&data, argv);
+	ms_initdata(&data, argv, envp); // malloc >> data->cmd, data->envp
+	ms_readline(&data, argv);
 	printf("MAIN: %s", buffer);
 	ms_error("No, error.");
 	return (0);
