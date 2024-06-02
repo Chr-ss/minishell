@@ -6,13 +6,13 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/01 15:01:31 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/01 19:09:24 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/02 13:02:27 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*str_expand_new(char *original_str, int *capacity)
+char	*str_expand(char *original_str, int *capacity)
 {
 	char	*new_str;
 
