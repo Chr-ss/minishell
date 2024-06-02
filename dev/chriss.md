@@ -67,7 +67,7 @@ https://github.com/simon-zerisenay/42_Minishell/blob/main/check_leaks.sh
 
 readline			>	show promt and read line input
 rl_clear_history	>
-rl_on_new_line
+rl_on_line
 rl_replace_line
 rl_redisplay
 add_history
