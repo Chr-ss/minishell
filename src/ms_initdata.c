@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:50:51 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/02 13:51:17 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/02 16:39:24 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ void	ms_initdata(t_msdata *data, char **argv, char **envp)
 {
 	data->cmd = ft_calloc(sizeof(t_cmd), 1);
 	data->argv = argv;
+	data->line = NULL;
+	data->exp = NULL;
 	ms_initdata_cpy_envp(data, envp);
 }
