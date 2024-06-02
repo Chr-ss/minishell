@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/01 19:06:28 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/02 13:18:13 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,7 +391,7 @@ void	ms_expansion_var_nl(t_expend *exp)
 	{
 		if (exp->nl_pos == exp->capacity)
 		{
-			exp->new_line = str_expand_new(exp->new_line, &exp->capacity);
+			exp->new_line = str_expand(exp->new_line, &exp->capacity);
 			if(!exp->new_line)
 				ms_error("ms_expesion, malloc error.");
 		}
@@ -440,7 +440,7 @@ void	ms_expansion_copy(t_expend *exp)
 	{
 		if (exp->nl_pos == exp->capacity)
 		{
-			exp->new_line = str_expand_new(exp->new_line, &exp->capacity);
+			exp->new_line = str_expand(exp->new_line, &exp->capacity);
 			if(!exp->new_line)
 				ms_error("ms_expesion, malloc error.");
 		}
@@ -468,7 +468,8 @@ char *ms_expesion(char **line)
 	t_expend	exp;
 
 	ms_expansion_exp_init(&exp, *line);
-	if (str_expand(&exp.new_line, &exp.capacity) == -1)
+	exp.new_line = str_expand(exp.new_line, &exp.capacity);
+	if(!exp.new_line)
 		ms_error("ms_expesion, malloc error.");
 	ms_expansion_copy(&exp);
 	free(*line);
@@ -489,7 +490,6 @@ char	*ms_readline(t_msdata *data, char **argv)
 		if (!line)
 			ms_error("readline malloc error.");
 		printf(">>>%s\n\n", line);
-		ms_error("FINISHED!!\n\n");
 		temp_print_tokens(data, line);
 		free(line);
 		line = NULL;
