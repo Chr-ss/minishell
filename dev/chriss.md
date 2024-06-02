@@ -46,6 +46,11 @@ New
 
 expand enviroment variable of multiple words into the to be tokenized string BEFOre the tokenizer :upside_down_face:
 
+## EXIT AND CMD + D
+ctrl-D exits the shell.
+exit with no options
+
+prints exit ind strerr!!
 
 
 ## EXPANDING NOTES
