@@ -6,7 +6,7 @@ CFLAGS		=	-Wall -Werror -Wextra -Wunused -Wuninitialized -Wunreachable-code -MMD
 SRCDIR		=	src
 SRC			=	$(shell find $(SRCDIR) -iname "*.c")
 
-OBJDIR		=	.build
+OBJDIR		=	build
 OBJ			=	$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 LIBFT		=	libft/libft.a
