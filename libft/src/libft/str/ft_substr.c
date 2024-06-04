@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/06 15:09:02 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 14:43:37 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/04 17:21:16 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		len = ft_strlen(s + start) + 1;
 	else
 		len++;
-	str = malloc((len) * sizeof(char));
+	str = ft_calloc((len), sizeof(char));
 	if (!str)
 		return (NULL);
 	if (len == 1)
