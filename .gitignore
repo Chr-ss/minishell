@@ -1,4 +1,5 @@
 build
+.build
 minishell
 a.out
 .vscode
