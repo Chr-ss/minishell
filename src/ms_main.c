@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ms_main.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: crasche <crasche@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/28 18:25:05 by crasche       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ms_main.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/18 16:29:43 by crasche           #+#    #+#             */
+/*   Updated: 2024/06/04 13:47:10 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int argc, char **argv)
 
 	if (argc > 1)
 		ms_error("Invalid argument count.");
+	init_signal();
 	(void) argv;
 	ms_parsing(&data);
 	buffer = ms_readline(&data);
