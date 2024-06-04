@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: spenning <spenning@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/01 17:32:58 by spenning      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
+/*   Updated: 2024/06/04 13:52:24 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,19 @@ void	ms_parsing(t_msdata *data);
 void	ms_init_cmdlist(t_cmd **cmd);
 char	*ms_readline(t_msdata *data);
 void	ms_error(char *msg);
+
+// SIGNAL:
+
+//[Description]
+//This function initializes the signal handlers for this
+// program
+//[Parameters]
+// void
+//[Return]
+//Function returns nothing
+//[Error]
+// if initialization goes wrong then exits with failure exit code
+void	init_signal();
+
 
 #endif	// MINISHELL_H
