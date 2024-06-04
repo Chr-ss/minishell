@@ -6,11 +6,11 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/06 13:40:19 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/04 17:21:11 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/04 23:27:06 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
+#include "../../../include/libft.h"
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
@@ -23,7 +23,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	}
 	else if (!(((nmemb * size) / size) == nmemb))
 		return (NULL);
-	ptr = ft_calloc(nmemb, size);
+	ptr = malloc(nmemb * size);
 	if (!ptr)
 		return (NULL);
 	ft_bzero(ptr, nmemb * size);
