@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_lstnew.c                                        :+:    :+:            */
+/*   expansion.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/10/10 14:13:39 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/04 18:03:23 by crasche       ########   odam.nl         */
+/*   Created: 2024/05/24 21:12:18 by crasche       #+#    #+#                 */
+/*   Updated: 2024/06/04 17:19:02 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/libft.h"
+#ifndef EXPANSION_H
+# define EXPANSION_H
 
-t_libft	*ft_lstnew(void *content)
+typedef struct s_expend
 {
-	t_libft	*ret;
+	char			*env;
+	char			*line;
+	int				line_pos;
+	int				capacity;
+}	t_expend;
 
-	ret = ft_calloc(1, sizeof(t_libft));
-	if (!ret)
-		return (NULL);
-	ret->content = content;
-	ret->next = NULL;
-	return (ret);
-}
+#endif	// EXPANSION_H

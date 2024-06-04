@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/06 14:11:08 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 14:43:06 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/04 17:20:07 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*ft_strdup(const char *s)
 {
 	char	*str;
 
-	str = malloc(ft_strlen(s) + 1 * sizeof(char));
+	str = ft_calloc(ft_strlen(s) + 1, sizeof(char));
 	if (str)
 	{
 		ft_strlcpy(str, s, ft_strlen(s) + 1);

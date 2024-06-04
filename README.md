@@ -6,7 +6,7 @@ Minishell is therefore a user-mode program that implements a Command Line Interf
 In general terms what this program does is:
 
 - Print a prompt
-- Read a line 
+- Read a line
 - Parse
 - Execute
 - Repeat
@@ -15,7 +15,7 @@ In general terms what this program does is:
 
 _options_
 ```sh
-minishell:~$ pgrm -r -f path/to/file 
+minishell:~$ pgrm -r -f path/to/file
 ```
 
 _i/o redirections_
@@ -101,7 +101,7 @@ git clone https://github.com/Chr-ss/minishell.git
 cd minishell
 ```
 
-3. Call the Makefile 
+3. Call the Makefile
 
 ```sh
 make

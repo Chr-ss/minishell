@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/04 15:14:48 by spenning         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: crasche <crasche@student.codam.nl>           +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
+/*   Updated: 2024/06/05 00:03:48 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@
 
 # include <stdlib.h>
 # include <stdbool.h>
+# include <limits.h>
 
 # include "../libft/include/libft.h"
 # include "lexer.h"
-
-# include <signal.h>
-
 
 typedef struct s_cmd
 {
@@ -39,27 +37,18 @@ typedef struct s_cmd
 
 typedef struct s_msdata
 {
-	t_cmd	*cmd;
+	t_cmd		*cmd;
+	char		*line;
+	char		**argv;
+	char		**envp;
+	char		pwd[PATH_MAX];
+	t_expend	*exp;
 }	t_msdata;
 
 // FUNCTIONS:
+void	ms_readline(t_msdata *data);
+
 void	ms_parsing(t_msdata *data);
-void	ms_init_cmdlist(t_cmd **cmd);
-char	*ms_readline(t_msdata *data);
 void	ms_error(char *msg);
-
-// SIGNAL:
-
-//[Description]
-//This function initializes the signal handlers for this
-// program
-//[Parameters]
-// void
-//[Return]
-//Function returns nothing
-//[Error]
-// if initialization goes wrong then exits with failure exit code
-void	init_signal();
-
 
 #endif	// MINISHELL_H

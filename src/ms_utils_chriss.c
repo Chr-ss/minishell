@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_lstnew.c                                        :+:    :+:            */
+/*   ms_utils_chriss.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/10/10 14:13:39 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/04 18:03:23 by crasche       ########   odam.nl         */
+/*   Created: 2024/06/01 15:01:31 by crasche       #+#    #+#                 */
+/*   Updated: 2024/06/04 18:05:49 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/libft.h"
+#include "../include/minishell.h"
 
-t_libft	*ft_lstnew(void *content)
+int	ms_skipspace(char *str, int pos)
 {
-	t_libft	*ret;
-
-	ret = ft_calloc(1, sizeof(t_libft));
-	if (!ret)
-		return (NULL);
-	ret->content = content;
-	ret->next = NULL;
-	return (ret);
+	pos++;
+	while (str && str[pos] && ft_isspace(str[pos]))
+		pos++;
+	return (pos);
 }
