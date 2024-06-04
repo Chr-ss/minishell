@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/08 11:52:24 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 14:43:06 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/04 18:04:18 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		len--;
 	if (len <= 0)
 		len = 0;
-	str = malloc (sizeof(char) * (len + 1));
+	str = ft_calloc((len + 1), sizeof(char));
 	if (!str)
 		return (NULL);
 	ft_strlcpy(str, s1, len + 1);
