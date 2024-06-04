@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/02 17:42:09 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/04 23:32:28 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc > 1)
 		ms_error("Invalid argument count.");
-	printf("%s\n", envp[0]);
 	ms_initdata(&data, argv, envp); // malloc >> data->cmd, data->envp
 	ms_readline(&data);
 	ms_error("No, error.");

@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 16:31:20 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/02 17:46:44 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/04 18:14:15 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ms_expansion_var_nl(t_expend *exp)
 	{
 		if (exp->line_pos == exp->capacity)
 		{
-			exp->line = str_expand(exp->line, &exp->capacity);
+			exp->line = ft_dynstralloc(exp->line, &exp->capacity);
 			if(!exp->line)
 				ms_error("ms_expesion, malloc error.");
 		}
@@ -77,7 +77,7 @@ void	ms_expansion_copy(t_msdata *data, t_expend *exp)
 	{
 		if (exp->line_pos == exp->capacity)
 		{
-			exp->line = str_expand(exp->line, &exp->capacity);
+			exp->line = ft_dynstralloc(exp->line, &exp->capacity);
 			if(!exp->line)
 				ms_error("ms_expesion, malloc error.");
 		}
@@ -101,7 +101,7 @@ char	*ms_expansion(t_msdata *data)
 	t_expend	exp;
 
 	ms_expansion_exp_init(data, &exp);
-	exp.line = str_expand(exp.line, &exp.capacity);
+	exp.line = ft_dynstralloc(exp.line, &exp.capacity);
 	if(!exp.line)
 		ms_error("ms_expesion, malloc error.");
 	ms_expansion_copy(data, &exp);
