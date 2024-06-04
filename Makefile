@@ -1,12 +1,12 @@
 NAME		=	minishell
 RM			=	rm -rf
 CC			=	cc
-CFLAGS		=	-Wall -Werror -Wextra -Wunused -Wuninitialized -Wunreachable-code -MMD -g3 #-fsanitize=address # -Ofast
+CFLAGS		=	-Wall -Werror -Wextra -Wunused -Wuninitialized -Wunreachable-code -g3 # -MMD -fsanitize=address # -Ofast
 
 SRCDIR		=	src
 SRC			=	$(shell find $(SRCDIR) -iname "*.c")
 
-OBJDIR		=	.build
+OBJDIR		=	build
 OBJ			=	$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 LIBFT		=	libft/libft.a
