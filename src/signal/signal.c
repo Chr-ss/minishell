@@ -6,20 +6,25 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 13:46:31 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/04 13:51:09 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:10:54 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+// https://docs.rtems.org/releases/4.5.1-pre3/toolsdoc/gdb-5.0-docs/readline/readline00030.html
+
 void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
-	if (sig == SIGINT)
-		rl_on_new_line();
-	if (sig == SIGQUIT)
-		rl_on_new_line();
+	if (sig == SIGINT) // ctrl + c
+	{
+		printf("\n"); // Move to a new line
+		rl_on_new_line(); // Regenerate the prompt on a newline
+		rl_replace_line("", 0); // Clear the previous text
+		rl_redisplay();
+	}
 }
 
 void	init_signal()
@@ -32,8 +37,8 @@ void	init_signal()
 	sa.sa_sigaction = handle_signal;
 	sa.sa_flags = SA_RESTART | SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
+	signal(SIGQUIT, SIG_IGN);
 	ret += sigaction(SIGINT, &sa, 0);
-	ret += sigaction(SIGQUIT, &sa, 0);
 	if (ret)
 		exit(EXIT_FAILURE);
 }

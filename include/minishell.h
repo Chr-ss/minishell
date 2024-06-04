@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/04 13:52:24 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:14:48 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "lexer.h"
 
 # include <signal.h>
+
 
 typedef struct s_cmd
 {

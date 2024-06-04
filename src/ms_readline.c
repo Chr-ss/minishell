@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ms_readline.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: spenning <spenning@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/01 18:19:03 by spenning      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ms_readline.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:45:15 by crasche           #+#    #+#             */
+/*   Updated: 2024/06/04 16:23:06 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+extern int g_sigint ;
 
 int	ft_isbashtoken(int c)
 {
@@ -384,13 +386,13 @@ char	*ms_readline(t_msdata *data)
 		line = readline("minishell:~$");
 		if (!line)
 		{
-			rl_on_new_line();
-			// ms_error("readline malloc error.");
+			ft_printf("exit\n");
+			exit(EXIT_SUCCESS);
 		}
-		// printf("INPUT:%s\n\n", line);
-		// temp_print_tokens(data, line);
-		// free(line);
-		// line = NULL;
+		printf("INPUT:%s\n\n", line);
+		temp_print_tokens(data, line);
+		free(line);
+		line = NULL;
 	}
 	return (line);
 }
