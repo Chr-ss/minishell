@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/05 00:03:42 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/05 15:37:42 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -383,7 +383,7 @@ void	ms_readline(t_msdata *data)
 		data->line = readline("minishell:~$");
 		if (!data->line)
 			ms_error("seb made if for this...");
-		data->line = ms_expansion(data);
+		data->line = ms_expand(data);
 		if (!data->line)
 			ms_error("readline malloc error.");
 		printf(">>>%s\n\n", data->line);

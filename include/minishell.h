@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/05 00:04:41 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/05 15:37:25 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <signal.h>
 
 # include "../libft/include/libft.h"
 # include "lexer.h"
@@ -85,11 +86,11 @@ void	ms_parsing_syntax(t_msdata *data);
 int		ms_parsing_syntax_quotes(t_msdata *data);
 
 // EXPANSION
-void	ms_expansion_exp_init(t_msdata *data, t_expend *exp);
-void	ms_expansion_var_nl(t_expend *exp);
-char	*ms_expansion_getenv(char **envp, char *env_start, int length);
-void	ms_expansion_var(t_msdata *data, t_expend *exp, int *pos);
-void	ms_expansion_copy(t_msdata *data, t_expend *exp);
-char	*ms_expansion(t_msdata *data);
+void	ms_expand_exp_init(t_msdata *data, t_expend *exp);
+void	ms_expand_var_nl(t_expend *exp);
+char	*ms_expand_getenv(char **envp, char *env_start, int length);
+void	ms_expand_var(t_msdata *data, t_expend *exp, int *pos);
+void	ms_expand_copy(t_msdata *data, t_expend *exp);
+char	*ms_expand(t_msdata *data);
 
 #endif	// MINISHELL_H
