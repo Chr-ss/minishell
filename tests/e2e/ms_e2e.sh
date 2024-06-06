@@ -10,7 +10,7 @@ CYN="\x1B[36m"
 BCYN="\x1B[1;36m"
 WHT="\x1B[37m"
 RESET="\x1B[0m"
-LINEP="\033[75G" 
+LINEP="\033[75G"
 FAIL=false
 LOG_DIR=logs/
 MS_LOG=ms.log
@@ -24,7 +24,7 @@ Usage: $0 [options] [--] [file...]
 Arguments:
 
   -f <val>, --file <val>, --file=<val>
-	After setting this parameter, an argument must follow with relative 
+	After setting this parameter, an argument must follow with relative
 	path to the program.
 	e.g. [bash ./ms_e2e -f ./relative/path/pgrm]
 	Without this parameter the program will not continue
@@ -34,6 +34,9 @@ Arguments:
 
 EOF
 }
+
+#prepare xdotool
+make -C ./xdotool
 
 # handy logging and error handling functions
 log() { printf '%s\n' "$*"; }
@@ -48,11 +51,11 @@ while [ "$#" -gt 0 ]; do
 		# convert "--opt=the value" to --opt "the value".
 		# the quotes around the equals sign is to work around a
 		# bug in emacs' syntax parsing
-		--*'='*) 
+		--*'='*)
 		shift;
 		set -- "${arg%%=*}" "${arg#*=}" "$@";
 		continue;;
-		-f|--file) 
+		-f|--file)
 		file=$2
 		shift 2
 		;;
@@ -78,7 +81,7 @@ done
 
 if [ -n "$file" ];
 then :
-else 
+else
 usage_fatal "option '-f, --file' requires a value"
 exit 1
 fi
@@ -93,8 +96,8 @@ truncate -s 0 $LOG_DIR/$MS_LOG
 #   printf ${BLU}'%*.*s %s %*.*s \n'${RESET} 0 "$(((termwidth-2-${#1})/2))" "$padding" "$1" 0 "$(((termwidth-1-${#1})/2))" "$padding"
 # }
 
-# L() { 
-# printf -vl "%${2:-${COLUMNS:-`tput cols 2>&-||echo 80`}}s\n" && echo -e "${BLU}${l// /${1:-=}}${RESET}"; 
+# L() {
+# printf -vl "%${2:-${COLUMNS:-`tput cols 2>&-||echo 80`}}s\n" && echo -e "${BLU}${l// /${1:-=}}${RESET}";
 # }
 
 
@@ -104,43 +107,94 @@ echo -e "input test"
 
 echo -e "${BLU}----------------------------------
 |             built-ins           |
-----------------------------------${RESET}" 
+----------------------------------${RESET}"
 
 echo -e "built-in tests"
 
 echo -e "${BLU}----------------------------------
 |          execution              |
-----------------------------------${RESET}" 
+----------------------------------${RESET}"
 
 echo -e "execution tests"
 
 echo -e "${BLU}----------------------------------
 |              quotes             |
-----------------------------------${RESET}" 
+----------------------------------${RESET}"
 
 echo -e "quotes tests"
 
 echo -e "${BLU}----------------------------------
 |           redirection           |
-----------------------------------${RESET}" 
+----------------------------------${RESET}"
 
 echo -e "redirection tests"
 
 echo -e "${BLU}----------------------------------
 |                pipe             |
-----------------------------------${RESET}" 
+----------------------------------${RESET}"
 
 echo -e "pipe tests"
 
 echo -e "${BLU}----------------------------------
 |      environment variables      |
-----------------------------------${RESET}" 
+----------------------------------${RESET}"
 
 echo -e "environment tests"
 
 echo -e "${BLU}----------------------------------
 |           interactive           |
-----------------------------------${RESET}" 
+----------------------------------${RESET}"
+
+# coproc { timeout --preserve-status 5s sh -c "valgrind --error-exitcode=42 --leak-check=full ./$file $1 >> $LOG_DIR/$FDF_MLOG 2>&1"; }
+# COPROC_PID_backup=$COPROC_PID
+# wait $COPROC_PID_backup
+# mstatus=$?
+# echo lol >> test.txt
+# bash -c "script --quiet -c "bash -i" test"
+
+# Ctrl-A - \001
+# Ctrl-B - \002
+# Ctrl-D - \004
+# Ctrl-E - \005
+# Ctrl-F - \006
+# Ctrl-Z - \032
+# Enter - \r
+# Escape - \033
+
+# xprop -root | grep "_NET_ACTIVE_WINDOW(WINDOW)"
+# xwininfo -root -tree | grep "0x3c00003"
+
+#https://github.com/aeruder/expect/blob/master/INSTALL
+
+func(){
+sleep 1
+active_window_id=$(xprop -root | awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/ {print $5}')
+# active_window_id=$(xwininfo -root -tree | grep -P 'google' | awk 'NR==1{print $1}')
+echo $active_window_id
+ ./xdotool/xdotool  windowactivate $active_window_id
+ ./xdotool/xdotool  windowfocus $active_window_id
+ ./xdotool/xdotool  key "Control_L+c"
+}
+func
+# echo lol | bash -c "bash -i &>output"
+bash -c "bash -i &>output" 
+# ./test.sh <<EOF
+
+# EOF
+# ID=$!
+# kill -INT $ID
+sleep 5
+# echo
+# ID=$!
+# echo $ID
+# sleep 2
+# kill -INT $ID
+# wait $ID
+grep -o 'spenning' output > filtered
+
+# sh -c "sh" 2>test.txt
+# ID=$!
+# kill -INT "$ID"
 
 echo -e "environment tests"
 

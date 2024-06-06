@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:45:15 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/04 16:23:06 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:28:10 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -382,7 +382,6 @@ char	*ms_readline(t_msdata *data)
 	(void)data;
 	while (1)
 	{
-		// write(1, "\n", 1);
 		line = readline("minishell:~$");
 		if (!line)
 		{
