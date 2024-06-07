@@ -1,9 +1,7 @@
-#!/bin/bash
 
-bash -c "bash -i &>output"
-# sleep 2
-# # Get the active window ID
-# active_window_id=$(xprop -root | awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/ {print $5}')
-# LD_LIBRARY_PATH=xdotool ./xdotool/xdotool  windowactivate $active_window_id
-# LD_LIBRARY_PATH=xdotool ./xdotool/xdotool  windowfocus $active_window_id
-# LD_LIBRARY_PATH=xdotool ./xdotool/xdotool  key "ctrl+d"
+for i in $1
+do
+sh -c 'sleep 0.51 && ./ydotool/build/ydotool key 29:0 32:0' &
+sh -c './ydotool/build/ydotool key 29:1 32:1' &
+sleep 2
+done

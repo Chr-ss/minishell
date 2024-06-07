@@ -35,6 +35,7 @@ Arguments:
 EOF
 }
 
+echo $XDG_SESSION_TYPE
 #prepare xdotool
 make -C ./xdotool
 
@@ -144,59 +145,46 @@ echo -e "environment tests"
 echo -e "${BLU}----------------------------------
 |           interactive           |
 ----------------------------------${RESET}"
+#https://github.com/aeruder/expect/blob/master/INSTALL
+#https://gabrielstaples.com/ydotool-tutorial/#gsc.tab=0
+#https://github.com/ReimuNotMoe/ydotool
+#https://github.com/ReimuNotMoe/ydotool/issues/10
+#https://stackoverflow.com/questions/13242469/how-to-use-sed-grep-to-extract-text-between-two-words
+
 
 # coproc { timeout --preserve-status 5s sh -c "valgrind --error-exitcode=42 --leak-check=full ./$file $1 >> $LOG_DIR/$FDF_MLOG 2>&1"; }
 # COPROC_PID_backup=$COPROC_PID
 # wait $COPROC_PID_backup
 # mstatus=$?
-# echo lol >> test.txt
 # bash -c "script --quiet -c "bash -i" test"
 
-# Ctrl-A - \001
-# Ctrl-B - \002
-# Ctrl-D - \004
-# Ctrl-E - \005
-# Ctrl-F - \006
-# Ctrl-Z - \032
-# Enter - \r
-# Escape - \033
-
-# xprop -root | grep "_NET_ACTIVE_WINDOW(WINDOW)"
-# xwininfo -root -tree | grep "0x3c00003"
-
-#https://github.com/aeruder/expect/blob/master/INSTALL
-
-func(){
-sleep 1
-active_window_id=$(xprop -root | awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/ {print $5}')
-# active_window_id=$(xwininfo -root -tree | grep -P 'google' | awk 'NR==1{print $1}')
-echo $active_window_id
- ./xdotool/xdotool  windowactivate $active_window_id
- ./xdotool/xdotool  windowfocus $active_window_id
- ./xdotool/xdotool  key "Control_L+c"
-}
-func
 # echo lol | bash -c "bash -i &>output"
-bash -c "bash -i &>output" 
-# ./test.sh <<EOF
 
-# EOF
-# ID=$!
-# kill -INT $ID
-sleep 5
-# echo
-# ID=$!
-# echo $ID
-# sleep 2
-# kill -INT $ID
-# wait $ID
-grep -o 'spenning' output > filtered
 
-# sh -c "sh" 2>test.txt
-# ID=$!
-# kill -INT "$ID"
+# ctrl + c
 
-echo -e "environment tests"
+sh -c 'sleep 3.51 && ./ydotool/build/ydotool key 29:0 32:0' &
+sh -c 'sleep 3 && ./ydotool/build/ydotool key 29:1 32:1' &
+sh -c 'sleep 0.52 && ./ydotool/build/ydotool key 29:0 46:0' &
+sh -c './ydotool/build/ydotool key 29:1 46:1' &
+bash -c "bash -i &>output"
+mstatus=$?
+grep -oP '\$.*?\x1b\[\?2004l' output | perl -pe 's/\$ (.*?)\x1b\[\?2004l/\1/' > filtered
+awk -F'?2004l' '{print $NF}' output > filtered
+
+
+# # ctrl + d
+# sh -c 'sleep 0.71 && ./ydotool/build/ydotool key 29:0 32:0' &
+# sh -c 'sleep 0.2 && ./ydotool/build/ydotool key 29:1 32:1' &
+# bash -c "bash -i &>output"
+# mstatus=$?
+
+
+# #memory test
+# timeout --preserve-status 5s bash -c "valgrind --error-exitcode=42 --tool=memcheck --leak-check=full --show-reachable=yes --errors-for-leak-kinds=all bash -i &>output"
+# mstatus=$?
+# echo $mstatus
+
 
 
 if [ $FAIL = true ];
