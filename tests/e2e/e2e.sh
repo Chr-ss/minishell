@@ -146,8 +146,13 @@ echo -e "${BLU}----------------------------------
 #https://gabrielstaples.com/ydotool-tutorial/#gsc.tab=0
 #https://github.com/ReimuNotMoe/ydotool
 #https://github.com/ReimuNotMoe/ydotool/issues/10
+#https://github.com/ReimuNotMoe/ydotool/issues/170
+#file:///usr/include/linux/input-event-codes.h
+#https://gabrielstaples.com/ydotool-tutorial/#gsc.tab=0
 #https://stackoverflow.com/questions/13242469/how-to-use-sed-grep-to-extract-text-between-two-words
-
+#https://stackoverflow.com/questions/34412754/trying-to-remove-non-printable-characters-junk-values-from-a-unix-file
+#https://stackoverflow.com/questions/67900936/use-cut-in-shell-to-extract-last-word
+#https://stackoverflow.com/questions/6070995/how-to-make-valgrind-report-an-error-when-there-are-still-reachable-allocs
 
 temp=temp
 bash_output=bh_output.tmp
