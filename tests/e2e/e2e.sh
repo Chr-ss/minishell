@@ -35,9 +35,13 @@ Arguments:
 EOF
 }
 
-echo $XDG_SESSION_TYPE
-#prepare xdotool
-make -C ./xdotool
+#prepare ydotool
+ydotooldir=$(find ../../  -type d -name ydotool -not -path "../../.git/*")
+mkdir -p $ydotooldir/build
+(cd $ydotooldir/build && cmake ..)
+(cd $ydotooldir/build && make -j `nproc`)
+(cd $ydotooldir/build && ./ydotoold) &
+ydotool=$ydotooldir/build/ydotool
 
 # handy logging and error handling functions
 log() { printf '%s\n' "$*"; }
@@ -87,6 +91,7 @@ usage_fatal "option '-f, --file' requires a value"
 exit 1
 fi
 
+rm -rf logs
 mkdir -p logs
 
 truncate -s 0 $LOG_DIR/$MS_LOG
@@ -152,25 +157,41 @@ echo -e "${BLU}----------------------------------
 #https://stackoverflow.com/questions/13242469/how-to-use-sed-grep-to-extract-text-between-two-words
 
 
-# coproc { timeout --preserve-status 5s sh -c "valgrind --error-exitcode=42 --leak-check=full ./$file $1 >> $LOG_DIR/$FDF_MLOG 2>&1"; }
-# COPROC_PID_backup=$COPROC_PID
-# wait $COPROC_PID_backup
-# mstatus=$?
-# bash -c "script --quiet -c "bash -i" test"
+temp=temp
+bash_output=bh_output.tmp
+bash_inm=bh_inmp.tmp
+bash_filter=bh_filter.tmp
+ms_output=ms_output.tmp
+ms_inm=ms_inmp.tmp
+ms_filter=ms_filter.tmp
+ctrlc=$(find . -name ctrlc.sh)
+minishell=$(find ../../../ -type f -name minishell)
+rm -rf $temp
+mkdir -p $temp
 
-# echo lol | bash -c "bash -i &>output"
-
-
-# ctrl + c
-
-sh -c 'sleep 3.51 && ./ydotool/build/ydotool key 29:0 32:0' &
-sh -c 'sleep 3 && ./ydotool/build/ydotool key 29:1 32:1' &
-sh -c 'sleep 0.52 && ./ydotool/build/ydotool key 29:0 46:0' &
-sh -c './ydotool/build/ydotool key 29:1 46:1' &
-bash -c "bash -i &>output"
+bash $ctrlc 4 &
+bash -c "bash -i &>$temp/$bash_output"
 mstatus=$?
-grep -oP '\$.*?\x1b\[\?2004l' output | perl -pe 's/\$ (.*?)\x1b\[\?2004l/\1/' > filtered
-awk -F'?2004l' '{print $NF}' output > filtered
+awk '{print $NF}' $temp/$bash_output > $temp/$bash_inm
+sed -i 's/\x1b\[?2004h//g; s/\x1b\[?2004l//g; s/minishell:~//g' $temp/$bash_inm 
+tr -cd '[:print:]' < $temp/$bash_inm > $temp/$bash_filter
+
+bash $ctrlc 4 &
+bash -c "$minishell &>$temp/$ms_output"
+mstatus=$?
+awk '{print $NF}' $temp/$ms_output > $temp/$ms_inm
+sed -i 's/\x1b\[?2004h//g; s/\x1b\[?2004l//g; s/minishell:~//g' $temp/$ms_inm 
+tr -cd '[:print:]' < $temp/$ms_inm > $temp/$ms_filter
+
+diff $temp/$bash_filter $temp/$ms_filter &>> $LOG_DIR/$MS_LOG
+dstatus=$?
+
+if [ $dstatus == 0 ];
+	then 
+	printf "${BMAG} ${LINEP}${GRN}OK \n${RESET}";
+	else
+	printf "${BMAG} ${LINEP}${RED}FAIL ${RESET}";
+fi
 
 
 # # ctrl + d
