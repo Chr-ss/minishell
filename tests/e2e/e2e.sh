@@ -35,13 +35,6 @@ Arguments:
 EOF
 }
 
-#prepare ydotool
-ydotooldir=$(find ../../  -type d -name ydotool -not -path "../../.git/*")
-mkdir -p $ydotooldir/build
-(cd $ydotooldir/build && cmake ..)
-(cd $ydotooldir/build && make -j `nproc`)
-(cd $ydotooldir/build && ./ydotoold) &
-ydotool=$ydotooldir/build/ydotool
 
 # handy logging and error handling functions
 log() { printf '%s\n' "$*"; }
@@ -91,21 +84,20 @@ usage_fatal "option '-f, --file' requires a value"
 exit 1
 fi
 
+minishelldir=$(find ../../../ -type d -name minishell)
+make -C $minishelldir re
+#prepare ydotool
+ydotooldir=$(find ../../  -type d -name ydotool -not -path "../../.git/*")
+mkdir -p $ydotooldir/build
+(cd $ydotooldir/build && cmake ..)
+(cd $ydotooldir/build && make -j `nproc`)
+(cd $ydotooldir/build && ./ydotoold) &
+ydotool=$ydotooldir/build/ydotool
+
 rm -rf logs
 mkdir -p logs
 
 truncate -s 0 $LOG_DIR/$MS_LOG
-
-# center() {
-#   termwidth="$(tput cols)"
-#   padding="$(printf '%0.1s' ' '{1..500})"
-#   printf ${BLU}'%*.*s %s %*.*s \n'${RESET} 0 "$(((termwidth-2-${#1})/2))" "$padding" "$1" 0 "$(((termwidth-1-${#1})/2))" "$padding"
-# }
-
-# L() {
-# printf -vl "%${2:-${COLUMNS:-`tput cols 2>&-||echo 80`}}s\n" && echo -e "${BLU}${l// /${1:-=}}${RESET}";
-# }
-
 
 ##### input tests
 
