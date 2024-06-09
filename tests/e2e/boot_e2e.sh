@@ -4,9 +4,13 @@
 # https://dustinspecker.com/posts/ubuntu-autoinstallation-virtualbox/
 # https://askubuntu.com/questions/1473018/installing-packages-via-autoinstall-vs-user-data
 # https://www.pugetsystems.com/labs/hpc/ubuntu-22-04-server-autoinstall-iso/
+# https://superuser.com/questions/180744/how-do-i-extract-an-iso-on-linux-without-root-access
 
 MACHINENAME="TestMachine"
 UBUNTU_CD_IMAGE="ubuntu.iso"
+
+# Download xorriso
+# https://www.gnu.org/software/xorriso/xorriso-1.5.6.pl02.tar.gz
 
 # Download debian.iso
 if [ ! -f ./$UBUNTU_CD_IMAGE ]; then
