@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/05 21:55:17 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/10 18:23:45 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,10 @@ void	ms_l(t_msdata *data, char *line)
 	pos = 0;
 	while (token.type != TOKEN_EOF)
 	{
-		token.start = line[pos];
+		token.start = &line[pos];
 		token.length = 0;
 		pos = ms_skipspace(line, pos);
-		token = ms_tokenizer(line[pos]);
+		token = ms_tokenizer(&line[pos]);
 		// printf("%d, ", token.type);
 		// i++;
 		token = ms_token_to_cmd(data, token);
