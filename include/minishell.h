@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/10 18:27:23 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/10 20:56:57 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_token ms_type_handler_word(t_cmd *cmd, t_token token);
 void ms_unexpected_token(t_cmd *cmd, t_token token);
 void printf_cmd(t_cmd *cmd);
 int ft_isbashtoken(int c);
-char ms_extend_strarr(t_cmd *cmd, char **strarr, int strarr_size);
+char	**ms_extend_strarr(t_cmd *cmd, char **strarr, int strarr_size);
 void ms_l(t_msdata *data, char *line);
 void ms_readline(t_msdata *data);
 int ms_strarr_size(char **strarr);

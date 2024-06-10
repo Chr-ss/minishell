@@ -6,11 +6,11 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 21:56:01 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/06 20:14:59 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/10 20:43:46 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../include/minishell.h"
 
 t_token	ms_type_handler_word(t_cmd *cmd, t_token token)
 {

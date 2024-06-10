@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/10 18:23:45 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/10 20:59:23 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	ms_token_to_strarr(t_cmd *cmd, char **strarr, t_token token)
 // 		(*string)++;
 // }
 
-void	ms_l(t_msdata *data, char *line)
+void	temp_print_tokens(t_msdata *data, char *line)
 {
 	t_token	token;
 	int		pos;
