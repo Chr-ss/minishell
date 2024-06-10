@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/05 15:37:25 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/06 20:14:11 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,8 @@ char	*ms_expand_getenv(char **envp, char *env_start, int length);
 void	ms_expand_var(t_msdata *data, t_expend *exp, int *pos);
 void	ms_expand_copy(t_msdata *data, t_expend *exp);
 char	*ms_expand(t_msdata *data);
+
+
+
 
 #endif	// MINISHELL_H
