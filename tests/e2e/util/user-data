@@ -1,0 +1,55 @@
+#cloud-config
+autoinstall:
+  version: 1
+  interactive-sections:  # Install groups listed here will wait for user input
+   - storage
+  storage:  # This should set the interactive (lvm set) default
+    layout:
+      name: lvm
+      match:
+        size: largest  
+  locale: en_US.UTF-8
+  keyboard:
+    layout: us
+  identity:
+    hostname: puget-000
+    password: $6$PiTL.ZmMVYG6U4q4$qa8lkOtlAAioKLKqt1q1Ci03HUAE4xRnhrvNd1x1oaSVoma2sTRCHtvt2/QV61tn0QQF6m2e/n0Uf1fQ/3yid0
+    username: ubuntu
+  ssh:
+    allow-pw: true
+    install-server: true
+  apt:
+    primary:
+      - arches: [default]
+        uri: http://us.archive.ubuntu.com/ubuntu/
+ #   sources:     # Example for adding a ppa source
+ #     ignored1:  # This is here to get the yaml formatting right when adding a ppa
+ #       source: ppa:graphics-drivers/ppa
+  packages: 
+    - build-essential
+    - network-manager
+    - dkms
+    - emacs-nox
+    # - ubuntu-desktop-minimal^  # uncomment to add a minimal desktop
+  package_update: true
+  package_upgrade: true
+  late-commands:
+    # Changing from networkd to NetworkManager
+    # move existing config out of the way
+    - find /target/etc/netplan/ -name "*.yaml" -exec sh -c 'mv "$1" "$1-orig"' _ {} \;
+    # Create a new netplan and enable it
+    - |
+      cat <<EOF | sudo tee /target/etc/netplan/01-netcfg.yaml
+      network:
+        version: 2
+        renderer: NetworkManager
+      EOF
+    - curtin in-target --target /target netplan generate
+    - curtin in-target --target /target netplan apply
+    - curtin in-target --target /target systemctl enable NetworkManager.service
+    # Install NVIDIA driver (with apt-get flags)
+    - curtin in-target -- apt-get -y install --no-install-recommends nvidia-driver-520 
+  #user-data: # Commands here run during first boot (cannot be interactive)
+  #  runcmd:
+  #    # Install the NVIDIA driver from the ppa we setup earlier
+  #    - [apt-get, install, --yes,  nvidia-driver-510, --no-install-recommends] 
