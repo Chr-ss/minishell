@@ -1,12 +1,6 @@
 #!/bin/bash
 
 temp=$(find ../../../ -type d -name temp)
-bash_output=bh_output.tmp
-bash_inm=bh_inmp.tmp
-bash_filter=bh_filter.tmp
-ms_output=ms_output.tmp
-ms_inm=ms_inmp.tmp
-ms_filter=ms_filter.tmp
 ctrlc=$(find . -name ctrlc.sh)
 ctrld=$(find . -name ctrld.sh)
 minishell=$(find ../../../ -type f -name minishell)

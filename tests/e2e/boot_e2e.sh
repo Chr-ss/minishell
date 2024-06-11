@@ -1,5 +1,6 @@
 #!/bin/bash
 # Reference: http://stdioe.blogspot.com/2012/01/creating-virtual-machine-with.html
+# Reference: https://andreafortuna.org/2019/10/24/how-to-create-a-virtualbox-vm-from-command-line/
 # Reference: https://gist.githubusercontent.com/seandenigris/5039427/raw/dde96014afcbd3c489c52d079a2c607762601e9a/install_debian.sh
 # Reference: https://dustinspecker.com/posts/ubuntu-autoinstallation-virtualbox/
 # Reference: https://askubuntu.com/questions/1473018/installing-packages-via-autoinstall-vs-user-data

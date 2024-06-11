@@ -90,7 +90,7 @@ CYN="\x1B[36m"
 BCYN="\x1B[1;36m"
 WHT="\x1B[37m"
 RESET="\x1B[0m"
-LINEP="\033[75G"
+LINEP="\033[25G"
 FAIL=false
 LOG_DIR=logs/
 MS_LOG=ms.log
@@ -111,8 +111,16 @@ minishell=$(find ../../../ -type f -name minishell)
 minishelldir=$(find ../../../ -type d -name minishell)
 rm -rf logs
 mkdir -p logs
-rm -rf $temp
-mkdir -p $temp
+# rm -rf $temp
+# mkdir -p $temp
+
+#export variables used in other scripts
+export bash_output
+export bash_inm
+export bash_filter
+export ms_output
+export ms_inm
+export ms_filter
 
 #prepare minishell
 make -C $minishelldir re
@@ -150,12 +158,12 @@ check_result()
 {
 diff $temp/$bash_filter $temp/$ms_filter &>> $LOG_DIR/$MS_LOG
 dstatus=$?
-
+ARG=$1
 if [ $dstatus == 0 ];
 	then 
-	printf "${BMAG} ${LINEP}${GRN}OK \n${RESET}";
+	printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
 	else
-	printf "${BMAG} ${LINEP}${RED}FAIL ${RESET}";
+	printf "${BMAG}${ARG}${LINEP}${RED}FAIL ${RESET}";
 fi
 }
 
@@ -172,54 +180,57 @@ echo -e "${BLU}----------------------------------
 |           interactive           |
 ----------------------------------${RESET}"
 
-test "ctrl+c" "ctrl+c" "ctrl+c" "echo lol" "ctrl+d"
-
+# test "ctrl+c" "ctrl+c" "ctrl+c" "echo lol" "ctrl+d"
+check_result 1
+check_result 2
+check_result 3
+check_result "lol test"
 # #memory test
 # timeout --preserve-status 5s bash -c "valgrind --error-exitcode=42 --tool=memcheck --leak-check=full --show-reachable=yes --errors-for-leak-kinds=all bash -i &>output"
 # mstatus=$?
 # echo $mstatus
 
-echo -e "input test"
+# echo -e "input test"
 
-echo -e "${BLU}----------------------------------
-|             built-ins           |
-----------------------------------${RESET}"
+# echo -e "${BLU}----------------------------------
+# |             built-ins           |
+# ----------------------------------${RESET}"
 
-echo -e "built-in tests"
+# echo -e "built-in tests"
 
-echo -e "${BLU}----------------------------------
-|          execution              |
-----------------------------------${RESET}"
+# echo -e "${BLU}----------------------------------
+# |          execution              |
+# ----------------------------------${RESET}"
 
-echo -e "execution tests"
+# echo -e "execution tests"
 
-echo -e "${BLU}----------------------------------
-|              quotes             |
-----------------------------------${RESET}"
+# echo -e "${BLU}----------------------------------
+# |              quotes             |
+# ----------------------------------${RESET}"
 
-echo -e "quotes tests"
+# echo -e "quotes tests"
 
-echo -e "${BLU}----------------------------------
-|           redirection           |
-----------------------------------${RESET}"
+# echo -e "${BLU}----------------------------------
+# |           redirection           |
+# ----------------------------------${RESET}"
 
-echo -e "redirection tests"
+# echo -e "redirection tests"
 
-echo -e "${BLU}----------------------------------
-|                pipe             |
-----------------------------------${RESET}"
+# echo -e "${BLU}----------------------------------
+# |                pipe             |
+# ----------------------------------${RESET}"
 
-echo -e "pipe tests"
+# echo -e "pipe tests"
 
-echo -e "${BLU}----------------------------------
-|      environment variables      |
-----------------------------------${RESET}"
+# echo -e "${BLU}----------------------------------
+# |      environment variables      |
+# ----------------------------------${RESET}"
 
-echo -e "environment tests"
+# echo -e "environment tests"
 
-echo -e "${BLU}----------------------------------
-|           interactive           |
-----------------------------------${RESET}"
+# echo -e "${BLU}----------------------------------
+# |           interactive           |
+# ----------------------------------${RESET}"
 
 if [ $FAIL = true ];
 then echo -e "${RED}Check logs/*.log for errors${RESET}"
