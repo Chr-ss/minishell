@@ -1,40 +1,38 @@
+# Chriss NOTES #
+
 At some point we have to take care of expanding still (most likely at the very beginning of the code...)
-	$PATH
+ $PATH
 
 check string for syntax errors
-	crasche@f0r2s6:~$ | ls | ls
-	bash: syntax error near unexpected token `|'
+ crasche@f0r2s6:~$ | ls | ls
+ bash: syntax error near unexpected token `|'
 we don't meed to handle open quotes
-	crasche@f0r2s6:~$ echo "hello
-	> ^C
+ crasche@f0r2s6:~$ echo "hello
+ > ^C
 tycho said not make this spacial case
-	crasche@f0r2s6:~$ echo "hello;\hello"
-	hello;\hello
-	crasche@f0r2s6:~$ echo "hello";\"hello"
-	> ^C
-	crasche@f0r2s6:~$ echo "hello"a b"hello"
-	helloa bhello
-	crasche@f0r2s6:~$ echo "hello"ab"hello"
-	helloabhello
+ crasche@f0r2s6:~$ echo "hello;\hello"
+ hello;\hello
+ crasche@f0r2s6:~$ echo "hello";\"hello"
+ > ^C
+ crasche@f0r2s6:~$ echo "hello"a b"hello"
+ helloa bhello
+ crasche@f0r2s6:~$ echo "hello"ab"hello"
+ helloabhello
 handle this too
-	crasche@f0r2s6:~$ ls | ls <
-	bash: syntax error near unexpected token `newline'
+ crasche@f0r2s6:~$ ls | ls <
+ bash: syntax error near unexpected token `newline'
 
 for bonus we'd need this
-	&& ||
+ && ||
 this we don't need (would make strings hard according to tycho)
-	; \
-
-
+ ; \
 
 analyze token
-	token 1 and token 2 (token )
+ token 1 and token 2 (token )
 
+## RIK NOTES ##
 
-
-## RIK NOTES
 typedef void    (*t_builtin)(t_buffer*, t_lexer*);
-
 
 rverhoev@f0r6s12:~/CORE/MiniRT$ export v="heelooo  $v$v okee nicee "
 rverhoev@f0r6s12:~/CORE/MiniRT$ echo $v
@@ -42,18 +40,16 @@ heelooo heelooo okee nicee heelooo okee nicee okee nicee
 rverhoev@f0r6s12:~/CORE/MiniRT$ export v="ls -l"
 New
 
-
-
 expand enviroment variable of multiple words into the to be tokenized string BEFOre the tokenizer :upside_down_face:
 
-## EXIT AND CMD + D
+## EXIT AND CMD + D ##
+
 ctrl-D exits the shell.
 exit with no options
 
 prints exit ind strerr!!
 
-
-## EXPANDING NOTES
+## EXPANDING NOTES ##
 
 start with
 $abcxyz
@@ -61,12 +57,12 @@ $ABCXYZ
 $?
 $_
 
+### readline ignore leaks?? ##
 
-### readline ignore leaks??
-https://github.com/simon-zerisenay/42_Minishell/blob/main/check_leaks.sh
+<https://github.com/simon-zerisenay/42_Minishell/blob/main/check_leaks.sh>
 
-readline			>	show promt and read line input
-rl_clear_history	>
+readline   > show promt and read line input
+rl_clear_history >
 rl_on_line
 rl_replace_line
 rl_redisplay
@@ -81,8 +77,8 @@ open
 read
 close
 exit
-strerror			>	(int errno) returns error msg for errno
-perror				>	(char *str) print str and error msg
+strerror   > (int errno) returns error msg for errno
+perror    > (char *str) print str and error msg
 
 fork
 wait
@@ -94,7 +90,7 @@ dup
 dup2
 pipe
 
-signal				>	do not us (us sigaction)
+signal    > do not us (us sigaction)
 sigaction
 sigemptyset
 sigaddset
@@ -127,6 +123,4 @@ tgetstr
 tgoto
 tputs
 
-
-
-
+## TEST ##
