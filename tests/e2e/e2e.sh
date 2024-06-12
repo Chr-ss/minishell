@@ -7,14 +7,57 @@ Usage: $0 [options] [--] [file...]
 
 Arguments:
 
+  -h, --help
+	Display this usage message and exit.
+
   -f <val>, --file <val>, --file=<val>
 	After setting this parameter, an argument must follow with relative
 	path to the program.
 	e.g. [bash ./ms_e2e -f ./relative/path/pgrm]
 	Without this parameter the program will not continue
 
-  -h, --help
-	Display this usage message and exit.
+  -c, --check
+	This check the dependencies that the script needs.
+	Shows which dependencies are installed and which not,
+	and then exits
+
+  -v, --virtual
+	This will boot up a virtual machine to run the tests in. 
+	This is useful when you don't have root access on your
+	device. To run this flag the dependencies for running in 
+	a virtual machine need to be installed.
+
+  -nu, --no-unit
+	This flag will disable the unit tests run in this tester.
+	This flag does not work with
+
+  -nc, --no-component
+	This flag will disable the component tests run in this tester.
+	This flag does not work with
+
+  -ni, --no-integration
+	This flag will disable the integration tests run in this tester.
+	This flag does not work with
+
+  -ne, --no-e2e
+	This flag will disable the end-to-end tests run in this tester.
+	This flag does not work with
+
+  -ou, --only-unit
+	This flag will only run the unit tests run in this tester. 
+	This flag does not work with
+
+  -oc, --only-component
+	This flag will only run the component tests run in this tester.
+	This flag does not work with
+
+  -oi, --only-integration
+	This flag will only run the integration tests run in this tester.
+	This flag does not work with
+
+  -oe, --only-e2e
+	This flag will only run the end-to-end tests run in this tester.
+	This flag does not work with
 
 EOF
 }
@@ -65,21 +108,27 @@ usage_fatal "option '-f, --file' requires a value"
 exit 1
 fi
 
-#sources
-#https://github.com/aeruder/expect/blob/master/INSTALL
-#https://gabrielstaples.com/ydotool-tutorial/#gsc.tab=0
-#https://github.com/ReimuNotMoe/ydotool
-#https://github.com/ReimuNotMoe/ydotool/issues/10
-#https://github.com/ReimuNotMoe/ydotool/issues/170
-#file:///usr/include/linux/input-event-codes.h
-#https://gabrielstaples.com/ydotool-tutorial/#gsc.tab=0
-#https://stackoverflow.com/questions/13242469/how-to-use-sed-grep-to-extract-text-between-two-words
-#https://stackoverflow.com/questions/34412754/trying-to-remove-non-printable-characters-junk-values-from-a-unix-file
-#https://stackoverflow.com/questions/67900936/use-cut-in-shell-to-extract-last-word
-#https://stackoverflow.com/questions/6070995/how-to-make-valgrind-report-an-error-when-there-are-still-reachable-allocs
-#https://stackoverflow.com/questions/255898/how-to-iterate-over-arguments-in-a-bash-script
-#https://stackoverflow.com/questions/9057387/process-all-arguments-except-the-first-one-in-a-bash-script
-#https://stackoverflow.com/questions/30873858/how-to-exit-if-statement-in-bash-without-exiting-program
+# Reference: https://github.com/aeruder/expect/blob/master/INSTALL
+# Reference: https://gabrielstaples.com/ydotool-tutorial/#gsc.tab=0
+# Reference: https://github.com/ReimuNotMoe/ydotool
+# Reference: https://github.com/ReimuNotMoe/ydotool/issues/10
+# Reference: https://github.com/ReimuNotMoe/ydotool/issues/170
+# Reference: file:///usr/include/linux/input-event-codes.h
+# Reference: https://gabrielstaples.com/ydotool-tutorial/#gsc.tab=0
+# Reference: https://stackoverflow.com/questions/13242469/how-to-use-sed-grep-to-extract-text-between-two-words
+# Reference: https://stackoverflow.com/questions/34412754/trying-to-remove-non-printable-characters-junk-values-from-a-unix-file
+# Reference: https://stackoverflow.com/questions/67900936/use-cut-in-shell-to-extract-last-word
+# Reference: https://stackoverflow.com/questions/6070995/how-to-make-valgrind-report-an-error-when-there-are-still-reachable-allocs
+# Reference: https://stackoverflow.com/questions/255898/how-to-iterate-over-arguments-in-a-bash-script
+# Reference: https://stackoverflow.com/questions/9057387/process-all-arguments-except-the-first-one-in-a-bash-script
+# Reference: https://stackoverflow.com/questions/30873858/how-to-exit-if-statement-in-bash-without-exiting-program
+
+#TODOS
+##check if dependencies are installed e.g. when flag is raised for vm
+##make flag to run without interactive test
+##make flag to run without unit/integration/component
+##make flag to run without vm
+
 #initialize variables
 RED="\x1B[31m"
 GRN="\x1B[1;32m"
@@ -141,13 +190,6 @@ ydotool=$ydotooldir/build/ydotool
 
 #truncate logs
 truncate -s 0 $LOG_DIR/$MS_LOG
-
-#TODOS
-##check how to share variables
-##check if dependencies are installed e.g. when flag is raised for vm
-##make flag to run without interactive test
-##make flag to run without unit/integration/component
-##make flag to run without vm
 
 #FUNCTIONS
 truncate_temp()
