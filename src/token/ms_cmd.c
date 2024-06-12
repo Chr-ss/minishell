@@ -12,9 +12,9 @@
 
 #include "../../include/minishell.h"
 
-void	ms_token_to_strarr(t_cmd *cmd, char **strarr, t_token token)
+void	ms_token_to_strarr(t_msdata *data, char **strarr, t_token token)
 {
-	(void) cmd;
+	(void) data;
 	int	i;
 
 	i = 0;
@@ -25,9 +25,9 @@ void	ms_token_to_strarr(t_cmd *cmd, char **strarr, t_token token)
 		ms_error("ms_token_to_strarr: malloc error.");
 }
 
-void	ms_unexpected_token(t_cmd *cmd, t_token token)
+void	ms_unexpected_token(t_msdata *data, t_token token)
 {
-	(void) cmd;
+	(void) data;
 	write(2, "-minishell: syntax error near unexpected token '", 48);
 	write(2, token.start, token.length);
 	write(2, "'", 1);
@@ -46,7 +46,7 @@ void	ms_clear_append(t_cmd *cmd)
 	cmd->out[i] = NULL;
 }
 
-void	ms_init_type_handler(t_token (*type_handler[8])(t_cmd *cmd, t_token token, int *pos))
+void	ms_init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_token token, int *pos))
 {
 	type_handler[0] = ms_type_handler_word;
 	type_handler[1] = ms_type_handler_pipe;
@@ -60,11 +60,11 @@ void	ms_init_type_handler(t_token (*type_handler[8])(t_cmd *cmd, t_token token, 
 
 t_token	ms_token_to_cmd(t_msdata *data, t_token token, int *pos)
 {
-	t_cmd	*cmd;
+	// t_cmd	*cmd;
 
-	t_token (*type_handler[8])(t_cmd * cmd, t_token token, int *pos);
-	cmd = data->cmd;
+	t_token (*type_handler[8])(t_msdata * data, t_cmd * cmd, t_token token, int *pos);
+	// cmd = data->cmd;
 	ms_init_type_handler(type_handler);
-	token = type_handler[token.type](cmd, token, pos);
+	token = type_handler[token.type](data, data->cmd, token, pos);
 	return (token);
 }

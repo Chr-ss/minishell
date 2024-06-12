@@ -94,20 +94,20 @@ void	ms_expand_copy(t_msdata *data, t_expend *exp);
 char	*ms_expand(t_msdata *data);
 
 // SORT THIS LATER
-void ms_token_to_strarr(t_cmd *cmd, char **strarr, t_token token);
+void	ms_token_to_strarr(t_msdata *data, char **strarr, t_token token);
 void ms_clear_append(t_cmd *cmd);
-void	ms_init_type_handler(t_token (*type_handler[8])(t_cmd *cmd, t_token token));
+void	ms_init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_token token, int *pos));
 t_token ms_token_to_cmd(t_msdata *data, t_token token, int *pos);
-t_token ms_type_handler_append(t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_eof(t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_error(t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_heredoc(t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_pipe(t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_rein(t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_reout(t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_word(t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_eof(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_error(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_pipe(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_word(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
 
-void ms_unexpected_token(t_cmd *cmd, t_token token);
+void	ms_unexpected_token(t_msdata *data, t_token token);
 void printf_cmd(t_cmd *cmd);
 char	**ms_extend_strarr(t_cmd *cmd, char **strarr, int strarr_size);
 void ms_l(t_msdata *data, char *line);

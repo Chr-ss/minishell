@@ -13,11 +13,12 @@
 #include "../../include/minishell.h"
 
 
-t_token	ms_type_handler_word(t_cmd *cmd, t_token token, int *pos)
+t_token	ms_type_handler_word(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
 	printf("ms_type_handler_word: Token WORD\n");
-	int	argv_size;
 
+	(void) data;
+	(void) pos;
 	if (!cmd->cmd)
 	{
 		cmd->cmd = ft_strndup(token.start, (size_t) token.length);
@@ -26,34 +27,32 @@ t_token	ms_type_handler_word(t_cmd *cmd, t_token token, int *pos)
 	}
 	else
 	{
-		argv_size = ms_strarr_size(cmd->argv);
-		cmd->argv = ms_extend_strarr(cmd, cmd->argv, argv_size);
-		ms_token_to_strarr(cmd, cmd->argv, token);
+		cmd->argv = ms_extend_strarr(cmd, cmd->argv, ms_strarr_size(cmd->argv));
+		ms_token_to_strarr(data, cmd->argv, token);
 	}
 	return (token);
 }
 
-t_token	ms_type_handler_pipe(t_cmd *cmd, t_token token)
+t_token	ms_type_handler_pipe(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
 	(void) cmd;
+	(void) data;
+	(void) pos;
 	printf("ms_type_handler_pipe: Token pipe");
 	return (token);
 }
 
-t_token	ms_type_handler_rein(t_cmd *cmd, t_token token, int *pos)
+t_token	ms_type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
 	printf("ms_type_handler_rein: Token REIN\n");
 	t_token	infile;
 
-	while (token.length)
-	{
-		token.length--;
-		token.start++;
-	}
-	skipspace(&token.start);
-	infile = ms_tokenizer(token.start);
+	*pos += token.length;
+	*pos = ms_skipspace(&(data->line[*pos]), *pos);
+	token.length = 0;
+	infile = ms_tokenizer(&(data->line[*pos]));
 	if (infile.type != TOKEN_WORD)
-		ms_unexpected_token(cmd, infile);
+		ms_unexpected_token(data, infile);
 	else
 	{
 		if (cmd->in)
@@ -65,75 +64,75 @@ t_token	ms_type_handler_rein(t_cmd *cmd, t_token token, int *pos)
 	return (infile);
 }
 
-t_token	ms_type_handler_reout(t_cmd *cmd, t_token token, int *pos)
+t_token	ms_type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
 	printf("ms_type_handler_reout: Token REOUT\n");
 	t_token	outfile;
 	int		outarr_size;
 
-	while (token.length)
-	{
-		token.length--;
-		token.start++;
-	}
-	skipspace(&token.start);
-	outfile = ms_tokenizer(token.start);
+	*pos += token.length;
+	*pos = ms_skipspace(&(data->line[*pos]), *pos);
+	token.length = 0;
+	outfile = ms_tokenizer(&(data->line[*pos]));
 	if (outfile.type != TOKEN_WORD)
-		ms_unexpected_token(cmd, outfile);
+		ms_unexpected_token(data, outfile);
 	else
 	{
 		if (cmd->append && cmd->out)
 			ms_clear_append(cmd);
 		outarr_size = ms_strarr_size(cmd->out);
 		cmd->out = ms_extend_strarr(cmd, cmd->out, outarr_size);
-		ms_token_to_strarr(cmd, cmd->out, outfile);
+		ms_token_to_strarr(data, cmd->out, outfile);
 	}
 	return (outfile);
 }
 
-t_token	ms_type_handler_append(t_cmd *cmd, t_token token, int *pos)
+t_token	ms_type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
 	printf("ms_type_handler_append: Token APPEND\n");
 	t_token	append;
 	int		outarr_size;
 
 	*pos += token.length;
-	*pos += ms_skipspace(&token.start);
+	*pos = ms_skipspace(&(data->line[*pos]), *pos);
 	token.length = 0;
-	append = ms_tokenizer(token.start);
+	append = ms_tokenizer(&(data->line[*pos]));
 	if (append.type != TOKEN_WORD)
-		ms_unexpected_token(cmd, append);
+		ms_unexpected_token(data, append);
 	else
 	{
 		if (cmd->append && cmd->out)
 			ms_clear_append(cmd);
 		outarr_size = ms_strarr_size(cmd->out);
 		cmd->out = ms_extend_strarr(cmd, cmd->out, outarr_size);
-		ms_token_to_strarr(cmd, cmd->out, append);
+		ms_token_to_strarr(data, cmd->out, append);
 		cmd->append = true;
 	}
 	return (append);
 }
 
-t_token	ms_type_handler_heredoc(t_cmd *cmd, t_token token, int *pos)
+t_token	ms_type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
 	(void) cmd;
+	(void) data;
 	(void) pos;
 	printf("ms_type_handler_heredoc: Token heredoc");
 	return (token);
 }
 
-t_token	ms_type_handler_eof(t_cmd *cmd, t_token token, int *pos)
+t_token	ms_type_handler_eof(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
 	(void) cmd;
+	(void) data;
 	(void) pos;
 	printf("ms_type_handler_eof: Token EOF");
 	return (token);
 }
 
-t_token	ms_type_handler_error(t_cmd *cmd, t_token token, int *pos)
+t_token	ms_type_handler_error(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
 	(void) cmd;
+	(void) data;
 	(void) token;
 	(void) pos;
 	ms_error("Token error.");
