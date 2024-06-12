@@ -1,6 +1,6 @@
 #!/bin/bash
 
-temp=$(find ../../../ -type d -name temp)
+temp=$(find ../../../ -type d -name $ms_temp)
 ctrlc=$(find . -name ctrlc.sh)
 ctrld=$(find . -name ctrld.sh)
 minishell=$(find ../../../ -type f -name minishell)

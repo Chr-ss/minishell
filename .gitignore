@@ -62,7 +62,7 @@ a.out
 .vscode
 libft/obj
 libft/libft.a
-temp
+*temp*
 logs
 *.iso
 xorriso-1.5.6

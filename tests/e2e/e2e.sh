@@ -78,7 +78,8 @@ fi
 #https://stackoverflow.com/questions/67900936/use-cut-in-shell-to-extract-last-word
 #https://stackoverflow.com/questions/6070995/how-to-make-valgrind-report-an-error-when-there-are-still-reachable-allocs
 #https://stackoverflow.com/questions/255898/how-to-iterate-over-arguments-in-a-bash-script
-
+#https://stackoverflow.com/questions/9057387/process-all-arguments-except-the-first-one-in-a-bash-script
+#https://stackoverflow.com/questions/30873858/how-to-exit-if-statement-in-bash-without-exiting-program
 #initialize variables
 RED="\x1B[31m"
 GRN="\x1B[1;32m"
@@ -96,10 +97,11 @@ LOG_DIR=logs/
 MS_LOG=ms.log
 ESC=ESC
 CLOSE=CLOSE
-temp=temp
+bash_temp=temp_bash
 bash_output=bh_output.tmp
 bash_inm=bh_inmp.tmp
 bash_filter=bh_filter.tmp
+ms_temp=temp_mini
 ms_output=ms_output.tmp
 ms_inm=ms_inmp.tmp
 ms_filter=ms_filter.tmp
@@ -111,8 +113,10 @@ minishell=$(find ../../../ -type f -name minishell)
 minishelldir=$(find ../../../ -type d -name minishell)
 rm -rf logs
 mkdir -p logs
-# rm -rf $temp
-# mkdir -p $temp
+rm -rf $bash_temp
+mkdir -p $bash_temp
+rm -rf $ms_temp
+mkdir -p $ms_temp
 
 #export variables used in other scripts
 export bash_output
@@ -121,6 +125,8 @@ export bash_filter
 export ms_output
 export ms_inm
 export ms_filter
+export bash_temp
+export ms_temp
 
 #prepare minishell
 make -C $minishelldir re
@@ -146,17 +152,23 @@ truncate -s 0 $LOG_DIR/$MS_LOG
 #FUNCTIONS
 truncate_temp()
 {
-truncate -s 0 $temp/$bash_output
-truncate -s 0 $temp/$bash_inm
-truncate -s 0 $temp/$bash_filter
-truncate -s 0 $temp/$ms_output
-truncate -s 0 $temp/$ms_inm
-truncate -s 0 $temp/$ms_filter
+truncate -s 0 $bash_temp/$bash_output
+truncate -s 0 $bash_temp/$bash_inm
+truncate -s 0 $bash_temp/$bash_filter
+truncate -s 0 $ms_temp/$ms_output
+truncate -s 0 $ms_temp/$ms_inm
+truncate -s 0 $ms_temp/$ms_filter
+}
+
+remove_temp_files()
+{
+	rm -rf $bash_temp/*
+	rm -rf $ms_temp/*
 }
 
 check_result()
 {
-diff $temp/$bash_filter $temp/$ms_filter &>> $LOG_DIR/$MS_LOG
+diff $bash_temp/$bash_filter $ms_temp/$ms_filter &>> $LOG_DIR/$MS_LOG
 dstatus=$?
 ARG=$1
 if [ $dstatus == 0 ];
@@ -170,21 +182,37 @@ fi
 test()
 {
 bash $test_bh "$@" &
-bash -c "bash -i &>>$temp/$bash_output"
+bash -c "bash -i &>>$bash_temp/$bash_output"
 bash $test_ms "$@" &
-bash -c "$minishell &>>$temp/$ms_output"
+bash -c "$minishell &>>$ms_temp/$ms_output"
 }
 
+check_result_multiple_files ()
+{
+ARG=$1
+for var in "${@:2}"
+do
+diff $bash_temp/$var $mini_temp/$var &>> $LOG_DIR/$MS_LOG
+dstatus=$?
+if [ $dstatus != 0 ];
+	then 
+	printf "${BMAG}${ARG}:file:$var${LINEP}${RED}FAIL ${RESET}";
+	return
+fi
+done
+	printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
+}
 
 echo -e "${BLU}----------------------------------
 |           interactive           |
 ----------------------------------${RESET}"
 
-# test "ctrl+c" "ctrl+c" "ctrl+c" "echo lol" "ctrl+d"
-check_result 1
-check_result 2
-check_result 3
-check_result "lol test"
+test "ctrl+c" "ctrl+c" "ctrl+c" "echo lol" "ctrl+d"
+# check_result_multiple_files 1 "temp1" "temp2" "temp3"
+# check_result 1
+# check_result 2
+# check_result 3
+# check_result "lol test"
 # #memory test
 # timeout --preserve-status 5s bash -c "valgrind --error-exitcode=42 --tool=memcheck --leak-check=full --show-reachable=yes --errors-for-leak-kinds=all bash -i &>output"
 # mstatus=$?
