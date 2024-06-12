@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/10 20:56:57 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/12 16:27:11 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <signal.h>
 
 # include "../libft/include/libft.h"
-# include "lexer.h"
+# include "token.h"
 # include "expansion.h"
 
 # define DYNSTRING 8
@@ -94,26 +94,29 @@ void	ms_expand_copy(t_msdata *data, t_expend *exp);
 char	*ms_expand(t_msdata *data);
 
 // SORT THIS LATER
+void ms_token_to_strarr(t_cmd *cmd, char **strarr, t_token token);
 void ms_clear_append(t_cmd *cmd);
 void	ms_init_type_handler(t_token (*type_handler[8])(t_cmd *cmd, t_token token));
-t_token ms_token_to_cmd(t_msdata *data, t_token token);
-t_token ms_type_handler_append(t_cmd *cmd, t_token token);
-t_token ms_type_handler_eof(t_cmd *cmd, t_token token);
-t_token ms_type_handler_error(t_cmd *cmd, t_token token);
-t_token ms_type_handler_heredoc(t_cmd *cmd, t_token token);
-t_token ms_type_handler_pipe(t_cmd *cmd, t_token token);
-t_token ms_type_handler_rein(t_cmd *cmd, t_token token);
-t_token ms_type_handler_reout(t_cmd *cmd, t_token token);
-t_token ms_type_handler_word(t_cmd *cmd, t_token token);
+t_token ms_token_to_cmd(t_msdata *data, t_token token, int *pos);
+t_token ms_type_handler_append(t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_eof(t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_error(t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_heredoc(t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_pipe(t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_rein(t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_reout(t_cmd *cmd, t_token token, int *pos);
+t_token ms_type_handler_word(t_cmd *cmd, t_token token, int *pos);
+
 void ms_unexpected_token(t_cmd *cmd, t_token token);
 void printf_cmd(t_cmd *cmd);
-int ft_isbashtoken(int c);
 char	**ms_extend_strarr(t_cmd *cmd, char **strarr, int strarr_size);
 void ms_l(t_msdata *data, char *line);
 void ms_readline(t_msdata *data);
 int ms_strarr_size(char **strarr);
-void ms_token_to_strarr(t_cmd *cmd, char **strarr, t_token token);
-t_token ms_tokenizer(char *line);
 
+
+void	temp_print_tokens(t_msdata *data, char *line);
+t_token	ms_tokenizer(char *line);
+int	ft_isbashtoken(int c);
 
 #endif	// MINISHELL_H

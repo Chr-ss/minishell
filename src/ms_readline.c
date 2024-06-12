@@ -6,76 +6,13 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/10 20:59:23 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/12 15:58:08 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 extern int g_sigint ;
-
-int	ft_isbashtoken(int c)
-{
-	if (c == '|' || c == '>' || c == '<' || c == 0)
-		return (1);
-	return (0);
-}
-
-t_token	ms_tokenizer(char *line)
-{
-	t_token	token;
-	char	*temp;
-
-	token.start = line;
-	temp = token.start;
-	token.length = 1;
-	if (!*token.start)
-	{
-		printf("EOF, ");
-		token.type = TOKEN_EOF;
-	}
-	else if (!ft_strncmp(token.start, "|", 1))
-	{
-		printf("PIPE, ");
-		token.type = TOKEN_PIPE;
-	}
-	else if (!ft_strncmp(token.start, "<<", 2))
-	{
-		printf("HEREDOC, ");
-		token.type = TOKEN_HEREDOC;
-		token.length = 2;
-	}
-	else if (!ft_strncmp(token.start, "<", 1))
-	{
-		printf("REIN, ");
-		token.type = TOKEN_REIN;
-	}
-	else if (!ft_strncmp(token.start, ">>", 2))
-	{
-		printf("APPEND, ");
-		token.type = TOKEN_APPEND;
-		token.length = 2;
-	}
-	else if (!ft_strncmp(token.start, ">", 1))
-	{
-		printf("REOUT, ");
-		token.type = TOKEN_REOUT;
-	}
-	else if (*temp && ft_isprint((int) *temp) && !ft_isbashtoken((int) *temp))
-	{
-		printf("WORD, ");
-		token.type = TOKEN_WORD;
-		token.length = 0;
-		while (*temp && ft_isprint((int) *temp) && !ft_isbashtoken((int) *temp))
-		{
-			temp++;
-			token.length++;
-		}
-	}
-	else
-		token.type = TOKEN_ERROR;
-	return (token);
-}
 
 int	ms_strarr_size(char **strarr)
 {
@@ -107,18 +44,7 @@ char	**ms_extend_strarr(t_cmd *cmd, char **strarr, int strarr_size)
 	free(strarr);
 	return (new_strarr);
 }
-void	ms_token_to_strarr(t_cmd *cmd, char **strarr, t_token token)
-{
-	(void) cmd;
-	int	i;
 
-	i = 0;
-	while (strarr[i])
-		i++;
-	strarr[i] = ft_strndup(token.start, (size_t) token.length);
-	if (!strarr[i])
-		ms_error("ms_extend_strarr: malloc error.");
-}
 
 // void	skipspace(char **string)
 // {
@@ -126,28 +52,6 @@ void	ms_token_to_strarr(t_cmd *cmd, char **strarr, t_token token)
 // 		(*string)++;
 // }
 
-void	temp_print_tokens(t_msdata *data, char *line)
-{
-	t_token	token;
-	int		pos;
-
-	pos = 0;
-	while (token.type != TOKEN_EOF)
-	{
-		token.start = &line[pos];
-		token.length = 0;
-		pos = ms_skipspace(line, pos);
-		token = ms_tokenizer(&line[pos]);
-		// printf("%d, ", token.type);
-		// i++;
-		token = ms_token_to_cmd(data, token);
-		pos += token.length;
-		if (token.type == TOKEN_EOF)
-			break ;
-	}
-	printf("\n");
-	printf_cmd(data->cmd);
-}
 
 void	ms_readline(t_msdata *data)
 {
