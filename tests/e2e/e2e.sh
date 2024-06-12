@@ -235,12 +235,7 @@ fi
 # Reference: https://stackoverflow.com/questions/255898/how-to-iterate-over-arguments-in-a-bash-script
 # Reference: https://stackoverflow.com/questions/9057387/process-all-arguments-except-the-first-one-in-a-bash-script
 # Reference: https://stackoverflow.com/questions/30873858/how-to-exit-if-statement-in-bash-without-exiting-program
-
-#TODOS
-##check if dependencies are installed e.g. when flag is raised for vm
-##make flag to run without interactive test
-##make flag to run without unit/integration/component
-##make flag to run without vm
+# Reference: https://stackoverflow.com/questions/10319652/check-if-a-file-is-executable
 
 #initialize variables
 RED="\x1B[31m"
