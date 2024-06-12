@@ -68,6 +68,16 @@ error() { log "ERROR: $*" >&2; }
 fatal() { error "$*"; exit 1; }
 usage_fatal() { error "$*"; usage >&2; exit 1; }
 
+check=0
+virtual=0
+unit=1
+component=1
+integration=1
+e2e=1
+set_only=0
+set_only_multiple=0
+
+
 # parse options
 while [ "$#" -gt 0 ]; do
 	arg=$1
@@ -79,9 +89,77 @@ while [ "$#" -gt 0 ]; do
 		shift;
 		set -- "${arg%%=*}" "${arg#*=}" "$@";
 		continue;;
-		-f|--file)
-		file=$2
-		shift 2
+		-c|--check)
+		check=1
+		shift 
+		;;
+		-v|--virtual)
+		virtual=1
+		shift 
+		;;
+		-nu|--no-unit)
+		unit=0
+		shift 
+		;;
+		-nc|--no-component)
+		component=0
+		shift
+		;;
+		-ni|--no-integration)
+		integration=0
+		shift
+		;;
+		-ne|--no-e2e)
+		e2e=0
+		shift
+		;;
+		-ou|--only-unit)
+		component=0
+		integration=0
+		e2e=0
+		ou=1
+		if [ $set_only == 1 ]
+		then 
+		set_only_multiple=1
+		fi
+		set_only=1
+		shift 
+		;;
+		-oc|--only-component)
+		unit=0
+		integration=0
+		e2e=0
+		oc=1
+		if [ $set_only == 1 ]
+		then 
+		set_only_multiple=1
+		fi
+		set_only=1
+		shift 
+		;;
+		-oi|--only-integration)
+		unit=0
+		component=0
+		e2e=0
+		oi=1
+		if [ $set_only == 1 ]
+		then 
+		set_only_multiple=1
+		fi
+		set_only=1
+		shift 
+		;;
+		-oe|--only-e2e)
+		unit=0
+		component=0
+		integration=0
+		oe=1
+		if [ $set_only == 1 ]
+		then 
+		set_only_multiple=1
+		fi
+		set_only=1
+		shift 
 		;;
 		-h|--help)
 		usage;
@@ -100,12 +178,47 @@ while [ "$#" -gt 0 ]; do
 	esac
 done
 
-#check file input
-if [ -n "$file" ];
-then :
-else
-usage_fatal "option '-f, --file' requires a value"
+#check only flags
+if [[ $set_only_multiple == 1 ]];
+then 
+usage_fatal "you can only set one '-o*, --only-*' flag"
 exit 1
+fi
+
+#check no flags
+if [[ $unit == 0 && $component == 0 && $integration == 0 && $e2e == 0 ]];
+then 
+echo lol
+usage_fatal "not all '-n*, --no-*' flags can be selected at the same time"
+exit 1
+fi
+
+#check dependencies
+if [[ $check == 1 ]];
+then 
+command -v VBoxManage
+vbox=$?
+if [[ $vbox == 0 ]];
+then 
+echo VBoxManage Installed
+else
+echo VBoxManage Not Installed
+cstatus=1
+fi
+ydo=$(find ../../  -type d -name ydotool -not -path "../../.git/*")
+ydo_exe=$ydo/build/ydotool
+if [ -x $ydo_exe ]; 
+then 
+echo ydotool Installed
+else
+echo ydotool Not Installed
+cstatus=1
+fi
+if [ $cstatus == 1 ];
+then 
+exit 1
+fi
+exit 0
 fi
 
 # Reference: https://github.com/aeruder/expect/blob/master/INSTALL
@@ -245,11 +358,34 @@ done
 	printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
 }
 
+
+
+if [ $virtual == 1 ]; 
+then
+echo run vm
+fi
+if [ $unit == 1 ]; 
+then
+echo run unit
+fi
+if [ $component == 1 ]; 
+then
+echo run component
+fi
+if [ $integration == 1 ]; 
+then
+echo run integration
+fi
+if [ $e2e == 0 ]; 
+then
+exit 0
+fi
+
 echo -e "${BLU}----------------------------------
 |           interactive           |
 ----------------------------------${RESET}"
 
-test "ctrl+c" "ctrl+c" "ctrl+c" "echo lol" "ctrl+d"
+# test "ctrl+c" "ctrl+c" "ctrl+c" "echo lol" "ctrl+d"
 # check_result_multiple_files 1 "temp1" "temp2" "temp3"
 # check_result 1
 # check_result 2
