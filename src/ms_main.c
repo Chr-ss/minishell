@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc > 1)
 		ms_error("Invalid argument count.");
-	ms_initdata(&data, argv, envp); // malloc >> data->cmd, data->envp
+	ms_initdata(&data, argv, envp); // malloc >> data->cmd_head, data->envp
 	ms_readline(&data);
 	ms_error("No, error.");
 	return (0);

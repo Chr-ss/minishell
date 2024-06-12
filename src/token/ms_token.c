@@ -79,22 +79,22 @@ t_token	ms_tokenizer(char *line)
 void	temp_print_tokens(t_msdata *data, char *line)
 {
 	t_token	token;
-	int		pos;
+	// int		pos;
 
-	pos = 0;
+	// data->pos = 0;
 	while (token.type != TOKEN_EOF)
 	{
-		token.start = &line[pos];
+		token.start = &line[data->pos];
 		token.length = 0;
-		pos = ms_skipspace(line, pos);
-		token = ms_tokenizer(&line[pos]);
+		data->pos = ms_skipspace(line, data->pos);
+		token = ms_tokenizer(&line[data->pos]);
 		// printf("%d, ", token.type);
 		// i++;
-		token = ms_token_to_cmd(data, token, &pos);
-		pos += token.length;
+		token = ms_token_to_cmd(data, token, &data->pos);
+		data->pos += token.length;
 		if (token.type == TOKEN_EOF)
 			break ;
 	}
 	printf("\n");
-	printf_cmd(data->cmd);
+	printf_cmd(data->cmd_head);
 }

@@ -60,11 +60,8 @@ void	ms_init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd,
 
 t_token	ms_token_to_cmd(t_msdata *data, t_token token, int *pos)
 {
-	// t_cmd	*cmd;
-
 	t_token (*type_handler[8])(t_msdata * data, t_cmd * cmd, t_token token, int *pos);
-	// cmd = data->cmd;
 	ms_init_type_handler(type_handler);
-	token = type_handler[token.type](data, data->cmd, token, pos);
+	token = type_handler[token.type](data, data->cmd_curr, token, pos);
 	return (token);
 }

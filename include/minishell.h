@@ -39,14 +39,18 @@ typedef struct s_cmd
 	char			*in;
 	char			**out;
 	struct s_cmd	*pipe;
-	char			*here_doc;
+	char			**heredoc;
 	bool			append;
 }	t_cmd;
 
 typedef struct s_msdata
 {
-	t_cmd		*cmd;
+	t_cmd		*cmd_head;
+// TOKEN TO CMD
+	t_cmd		*cmd_curr;
 	char		*line;
+	int			pos;
+// TOKEN TO CMD
 	char		**argv;
 	char		**envp;
 	char		pwd[PATH_MAX];
