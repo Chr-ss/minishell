@@ -15,6 +15,7 @@
 # Reference: https://stackoverflow.com/questions/13438095/replace-the-first-line-in-a-text-file-by-a-string
 # Reference: https://stackoverflow.com/questions/94074/slow-wget-speeds-when-connecting-to-https-pages
 # Reference: https://stackoverflow.com/questions/5613345/how-to-shrink-the-git-folder
+# Reference: https://www.virtualbox.org/manual/ch01.html
 
 XORISSO_EXE=xorriso-1.5.6/xorriso/xorriso
 XORISSO_TAR=xorriso-1.5.6.pl02.tar.gz
