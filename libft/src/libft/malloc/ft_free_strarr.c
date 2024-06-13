@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_lstnew.c                                        :+:    :+:            */
+/*   ft_free_strarr.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/10/10 14:13:39 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/04 18:03:23 by crasche       ########   odam.nl         */
+/*   Created: 2024/06/04 17:50:52 by crasche       #+#    #+#                 */
+/*   Updated: 2024/06/04 18:16:46 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/libft.h"
 
-t_libft	*ft_lstnew(void *content)
+void	ft_free_strarr(char **strarr)
 {
-	t_libft	*ret;
+	int	i;
 
-	ret = ft_calloc(1, sizeof(t_libft));
-	if (!ret)
-		return (NULL);
-	ret->content = content;
-	ret->next = NULL;
-	return (ret);
+	i = 0;
+	if (!strarr)
+		return ;
+	while (strarr[i])
+	{
+		free(strarr[i]);
+		strarr[i] = NULL;
+		i++;
+	}
+	free(strarr);
+	strarr = NULL;
 }

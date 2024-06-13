@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:45:15 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/04 16:28:10 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:04:10 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,22 +376,20 @@ void	temp_print_tokens(t_msdata *data, char *line)
 	printf_cmd(data->cmd);
 }
 
-char	*ms_readline(t_msdata *data)
+void	ms_readline(t_msdata *data)
 {
-	char *line;
-	(void)data;
 	while (1)
 	{
-		line = readline("minishell:~$");
-		if (!line)
-		{
-			ft_printf("exit\n");
-			exit(EXIT_SUCCESS);
-		}
-		printf("INPUT:%s\n\n", line);
-		temp_print_tokens(data, line);
-		free(line);
-		line = NULL;
+		data->line = readline("minishell:~$");
+		if (!data->line)
+			ms_error("Ok, EMPTY. EXIT");
+		data->line = ms_expand(data);
+		if (!data->line)
+			ms_error("readline malloc error.");
+		printf(">>>%s\n\n", data->line);
+		// temp_print_tokens(data, line);
+		ms_parsing(data);
+		free(data->line);
+		data->line = NULL;
 	}
-	return (line);
 }

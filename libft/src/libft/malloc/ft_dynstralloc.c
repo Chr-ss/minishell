@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_calloc.c                                        :+:    :+:            */
+/*   ft_dynstralloc.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/10/06 13:40:19 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 14:45:20 by crasche       ########   odam.nl         */
+/*   Created: 2024/06/04 18:06:08 by crasche       #+#    #+#                 */
+/*   Updated: 2024/06/04 18:16:44 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
+#include "../../../include/libft.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+char	*ft_dynstralloc(char *original_str, int *capacity)
 {
-	void	*ptr;
+	char	*new_str;
 
-	if (nmemb == 0 || size == 0)
+	*capacity *= 2;
+	new_str = ft_calloc(*capacity + 1, sizeof(char));
+	if(!new_str)
+		return (NULL);
+	if (original_str)
 	{
-		nmemb = 1;
-		size = 1;
+		ft_strlcpy(new_str, original_str, ft_strlen(original_str) + 1);
+		free(original_str);
 	}
-	else if (!(((nmemb * size) / size) == nmemb))
-		return (NULL);
-	ptr = malloc(nmemb * size);
-	if (!ptr)
-		return (NULL);
-	ft_bzero(ptr, nmemb * size);
-	return (ptr);
+	return (new_str);
 }

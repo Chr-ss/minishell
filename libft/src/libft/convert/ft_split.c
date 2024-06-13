@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/08 12:20:20 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 14:43:05 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/04 18:03:06 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static	int	splitting(const char *s, const char c, char **array, int str_count)
 			s++;
 		while (*(s + str_curr_len) != c && *(s + str_curr_len))
 			str_curr_len++;
-		array[curr_str] = malloc (sizeof(char) * (str_curr_len + 1));
+		array[curr_str] = ft_calloc(sizeof(char), (str_curr_len + 1));
 		if (!array[curr_str])
 			return (freeall(array, curr_str));
 		if (!ft_strlen(s))
@@ -81,7 +81,7 @@ char	**ft_split(char const *s, char c)
 		str_count = 0;
 	else
 		str_count = strcounter(s, c);
-	array = malloc (sizeof(char *) * (str_count + 1));
+	array = ft_calloc(sizeof(char *), (str_count + 1));
 	if (!array)
 		return (NULL);
 	array[str_count] = NULL;

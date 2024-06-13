@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/08 14:26:27 by crasche       #+#    #+#                 */
-/*   Updated: 2024/05/26 14:43:05 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/04 17:21:03 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_itoa(int n)
 	}
 	else
 		getstring(n, buffer, &buffer_len);
-	str = malloc(sizeof(char) * (buffer_len + 1));
+	str = ft_calloc(sizeof(char), (buffer_len + 1));
 	if (!str)
 		return (NULL);
 	str[buffer_len--] = '\0';
