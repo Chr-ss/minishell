@@ -6,13 +6,14 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/04 13:46:31 by spenning      #+#    #+#                 */
-/*   Updated: 2024/06/13 13:40:05 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/13 14:23:09 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// https://docs.rtems.org/releases/4.5.1-pre3/toolsdoc/gdb-5.0-docs/readline/readline00030.html
+// https://docs.rtems.org/releases/4.5.1-pre3/toolsdoc/
+// gdb-5.0-docs/readline/readline00030.html
 
 void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 {
