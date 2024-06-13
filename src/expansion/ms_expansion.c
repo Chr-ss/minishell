@@ -6,11 +6,11 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 16:31:20 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/05 15:48:00 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/05 21:25:26 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	ms_expand_exp_init(t_msdata *data, t_expend *exp)
 {
@@ -23,7 +23,10 @@ void	ms_expand_exp_init(t_msdata *data, t_expend *exp)
 
 void	ms_expand_var_nl(t_expend *exp)
 {
-	while (exp->env && *exp->env)
+	int	i;
+
+	i = 0;
+	while (exp->env && exp->env[i])
 	{
 		if (exp->line_pos == exp->capacity)
 		{
@@ -31,10 +34,11 @@ void	ms_expand_var_nl(t_expend *exp)
 			if(!exp->line)
 				ms_error("ms_expesion, malloc error.");
 		}
-		exp->line[exp->line_pos] = *exp->env;
-		exp->env++;
+		exp->line[exp->line_pos] = exp->env[i];
 		exp->line_pos++;
+		i++;
 	}
+	exp->env = NULL;
 }
 
 char	*ms_expand_getenv(char **envp, char *env_start, int env_len)

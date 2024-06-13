@@ -32,10 +32,5 @@ typedef struct s_token
 	t_token_type	type;
 }	t_token;
 
-typedef struct s_tokenizer
-{
-	char	*start;
-	char	*curr;
-}	t_tokenizer;
 
 #endif	// LEXER_H
