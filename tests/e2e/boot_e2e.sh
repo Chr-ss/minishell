@@ -13,6 +13,8 @@
 # Reference: https://stackoverflow.com/questions/55195182/bash-run-script-from-here-doc
 # Reference: https://www.youtube.com/watch?v=DtXZ6BMaKbA
 # Reference: https://stackoverflow.com/questions/13438095/replace-the-first-line-in-a-text-file-by-a-string
+# Reference: https://stackoverflow.com/questions/94074/slow-wget-speeds-when-connecting-to-https-pages
+# Reference: https://stackoverflow.com/questions/5613345/how-to-shrink-the-git-folder
 
 XORISSO_EXE=xorriso-1.5.6/xorriso/xorriso
 XORISSO_TAR=xorriso-1.5.6.pl02.tar.gz
@@ -51,10 +53,10 @@ XORISSO_PATH=$(cd $XORISSO_DIR && cd xorriso && pwd)
 export PATH=$PATH:$XORISSO_PATH
 fi 
 
-# # Download debian.iso
+# Download debian.iso
 # if [ ! -f ./$UBUNTU_CD_IMAGE ]; then
 #     echo -ne 'Downloading ubuntu image  : #                         (0%) (this might take a few minutes)\r'
-#     wget https://releases.ubuntu.com/jammy/ubuntu-22.04.4-live-server-amd64.iso -O $UBUNTU_CD_IMAGE 
+#     wget https://releases.ubuntu.com/jammy/ubuntu-22.04.4-live-server-amd64.iso --inet4-only --no-check-certificate -O $UBUNTU_CD_IMAGE 
 #     echo -ne 'Downloading complete      : #######################   (100%)\r'
 # fi
 
@@ -73,17 +75,43 @@ GRUB_FILE=$(find ./ -type f -name grub.cfg)
 GRUB2_MBR=$(find ./sources-files -type f -name "mbr_code_grub2.img")
 EFI=$(find ./ -type f -name "gpt_part2_efi.img")
 
-#change timeout in grubfile
-var="set timeout=5"
-sed -i "1s/.*/$var/" $GRUB_FILE
+#change grub boot
+cat << "EOF" > $(find ./ -type f -name grub.cfg)
+set timeout=1
 
-#append to grub boot
-cat << EOF >> $(find ./ -type f -name grub.cfg)
+loadfont unicode
+
+set menu_color_normal=white/black
+set menu_color_highlight=black/light-gray
+
 menuentry "Autoinstall Ubuntu Server" {
 set gfxpayload=keep
 linux /casper/vmlinuz quiet autoinstall ds=nocloud\;s=/cdrom/server/ ---
 initrd /casper/initrd
 }
+menuentry "Try or Install Ubuntu Server" {
+	set gfxpayload=keep
+	linux	/casper/vmlinuz  ---
+	initrd	/casper/initrd
+}
+menuentry "Ubuntu Server with the HWE kernel" {
+	set gfxpayload=keep
+	linux	/casper/hwe-vmlinuz  ---
+	initrd	/casper/hwe-initrd
+}
+grub_platform
+if [ "$grub_platform" = "efi" ]; then
+menuentry 'Boot from next volume' {
+	exit 1
+}
+menuentry 'UEFI Firmware Settings' {
+	fwsetup
+}
+else
+menuentry 'Test memory' {
+	linux16 /boot/memtest86+.bin
+}
+fi
 EOF
 
 # remove ubuntu image for diskspace
@@ -112,14 +140,16 @@ xorriso -as mkisofs -r \
 EOF
 fi
 
+rm -rf $TEST_IMAGE
+
 #Create VM
 VBoxManage createvm --name $MACHINENAME --ostype "Ubuntu22_LTS_64" --register --basefolder `pwd`
 #Set memory and network
 VBoxManage modifyvm $MACHINENAME --ioapic on
-VBoxManage modifyvm $MACHINENAME --memory 1024 --vram 128
+VBoxManage modifyvm $MACHINENAME --memory 2048 --vram 128
 VBoxManage modifyvm $MACHINENAME --nic1 nat
 #Create Disk and connect Debian Iso
-VBoxManage createhd --filename `pwd`/$MACHINENAME/$MACHINENAME_DISK.vdi --size 80000 --format VDI
+VBoxManage createhd --filename `pwd`/$MACHINENAME/$MACHINENAME_DISK.vdi --size 3000 --format VDI
 VBoxManage storagectl $MACHINENAME --name "SATA Controller" --add sata --controller IntelAhci
 VBoxManage storageattach $MACHINENAME --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium  `pwd`/$MACHINENAME/$MACHINENAME_DISK.vdi
 VBoxManage storagectl $MACHINENAME --name "IDE Controller" --add ide --controller PIIX4
@@ -131,4 +161,6 @@ VBoxManage modifyvm $MACHINENAME --vrde on
 VBoxManage modifyvm $MACHINENAME --vrdemulticon on --vrdeport 10001
 
 #Start the VM
+VBoxManage startvm $MACHINENAME
+
 # VBoxHeadless --startvm $MACHINENAME
