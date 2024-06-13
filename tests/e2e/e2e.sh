@@ -270,10 +270,10 @@ minishell=$(find ../../../ -type f -name minishell)
 minishelldir=$(find ../../../ -type d -name minishell)
 rm -rf logs
 mkdir -p logs
-rm -rf $bash_temp
-mkdir -p $bash_temp
-rm -rf $ms_temp
-mkdir -p $ms_temp
+# rm -rf $bash_temp
+# mkdir -p $bash_temp
+# rm -rf $ms_temp
+# mkdir -p $ms_temp
 
 #export variables used in other scripts
 export bash_output
@@ -342,7 +342,9 @@ check_result_multiple_files ()
 ARG=$1
 for var in "${@:2}"
 do
-diff $bash_temp/$var $mini_temp/$var &>> $LOG_DIR/$MS_LOG
+echo $bash_temp/$var
+echo $mini_temp/$var
+diff $bash_temp/$var $ms_temp/$var &>> $LOG_DIR/$MS_LOG
 dstatus=$?
 if [ $dstatus != 0 ];
 	then 
@@ -381,7 +383,7 @@ echo -e "${BLU}----------------------------------
 ----------------------------------${RESET}"
 
 # test "ctrl+c" "ctrl+c" "ctrl+c" "echo lol" "ctrl+d"
-# check_result_multiple_files 1 "temp1" "temp2" "temp3"
+check_result_multiple_files 1 "temp1" "temp2"
 # check_result 1
 # check_result 2
 # check_result 3
