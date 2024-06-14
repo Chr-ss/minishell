@@ -18,6 +18,7 @@
 # Reference: https://www.virtualbox.org/manual/ch01.html
 # Reference: https://askubuntu.com/questions/161759/how-to-access-a-shared-folder-in-virtualbox
 # Reference: https://www.jimangel.io/posts/automate-ubuntu-22-04-lts-bare-metal/
+# Reference: https://blog.learncodeonline.in/automating-linux-installation-using-vagrant-and-virtualbox
 
 XORISSO_EXE=xorriso-1.5.6/xorriso/xorriso
 XORISSO_TAR=xorriso-1.5.6.pl02.tar.gz
@@ -29,36 +30,80 @@ TEST_IMAGE=sources-files
 TEST_IMAGE_USR=nocloud
 TEST_IMAGE_BTT=bootpart
 USER_DATA=user-data
+VAGRANT_ZIP=vagrant.zip
+VAGRANT=vagrant
+VAGRANT_DIR=linux_install
+VAGRANT_IMAGE=generic/ubuntu2204
 
-if ! command -v VBoxManage &> /dev/null
+#Download vagrant
+if [ ! -f $VAGRANT ];
 then
-	echo "VBoxManage could not be found, this is needed to create the VM"
-	exit 1
+	echo -ne 'Downloading vagrant  : #                         (0%) (this might take a few minutes)\r'
+	wget https://releases.hashicorp.com/vagrant/2.4.1/vagrant_2.4.1_linux_amd64.zip --inet4-only --no-check-certificate -O $VAGRANT_ZIP 
+	echo -ne 'Downloading vagrant      : #######################   (100%)\r'
+	echo
+	unzip $VAGRANT_ZIP
+	rm -rf $VAGRANT_ZIP
 fi
 
-localds=$(find ./ -type f -name "cloud-localds")
+#Add vagrant to path
+export PATH=$PATH:$(pwd)
+
+#create vagrant directory
+mkdir -p $VAGRANT_DIR
+
+#prepare vagrant directory with needed files
+(cd $VAGRANT_DIR && mkdir -p shared_resources && echo > Vagrantfile)
+
+#add ubuntu image
+(cd $VAGRANT_DIR && vagrant box add $VAGRANT_IMAGE --provider virtualbox --force)
+
+#initialize vagrant
+(cd $VAGRANT_DIR && vagrant init $VAGRANT_IMAGE --force)
+
+#add plugin for guest additions
+(cd $VAGRANT_DIR && vagrant plugin install vagrant-vbguest)
+
+#up virtual machine
+(cd $VAGRANT_DIR && vagrant up --provider=virtualbox)
+
+# if ! command -v VBoxManage &> /dev/null
+# then
+# 	echo "VBoxManage could not be found, this is needed to create the VM"
+# 	exit 1
+# fi
 
 
-mkdir -p cidata
-cat > cidata/user-data << 'EOF'
-#cloud-config
-autoinstall:
-  version: 1
-  identity:
-    hostname: ubuntu-server
-    password: "$6$exDY1mhS4KUYCE/2$zmn9ToZwTKLhCw.b4/b.ZRTIZM30JZ4QrOQ2aOXJ8yk96xpcCof0kxKwuX1kqLG/ygbJ1f8wxED22bTL4F46P0"
-    username: ubuntu
-EOF
-echo > cidata/meta-data
+# Download debian.iso
+# if [ ! -f ./$UBUNTU_CD_IMAGE ]; then
+# 	echo -ne 'Downloading ubuntu image  : #                         (0%) (this might take a few minutes)\r'
+# 	wget https://releases.ubuntu.com/jammy/ubuntu-22.04.4-live-server-amd64.iso --inet4-only --no-check-certificate -O $UBUNTU_CD_IMAGE 
+# 	echo -ne 'Downloading complete      : #######################   (100%)\r'
+# fi
 
-./$localds seed.iso cidata/user-data cidata/meta-data
+# mkdir -p cidata
+# cat > cidata/user-data << 'EOF'
+# #cloud-config
+# autoinstall:
+#   version: 1
+#   identity:
+#     hostname: ubuntu-server
+#     password: "$6$exDY1mhS4KUYCE/2$zmn9ToZwTKLhCw.b4/b.ZRTIZM30JZ4QrOQ2aOXJ8yk96xpcCof0kxKwuX1kqLG/ygbJ1f8wxED22bTL4F46P0"
+#     username: ubuntu
+# EOF
+# echo > cidata/meta-data
 
-echo $(pwd)
+# cloud-localds seed.iso cidata/user-data cidata/meta-data
 
-kvm -no-reboot -m 2048 \
-    -drive file=image.img,format=raw,cache=none,if=virtio \
-    -drive file=seed.iso,format=raw,cache=none,if=virtio \
-    -cdrom $UBUNTU_CD_IMAGE
+# truncate -s 10G image.img
+
+# kvm -no-reboot -m 2048 \
+#     -drive file=image.img,format=raw,cache=none,if=virtio \
+#     -drive file=seed.iso,format=raw,cache=none,if=virtio \
+#     -cdrom $UBUNTU_CD_IMAGE \
+#     -kernel seed.iso/casper/vmlinuz \
+#     -initrd seed.iso/casper/initrd \
+#     -append 'root=/dev/ram0 ramdisk_size=1500000 ip=dhcp autoinstall ds=nocloud\;s=/cdrom/nocloud/ ---'
 
 exit 0
 
@@ -83,12 +128,6 @@ XORISSO_PATH=$(cd $XORISSO_DIR && cd xorriso && pwd)
 export PATH=$PATH:$XORISSO_PATH
 fi 
 
-# Download debian.iso
-if [ ! -f ./$UBUNTU_CD_IMAGE ]; then
-	echo -ne 'Downloading ubuntu image  : #                         (0%) (this might take a few minutes)\r'
-	wget https://releases.ubuntu.com/jammy/ubuntu-22.04.4-live-server-amd64.iso --inet4-only --no-check-certificate -O $UBUNTU_CD_IMAGE 
-	echo -ne 'Downloading complete      : #######################   (100%)\r'
-fi
 
 # Extract iso image 
 if [ ! -d ./$TEST_IMAGE ]; then
