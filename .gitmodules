@@ -1,0 +1,3 @@
+[submodule "tests/e2e/dotool"]
+	path = tests/e2e/dotool
+	url = https://git.sr.ht/~geb/dotool

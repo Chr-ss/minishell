@@ -75,8 +75,8 @@ VBoxManage list vms | awk '{print $2}'  | xargs --no-run-if-empty -t -n1 VBoxMan
 killall -9 VBoxHeadless                                                                                                                                                           
 rm -rf ~/Virtualbox\ VMs/* 
 vagrant box remove $VAGRANT_IMAGE
-PREVIOUS_BOX=$(vagrant global-status --prune | awk 'FNR == 3 {print $1}')
-vagrant destroy $PREVIOUS_BOX --force
+# PREVIOUS_BOX=$(vagrant global-status --prune | awk 'FNR == 3 {print $1}')
+# vagrant destroy $PREVIOUS_BOX --force
 echo 'Removing old boxes/vms : #######################   (100%)'
 echo 
 

@@ -315,7 +315,6 @@ command -v dotool
 do=$?
 if [ $do != 0 ]; 
 then
-git clone https://git.sr.ht/~geb/dotool
 (cd dotool && ./build.sh && sudo ./build.sh install)
 (cd dotool && sudo udevadm control --reload && sudo udevadm trigger)
 fi
@@ -467,7 +466,7 @@ echo -e "${GRE}Congratulations, all tests are succesfull :)${RESET}"
 rm -rf $LOG_DIR
 fi
 
-rm -rf $temp_bash
-rm -rf $temp_mini
+rm -rf $bash_temp
+rm -rf $ms_temp
 
 exit 0
