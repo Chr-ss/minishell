@@ -68,3 +68,4 @@ logs
 vagrant
 linux_install
 !temprestart.conf
+dotool

@@ -205,13 +205,13 @@ else
 echo VBoxManage Not Installed
 cstatus=1
 fi
-ydo=$(find ../../  -type d -name ydotool -not -path "../../.git/*")
-ydo_exe=$ydo/build/ydotool
-if [ -x $ydo_exe ]; 
+command -v dotool
+do=$?
+if [ $do == 0 ]; 
 then 
-echo ydotool Installed
+echo dotool Installed
 else
-echo ydotool Not Installed
+echo dotool Not Installed
 cstatus=1
 fi
 if [ $cstatus == 1 ];
@@ -236,6 +236,7 @@ fi
 # Reference: https://stackoverflow.com/questions/9057387/process-all-arguments-except-the-first-one-in-a-bash-script
 # Reference: https://stackoverflow.com/questions/30873858/how-to-exit-if-statement-in-bash-without-exiting-program
 # Reference: https://stackoverflow.com/questions/10319652/check-if-a-file-is-executable
+# Reference: https://git.sr.ht/~geb/dotool/tree/master/doc/dotool.1.scd
 
 #initialize variables
 RED="\x1B[31m"
@@ -291,16 +292,33 @@ export minishell
 #prepare minishell
 make -C $minishelldir re
 
-#prepare ydotool
-ydotooldir=../ydotool
-rm -rf $ydotooldir/build
-mkdir -p $ydotooldir/build
-(cd $ydotooldir/build && cmake ..)
-(cd $ydotooldir/build && make -j `nproc`)
-(cd $ydotooldir/build && ./ydotoold) &
-ydotool=$ydotooldir/build/ydotool
-
-export ydotool
+#prepare dotool
+dpkg -l | grep libxkbcommon-dev
+xkb=$?
+if [ $xkb != 0 ]; 
+then
+sudo apt install -y libxkbcommon-dev
+fi
+dpkg -l | grep scdoc
+sc=$?
+if [ $sc != 0 ]; 
+then
+sudo apt install -y scdoc
+fi
+dpkg -l | grep golang-go
+go=$?
+if [ $go != 0 ]; 
+then
+sudo apt install -y golang-go
+fi
+command -v dotool
+do=$?
+if [ $do != 0 ]; 
+then
+git clone https://git.sr.ht/~geb/dotool
+(cd dotool && ./build.sh && sudo ./build.sh install)
+(cd dotool && sudo udevadm control --reload && sudo udevadm trigger)
+fi
 
 #truncate logs
 truncate -s 0 $LOG_DIR/$MS_LOG
@@ -339,10 +357,8 @@ test()
 {
 bash $test_bh "$@" &
 bash -c "bash -i &>>$bash_temp/$bash_output"
-sleep 1
 bash $test_ms "$@" &
 bash -c "bash -i &>>$ms_temp/$ms_output"
-sleep 1
 # bash -c "$minishell &>>$ms_temp/$ms_output"
 }
 
@@ -446,6 +462,12 @@ check_result 1
 
 if [ $FAIL = true ];
 then echo -e "${RED}Check logs/*.log for errors${RESET}"
-else echo -e "${GRE}Congratulations, all tests are succesfull :)${RESET}"
+else 
+echo -e "${GRE}Congratulations, all tests are succesfull :)${RESET}"
+rm -rf $LOG_DIR
 fi
+
+rm -rf $temp_bash
+rm -rf $temp_mini
+
 exit 0

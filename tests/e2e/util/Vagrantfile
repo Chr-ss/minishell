@@ -75,6 +75,8 @@ Vagrant.configure("2") do |config|
 	  sudo apt install -y libreadline-dev
 	  sudo apt install -y scdoc
 	  sudo apt install -y cmake
+	  sudo apt install -y libxkbcommon-dev
+	  sudo apt install -y golang-go
 	SHELL
 end
   
