@@ -1,15 +1,20 @@
 #!/bin/bash
 
-temp=$(find ../../../ -type d -name $bash_temp)
-ctrlc=$(find . -name ctrlc.sh)
-ctrld=$(find . -name ctrld.sh)
-minishell=$(find ../../../ -type f -name minishell)
+bash_temp=temp_bash
+bash_output=bh_output.tmp
+bash_inm=bh_inmp.tmp
+bash_filter=bh_filter.tmp
+ms_temp=temp_mini
+ms_output=ms_output.tmp
+ms_inm=ms_inmp.tmp
+ms_filter=ms_filter.tmp
+
 
 filter()
 {
-awk '{print $NF}' $temp/$bash_output >> $temp/$bash_inm
-sed -i 's/\x1b\[?2004h//g; s/\x1b\[?2004l//g; s/minishell:~//g' $temp/$bash_inm 
-tr -cd '[:print:]' < $temp/$bash_inm >> $temp/$bash_filter
+awk '{print $NF}' $bash_temp/$bash_output >> $bash_temp/$bash_inm
+sed -i 's/\x1b\[?2004h//g; s/\x1b\[?2004l//g; s/minishell:~//g' $bash_temp/$bash_inm 
+tr -cd '[:print:]' < $bash_temp/$bash_inm >> $bash_temp/$bash_filter
 }
 
 ctrlc()
@@ -42,7 +47,7 @@ case $var in
         ;;
         *)
 			sleep 0.5
-			bash -c "$var" &>>$temp/$bash_output
+			bash -c "$var" &>>$bash_temp/$bash_output
         ;;
     esac
 done

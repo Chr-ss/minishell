@@ -262,18 +262,18 @@ ms_temp=temp_mini
 ms_output=ms_output.tmp
 ms_inm=ms_inmp.tmp
 ms_filter=ms_filter.tmp
-ctrlc=$(find . -name ctrlc.sh)
-ctrld=$(find . -name ctrld.sh)
-test_bh=$(find . -name test_bh.sh)
-test_ms=$(find . -name test_ms.sh)
+ctrlc=./util/ctrlc.sh
+ctrld=./util/ctrld.sh
+test_bh=./util/test_bh.sh
+test_ms=./util/test_ms.sh
 minishell=$(find ../../../ -type f -name minishell)
 minishelldir=$(find ../../../ -type d -name minishell)
 rm -rf logs
 mkdir -p logs
-# rm -rf $bash_temp
-# mkdir -p $bash_temp
-# rm -rf $ms_temp
-# mkdir -p $ms_temp
+rm -rf $bash_temp
+mkdir -p $bash_temp
+rm -rf $ms_temp
+mkdir -p $ms_temp
 
 #export variables used in other scripts
 export bash_output
@@ -284,17 +284,23 @@ export ms_inm
 export ms_filter
 export bash_temp
 export ms_temp
+export ctrlc
+export ctrld
+export minishell
 
 #prepare minishell
 make -C $minishelldir re
 
 #prepare ydotool
-ydotooldir=$(find ../../  -type d -name ydotool -not -path "../../.git/*")
+ydotooldir=../ydotool
+rm -rf $ydotooldir/build
 mkdir -p $ydotooldir/build
 (cd $ydotooldir/build && cmake ..)
 (cd $ydotooldir/build && make -j `nproc`)
 (cd $ydotooldir/build && ./ydotoold) &
 ydotool=$ydotooldir/build/ydotool
+
+export ydotool
 
 #truncate logs
 truncate -s 0 $LOG_DIR/$MS_LOG
@@ -333,8 +339,11 @@ test()
 {
 bash $test_bh "$@" &
 bash -c "bash -i &>>$bash_temp/$bash_output"
+sleep 1
 bash $test_ms "$@" &
-bash -c "$minishell &>>$ms_temp/$ms_output"
+bash -c "bash -i &>>$ms_temp/$ms_output"
+sleep 1
+# bash -c "$minishell &>>$ms_temp/$ms_output"
 }
 
 check_result_multiple_files ()
@@ -343,7 +352,7 @@ ARG=$1
 for var in "${@:2}"
 do
 echo $bash_temp/$var
-echo $mini_temp/$var
+echo $ms_temp/$var
 diff $bash_temp/$var $ms_temp/$var &>> $LOG_DIR/$MS_LOG
 dstatus=$?
 if [ $dstatus != 0 ];
@@ -382,9 +391,9 @@ echo -e "${BLU}----------------------------------
 |           interactive           |
 ----------------------------------${RESET}"
 
-# test "ctrl+c" "ctrl+c" "ctrl+c" "echo lol" "ctrl+d"
-check_result_multiple_files 1 "temp1" "temp2"
-# check_result 1
+test "ctrl+c" "ctrl+c" "ctrl+c" "echo lol" "ctrl+d"
+# check_result_multiple_files 1 "temp1" "temp2"
+check_result 1
 # check_result 2
 # check_result 3
 # check_result "lol test"

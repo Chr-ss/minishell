@@ -1,8 +1,5 @@
 #!/bin/bash
 
-ydotooldir=$(find ../../  -type d -name ydotool -not -path "../../.git/*")
-ydotool=$ydotooldir/build/ydotool
-
 sleep 1
 x=1
 while [ $x -le $1 ]

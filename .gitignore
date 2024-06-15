@@ -67,3 +67,4 @@ logs
 *.iso
 vagrant
 linux_install
+!temprestart.conf
