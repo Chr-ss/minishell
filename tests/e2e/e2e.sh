@@ -366,8 +366,6 @@ check_result_multiple_files ()
 ARG=$1
 for var in "${@:2}"
 do
-echo $bash_temp/$var
-echo $ms_temp/$var
 diff $bash_temp/$var $ms_temp/$var &>> $LOG_DIR/$MS_LOG
 dstatus=$?
 if [ $dstatus != 0 ];
@@ -406,9 +404,11 @@ echo -e "${BLU}----------------------------------
 |           interactive           |
 ----------------------------------${RESET}"
 
-test "ctrl+c" "ctrl+c" "ctrl+c" "echo lol" "ctrl+d"
-# check_result_multiple_files 1 "temp1" "temp2"
-check_result 1
+test "echo lol > temp1 > temp2" "ctrl+c" "ctrl+d"
+check_result_multiple_files 1 "temp1" "temp2"
+remove_temp_files
+test "ctrl+c" "ctrl+c" "ctrl+c" "ctrl+d"
+check_result 2
 # check_result 2
 # check_result 3
 # check_result "lol test"

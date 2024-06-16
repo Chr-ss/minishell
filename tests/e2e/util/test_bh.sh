@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#TODO
+#make this plus test_ms one file
 bash_temp=temp_bash
 bash_output=bh_output.tmp
 bash_inm=bh_inmp.tmp
@@ -12,9 +14,9 @@ ms_filter=ms_filter.tmp
 
 filter()
 {
-awk '{print $NF}' $bash_temp/$bash_output >> $bash_temp/$bash_inm
-sed -i 's/\x1b\[?2004h//g; s/\x1b\[?2004l//g; s/minishell:~//g' $bash_temp/$bash_inm 
-tr -cd '[:print:]' < $bash_temp/$bash_inm >> $bash_temp/$bash_filter
+awk '{print $NF}' 2> /dev/null $bash_temp/$bash_output >> $bash_temp/$bash_inm 
+sed -i 's/\x1b\[?2004h//g; s/\x1b\[?2004l//g; s/minishell:~//g' 2> /dev/null $bash_temp/$bash_inm 
+tr -cd '[:print:]' 2> /dev/null < $bash_temp/$bash_inm >> $bash_temp/$bash_filter 
 }
 
 ctrlc()
@@ -35,7 +37,6 @@ bash $cmmd $1
 mstatus=$?
 }
 
-sleep 1
 for var in "$@"
 do
 case $var in
@@ -46,8 +47,14 @@ case $var in
             ctrlc
         ;;
         *)
-			sleep 0.5
-			bash -c "$var" &>>$bash_temp/$bash_output
+			sleep 0.001
+			if [[ "$var" == *"temp"* ]]; then
+			mkdir -p $bash_temp
+  			modified_var=$(echo $var | sed 's/temp/temp_bash\/temp/g')
+			bash -c "$modified_var"
+			else
+  			bash -c "$var" &>>$bash_temp/$bash_output
+			fi
         ;;
     esac
 done
