@@ -249,7 +249,7 @@ CYN="\x1B[36m"
 BCYN="\x1B[1;36m"
 WHT="\x1B[37m"
 RESET="\x1B[0m"
-LINEP="\033[25G"
+LINEP="\033[40G"
 FAIL=false
 LOG_DIR=logs/
 MS_LOG=ms.log
@@ -348,7 +348,7 @@ if [ $dstatus == 0 ];
 	then 
 	printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
 	else
-	printf "${BMAG}${ARG}${LINEP}${RED}FAIL ${RESET}";
+	printf "${BMAG}${ARG}${LINEP}${RED}FAIL \n${RESET}";
 fi
 }
 
@@ -361,7 +361,7 @@ bash -c "bash -i &>>$ms_temp/$ms_output"
 # bash -c "$minishell &>>$ms_temp/$ms_output"
 }
 
-check_result_multiple_files ()
+check_multiple_files ()
 {
 ARG=$1
 for var in "${@:2}"
@@ -370,11 +370,34 @@ diff $bash_temp/$var $ms_temp/$var &>> $LOG_DIR/$MS_LOG
 dstatus=$?
 if [ $dstatus != 0 ];
 	then 
-	printf "${BMAG}${ARG}:file:$var${LINEP}${RED}FAIL ${RESET}";
+	printf "${BMAG}${ARG}:file:$var${LINEP}${RED}FAIL \n${RESET}";
 	return
 fi
 done
 	printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
+}
+
+check_result_multiple_files ()
+{
+diff $bash_temp/$bash_filter $ms_temp/$ms_filter &>> $LOG_DIR/$MS_LOG
+rstatus=$?
+ARG=$1
+if [ $rstatus != 0 ];
+	then 
+	printf "${BMAG}${ARG}:file:$bash_filter:$ms_filter${LINEP}${RED}FAIL \n${RESET}";
+	return
+fi
+for var in "${@:2}"
+do
+diff $bash_temp/$var $ms_temp/$var &>> $LOG_DIR/$MS_LOG
+mstatus=$?
+if [ $mstatus != 0 ];
+	then 
+	printf "${BMAG}${ARG}:file:$var${LINEP}${RED}FAIL \n${RESET}";
+	return
+fi
+done
+printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
 }
 
 
