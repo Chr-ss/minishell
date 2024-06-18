@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: crasche <crasche@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/13 14:22:29 by crasche       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
+/*   Updated: 2024/06/18 15:35:35 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,20 @@ typedef struct s_msdata
 //[Error]
 // if initialization goes wrong then exits with failure exit code
 void	init_signal();
+
+// BUILT-INS:
+
+//[Description]
+//This function is the built-in for cd
+//[Parameters]
+// char **args
+// char **envp
+//[Return]
+//Function successful or not succesful operation based on int
+// 0 == succesful operation
+//[Error]
+// 1 == unsuccesful operation
+int cd (t_msdata *data);
 
 // FUNCTIONS:
 void	ms_readline(t_msdata *data);
