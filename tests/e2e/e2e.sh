@@ -188,38 +188,37 @@ fi
 #check no flags
 if [[ $unit == 0 && $component == 0 && $integration == 0 && $e2e == 0 ]];
 then 
-echo lol
 usage_fatal "not all '-n*, --no-*' flags can be selected at the same time"
 exit 1
 fi
 
 #check dependencies
-if [[ $check == 1 ]];
-then 
-command -v VBoxManage
-vbox=$?
-if [[ $vbox == 0 ]];
-then 
-echo VBoxManage Installed
-else
-echo VBoxManage Not Installed
-cstatus=1
-fi
-command -v dotool
-do=$?
-if [ $do == 0 ]; 
-then 
-echo dotool Installed
-else
-echo dotool Not Installed
-cstatus=1
-fi
-if [ $cstatus == 1 ];
-then 
-exit 1
-fi
-exit 0
-fi
+# if [[ $check == 1 ]];
+# then 
+# command -v VBoxManage
+# vbox=$?
+# if [[ $vbox == 0 ]];
+# then 
+# echo VBoxManage Installed
+# else
+# echo VBoxManage Not Installed
+# cstatus=1
+# fi
+# command -v dotool
+# do=$?
+# if [ $do == 0 ]; 
+# then 
+# echo dotool Installed
+# else
+# echo dotool Not Installed
+# cstatus=1
+# fi
+# if [ $cstatus == 1 ];
+# then 
+# exit 1
+# fi
+# exit 0
+# fi
 
 # Reference: https://github.com/aeruder/expect/blob/master/INSTALL
 # Reference: https://gabrielstaples.com/ydotool-tutorial/#gsc.tab=0
@@ -267,14 +266,21 @@ ctrlc=./util/ctrlc.sh
 ctrld=./util/ctrld.sh
 test_bh=./util/test_bh.sh
 test_ms=./util/test_ms.sh
+bash_outfiles=./outfiles
+mini_outfiles=./mini_outfiles
 minishell=$(find ../../../ -type f -name minishell)
 minishelldir=$(find ../../../ -type d -name minishell)
+cases="./cases"
 rm -rf logs
 mkdir -p logs
 rm -rf $bash_temp
 mkdir -p $bash_temp
 rm -rf $ms_temp
 mkdir -p $ms_temp
+rm -rf $bash_outfiles
+mkdir -p $bash_outfiles
+rm -rf $mini_outfiles
+mkdir -p $mini_outfiles
 
 #export variables used in other scripts
 export bash_output
@@ -292,47 +298,37 @@ export minishell
 #prepare minishell
 make -C $minishelldir re
 
-#prepare dotool
-dpkg -l | grep libxkbcommon-dev
-xkb=$?
-if [ $xkb != 0 ]; 
-then
-sudo apt install -y libxkbcommon-dev
-fi
-dpkg -l | grep scdoc
-sc=$?
-if [ $sc != 0 ]; 
-then
-sudo apt install -y scdoc
-fi
-dpkg -l | grep golang-go
-go=$?
-if [ $go != 0 ]; 
-then
-sudo apt install -y golang-go
-fi
-command -v dotool
-do=$?
-if [ $do != 0 ]; 
-then
-(cd dotool && ./build.sh && sudo ./build.sh install)
-(cd dotool && sudo udevadm control --reload && sudo udevadm trigger)
-fi
+# #prepare dotool
+# dpkg -l | grep libxkbcommon-dev
+# xkb=$?
+# if [ $xkb != 0 ]; 
+# then
+# sudo apt install -y libxkbcommon-dev
+# fi
+# dpkg -l | grep scdoc
+# sc=$?
+# if [ $sc != 0 ]; 
+# then
+# sudo apt install -y scdoc
+# fi
+# dpkg -l | grep golang-go
+# go=$?
+# if [ $go != 0 ]; 
+# then
+# sudo apt install -y golang-go
+# fi
+# command -v dotool
+# do=$?
+# if [ $do != 0 ]; 
+# then
+# (cd dotool && ./build.sh && sudo ./build.sh install)
+# (cd dotool && sudo udevadm control --reload && sudo udevadm trigger)
+# fi
 
 #truncate logs
 truncate -s 0 $LOG_DIR/$MS_LOG
 
 #FUNCTIONS
-truncate_temp()
-{
-truncate -s 0 $bash_temp/$bash_output
-truncate -s 0 $bash_temp/$bash_inm
-truncate -s 0 $bash_temp/$bash_filter
-truncate -s 0 $ms_temp/$ms_output
-truncate -s 0 $ms_temp/$ms_inm
-truncate -s 0 $ms_temp/$ms_filter
-}
-
 remove_temp_files()
 {
 	rm -rf $bash_temp/*
@@ -358,7 +354,6 @@ bash $test_bh "$@" &
 bash -c "bash -i &>>$bash_temp/$bash_output"
 bash $test_ms "$@" &
 bash -c "bash -i &>>$ms_temp/$ms_output"
-# bash -c "$minishell &>>$ms_temp/$ms_output"
 }
 
 check_multiple_files ()
@@ -427,18 +422,61 @@ echo -e "${BLU}----------------------------------
 |           interactive           |
 ----------------------------------${RESET}"
 
-test "echo lol > temp1 > temp2" "ctrl+c" "ctrl+d"
-check_result_multiple_files 1 "temp1" "temp2"
-remove_temp_files
-test "ctrl+c" "ctrl+c" "ctrl+c" "ctrl+d"
-check_result 2
-# check_result 2
-# check_result 3
-# check_result "lol test"
-# #memory test
-# timeout --preserve-status 5s bash -c "valgrind --error-exitcode=42 --tool=memcheck --leak-check=full --show-reachable=yes --errors-for-leak-kinds=all bash -i &>output"
-# mstatus=$?
-# echo $mstatus
+# simplify like this
+# https://github.com/LucasKuhn/minishell_tester
+
+
+for case in "$cases"/*; do
+echo $case
+while IFS= read -r line; do
+	rm -rf ./outfiles/*
+	rm -rf ./mini_outfiles/*
+	MINI_OUTPUT=$(echo -e "$line" | bash 2> /dev/null)
+	MINI_EXIT_CODE=$(echo $?)
+	MINI_OUTFILES=$(cp ./outfiles/* ./mini_outfiles &>/dev/null)
+	# MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 > /dev/null | grep -o '[^:]*$' )
+
+	rm -rf ./outfiles/*
+	rm -rf ./bash_outfiles/*
+	BASH_OUTPUT=$(echo -e "$line" | bash 2> /dev/null)
+	BASH_EXIT_CODE=$(echo $?)
+	BASH_OUTFILES=$(cp ./outfiles/* ./bash_outfiles &>/dev/null)
+	# BASH_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 > /dev/null | grep -o '[^:]*$' | head -n1)
+
+	if [[ "$MINI_OUTPUT" == "$BASH_OUTPUT" && "$MINI_EXIT_CODE" == "$BASH_EXIT_CODE" && -z "$OUTFILES_DIFF" ]]; then
+		printf ✅
+		((ok++))
+		if [ "$MINI_ERROR_MSG" != "$BASH_ERROR_MSG" ]; then
+			printf "⚠️ "
+		fi
+	else
+		printf ❌
+	fi
+	printf "$GREY $teste \n$END"
+	if [ "$OUTFILES_DIFF" ]; then
+		echo "$OUTFILES_DIFF"
+		echo mini outfiles:
+		cat ./mini_outfiles/*
+		echo bash outfiles:
+		cat ./bash_outfiles/*
+	fi
+	if [ "$MINI_OUTPUT" != "$BASH_OUTPUT" ]; then
+		echo mini output = \($MINI_OUTPUT\)
+		echo bash output = \($BASH_OUTPUT\)
+	fi
+	if [ "$MINI_EXIT_CODE" != "$BASH_EXIT_CODE" ]; then
+		echo mini exit code = $MINI_EXIT_CODE
+		echo bash exit code = $BASH_EXIT_CODE
+	fi
+	if [ "$MINI_ERROR_MSG" != "$BASH_ERROR_MSG" ]; then
+		echo mini error = \($MINI_ERROR_MSG\)
+		echo bash error = \($BASH_ERROR_MSG\)
+	fi
+done < $case
+done
+
+
+
 
 # echo -e "input test"
 
