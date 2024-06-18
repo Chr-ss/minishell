@@ -23,6 +23,8 @@
 
 # include <signal.h>
 
+# include <fcntl.h>
+
 # include "../libft/include/libft.h"
 # include "token.h"
 # include "expansion.h"
@@ -35,13 +37,12 @@
 
 typedef struct s_cmd
 {
-	char			*cmd;
-	char			**argv;
-	char			*in;
-	char			**out;
-	struct s_cmd	*pipe;
-	char			**heredoc;
-	bool			append;
+	char			*cmd;		// can be used for execution 
+	char			**argv;		// can be used for execution 
+	char			**heredoc;	// heredoc delimiters (write heredocs into tempfile and transfer fd to infd??)
+	struct s_cmd	*pipe;		// if NULL no more pipe
+	int				infd;		// if -1 do not execute cmd | if 0 no change
+	int				outfd;		// if -1 do not execute cmd | if 0 no change
 }	t_cmd;
 
 typedef struct s_msdata
@@ -100,7 +101,7 @@ char	*ms_expand(t_msdata *data);
 
 // SORT THIS LATER
 void	ms_token_to_strarr(t_msdata *data, char **strarr, t_token token);
-void ms_clear_append(t_cmd *cmd);
+// void ms_clear_append(t_cmd *cmd);
 void	ms_init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_token token, int *pos));
 t_token ms_token_to_cmd(t_msdata *data, t_token token, int *pos);
 t_token ms_type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
@@ -123,5 +124,7 @@ int ms_strarr_size(char **strarr);
 void	temp_print_tokens(t_msdata *data, char *line);
 t_token	ms_tokenizer(char *line);
 int	ft_isbashtoken(int c);
+
+void	ms_openfile(t_cmd *cmd, t_token token, int open_flag, int *fd);
 
 #endif	// MINISHELL_H
