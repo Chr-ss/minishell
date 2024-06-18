@@ -14,7 +14,7 @@
 
 int	ms_skipspace(char *str, int pos)
 {
-	pos++;
+	// pos++;
 	while (str && str[pos] && ft_isspace(str[pos]))
 		pos++;
 	return (pos);
