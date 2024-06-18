@@ -34,17 +34,17 @@ void	ms_unexpected_token(t_msdata *data, t_token token)
 	ms_error("");
 }
 
-void	ms_clear_append(t_cmd *cmd)
-{
-	int	i;
+// void	ms_clear_append(t_cmd *cmd)
+// {
+// 	int	i;
 
-	i = 0;
-	cmd->append = false;
-	while (cmd->out && cmd->out[i] && cmd->out[i + 1])
-		i++;
-	free(cmd->out[i]);
-	cmd->out[i] = NULL;
-}
+// 	i = 0;
+// 	cmd->append = false;
+// 	while (cmd->out && cmd->out[i] && cmd->out[i + 1])
+// 		i++;
+// 	free(cmd->out[i]);
+// 	cmd->out[i] = NULL;
+// }
 
 void	ms_init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_token token, int *pos))
 {
