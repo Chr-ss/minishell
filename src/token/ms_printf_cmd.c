@@ -20,25 +20,18 @@ void	printf_cmd(t_cmd *cmd)
 	printf("\n\t ## CMD ## \n");
 	while (cmd)
 	{
-		if (cmd->cmd)
-			printf("CMD:%s\n", cmd->cmd);
+		printf("CMD:%s\n", cmd->cmd);
 		i = 0;
 		while (cmd->argv && cmd->argv[i])
 		{
 			printf("ARGV[%d]:%s\n", i, cmd->argv[i]);
 			i++;
 		}
-		if (cmd->in)
-			printf("INFILE:%s\n", cmd->in);
-		i = 0;
-		while (cmd->out && cmd->out[i])
-		{
-			printf("OUT[%d]:%s\n", i, cmd->out[i]);
-			i++;
-		}
-		if (cmd->append)
-			printf("APPEND:%d\n", cmd->append);
+		// if (cmd->infd)
+		printf("INFILE:%d\n", cmd->infd);
+		printf("OUTFILE:%d\n", cmd->outfd);
 		cmd = cmd->pipe;
+		printf("\n\n");
 	}
 	printf("\n\n");
 }

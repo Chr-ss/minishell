@@ -58,11 +58,12 @@ t_token	ms_type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos
 		ms_unexpected_token(data, infile);
 	else
 	{
-		if (cmd->in)
-			free(cmd->in);
-		cmd->in = ft_strndup(infile.start, infile.length);
-		if (!cmd->in)
-			ms_error("ms_type_handler_rein: malloc error.");
+		ms_openfile(cmd, infile, O_TRUNC, &cmd->infd);
+		// if (cmd->in)
+		// 	free(cmd->in);
+		// cmd->in = ft_strndup(infile.start, infile.length);
+		// if (!cmd->in)
+		// 	ms_error("ms_type_handler_rein: malloc error.");
 	}
 	return (infile);
 }
@@ -71,7 +72,7 @@ t_token	ms_type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *po
 {
 	printf("ms_type_handler_reout: Token REOUT\n");
 	t_token	outfile;
-	int		outarr_size;
+	// int		outarr_size;
 
 	*pos += token.length;
 	*pos = ms_skipspace(&(data->line[*pos]), *pos);
@@ -81,11 +82,12 @@ t_token	ms_type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *po
 		ms_unexpected_token(data, outfile);
 	else
 	{
-		if (cmd->append && cmd->out)
-			ms_clear_append(cmd);
-		outarr_size = ms_strarr_size(cmd->out);
-		cmd->out = ms_extend_strarr(cmd, cmd->out, outarr_size);
-		ms_token_to_strarr(data, cmd->out, outfile);
+		ms_openfile(cmd, outfile, O_TRUNC, &cmd->outfd);
+		// if (cmd->append && cmd->out)
+		// 	ms_clear_append(cmd);
+		// outarr_size = ms_strarr_size(cmd->out);
+		// cmd->out = ms_extend_strarr(cmd, cmd->out, outarr_size);
+		// ms_token_to_strarr(data, cmd->out, outfile);
 	}
 	return (outfile);
 }
@@ -94,7 +96,7 @@ t_token	ms_type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *p
 {
 	printf("ms_type_handler_append: Token APPEND\n");
 	t_token	append;
-	int		outarr_size;
+	// int		outarr_size;
 
 	*pos += token.length;
 	*pos = ms_skipspace(&(data->line[*pos]), *pos);
@@ -104,12 +106,13 @@ t_token	ms_type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *p
 		ms_unexpected_token(data, append);
 	else
 	{
-		if (cmd->append && cmd->out)
-			ms_clear_append(cmd);
-		outarr_size = ms_strarr_size(cmd->out);
-		cmd->out = ms_extend_strarr(cmd, cmd->out, outarr_size);
-		ms_token_to_strarr(data, cmd->out, append);
-		cmd->append = true;
+		ms_openfile(cmd, append, O_APPEND, &cmd->outfd);
+		// if (cmd->append && cmd->out)
+		// 	ms_clear_append(cmd);
+		// outarr_size = ms_strarr_size(cmd->out);
+		// cmd->out = ms_extend_strarr(cmd, cmd->out, outarr_size);
+		// ms_token_to_strarr(data, cmd->out, append);
+		// cmd->append = true;
 	}
 	return (append);
 }
