@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/12 16:38:44 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/20 17:30:53 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_token	ms_type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos
 	t_token	infile;
 
 	*pos += token.length;
-	*pos = ms_skipspace(&(data->line[*pos]), *pos);
+	*pos = ms_skipspace(data->line, *pos);
 	token.length = 0;
 	infile = ms_tokenizer(&(data->line[*pos]));
 	if (infile.type != TOKEN_WORD)
@@ -75,7 +75,7 @@ t_token	ms_type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *po
 	// int		outarr_size;
 
 	*pos += token.length;
-	*pos = ms_skipspace(&(data->line[*pos]), *pos);
+	*pos = ms_skipspace(data->line, *pos);
 	token.length = 0;
 	outfile = ms_tokenizer(&(data->line[*pos]));
 	if (outfile.type != TOKEN_WORD)
@@ -99,7 +99,7 @@ t_token	ms_type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *p
 	// int		outarr_size;
 
 	*pos += token.length;
-	*pos = ms_skipspace(&(data->line[*pos]), *pos);
+	*pos = ms_skipspace(data->line, *pos);
 	token.length = 0;
 	append = ms_tokenizer(&(data->line[*pos]));
 	if (append.type != TOKEN_WORD)
@@ -123,7 +123,7 @@ t_token	ms_type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token token, int *
 	t_token	heredoc;
 
 	*pos += token.length;
-	*pos = ms_skipspace(&(data->line[*pos]), *pos);
+	*pos = ms_skipspace(data->line, *pos);
 	token.length = 0;
 	heredoc = ms_tokenizer(&(data->line[*pos]));
 	if (heredoc.type != TOKEN_WORD)
