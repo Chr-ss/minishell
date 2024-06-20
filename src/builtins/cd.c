@@ -62,47 +62,87 @@ char *get_envp(t_msdata *data, char *envp)
 	path = NULL;
 	index = get_envp_index(envp, data->envp);
 	if (index == -1)
-		perror(" cd: HOME not set");
+		ft_printf(" %s not set\n", envp);
 	else
 		path = get_envp_value(data->envp[index]);
+	if (path != NULL)
+	{
+		path = ft_strdup(path);
+		if (path == NULL)
+			return (NULL);
+	}
 	return (path);
 }
 
-//psd == dot + slash + operand
-char *cd_parse_cdpath_dso(char *cdpath, char *operand);
+//check dir function
+int	check_dir(char *dirname)
+{
+	DIR*	dir;
 
-//psd == pathname + slash + operand
-char *cd_parse_cdpath_pso(char *cdpath, char *operand)
+	dir = opendir(dirname);
+	if (dir) 
+	{
+		closedir(dir);
+		return (EXIT_SUCCESS);
+	}
+	else if (ENOENT == errno) 
+		return (EXIT_FAILURE);
+	else
+		return (-1);
+}
+
+//psd == dot + slash + operand {./OPERAND}
+char *cd_parse_dso(char *operand)
+{
+	char	*concat;
+	int		dir_check;
+
+	dir_check = 0;
+	concat = ft_strjoin("./", operand);
+	dir_check = check_dir(concat);
+	if (dir_check == EXIT_FAILURE)
+		return (NULL);
+	else if (dir_check == EXIT_SUCCESS)
+		return (concat);
+	else
+		return (NULL);
+	return (NULL);
+}
+
+//psd == pathname + slash + operand {CDPATH/OPERAND}
+char *cd_parse_pso(char *cdpath, char *operand)
 {
 	char	**sp_cdpath;
 	int		index;
-	DIR*	dir;
 	char	*dirname;
+	int		dir_check;
 
+	dir_check = 0;
 	index = 0;
+	if(cdpath == NULL)
+		return (NULL);
 	sp_cdpath = ft_split(cdpath, ':');
 	if (sp_cdpath == NULL)
 		return (NULL);
 	while (sp_cdpath[index] != NULL)
 	{
+		dirname = sp_cdpath[index];
 		if (sp_cdpath[index][ft_strlen(sp_cdpath[index]) - 1] != '/')
 		{
 			dirname = ft_strjoin(sp_cdpath[index], "/");
-			dirname = ft_strjoin(dir, operand);
+			dirname = ft_strjoin(dirname, operand);
 		}
 		if (!dirname)
 			return (NULL);
-		dir = opendir(dirname);
-		if (dir) 
-		{
-			closedir(dir);
-			return (dirname);
-		}
-		else if (ENOENT == errno) 
+		dir_check = check_dir(dirname);
+		if (dir_check == 0) 
 			index ++;
-		else 
+		else if (dir_check == 1)
+			return (dirname);
+		else
 			return (NULL);
 	}
+	return(NULL);
 }
 
 char *cd_parse(t_msdata *data)
@@ -117,36 +157,37 @@ char *cd_parse(t_msdata *data)
 	else if (operand[0] == '.' || !ft_strncmp(operand, "..", 2))
 		return (data->argv[1]);
 	else
-	{
-		cdpath = cd_parse_cdpath_pso(get_envp(data, "CDPATH"), data->argv[1]);
-		if (cdpath == NULL)
-			cdpath = cd_parse_cdpath_dso(get_envp(data, "CDPATH"), data->argv[1]);
-		return (cdpath);
-	}
+		cdpath = cd_parse_pso(get_envp(data, "CDPATH"), data->argv[1]);
+	if (cdpath == NULL)
+		cdpath = cd_parse_dso(data->argv[1]);
+	return (cdpath);
 }
-//TODO test .:~/projects/core_projects/minishell/src with a directory at that path location while calling cd in another directory
+//TODO test CDPATH=.:~/projects/core_projects/minishell/src with a directory at that path location while calling cd in another directory
 
 // change dir to be malloced always
 int cd (t_msdata *data)
 {
-	char * dir;
-	// char cwd[PATH_MAX];
+	char	*dir;
+	char	cwd[PATH_MAX];
+	int		arglen;
 
 	dir = NULL;
-	ft_printf("%d\n", double_array_len(data->argv));
-	if (double_array_len(data->argv) == 1)
+	arglen = double_array_len(data->argv); 
+	ft_printf("%d\n", arglen);
+	if (arglen == 1)
 		dir = get_envp(data, "HOME");
-	else if (double_array_len(data->argv) > 2)
+	else if (arglen > 2)
 		exit(EXIT_FAILURE);
 	else
 		dir = cd_parse(data);
+	ft_printf("here\n");
 	ft_printf("%s\n", dir);
 	if (dir == NULL)
 		exit(EXIT_FAILURE);
+	chdir(dir);
+	getcwd(cwd, sizeof(cwd));
+	ft_printf("%s\n", cwd);
+	free(dir);
 	exit(EXIT_SUCCESS);
-	// chdir(dir);
-	// getcwd(cwd, sizeof(cwd));
-	// ft_printf("%s\n", cwd);
-	// exit(EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }
