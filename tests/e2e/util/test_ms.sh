@@ -1,15 +1,21 @@
 #!/bin/bash
 
-temp=$(find ../../../ -type d -name $ms_temp)
-ctrlc=$(find . -name ctrlc.sh)
-ctrld=$(find . -name ctrld.sh)
-minishell=$(find ../../../ -type f -name minishell)
+#TODO
+#make this plus test_ms one file
+bash_temp=temp_bash
+bash_output=bh_output.tmp
+bash_inm=bh_inmp.tmp
+bash_filter=bh_filter.tmp
+ms_temp=temp_mini
+ms_output=ms_output.tmp
+ms_inm=ms_inmp.tmp
+ms_filter=ms_filter.tmp
 
 filter()
 {
-awk '{print $NF}' $temp/$ms_output >> $temp/$ms_inm
-sed -i 's/\x1b\[?2004h//g; s/\x1b\[?2004l//g; s/minishell:~//g' $temp/$ms_inm 
-tr -cd '[:print:]' < $temp/$ms_inm >> $temp/$ms_filter
+awk '{print $NF}' 2> /dev/null $ms_temp/$ms_output >> $ms_temp/$ms_inm
+sed -i 's/\x1b\[?2004h//g; s/\x1b\[?2004l//g; s/minishell:~//g' 2> /dev/null $ms_temp/$ms_inm 
+tr -cd '[:print:]' 2> /dev/null < $ms_temp/$ms_inm >> $ms_temp/$ms_filter
 }
 
 ctrlc()
@@ -30,7 +36,6 @@ bash $cmmd $1
 mstatus=$?
 }
 
-sleep 1
 for var in "$@"
 do
 case $var in
@@ -41,8 +46,14 @@ case $var in
             ctrlc
         ;;
         *)
-			sleep 0.5
-            bash -c "$var" &>>$temp/$ms_output
+			sleep 0.001
+            if [[ "$var" == *"temp"* ]]; then
+			mkdir -p $ms_temp
+  			modified_var=$(echo $var | sed 's/temp/temp_mini\/temp/g')
+			bash -c "$modified_var"
+			else
+  			bash -c "$var" &>>$ms_temp/$ms_output
+			fi
         ;;
     esac
 done

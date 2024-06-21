@@ -65,7 +65,7 @@ libft/libft.a
 *temp*
 logs
 *.iso
-xorriso-1.5.6
-test_image
-sources-files
-TestMachine
+vagrant
+linux_install
+!temprestart.conf
+*outfiles*
