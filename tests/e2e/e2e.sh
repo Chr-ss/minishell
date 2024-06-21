@@ -279,6 +279,8 @@ minishelldir=$(find ../../../ -type d -name minishell)
 cases="./cases"
 rm -rf $LOG_DIR
 mkdir -p $LOG_DIR
+rm -rf $outfiles
+mkdir -p $outfiles
 rm -rf $bash_outfiles
 mkdir -p $bash_outfiles
 rm -rf $mini_outfiles
@@ -287,9 +289,14 @@ mkdir -p $mini_outfiles
 #prepare minishell
 make -C $minishelldir re
 
-#truncate logs
-truncate -s 0 $LOG_DIR/$MS_LOG
+#add minishell to path
+export PATH=$PATH:$(cd $minishelldir && pwd)
 
+#truncate logs
+if [ -f $MS_LOG ]
+then
+truncate -s 0 $MS_LOG
+fi
 #FUNCTIONS
 if [ $virtual == 1 ]; 
 then
@@ -327,16 +334,16 @@ while IFS= read -r line; do
 	echo -ne "${YEL} $x ${BLU}| ${BMAG}$line ${BLU}|${RESET}"
 	rm -rf $outfiles/*
 	rm -rf $mini_outfiles/*
-	MINI_OUTPUT=$(echo -e "$line" | bash 2>> $MS_LOG)
+	MINI_OUTPUT=$(echo -e "$line" | ./minishell 2>> $MS_LOG)
 	MINI_EXIT_CODE=$(echo $?)
 	MINI_OUTFILES=$(cp $outfiles/* $mini_outfiles &>> $MS_LOG)
-	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 >> $MS_LOG | grep -o '[^:]*$' )
+	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | ./minishell 2>&1 >> $MS_LOG | grep -o '[^:]*$' )
 
 	rm -rf $outfiles/*
 	rm -rf $bash_outfiles/*
 	BASH_OUTPUT=$(echo -e "$line" | bash 2> $MS_LOG)
 	BASH_EXIT_CODE=$(echo $?)
-	BASH_OUTFILES=$(cp $outfiles/* $bash_outfiles &>$MS_LOG)
+	BASH_OUTFILES=$(cp $outfiles/* $bash_outfiles &>>$MS_LOG)
 	BASH_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 >> $MS_LOG | grep -o '[^:]*$' | head -n1)
 
 
