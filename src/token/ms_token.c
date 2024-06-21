@@ -20,6 +20,28 @@ int	ft_isbashtoken(int c)
 	return (0);
 }
 
+int	ms_return_quoted_length(char *line, char quote)
+{
+	int	quoted_len;
+	int	i;
+
+	quoted_len = 0;
+	while (line[quoted_len] && line[quoted_len + 1] && line[quoted_len + 1] != quote)
+	{
+		line[quoted_len] = line[quoted_len + 1];
+		quoted_len++;
+	}
+	i = quoted_len;
+	while (line[i + 2])
+	{
+		line[i] = line[i + 2];
+		i++;
+	}
+	line[i] = '\0';
+	line[i + 1] = '\0';
+	return (quoted_len);
+}
+
 t_token	ms_tokenizer(char *line)
 {
 	t_token	token;
@@ -30,46 +52,63 @@ t_token	ms_tokenizer(char *line)
 	token.length = 1;
 	if (!*token.start)
 	{
-		printf("EOF, ");
 		token.type = TOKEN_EOF;
+		write(1, "EOF, ", 5);
+		write(1, &token.start[0], token.length);
+		write(1, "$\n", 2);
 	}
 	else if (!ft_strncmp(token.start, "|", 1))
 	{
-		printf("PIPE, ");
 		token.type = TOKEN_PIPE;
+		write(1, "PIPE, ", 6);
+		write(1, &token.start[0], token.length);
+		write(1, "$\n", 2);
 	}
 	else if (!ft_strncmp(token.start, "<<", 2))
 	{
-		printf("HEREDOC, ");
 		token.type = TOKEN_HEREDOC;
 		token.length = 2;
+		write(1, "HEREDOC, ", 9);
+		write(1, &token.start[0], token.length);
+		write(1, "$\n", 2);
 	}
 	else if (!ft_strncmp(token.start, "<", 1))
 	{
-		printf("REIN, ");
 		token.type = TOKEN_REIN;
+		write(1, "REIN, ", 6);
+		write(1, &token.start[0], token.length);
+		write(1, "$\n", 2);
 	}
 	else if (!ft_strncmp(token.start, ">>", 2))
 	{
-		printf("APPEND, ");
 		token.type = TOKEN_APPEND;
 		token.length = 2;
+		write(1, "APPEND, ", 8);
+		write(1, &token.start[0], token.length);
+		write(1, "$\n", 2);
 	}
 	else if (!ft_strncmp(token.start, ">", 1))
 	{
-		printf("REOUT, ");
+		write(1, "REOUT, ", 7);
 		token.type = TOKEN_REOUT;
+		write(1, &token.start[0], token.length);
+		write(1, "$\n", 2);
 	}
-	else if (*temp && ft_isprint((int) *temp) && !ft_isbashtoken((int) *temp))
+	else if (token.start && *token.start && ft_isprint((int) *token.start) && !ft_isbashtoken((int) *token.start) && !ft_isspace((int) *token.start))
 	{
-		printf("WORD, ");
 		token.type = TOKEN_WORD;
 		token.length = 0;
-		while (*temp && ft_isprint((int) *temp) && !ft_isbashtoken((int) *temp))
+		while (temp[token.length] && ft_isprint((int) temp[token.length]) && !ft_isbashtoken((int) temp[token.length]) && !ft_isspace((int) temp[token.length]))
 		{
-			temp++;
+			if(temp[token.length] == '\'' || temp[token.length] == '"')
+			{
+				token.length += ms_return_quoted_length(&temp[token.length], temp[token.length]);
+			}
 			token.length++;
 		}
+		write(1, "WORD, ", 6);
+		write(1, &token.start[0], token.length);
+		write(1, "$\n", 2);
 	}
 	else
 		token.type = TOKEN_ERROR;
@@ -84,8 +123,8 @@ void	temp_print_tokens(t_msdata *data, char *line)
 	// data->pos = 0;
 	while (token.type != TOKEN_EOF)
 	{
-		token.start = &line[data->pos];
-		token.length = 0;
+		// token.start = &line[data->pos];
+		// token.length = 0;
 		data->pos = ms_skipspace(line, data->pos);
 		token = ms_tokenizer(&line[data->pos]);
 		// printf("%d, ", token.type);
