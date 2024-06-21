@@ -74,7 +74,6 @@ unit=1
 component=1
 integration=1
 e2e=1
-interactive=0
 set_only=0
 set_only_multiple=0
 
@@ -96,10 +95,6 @@ while [ "$#" -gt 0 ]; do
 		;;
 		-v|--virtual)
 		virtual=1
-		shift 
-		;;
-		-i|--interactive)
-		interactive=1
 		shift 
 		;;
 		-nu|--no-unit)
@@ -154,19 +149,6 @@ while [ "$#" -gt 0 ]; do
 		set_only=1
 		shift 
 		;;
-		-oI|--only-interactive)
-		unit=0
-		component=0
-		integration=0
-		e2e=0
-		interactive=1
-		if [ $set_only == 1 ]
-		then 
-		set_only_multiple=1
-		fi
-		set_only=1
-		shift 
-		;;
 		-oe|--only-e2e)
 		unit=0
 		component=0
@@ -204,31 +186,39 @@ exit 1
 fi
 
 #check no flags
-if [[ $unit == 0 && $component == 0 && $integration == 0 && $e2e == 0 && $interactive == 0 ]];
+if [[ $unit == 0 && $component == 0 && $integration == 0 && $e2e == 0 ]];
 then 
 usage_fatal "not all '-n*, --no-*' flags can be selected at the same time"
 exit 1
 fi
 
 #check dependencies
-if [[ $check == 1 ]];
-then 
-command -v VBoxManage &> /dev/null
-vbox=$?
-if [[ $vbox == 0 ]];
-then 
-echo VBoxManage Installed
-else
-echo VBoxManage Not Installed, needed to run with --virtual option, otherwise not neccessary
-cstatus=1
-fi
-if [[ $cstatus == 1 ]];
-then 
-exit 1
-else
-exit 0
-fi
-fi
+# if [[ $check == 1 ]];
+# then 
+# command -v VBoxManage
+# vbox=$?
+# if [[ $vbox == 0 ]];
+# then 
+# echo VBoxManage Installed
+# else
+# echo VBoxManage Not Installed
+# cstatus=1
+# fi
+# command -v dotool
+# do=$?
+# if [ $do == 0 ]; 
+# then 
+# echo dotool Installed
+# else
+# echo dotool Not Installed
+# cstatus=1
+# fi
+# if [ $cstatus == 1 ];
+# then 
+# exit 1
+# fi
+# exit 0
+# fi
 
 # Reference: https://github.com/aeruder/expect/blob/master/INSTALL
 # Reference: https://gabrielstaples.com/ydotool-tutorial/#gsc.tab=0
@@ -246,7 +236,6 @@ fi
 # Reference: https://stackoverflow.com/questions/30873858/how-to-exit-if-statement-in-bash-without-exiting-program
 # Reference: https://stackoverflow.com/questions/10319652/check-if-a-file-is-executable
 # Reference: https://git.sr.ht/~geb/dotool/tree/master/doc/dotool.1.scd
-# Reference: https://github.com/LucasKuhn/minishell_tester
 
 #initialize variables
 RED="\x1B[31m"
@@ -261,43 +250,151 @@ WHT="\x1B[37m"
 RESET="\x1B[0m"
 LINEP="\033[40G"
 FAIL=false
-ERROR_FAIL=false
-OUTPUT_FAIL=false
-EXIT_FAIL=false
-OUTFILES_FAIL=false
-LOG_DIR=logs
-MS_LOG=$LOG_DIR/ms.log
-ERROR_LOG=$LOG_DIR/error_message.log
-OUTPUT_LOG=$LOG_DIR/output_diff.log
-EXIT_LOG=$LOG_DIR/exit_code.log
-OUTFILES_LOG=$LOG_DIR/outfiles_diff.log
-outfiles=./outfiles
-bash_outfiles=./bash_outfiles
+LOG_DIR=logs/
+MS_LOG=ms.log
+ESC=ESC
+CLOSE=CLOSE
+bash_temp=temp_bash
+bash_output=bh_output.tmp
+bash_inm=bh_inmp.tmp
+bash_filter=bh_filter.tmp
+ms_temp=temp_mini
+ms_output=ms_output.tmp
+ms_inm=ms_inmp.tmp
+ms_filter=ms_filter.tmp
+ctrlc=./util/ctrlc.sh
+ctrld=./util/ctrld.sh
+test_bh=./util/test_bh.sh
+test_ms=./util/test_ms.sh
+bash_outfiles=./outfiles
 mini_outfiles=./mini_outfiles
 minishell=$(find ../../../ -type f -name minishell)
 minishelldir=$(find ../../../ -type d -name minishell)
 cases="./cases"
-rm -rf $LOG_DIR
-mkdir -p $LOG_DIR
-rm -rf $outfiles
-mkdir -p $outfiles
+rm -rf logs
+mkdir -p logs
+rm -rf $bash_temp
+mkdir -p $bash_temp
+rm -rf $ms_temp
+mkdir -p $ms_temp
 rm -rf $bash_outfiles
 mkdir -p $bash_outfiles
 rm -rf $mini_outfiles
 mkdir -p $mini_outfiles
 
+#export variables used in other scripts
+export bash_output
+export bash_inm
+export bash_filter
+export ms_output
+export ms_inm
+export ms_filter
+export bash_temp
+export ms_temp
+export ctrlc
+export ctrld
+export minishell
+
 #prepare minishell
 make -C $minishelldir re
 
-#add minishell to path
-export PATH=$PATH:$(cd $minishelldir && pwd)
+# #prepare dotool
+# dpkg -l | grep libxkbcommon-dev
+# xkb=$?
+# if [ $xkb != 0 ]; 
+# then
+# sudo apt install -y libxkbcommon-dev
+# fi
+# dpkg -l | grep scdoc
+# sc=$?
+# if [ $sc != 0 ]; 
+# then
+# sudo apt install -y scdoc
+# fi
+# dpkg -l | grep golang-go
+# go=$?
+# if [ $go != 0 ]; 
+# then
+# sudo apt install -y golang-go
+# fi
+# command -v dotool
+# do=$?
+# if [ $do != 0 ]; 
+# then
+# (cd dotool && ./build.sh && sudo ./build.sh install)
+# (cd dotool && sudo udevadm control --reload && sudo udevadm trigger)
+# fi
 
 #truncate logs
-if [ -f $MS_LOG ]
-then
-truncate -s 0 $MS_LOG
-fi
+truncate -s 0 $LOG_DIR/$MS_LOG
+
 #FUNCTIONS
+remove_temp_files()
+{
+	rm -rf $bash_temp/*
+	rm -rf $ms_temp/*
+}
+
+check_result()
+{
+diff $bash_temp/$bash_filter $ms_temp/$ms_filter &>> $LOG_DIR/$MS_LOG
+dstatus=$?
+ARG=$1
+if [ $dstatus == 0 ];
+	then 
+	printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
+	else
+	printf "${BMAG}${ARG}${LINEP}${RED}FAIL \n${RESET}";
+fi
+}
+
+test()
+{
+bash $test_bh "$@" &
+bash -c "bash -i &>>$bash_temp/$bash_output"
+bash $test_ms "$@" &
+bash -c "bash -i &>>$ms_temp/$ms_output"
+}
+
+check_multiple_files ()
+{
+ARG=$1
+for var in "${@:2}"
+do
+diff $bash_temp/$var $ms_temp/$var &>> $LOG_DIR/$MS_LOG
+dstatus=$?
+if [ $dstatus != 0 ];
+	then 
+	printf "${BMAG}${ARG}:file:$var${LINEP}${RED}FAIL \n${RESET}";
+	return
+fi
+done
+	printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
+}
+
+check_result_multiple_files ()
+{
+diff $bash_temp/$bash_filter $ms_temp/$ms_filter &>> $LOG_DIR/$MS_LOG
+rstatus=$?
+ARG=$1
+if [ $rstatus != 0 ];
+	then 
+	printf "${BMAG}${ARG}:file:$bash_filter:$ms_filter${LINEP}${RED}FAIL \n${RESET}";
+	return
+fi
+for var in "${@:2}"
+do
+diff $bash_temp/$var $ms_temp/$var &>> $LOG_DIR/$MS_LOG
+mstatus=$?
+if [ $mstatus != 0 ];
+	then 
+	printf "${BMAG}${ARG}:file:$var${LINEP}${RED}FAIL \n${RESET}";
+	return
+fi
+done
+printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
+}
+
 if [ $virtual == 1 ]; 
 then
 echo run vm
@@ -314,111 +411,78 @@ if [ $integration == 1 ];
 then
 echo run integration
 fi
-if [ $interactive == 1 ]; 
-then
-echo run interactive
-fi
 if [ $e2e == 0 ]; 
 then
 exit 0
 fi
 
+echo -e "${BLU}----------------------------------
+|           interactive           |
+----------------------------------${RESET}"
+
+# simplify like this
 # https://github.com/LucasKuhn/minishell_tester
 
-x=0
 
 for case in "$cases"/*; do
-echo -e "${BCYN}$case${RESET}"
+echo $case
 while IFS= read -r line; do
-	x=$(( $x + 1 ))
-	echo -ne "${YEL} $x ${BLU}| ${BMAG}$line ${BLU}|${RESET}"
-	rm -rf $outfiles/*
-	rm -rf $mini_outfiles/*
-	MINI_OUTPUT=$(echo -e "$line" | ./minishell 2>> $MS_LOG)
+	echo $`line
+	rm -rf ./outfiles/*
+	rm -rf ./mini_outfiles/*
+	MINI_OUTPUT=$(echo -e "$line" | bash 2> /dev/null)
 	MINI_EXIT_CODE=$(echo $?)
-	MINI_OUTFILES=$(cp $outfiles/* $mini_outfiles &>> $MS_LOG)
-	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | ./minishell 2>&1 >> $MS_LOG | grep -o '[^:]*$' )
+	MINI_OUTFILES=$(cp ./outfiles/* ./mini_outfiles &>/dev/null)
+	# MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 > /dev/null | grep -o '[^:]*$' )
 
-	rm -rf $outfiles/*
-	rm -rf $bash_outfiles/*
-	BASH_OUTPUT=$(echo -e "$line" | bash 2> $MS_LOG)
+	rm -rf ./outfiles/*
+	rm -rf ./bash_outfiles/*
+	BASH_OUTPUT=$(echo -e "$line" | bash 2> /dev/null)
 	BASH_EXIT_CODE=$(echo $?)
-	BASH_OUTFILES=$(cp $outfiles/* $bash_outfiles &>>$MS_LOG)
-	BASH_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 >> $MS_LOG | grep -o '[^:]*$' | head -n1)
-
+	BASH_OUTFILES=$(cp ./outfiles/* ./bash_outfiles &>/dev/null)
+	# BASH_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 > /dev/null | grep -o '[^:]*$' | head -n1)
 
 	if [[ "$MINI_OUTPUT" == "$BASH_OUTPUT" && "$MINI_EXIT_CODE" == "$BASH_EXIT_CODE" && -z "$OUTFILES_DIFF" ]]; then
-		printf " ✅"
+		printf ✅
 		((ok++))
 		if [ "$MINI_ERROR_MSG" != "$BASH_ERROR_MSG" ]; then
-			printf " ⚠️ "
-			FAIL=true
+			printf "⚠️ "
 		fi
 	else
-		printf " ❌"
-		FAIL=true
+		printf ❌
 	fi
-
+	printf "$GREY $teste \n$END"
 	if [ "$OUTFILES_DIFF" ]; then
-		OUTFILES_FAIL=true
-		printf "${RED} outfiles error${RESET}" 
-		echo -e "$x | $line |${RESET}" >> $OUTFILES_LOG
-		echo "$OUTFILES_DIFF" >> $OUTFILES_LOG
-		echo mini outfiles: >> $OUTFILES_LOG
-		cat $mini_outfiles/* >> $OUTFILES_LOG
-		echo bash outfiles: >> $OUTFILES_LOG
-		cat $bash_outfiles/* >> $OUTFILES_LOG
+		echo "$OUTFILES_DIFF"
+		echo mini outfiles:
+		cat ./mini_outfiles/*
+		echo bash outfiles:
+		cat ./bash_outfiles/*
 	fi
 	if [ "$MINI_OUTPUT" != "$BASH_OUTPUT" ]; then
-		OUTPUT_FAIL=true
-		printf "${RED} output error${RESET}"
-		echo -e "$x | $line " >> $OUTPUT_LOG
-		echo mini output = \($MINI_OUTPUT\) >> $OUTPUT_LOG
-		echo bash output = \($BASH_OUTPUT\) >> $OUTPUT_LOG
+		echo mini output = \($MINI_OUTPUT\)
+		echo bash output = \($BASH_OUTPUT\)
 	fi
 	if [ "$MINI_EXIT_CODE" != "$BASH_EXIT_CODE" ]; then
-		EXIT_FAIL=true
-		printf "${RED} exit code error${RESET}"
-		echo -e "$x | $line " >> $EXIT_LOG
-		echo mini exit code = $MINI_EXIT_CODE >> $EXIT_LOG
-		echo bash exit code = $BASH_EXIT_CODE >> $EXIT_LOG
+		echo mini exit code = $MINI_EXIT_CODE
+		echo bash exit code = $BASH_EXIT_CODE
 	fi
 	if [ "$MINI_ERROR_MSG" != "$BASH_ERROR_MSG" ]; then
-		ERROR_FAIL=true
-		printf "${RED} error message error${RESET}"
-		echo -e "$x | $line " >> $EXIT_LOG
-		echo mini error = \($MINI_ERROR_MSG\) >> $EXIT_LOG
-		echo bash error = \($BASH_ERROR_MSG\) >> $EXIT_LOG
+		echo mini error = \($MINI_ERROR_MSG\)
+		echo bash error = \($BASH_ERROR_MSG\)
 	fi
-	printf "\n"
 done < $case
 done
 
 if [ $FAIL = true ];
-then 
-if [ $OUTFILES_FAIL = true ];
-then 
-echo -e "${RED}Check $OUTFILES_LOG${RESET}"
-fi
-if [ $OUTPUT_FAIL = true ];
-then 
-echo -e "${RED}Check $OUTPUT_LOG ${RESET}"
-fi
-if [ $EXIT_FAIL = true ];
-then 
-echo -e "${RED}Check $EXIT_LOG ${RESET}"
-fi
-if [ $ERROR_FAIL = true ];
-then 
-echo -e "${RED}Check $ERROR_LOG ${RESET}"
-fi
-rm -rf $bash_outfiles
-rm -rf $mini_outfiles
-exit 1
+then echo -e "${RED}Check logs/*.log for errors${RESET}"
 else 
 echo -e "${GRE}Congratulations, all tests are succesfull :)${RESET}"
 rm -rf $LOG_DIR
-rm -rf $bash_outfiles
-rm -rf $mini_outfiles
 fi
+
+rm -rf $bash_temp
+rm -rf $ms_temp
+
 exit 0
+
