@@ -124,3 +124,45 @@ tgoto
 tputs
 
 ## TEST ##
+
+
+$() does substitution
+for file in $(ls)
+do
+ echo "Processing file: $file"
+done
+
+${} is for expansion/manipulation
+name="John Doe"
+echo ${name:0:4}
+*this is not necessary
+
+(  list of commands  )
+this starts a subshell to excecute commands
+env will not be affected and such
+
+{ list of commands; }
+in current shell
+*this is not necessary
+
+about precedence () in && and || logic :
+https://velog.io/@soongle/cmd-priority-with-logical-operator-and-parenthesis
+
+bash> echo a || (echo b && echo c) && echo d
+a
+d
+bash> echo a || (echo b && (echo c && echo d))
+a
+
+
+bash> echo "1" && echo "2" || echo "3"
+1
+2
+groups(1 AND 2) || 3
+
+bash> echo "1" || echo "2" && echo "3"
+1
+3
+groups(1 OR 2) AND 3
+
+
