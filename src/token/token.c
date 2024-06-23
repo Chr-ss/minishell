@@ -12,14 +12,6 @@
 
 #include "../../include/minishell.h"
 
-
-int	ft_isbashtoken(int c)
-{
-	if (c == '|' || c == '>' || c == '<' || c == 0)
-		return (1);
-	return (0);
-}
-
 int	return_quoted_length(char *line, char quote)
 {
 	int	quoted_len;

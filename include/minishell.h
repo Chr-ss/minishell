@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/23 14:38:32 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/23 14:44:43 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,14 @@ void	init_signal();
 
 // FUNCTIONS:
 void	input_handling(t_msdata *data);
-
 void	parsing(t_msdata *data);
 void	error(char *msg);
 
-// UTILS_CHRISS
-char	*str_expand(char *str, int *capacity);
+// UTILS
 int		skipspace(char *str, int pos);
+int		ft_isbashtoken(int c);
+int		strarr_size(char **strarr);
+char	**extend_strarr(t_cmd *cmd, char **strarr, int strarr_size);
 
 // INITDATA.c
 void	initdata_cpy_envp(t_msdata *data, char **envp);
@@ -101,27 +102,21 @@ char	*expand(t_msdata *data);
 
 // SORT THIS LATER
 void	token_to_strarr(t_msdata *data, char **strarr, t_token token);
-// void clear_append(t_cmd *cmd);
+void	unexpected_token(t_msdata *data, t_token token);
+
+t_token	tokenizer(char *line);
+void	temp_print_tokens(t_msdata *data, char *line);
+void	printf_cmd(t_cmd *cmd);
 void	init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_token token, int *pos));
 t_token token_to_cmd(t_msdata *data, t_token token, int *pos);
-t_token type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token type_handler_eof(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token type_handler_error(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token type_handler_pipe(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token type_handler_word(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-
-void	unexpected_token(t_msdata *data, t_token token);
-void printf_cmd(t_cmd *cmd);
-char	**extend_strarr(t_cmd *cmd, char **strarr, int strarr_size);
-int strarr_size(char **strarr);
-
-
-void	temp_print_tokens(t_msdata *data, char *line);
-t_token	tokenizer(char *line);
-int	ft_isbashtoken(int c);
+t_token	type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_eof(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_error(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_pipe(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_word(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
 
 void	openfile(t_cmd *cmd, t_token token, int open_flag, int *fd);
 

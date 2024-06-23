@@ -19,6 +19,13 @@ int	skipspace(char *str, int pos)
 	return (pos);
 }
 
+int	ft_isbashtoken(int c)
+{
+	if (c == '|' || c == '>' || c == '<' || c == 0)
+		return (1);
+	return (0);
+}
+
 int	strarr_size(char **strarr)
 {
 	int	i;
