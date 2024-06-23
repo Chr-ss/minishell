@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ms_cmd.c                                           :+:    :+:            */
+/*   cmd.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void	ms_token_to_strarr(t_msdata *data, char **strarr, t_token token)
+void	token_to_strarr(t_msdata *data, char **strarr, t_token token)
 {
 	(void) data;
 	int	i;
@@ -22,19 +22,19 @@ void	ms_token_to_strarr(t_msdata *data, char **strarr, t_token token)
 		i++;
 	strarr[i] = ft_strndup(token.start, (size_t) token.length);
 	if (!strarr[i])
-		ms_error("ms_token_to_strarr: malloc error.");
+		error("token_to_strarr: malloc error.");
 }
 
-void	ms_unexpected_token(t_msdata *data, t_token token)
+void	unexpected_token(t_msdata *data, t_token token)
 {
 	(void) data;
 	write(2, "-minishell: syntax error near unexpected token '", 48);
 	write(2, token.start, token.length);
 	write(2, "'", 1);
-	ms_error("");
+	error("");
 }
 
-// void	ms_clear_append(t_cmd *cmd)
+// void	clear_append(t_cmd *cmd)
 // {
 // 	int	i;
 
@@ -46,22 +46,22 @@ void	ms_unexpected_token(t_msdata *data, t_token token)
 // 	cmd->out[i] = NULL;
 // }
 
-void	ms_init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_token token, int *pos))
+void	init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_token token, int *pos))
 {
-	type_handler[0] = ms_type_handler_word;
-	type_handler[1] = ms_type_handler_pipe;
-	type_handler[2] = ms_type_handler_rein;
-	type_handler[3] = ms_type_handler_reout;
-	type_handler[4] = ms_type_handler_append;
-	type_handler[5] = ms_type_handler_heredoc;
-	type_handler[6] = ms_type_handler_eof;
-	type_handler[7] = ms_type_handler_error;
+	type_handler[0] = type_handler_word;
+	type_handler[1] = type_handler_pipe;
+	type_handler[2] = type_handler_rein;
+	type_handler[3] = type_handler_reout;
+	type_handler[4] = type_handler_append;
+	type_handler[5] = type_handler_heredoc;
+	type_handler[6] = type_handler_eof;
+	type_handler[7] = type_handler_error;
 }
 
-t_token	ms_token_to_cmd(t_msdata *data, t_token token, int *pos)
+t_token	token_to_cmd(t_msdata *data, t_token token, int *pos)
 {
 	t_token (*type_handler[8])(t_msdata * data, t_cmd * cmd, t_token token, int *pos);
-	ms_init_type_handler(type_handler);
+	init_type_handler(type_handler);
 	token = type_handler[token.type](data, data->cmd_curr, token, pos);
 	return (token);
 }

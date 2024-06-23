@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ms_token.c                                         :+:    :+:            */
+/*   token.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
@@ -20,7 +20,7 @@ int	ft_isbashtoken(int c)
 	return (0);
 }
 
-int	ms_return_quoted_length(char *line, char quote)
+int	return_quoted_length(char *line, char quote)
 {
 	int	quoted_len;
 	int	i;
@@ -42,7 +42,7 @@ int	ms_return_quoted_length(char *line, char quote)
 	return (quoted_len);
 }
 
-t_token	ms_tokenizer(char *line)
+t_token	tokenizer(char *line)
 {
 	t_token	token;
 	char	*temp;
@@ -102,7 +102,7 @@ t_token	ms_tokenizer(char *line)
 		{
 			if(temp[token.length] == '\'' || temp[token.length] == '"')
 			{
-				token.length += ms_return_quoted_length(&temp[token.length], temp[token.length]);
+				token.length += return_quoted_length(&temp[token.length], temp[token.length]);
 			}
 			token.length++;
 		}
@@ -125,11 +125,11 @@ void	temp_print_tokens(t_msdata *data, char *line)
 	{
 		// token.start = &line[data->pos];
 		// token.length = 0;
-		data->pos = ms_skipspace(line, data->pos);
-		token = ms_tokenizer(&line[data->pos]);
+		data->pos = skipspace(line, data->pos);
+		token = tokenizer(&line[data->pos]);
 		// printf("%d, ", token.type);
 		// i++;
-		token = ms_token_to_cmd(data, token, &data->pos);
+		token = token_to_cmd(data, token, &data->pos);
 		data->pos += token.length;
 		if (token.type == TOKEN_EOF)
 			break ;

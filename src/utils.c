@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ms_utils_chriss.c                                  :+:    :+:            */
+/*   utils_chriss.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
@@ -12,14 +12,14 @@
 
 #include "../include/minishell.h"
 
-int	ms_skipspace(char *str, int pos)
+int	skipspace(char *str, int pos)
 {
 	while (str && str[pos] && ft_isspace(str[pos]))
 		pos++;
 	return (pos);
 }
 
-int	ms_strarr_size(char **strarr)
+int	strarr_size(char **strarr)
 {
 	int	i;
 
@@ -29,7 +29,7 @@ int	ms_strarr_size(char **strarr)
 	return (i);
 }
 
-char	**ms_extend_strarr(t_cmd *cmd, char **strarr, int strarr_size)
+char	**extend_strarr(t_cmd *cmd, char **strarr, int strarr_size)
 {
 	(void) cmd;
 	int		i;
@@ -39,7 +39,7 @@ char	**ms_extend_strarr(t_cmd *cmd, char **strarr, int strarr_size)
 	strarr_size++;
 	new_strarr = calloc(strarr_size + 1, sizeof(char*));
 	if (!new_strarr)
-		ms_error("ms_extend_strarr: malloc error.");
+		error("extend_strarr: malloc error.");
 	while (strarr && strarr[i])
 	{
 		new_strarr[i] = strarr[i];

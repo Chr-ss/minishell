@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ms_openfile.c                                      :+:    :+:            */
+/*   main.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
@@ -12,31 +12,14 @@
 
 #include "../include/minishell.h"
 
-
-void	ms_openfile(t_cmd *cmd, t_token token, int open_flag, int *fd)
+int	main(int argc, char **argv, char **envp)
 {
-	int		new_fd;
-	char	*filename;
+	t_msdata	data;
 
-	filename = ft_strndup(token.start, token.length);
-	new_fd = open(filename, O_RDWR, open_flag);
-	if (new_fd == -1)
-	{
-		printf("Can not open file.\n");
-	}
-	if (*fd)
-	{
-		close(*fd);
-		*fd = 0;
-	}
-	if (*fd == 0)
-	{
-		*fd = new_fd;
-	}
-	if (*fd < 0 && new_fd > 0)
-	{
-		close (new_fd);
-	}
-	free(filename);
-	(void) cmd;
+	if (argc > 1)
+		error("Invalid argument count.");
+	initdata(&data, argv, envp); // malloc >> data->cmd_head, data->envp
+	input_handling(&data);
+	error("No, error.");
+	return (0);
 }

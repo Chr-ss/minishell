@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ms_initdata.c                                      :+:    :+:            */
+/*   initdata.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-void	ms_initdata_cpy_envp(t_msdata *data, char **envp)
+void	initdata_cpy_envp(t_msdata *data, char **envp)
 {
 	int	i;
 
@@ -21,18 +21,18 @@ void	ms_initdata_cpy_envp(t_msdata *data, char **envp)
 		i++;
 	data->envp = ft_calloc(i, sizeof(char *));
 	if (!data->envp)
-		ms_error("ms_initdata_envp, malloc error");
+		error("initdata_envp, malloc error");
 	i = 0;
 	while (envp && envp[i])
 	{
 		data->envp[i] = ft_strdup(envp[i]);
 		if (!data->envp[i])
-			ms_error("ms_initdata_envp, malloc error");
+			error("initdata_envp, malloc error");
 		i++;
 	}
 }
 
-void	ms_initdata(t_msdata *data, char **argv, char **envp)
+void	initdata(t_msdata *data, char **argv, char **envp)
 {
 	data->cmd_head = ft_calloc(sizeof(t_cmd), 1);
 	data->cmd_curr = data->cmd_head;
@@ -40,5 +40,5 @@ void	ms_initdata(t_msdata *data, char **argv, char **envp)
 	data->pos = 0;
 	data->argv = argv;
 	data->exp = NULL;
-	ms_initdata_cpy_envp(data, envp);
+	initdata_cpy_envp(data, envp);
 }
