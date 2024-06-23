@@ -93,9 +93,7 @@ t_token	tokenizer(char *line)
 		while (temp[token.length] && ft_isprint((int) temp[token.length]) && !ft_isbashtoken((int) temp[token.length]) && !ft_isspace((int) temp[token.length]))
 		{
 			if(temp[token.length] == '\'' || temp[token.length] == '"')
-			{
 				token.length += return_quoted_length(&temp[token.length], temp[token.length]);
-			}
 			token.length++;
 		}
 		write(1, "WORD, ", 6);
@@ -110,17 +108,11 @@ t_token	tokenizer(char *line)
 void	temp_print_tokens(t_msdata *data, char *line)
 {
 	t_token	token;
-	// int		pos;
 
-	// data->pos = 0;
 	while (token.type != TOKEN_EOF)
 	{
-		// token.start = &line[data->pos];
-		// token.length = 0;
 		data->pos = skipspace(line, data->pos);
 		token = tokenizer(&line[data->pos]);
-		// printf("%d, ", token.type);
-		// i++;
 		token = token_to_cmd(data, token, &data->pos);
 		data->pos += token.length;
 		if (token.type == TOKEN_EOF)

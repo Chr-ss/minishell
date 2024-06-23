@@ -59,11 +59,6 @@ t_token	type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 	else
 	{
 		openfile(cmd, infile, O_TRUNC, &cmd->infd);
-		// if (cmd->in)
-		// 	free(cmd->in);
-		// cmd->in = ft_strndup(infile.start, infile.length);
-		// if (!cmd->in)
-		// 	error("type_handler_rein: malloc error.");
 	}
 	return (infile);
 }
@@ -72,7 +67,6 @@ t_token	type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
 	printf("type_handler_reout: Token REOUT\n");
 	t_token	outfile;
-	// int		outarr_size;
 
 	*pos += token.length;
 	*pos = skipspace(data->line, *pos);
@@ -83,11 +77,6 @@ t_token	type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 	else
 	{
 		openfile(cmd, outfile, O_TRUNC, &cmd->outfd);
-		// if (cmd->append && cmd->out)
-		// 	clear_append(cmd);
-		// outarr_size = strarr_size(cmd->out);
-		// cmd->out = extend_strarr(cmd, cmd->out, outarr_size);
-		// token_to_strarr(data, cmd->out, outfile);
 	}
 	return (outfile);
 }
@@ -96,7 +85,6 @@ t_token	type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
 	printf("type_handler_append: Token APPEND\n");
 	t_token	append;
-	// int		outarr_size;
 
 	*pos += token.length;
 	*pos = skipspace(data->line, *pos);
@@ -107,12 +95,6 @@ t_token	type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 	else
 	{
 		openfile(cmd, append, O_APPEND, &cmd->outfd);
-		// if (cmd->append && cmd->out)
-		// 	clear_append(cmd);
-		// outarr_size = strarr_size(cmd->out);
-		// cmd->out = extend_strarr(cmd, cmd->out, outarr_size);
-		// token_to_strarr(data, cmd->out, append);
-		// cmd->append = true;
 	}
 	return (append);
 }

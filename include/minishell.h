@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/23 14:44:43 by crasche       ########   odam.nl         */
+/*   Updated: 2024/06/23 14:45:41 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_msdata
 // TOKEN TO CMD
 	char		**argv;
 	char		**envp;
+	int			exit_code;
 	char		pwd[PATH_MAX];
 	t_expend	*exp;			// struct for line expansion
 }	t_msdata;

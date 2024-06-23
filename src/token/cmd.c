@@ -34,18 +34,6 @@ void	unexpected_token(t_msdata *data, t_token token)
 	error("");
 }
 
-// void	clear_append(t_cmd *cmd)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	cmd->append = false;
-// 	while (cmd->out && cmd->out[i] && cmd->out[i + 1])
-// 		i++;
-// 	free(cmd->out[i]);
-// 	cmd->out[i] = NULL;
-// }
-
 void	init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_token token, int *pos))
 {
 	type_handler[0] = type_handler_word;
