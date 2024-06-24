@@ -16,152 +16,88 @@
 # Reference: https://stackoverflow.com/questions/94074/slow-wget-speeds-when-connecting-to-https-pages
 # Reference: https://stackoverflow.com/questions/5613345/how-to-shrink-the-git-folder
 # Reference: https://www.virtualbox.org/manual/ch01.html
+# Reference: https://askubuntu.com/questions/161759/how-to-access-a-shared-folder-in-virtualbox
+# Reference: https://www.jimangel.io/posts/automate-ubuntu-22-04-lts-bare-metal/
+# Reference: https://blog.learncodeonline.in/automating-linux-installation-using-vagrant-and-virtualbox
+# Reference: https://askubuntu.com/questions/672892/what-does-y-mean-in-apt-get-y-install-commands
+# Reference: https://stackoverflow.com/questions/73397110/how-to-stop-ubuntu-pop-up-daemons-using-outdated-libraries-when-using-apt-to-i
+VAGRANT_ZIP=vagrant.zip
+VAGRANT=vagrant
+VAGRANT_DIR=linux_install
+VAGRANT_IMAGE=generic/ubuntu2204
+VAGRANT_SHARED=shared_resources
+PROJECT=$(find ../../../ -type d -name minishell)
 
-XORISSO_EXE=xorriso-1.5.6/xorriso/xorriso
-XORISSO_TAR=xorriso-1.5.6.pl02.tar.gz
-XORISSO_DIR=xorriso-1.5.6
-MACHINENAME="TestMachine"
-UBUNTU_CD_IMAGE="ubuntu.iso"
-TEST_CD_IMAGE="ubuntu-22.04.2-test-autoinstall.iso"
-TEST_IMAGE=sources-files
-TEST_IMAGE_USR=server
-TEST_IMAGE_BTT=bootpart
-USER_DATA=user-data
+echo -ne 'Creating VM directory  : #                         (0%) \r'
+mkdir -p $VAGRANT_DIR/$VAGRANT_SHARED
+echo -ne 'Creating VM directory  : #######################   (100%) \r'
+echo
+echo -ne 'Copying over project   : #                         (0%) \r'
+rsync -av --exclude=*/.git* --exclude=*/vagrant* --exclude=*/boot_e2e* --exclude=*/$VAGRANT_DIR* $PROJECT $VAGRANT_DIR/$VAGRANT_SHARED &> /dev/null
+echo -ne 'Copying over project   : #######################   (100%) \r'
+echo
 
-if ! command -v VBoxManage &> /dev/null
+#Download vagrant
+if [ ! -f $VAGRANT ];
 then
-    echo "VBoxManage could not be found, this is needed to create the VM"
-    exit 1
+	echo -ne 'Downloading vagrant  : #                         (0%) (this might take a few minutes)\r'
+	wget https://releases.hashicorp.com/vagrant/2.4.1/vagrant_2.4.1_linux_amd64.zip --inet4-only --no-check-certificate -O $VAGRANT_ZIP &> /dev/null
+	echo -ne 'Downloading vagrant  : #######################   (100%)\r'
+	echo
+	echo 'unzipping vagrant    : #                         (0%)'
+	unzip $VAGRANT_ZIP
+	echo 'unzipping vagrant    : #######################   (100%)'
+	echo
+	rm -rf $VAGRANT_ZIP
 fi
 
-# Download xorriso
-if [ ! -f ./$XORISSO_EXE ]; then
-    echo -ne 'Downloading xorriso       : #                         (0%)\r'
-    wget https://www.gnu.org/software/xorriso/xorriso-1.5.6.pl02.tar.gz -O $XORISSO_TAR &> /dev/null
-    echo -ne 'Unpacking xorriso         : #####                     (33%)\r'
-    tar zxvf $XORISSO_TAR &> /dev/null
-    echo -ne 'Building xorriso          : #############             (66%)\r'
-    (cd $XORISSO_DIR && ./configure && make) &> /dev/null
-    echo -ne 'installing xorisso        : ######################    (95%)\r' 
-    rm -rf $XORISSO_TAR &> /dev/null
-    echo -ne 'xorisso installed         : #######################   (100%)\r' 
-    echo -ne '\n'
-fi 
+#Add vagrant to path
+export PATH=$PATH:$(pwd)
 
-# Add xorriso to path 
-if [ -f ./$XORISSO_EXE ]; then
-XORISSO_PATH=$(cd $XORISSO_DIR && cd xorriso && pwd)
-export PATH=$PATH:$XORISSO_PATH
-fi 
+#create vagrant directory
+echo -ne 'Preparing VM dir       : #                         (0%) \r'
+mkdir -p $VAGRANT_DIR
 
-# Download debian.iso
-# if [ ! -f ./$UBUNTU_CD_IMAGE ]; then
-#     echo -ne 'Downloading ubuntu image  : #                         (0%) (this might take a few minutes)\r'
-#     wget https://releases.ubuntu.com/jammy/ubuntu-22.04.4-live-server-amd64.iso --inet4-only --no-check-certificate -O $UBUNTU_CD_IMAGE 
-#     echo -ne 'Downloading complete      : #######################   (100%)\r'
-# fi
+#cd into vagrant directory
+echo -ne 'Preparing VM dir       : ##############            (50%) \r'
+cd $VAGRANT_DIR
 
-# Extract iso image 
-if [ ! -d ./$TEST_IMAGE ]; then
-    mkdir -p $TEST_IMAGE/$TEST_IMAGE_BTT
-    xorriso -osirrox on -indev $UBUNTU_CD_IMAGE --extract_boot_images $TEST_IMAGE/$TEST_IMAGE_BTT -extract / $TEST_IMAGE 
-    chmod -R u+w $TEST_IMAGE
-fi
+#prepare vagrant directory with Vagrantfile
+echo -ne 'Preparing VM dir       : #######################   (100%) \r'
+echo 
+echo > Vagrantfile
 
-#create folder + user-data / meta-data for autoinstall
-(cd $TEST_IMAGE && mkdir -p $TEST_IMAGE_USR && cd $TEST_IMAGE_USR && cp $(find ../../../ -type d -name util)/$USER_DATA ./ && echo > meta-data)
+#removing old boxes and vm's
+echo 'Removing old boxes/vms : #                         (0%)'
+echo 
+VBoxManage list runningvms | awk '{print $2}'  | xargs --no-run-if-empty -t -n1 -IXXX VBoxManage controlvm XXX poweroff                                                           
+VBoxManage list vms | awk '{print $2}'  | xargs --no-run-if-empty -t -n1 VBoxManage unregistervm                                                                                  
+killall -9 VBoxHeadless                                                                                                                                                           
+rm -rf ~/Virtualbox\ VMs/* 
+vagrant box remove $VAGRANT_IMAGE
+# PREVIOUS_BOX=$(vagrant global-status --prune | awk 'FNR == 3 {print $1}')
+# vagrant destroy $PREVIOUS_BOX --force
+echo 'Removing old boxes/vms : #######################   (100%)'
+echo 
 
-# find files
-GRUB_FILE=$(find ./ -type f -name grub.cfg)
-GRUB2_MBR=$(find ./sources-files -type f -name "mbr_code_grub2.img")
-EFI=$(find ./ -type f -name "gpt_part2_efi.img")
+#add ubuntu image
+echo 'Launching Vagrant      : #                         (0%)'
+vagrant box add $VAGRANT_IMAGE --force --provider virtualbox 
 
-#change grub boot
-cat << "EOF" > $(find ./ -type f -name grub.cfg)
-set timeout=1
+#initialize vagrant
+echo 'Launching Vagrant      : #######                  (25%)'
+vagrant init $VAGRANT_IMAGE --force
 
-loadfont unicode
+#add plugin for guest additions
+echo 'Launching Vagrant      : ##############           (50%)'
+vagrant plugin install vagrant-vbguest
 
-set menu_color_normal=white/black
-set menu_color_highlight=black/light-gray
+#copy vagrantfile over
+echo 'Launching Vagrant      : ####################     (75%)'
+cat ../util/Vagrantfile > ./Vagrantfile
 
-menuentry "Autoinstall Ubuntu Server" {
-set gfxpayload=keep
-linux /casper/vmlinuz quiet autoinstall ds=nocloud\;s=/cdrom/server/ ---
-initrd /casper/initrd
-}
-menuentry "Try or Install Ubuntu Server" {
-	set gfxpayload=keep
-	linux	/casper/vmlinuz  ---
-	initrd	/casper/initrd
-}
-menuentry "Ubuntu Server with the HWE kernel" {
-	set gfxpayload=keep
-	linux	/casper/hwe-vmlinuz  ---
-	initrd	/casper/hwe-initrd
-}
-grub_platform
-if [ "$grub_platform" = "efi" ]; then
-menuentry 'Boot from next volume' {
-	exit 1
-}
-menuentry 'UEFI Firmware Settings' {
-	fwsetup
-}
-else
-menuentry 'Test memory' {
-	linux16 /boot/memtest86+.bin
-}
-fi
-EOF
-
-# remove ubuntu image for diskspace
-rm -rf $UBUNTU_CD_IMAGE
-
-# Make new iso file for test vm
-if [ ! -f ./$TEST_CD_IMAGE ]; then
-(cd $TEST_IMAGE && cat <<EOF | bash)
-xorriso -as mkisofs -r \
--V 'Ubuntu 22.04.2 LTS amd64' \
--o ../$TEST_CD_IMAGE \
---grub2-mbr ./bootpart/mbr_code_grub2.img \
--partition_offset 16 \
---mbr-force-bootable \
--append_partition 2 28732ac11ff8d211ba4b00a0c93ec93b ./bootpart/gpt_part2_efi.img \
--appended_part_as_gpt \
--iso_mbr_part_type a2a0d0ebe5b9334487c068b6b72699c7 -c '/boot.catalog' \
--b '/boot/grub/i386-pc/eltorito.img' \
--no-emul-boot \
--boot-load-size 4 \
--boot-info-table \
---grub2-boot-info \
--eltorito-alt-boot \
--e '--interval:appended_partition_2_start_971297s_size_10068d:all::' \
--no-emul-boot .
-EOF
-fi
-
-rm -rf $TEST_IMAGE
-
-#Create VM
-VBoxManage createvm --name $MACHINENAME --ostype "Ubuntu22_LTS_64" --register --basefolder `pwd`
-#Set memory and network
-VBoxManage modifyvm $MACHINENAME --ioapic on
-VBoxManage modifyvm $MACHINENAME --memory 2048 --vram 128
-VBoxManage modifyvm $MACHINENAME --nic1 nat
-#Create Disk and connect Debian Iso
-VBoxManage createhd --filename `pwd`/$MACHINENAME/$MACHINENAME_DISK.vdi --size 3000 --format VDI
-VBoxManage storagectl $MACHINENAME --name "SATA Controller" --add sata --controller IntelAhci
-VBoxManage storageattach $MACHINENAME --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium  `pwd`/$MACHINENAME/$MACHINENAME_DISK.vdi
-VBoxManage storagectl $MACHINENAME --name "IDE Controller" --add ide --controller PIIX4
-VBoxManage storageattach $MACHINENAME --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium `pwd`/$TEST_CD_IMAGE
-VBoxManage modifyvm $MACHINENAME --boot1 dvd --boot2 disk --boot3 none --boot4 none
-
-#Enable RDP
-VBoxManage modifyvm $MACHINENAME --vrde on
-VBoxManage modifyvm $MACHINENAME --vrdemulticon on --vrdeport 10001
-
-#Start the VM
-VBoxManage startvm $MACHINENAME
-
-# VBoxHeadless --startvm $MACHINENAME
+#up virtual machine
+echo 'Launching Vagrant      : #########################(100%)'
+vagrant up --provider=virtualbox
+vagrant ssh
+vagrant halt
