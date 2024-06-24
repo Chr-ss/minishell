@@ -203,6 +203,7 @@ char *cd_parse_pso(char *cdpath, char *operand)
 
 	ret = 0;
 	index = 0;
+	dirname = NULL;
 	sp_cdpath = ft_split(cdpath, ':');
 	if (sp_cdpath == NULL)
 		return (NULL);
@@ -269,7 +270,7 @@ int cd_chdir (t_msdata *data, char *dir)
 }
 
 //TEST CASES 
-// pso: make re && export CDPATH=.:~/projects/core_projects/minishell/src && mkdir -p ~/projects/core_projects/minishell/src/lol cd ~/projects && cd lol && unset CDPATH
+// pso: make re && export CDPATH=.:~/projects/core_projects/minishell/src && mkdir -p ~/projects/core_projects/minishell/src/lol cd ~/projects && valgrind --leak-check=full cd lol && unset CDPATH
 // dso: mkdir -p ~/projects/core_projects/minishell/src/lol && cd ~/projects/core_projects/minishell/src && cd lol
 // canonical form test Original Path: ///a/./b/../c//d/e/../ ; ///a/b/../c//d/e/../; ///a/c//d/e/../; ///a/c//d/; /a/c/d
 // cd $(echo $(perl -E 'say "/" x 5000')"home/spenning") works in cd, but does not work here because of PATH_MAX
@@ -277,14 +278,12 @@ int cd_chdir (t_msdata *data, char *dir)
 int cd (t_msdata *data)
 {
 	char	*dir;
-	char	cwd[PATH_MAX];
 	int		arglen;
 
 	dir = NULL;
 	if (ft_strlen (data->argv[1]) > PATH_MAX)
 		ms_error("path too long for cd");
 	arglen = double_array_len(data->argv); 
-	ft_printf("%d\n", arglen);
 	if (arglen == 1)
 		dir = get_envp(data, "HOME");
 	else if (arglen > 2)
@@ -295,8 +294,5 @@ int cd (t_msdata *data)
 		ms_error("allocation error");
 	if (cd_chdir(data, dir))
 		ms_error("chdir error");
-	getcwd(cwd, sizeof(cwd));
-	ft_printf("%s\n", cwd);
-	free(dir);
 	return (EXIT_SUCCESS);
 }
