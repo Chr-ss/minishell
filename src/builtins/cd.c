@@ -14,10 +14,27 @@
 //https://stackoverflow.com/questions/12510874/how-can-i-check-if-a-directory-exists
 //https://stackoverflow.com/questions/291828/what-is-the-best-way-to-return-an-error-from-a-function-when-im-already-returni
 //https://stackoverflow.com/questions/9314586/c-faster-way-to-check-if-a-directory-exists
+//https://insanecoding.blogspot.com/2007/11/pathmax-simply-isnt.html
 #include "../../include/minishell.h"
 #include <dirent.h>
 #include <errno.h>
 #include <sys/stat.h>
+
+// utils
+void	free_char_array(char **arr)
+{
+	int	index;
+
+	index = 0;
+	while (arr[index] != NULL)
+	{
+		free(arr[index]);
+		arr[index] = 0;
+		index++;
+	}
+	free(arr);
+	arr = NULL;
+}
 
 int get_envp_index(char *env, char **envp)
 {
@@ -31,6 +48,28 @@ int get_envp_index(char *env, char **envp)
 		index++;
 	}
 	return (-1);
+}
+
+int change_envp(char *key, char *env, char **envp)
+{
+	int index;
+	char *temp;
+	char *concat;
+
+	index = get_envp_index(key, envp);
+	if (index == -1)
+		return (EXIT_FAILURE);
+	temp = ft_strjoin(key, "=");
+	if (temp == NULL)
+		return (EXIT_FAILURE);
+	concat = ft_strjoin(temp, env);
+	free(temp);
+	if (concat == NULL)
+		return (EXIT_FAILURE);
+	temp = envp[index];
+	envp[index] = concat;
+	free(temp);
+	return (EXIT_SUCCESS);
 }
 
 char	*get_envp_value(char *envp)
@@ -94,6 +133,7 @@ int	check_dir(char *dirname)
 	return (EXIT_FAILURE);
 }
 
+//cd functions
 //psd == dot + slash + operand {./OPERAND}
 char *cd_parse_dso(char *operand)
 {
@@ -175,7 +215,7 @@ char *cd_parse_pso(char *cdpath, char *operand)
 			break;
 		index++;
 	}
-	//free array
+	free_char_array(sp_cdpath);
 	return (dirname);
 }
 
@@ -200,9 +240,40 @@ char *cd_parse(t_msdata *data)
 		cdpath = cd_parse_dso(data->argv[1]);
 	return (cdpath);
 }
+
+int cd_chdir (t_msdata *data, char *dir)
+{
+	char *pwd;
+	char *old_pwd;
+
+	old_pwd = get_envp(data, "PWD");
+	pwd = ft_strdup(dir);
+	if (!pwd || !old_pwd)
+	{
+		if (pwd)
+			free(pwd);
+		if (old_pwd)
+			free(old_pwd);
+		return (EXIT_FAILURE);
+	}
+	if (chdir(dir) == -1)
+		return (EXIT_FAILURE);
+	if (change_envp("PWD", pwd, data->envp) == -1)
+		return (EXIT_FAILURE);
+	if (change_envp("OLDPWD", old_pwd, data->envp) == -1)
+	{
+		if (change_envp("PWD", old_pwd, data->envp) == -1)
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
 //TEST CASES 
-// pso: export CDPATH=.:~/projects/core_projects/minishell/src && mkdir -p ~/projects/core_projects/minishell/src/lol cd ~/projects && cd lol && unset CDPATH
+// pso: make re && export CDPATH=.:~/projects/core_projects/minishell/src && mkdir -p ~/projects/core_projects/minishell/src/lol cd ~/projects && cd lol && unset CDPATH
 // dso: mkdir -p ~/projects/core_projects/minishell/src/lol && cd ~/projects/core_projects/minishell/src && cd lol
+// canonical form test Original Path: ///a/./b/../c//d/e/../ ; ///a/b/../c//d/e/../; ///a/c//d/e/../; ///a/c//d/; /a/c/d
+// cd $(echo $(perl -E 'say "/" x 5000')"home/spenning") works in cd, but does not work here because of PATH_MAX
+
 int cd (t_msdata *data)
 {
 	char	*dir;
@@ -210,20 +281,22 @@ int cd (t_msdata *data)
 	int		arglen;
 
 	dir = NULL;
+	if (ft_strlen (data->argv[1]) > PATH_MAX)
+		ms_error("path too long for cd");
 	arglen = double_array_len(data->argv); 
 	ft_printf("%d\n", arglen);
 	if (arglen == 1)
 		dir = get_envp(data, "HOME");
 	else if (arglen > 2)
-		exit(EXIT_FAILURE);
+		ms_error("too many arguments for cd");
 	else
 		dir = cd_parse(data);
 	if (dir == NULL)
-		exit(EXIT_FAILURE);
-	chdir(dir);
+		ms_error("allocation error");
+	if (cd_chdir(data, dir))
+		ms_error("chdir error");
 	getcwd(cwd, sizeof(cwd));
 	ft_printf("%s\n", cwd);
 	free(dir);
-	exit(EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }
