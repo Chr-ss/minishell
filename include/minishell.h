@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/18 15:35:35 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:14:06 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 # include "../libft/include/libft.h"
 # include "token.h"
 # include "expansion.h"
+# include <dirent.h>
+# include <errno.h>
+# include <sys/stat.h>
 
 # define DYNSTRING 8
 
@@ -72,6 +75,8 @@ typedef struct s_msdata
 // if initialization goes wrong then exits with failure exit code
 void	init_signal();
 
+
+
 // BUILT-INS:
 
 //[Description]
@@ -85,6 +90,82 @@ void	init_signal();
 //[Error]
 // 1 == unsuccesful operation
 int cd (t_msdata *data);
+
+//UTILS
+
+//[Description]
+//This function will search the envp member in the data structure
+// for the envp as paramater. 
+//[Parameters]
+// t_msdata *data
+// char *envp
+//[Return]
+//Function returns malloced string of the envp if envp was found.
+//[Error]
+//Will give back NULL on memory allocation or if envp was not found
+//[Note]
+//Return values and error code will be changed due to ambiguity
+char	*get_envp(t_msdata *data, char *envp);
+
+//[Description]
+//This function will change a envp in the envp member with env based
+//on the key passed. 
+//e.g. change_envp("HOME", "/home/else", envp)
+//will change the value of $HOME to "HOME=/home/else"
+//[Parameters]
+// char *key
+// char *env
+// char **envp
+//[Return]
+//Function returns int to indicate succesful operation or not
+// 0 is a succesful operation
+//[Error]
+// 1 is a unsuccesful operation
+int	change_envp(char *key, char *env, char **envp);
+
+//[Description]
+//This function will give back the index of the env
+// in envp
+//[Parameters]
+// char *env
+// char **envp
+//[Return]
+//Function returns int to index number or it will give back
+// an error value
+// >0 is index number
+//[Error]
+// -1 is env not found
+int	get_envp_index(char *env, char **envp);
+
+//[Description]
+//This function is used to free a 2d char array, assuming the 2d array
+// is null terminated.
+//[Parameters]
+// char **arr
+//[Return]
+//Function returns nothing
+void	free_char_array(char **arr);
+
+//[Description]
+//This function returns lengt of 2d char array
+//[Parameters]
+// char **vector
+//[Return]
+//Function returns length of array.
+int	double_array_len(char **vector);
+
+//[Description]
+//This function checks if a dir exists or not.
+// function can take relative and absolute path
+//[Parameters]
+// char *dirname
+//[Return]
+//Function returns int
+// 0 is not found
+// 1 is found
+// -1 is error
+int	check_dir(char *dirname);
+
 
 // FUNCTIONS:
 void	ms_readline(t_msdata *data);
