@@ -13,10 +13,11 @@
 
 //https://stackoverflow.com/questions/12510874/how-can-i-check-if-a-directory-exists
 //https://stackoverflow.com/questions/291828/what-is-the-best-way-to-return-an-error-from-a-function-when-im-already-returni
-
+//https://stackoverflow.com/questions/9314586/c-faster-way-to-check-if-a-directory-exists
 #include "../../include/minishell.h"
 #include <dirent.h>
 #include <errno.h>
+#include <sys/stat.h>
 
 int get_envp_index(char *env, char **envp)
 {
@@ -53,7 +54,6 @@ int double_array_len(char **vector)
 	return (index);
 }
 
-// test index -1 // and implement fprintf instead of perror
 char *get_envp(t_msdata *data, char *envp)
 {
 	int		index;
@@ -74,21 +74,24 @@ char *get_envp(t_msdata *data, char *envp)
 	return (path);
 }
 
-//check dir function
 int	check_dir(char *dirname)
 {
-	DIR*	dir;
+	struct stat s;
 
-	dir = opendir(dirname);
-	if (dir) 
+	int err = stat(dirname, &s);
+	if(err == -1)
 	{
-		closedir(dir);
-		return (EXIT_SUCCESS);
+		if(ENOENT == errno)
+			return (EXIT_FAILURE);
+		else
+			return (-1);
+	} 
+	else 
+	{
+		if(S_ISDIR(s.st_mode)) 
+			return (EXIT_SUCCESS);
 	}
-	else if (ENOENT == errno) 
-		return (EXIT_FAILURE);
-	else
-		return (-1);
+	return (EXIT_FAILURE);
 }
 
 //psd == dot + slash + operand {./OPERAND}
@@ -100,6 +103,7 @@ char *cd_parse_dso(char *operand)
 	dir_check = 0;
 	concat = ft_strjoin("./", operand);
 	dir_check = check_dir(concat);
+	ft_printf("concat %s\n", concat);
 	if (dir_check == EXIT_FAILURE)
 		return (NULL);
 	else if (dir_check == EXIT_SUCCESS)
@@ -109,40 +113,76 @@ char *cd_parse_dso(char *operand)
 	return (NULL);
 }
 
-//psd == pathname + slash + operand {CDPATH/OPERAND}
+//pso == pathname + slash + operand {CDPATH/OPERAND}
+char	*cd_parse_pso_dir_check_malloc(char *dirname, char *operand)
+{
+	char	*temp;
+
+	dirname = ft_strdup(dirname);
+	if (dirname == NULL)
+		return (NULL);
+	if (dirname[ft_strlen(dirname) - 1] != '/')
+	{
+		temp = ft_strjoin(dirname, "/");
+		if	(temp == NULL)
+			return (NULL);
+		free(dirname);
+		dirname = ft_strjoin(temp, operand);
+		free(temp);
+	}
+	return (dirname);
+}
+
+
+int cd_parse_pso_dir_check(char **dirname, char *operand)
+{
+	int		dir_check;
+
+	*dirname = cd_parse_pso_dir_check_malloc(*dirname, operand);
+	ft_printf("dir check dirname %s\n", *dirname);
+	if (!*dirname)
+		return (-1);
+	dir_check = check_dir(*dirname);
+	ft_printf("check_dir %d\n", dir_check);
+	if (dir_check == 0)
+		return (0);
+	else if (dir_check == 1)
+		return (1);
+	else
+	{
+		free(*dirname);
+		*dirname = NULL;
+		return (-1);
+	}
+}
+
+
 char *cd_parse_pso(char *cdpath, char *operand)
 {
 	char	**sp_cdpath;
 	int		index;
 	char	*dirname;
-	int		dir_check;
+	int		ret;
 
-	dir_check = 0;
+	ret = 0;
 	index = 0;
-	if(cdpath == NULL)
-		return (NULL);
 	sp_cdpath = ft_split(cdpath, ':');
 	if (sp_cdpath == NULL)
 		return (NULL);
+	free(cdpath);
 	while (sp_cdpath[index] != NULL)
 	{
 		dirname = sp_cdpath[index];
-		if (sp_cdpath[index][ft_strlen(sp_cdpath[index]) - 1] != '/')
-		{
-			dirname = ft_strjoin(sp_cdpath[index], "/");
-			dirname = ft_strjoin(dirname, operand);
-		}
-		if (!dirname)
-			return (NULL);
-		dir_check = check_dir(dirname);
-		if (dir_check == 0) 
-			index ++;
-		else if (dir_check == 1)
-			return (dirname);
-		else
-			return (NULL);
+		ft_printf("before dirname %s\n", dirname);
+		ret = cd_parse_pso_dir_check(&dirname, operand);
+		ft_printf("after dirname %s\n", dirname);
+		ft_printf("ret %d\n", ret);
+		if (ret == 0 || ret == -1)
+			break;
+		index++;
 	}
-	return(NULL);
+	//free array
+	return (dirname);
 }
 
 char *cd_parse(t_msdata *data)
@@ -157,14 +197,20 @@ char *cd_parse(t_msdata *data)
 	else if (operand[0] == '.' || !ft_strncmp(operand, "..", 2))
 		return (data->argv[1]);
 	else
-		cdpath = cd_parse_pso(get_envp(data, "CDPATH"), data->argv[1]);
+	{
+		cdpath = get_envp(data, "CDPATH");
+		ft_printf("CDPATH: %s\n", cdpath);
+		if (cdpath != NULL)
+			cdpath = cd_parse_pso(cdpath, data->argv[1]);
+	}
 	if (cdpath == NULL)
 		cdpath = cd_parse_dso(data->argv[1]);
+	ft_printf("wat\n");
 	return (cdpath);
 }
-//TODO test CDPATH=.:~/projects/core_projects/minishell/src with a directory at that path location while calling cd in another directory
-
-// change dir to be malloced always
+//TEST CASES 
+// pso: export CDPATH=.:~/projects/core_projects/minishell/src && mkdir -p ~/projects/core_projects/minishell/src/lol cd ~/projects && cd lol && unset CDPATH
+// dso: mkdir -p ~/projects/core_projects/minishell/src/lol && cd ~/projects/core_projects/minishell/src && cd lol
 int cd (t_msdata *data)
 {
 	char	*dir;
@@ -179,9 +225,11 @@ int cd (t_msdata *data)
 	else if (arglen > 2)
 		exit(EXIT_FAILURE);
 	else
+	{
 		dir = cd_parse(data);
-	ft_printf("here\n");
-	ft_printf("%s\n", dir);
+		ft_printf("lol\n");
+	}
+	ft_printf("dir %s\n", dir);
 	if (dir == NULL)
 		exit(EXIT_FAILURE);
 	chdir(dir);
