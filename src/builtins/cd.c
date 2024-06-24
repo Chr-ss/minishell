@@ -103,7 +103,6 @@ char *cd_parse_dso(char *operand)
 	dir_check = 0;
 	concat = ft_strjoin("./", operand);
 	dir_check = check_dir(concat);
-	ft_printf("concat %s\n", concat);
 	if (dir_check == EXIT_FAILURE)
 		return (NULL);
 	else if (dir_check == EXIT_SUCCESS)
@@ -139,11 +138,9 @@ int cd_parse_pso_dir_check(char **dirname, char *operand)
 	int		dir_check;
 
 	*dirname = cd_parse_pso_dir_check_malloc(*dirname, operand);
-	ft_printf("dir check dirname %s\n", *dirname);
 	if (!*dirname)
 		return (-1);
 	dir_check = check_dir(*dirname);
-	ft_printf("check_dir %d\n", dir_check);
 	if (dir_check == 0)
 		return (0);
 	else if (dir_check == 1)
@@ -173,10 +170,7 @@ char *cd_parse_pso(char *cdpath, char *operand)
 	while (sp_cdpath[index] != NULL)
 	{
 		dirname = sp_cdpath[index];
-		ft_printf("before dirname %s\n", dirname);
 		ret = cd_parse_pso_dir_check(&dirname, operand);
-		ft_printf("after dirname %s\n", dirname);
-		ft_printf("ret %d\n", ret);
 		if (ret == 0 || ret == -1)
 			break;
 		index++;
@@ -199,13 +193,11 @@ char *cd_parse(t_msdata *data)
 	else
 	{
 		cdpath = get_envp(data, "CDPATH");
-		ft_printf("CDPATH: %s\n", cdpath);
 		if (cdpath != NULL)
 			cdpath = cd_parse_pso(cdpath, data->argv[1]);
 	}
 	if (cdpath == NULL)
 		cdpath = cd_parse_dso(data->argv[1]);
-	ft_printf("wat\n");
 	return (cdpath);
 }
 //TEST CASES 
@@ -225,11 +217,7 @@ int cd (t_msdata *data)
 	else if (arglen > 2)
 		exit(EXIT_FAILURE);
 	else
-	{
 		dir = cd_parse(data);
-		ft_printf("lol\n");
-	}
-	ft_printf("dir %s\n", dir);
 	if (dir == NULL)
 		exit(EXIT_FAILURE);
 	chdir(dir);
