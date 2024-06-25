@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/25 14:47:43 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:42:56 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,14 @@ void	init_signal();
 //[Error]
 // 1 == unsuccesful operation
 int cd (t_msdata *data);
+
+//[Description]
+//This function is the built-in for pwd
+//[Parameters]
+// t_msdata *data
+//[Return]
+//Function returns nothing
+void	pwd(t_msdata *data);
 
 //[Description]
 //This function is the built-in for env
