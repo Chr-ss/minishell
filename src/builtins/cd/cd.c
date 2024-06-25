@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:41:51 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/24 19:26:12 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:37:19 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@ int	cd_chdir(t_msdata *data, char *dir)
 // ///a/b/../c//d/e/../; ///a/c//d/e/../; ///a/c//d/; /a/c/d
 // cd $(echo $(perl -E 'say "/" x 5000')"home/spenning") works in cd, 
 // but does not work here because of PATH_MAX
+
+// add to debug
+// char	cwd[PATH_MAX];
+// ft_printf("before PWD %s\n", get_envp(data, "PWD"));
+// ft_printf("before OLDPWD%s\n", get_envp(data, "OLDPWD"));
+// ft_printf("after PWD %s\n", get_envp(data, "PWD"));
+// ft_printf("after OLDPWD%s\n", get_envp(data, "OLDPWD"));
+// getcwd(cwd, sizeof(cwd));
+// ft_printf("%s\n", cwd);
 
 int	cd(t_msdata *data)
 {

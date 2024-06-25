@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 19:15:45 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/24 19:27:22 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:36:09 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ char	*cd_parse(t_msdata *data)
 
 	cdpath = NULL;
 	ft_strlcpy(operand, data->argv[1], 2);
+	if (!strncmp(data->argv[1], "-", ft_strlen(data->argv[1])))
+		return (get_envp(data, "OLDPWD"));
 	if (operand[0] == '/')
 		return (data->argv[1]);
 	else if (operand[0] == '.' || !ft_strncmp(operand, "..", 2))
