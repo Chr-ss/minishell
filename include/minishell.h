@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/26 15:08:02 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/26 20:22:22 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,22 @@ This function is the built-in for exit.
 Function returns nothing
 */
 void	mini_exit(t_msdata *data);
+
+/**
+@brief
+This function is the built-in for export.
+It will take the argument, and add it to the environment variables
+the expected argument is name[=word]
+@note
+export [] will return env command output
+@note
+export name[] will add name with empty string as [=word]
+@param
+ t_msdata* data
+@return
+Function returns nothing
+*/
+void	export(t_msdata *data);
 
 //UTILS
 
