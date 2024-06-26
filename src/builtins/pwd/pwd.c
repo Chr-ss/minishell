@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:59:21 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/25 15:49:30 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:15:57 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	pwd(t_msdata *data)
 
 	if (double_array_len(data->argv) > 1)
 		return ;
-	if(!getcwd(cwd, PATH_MAX))
+	if (!getcwd(cwd, PATH_MAX))
 		return ;
 	ft_printf("%s\n", cwd);
 }
