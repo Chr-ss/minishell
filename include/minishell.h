@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/25 15:42:56 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:08:02 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,27 @@ void	pwd(t_msdata *data);
 
 //[Description]
 //This function is the built-in for env
+// it will print all environment variables to stdout with \n
 //[Parameters]
 // t_msdata *data
 //[Return]
 //Function returns nothing
 void	env(t_msdata *data);
+
+
+/**
+@brief
+This function is the built-in for exit.
+ It will exit with the exit code provided
+ as argument with argv, the exit code should be in between
+ 0-255, otherwise it will returned a remaining exit code 
+ after modulu operation.
+@param
+ t_msdata* data
+@return
+Function returns nothing
+*/
+void	mini_exit(t_msdata *data);
 
 //UTILS
 
