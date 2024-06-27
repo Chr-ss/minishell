@@ -6,13 +6,12 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:20:04 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/27 16:27:52 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:36:12 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
-//MARK:fix segfault
 char **unset_new_envp(t_msdata *data, int skip_index)
 {
 	int		index;
@@ -28,6 +27,8 @@ char **unset_new_envp(t_msdata *data, int skip_index)
 	ft_printf("skip_index %d\n", skip_index);
 	while (data->envp[index] != NULL)
 	{
+		if (index == envp_len)
+			break ;
 		if (index == skip_index)
 			index++;
 		copy_over_str(index, new_envp, data->envp);
