@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ms_initdata.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: crasche <crasche@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/06/02 13:50:51 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/04 23:27:38 by crasche       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ms_initdata.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/02 13:50:51 by crasche           #+#    #+#             */
+/*   Updated: 2024/06/27 14:29:55 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void	ms_initdata_cpy_envp(t_msdata *data, char **envp)
 	i = 0;
 	while (envp && envp[i])
 		i++;
-	data->envp = ft_calloc(i, sizeof(char *));
+	data->envp = ft_calloc(i + 1, sizeof(char *));
 	if (!data->envp)
 		ms_error("ms_initdata_envp, malloc error");
+	data->envp[i] = NULL;
 	i = 0;
 	while (envp && envp[i])
 	{

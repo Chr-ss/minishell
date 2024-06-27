@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/26 20:22:22 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:10:56 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,24 @@ Function returns nothing
 */
 void	export(t_msdata *data);
 
+
 //UTILS
+
+/**
+@brief
+This function will add an env to envp, the expected arguments for
+environment variables is is name[=word] which are translated to key[=value] as
+parameters for this function
+@param 
+ t_msdata* data
+@param 
+ char* key
+@param 
+ char* value
+@return
+Function returns nothing
+*/
+void	add_envp(t_msdata *data, char *key, char *value);
 
 //[Description]
 //This function will search the envp member in the data structure
