@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/27 15:10:56 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:07:18 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void	pwd(t_msdata *data);
 //Function returns nothing
 void	env(t_msdata *data);
 
-
 /**
 @brief
 This function is the built-in for exit.
@@ -136,8 +135,54 @@ Function returns nothing
 */
 void	export(t_msdata *data);
 
+/**
+@brief
+This function is the built-in function for unset. It will unset
+a environmental variable if it exists.
+@param
+ t_msdata* data
+@return
+Function returns nothing
+@exception
+function will do nothing if there is an error with the parameters or 
+if variable is not found. If there is a malloc error then minishell will
+exit
+*/
+void unset(t_msdata *data);
+
 
 //UTILS
+
+/**
+@brief
+This function will take an index and copy over the
+string located at index from src to dst by mallocing a copy.
+@param 
+ int index
+@param 
+ char** dst
+@param 
+ char** src
+@exception
+Function will free dst if there is a malloc error
+@return
+Function returns nothing
+*/
+void	copy_over_str(int index, char**dst, char **src);
+
+
+/**
+@brief
+This function will swap the current data->envp for a new set
+of envp. data->envp will be freed
+@param 
+ t_msdata* data
+@param 
+ char** envp
+@return
+Function returns nothing
+*/
+void	swap_envp(t_msdata *data, char **envp);
 
 /**
 @brief

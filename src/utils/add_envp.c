@@ -6,17 +6,11 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:02:08 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/27 15:11:40 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:00:25 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void	add_envp_swap(t_msdata *data, char **envp)
-{
-	free_char_array (data->envp);
-	data->envp = envp;
-}
 
 char	*add_envp_new_entry(char **new_envp, char *key, char *value)
 {
@@ -53,15 +47,10 @@ void	add_envp(t_msdata *data, char *key, char *value)
 		ms_error("add_envp, envp double char array malloc error");
 	new_envp[len] = NULL;
 	while (data->envp[index] != NULL)
-	{
-		new_envp[index] = ft_strdup(data->envp[index]);
-		if (!new_envp[index])
-			ms_error("add_envp, copying envp malloc error");
-		index++;
-	}
+		copy_over_str(index++, new_envp, data->envp);
 	new_entry = add_envp_new_entry(new_envp, key, value);
 	if (new_entry == NULL)
 		ms_error("add_envp, new entry join malloc error #1");
 	new_envp[index] = new_entry;
-	add_envp_swap(data, new_envp);
+	swap_envp(data, new_envp);
 }

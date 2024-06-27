@@ -6,21 +6,51 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 18:41:23 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/24 18:58:47 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:29:07 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+//MARK:Make util func
+char	*get_key(char *input)
+{
+	int		index;
+	char	*key;
+
+	index = 0;
+	while (input[index] != '\0')
+	{
+		if (input[index] == '=')
+			break ;
+		index++;
+	}
+	index++;
+	key = ft_calloc(index, 1);
+	if (key == NULL)
+		return (NULL);
+	ft_strlcpy(key, input, index);
+	return (key);
+}
+
+//MARK:add extra err?
 int	get_envp_index(char *env, char **envp)
 {
-	int	index;
+	int		index;
+	char	*key;
 
 	index = 0;
 	while (envp[index] != NULL)
 	{
-		if (!ft_strncmp(env, envp[index], ft_strlen(env)))
+		key = get_key(envp[index]);
+		if (key == NULL)
+			return (-1);
+		if (!ft_strncmp(env, key, ft_strlen(key)))
+		{
+			free(key);
 			return (index);
+		}
+		free(key);
 		index++;
 	}
 	return (-1);
@@ -57,6 +87,12 @@ char	*get_envp_value(char *envp)
 	if (env == NULL)
 		return (NULL);
 	return (env);
+}
+
+void	swap_envp(t_msdata *data, char **envp)
+{
+	free_char_array (data->envp);
+	data->envp = envp;
 }
 
 //TODO change to return int, and have pointer 

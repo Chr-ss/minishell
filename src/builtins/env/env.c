@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:43:42 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/27 15:12:10 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:29:23 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	env(t_msdata *data)
 	int	arglen;
 
 	arglen = double_array_len(data->argv);
-	// if (arglen > 1)
-	// 	return ;
+	if (arglen > 1)
+		return ;
 	index = 0;
 	while (data->envp[index] != NULL)
 	{
