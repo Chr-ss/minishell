@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 16:29:43 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/28 17:25:43 by spenning         ###   ########.fr       */
+/*   Created: 2024/06/25 14:43:42 by spenning          #+#    #+#             */
+/*   Updated: 2024/06/27 16:29:23 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../../include/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+void	env(t_msdata *data)
 {
-	t_msdata	data;
+	int	index;
+	int	arglen;
 
-	if (argc > 1)
-		error("Invalid argument count.");
-	initdata(&data, argv, envp); // malloc >> data->cmd_head, data->envp
-	input_handling(&data);
-	error("No, error.");
-	return (0);
+	arglen = double_array_len(data->argv);
+	if (arglen > 1)
+		return ;
+	index = 0;
+	while (data->envp[index] != NULL)
+	{
+		ft_printf("%s\n", data->envp[index]);
+		index++;
+	}
 }

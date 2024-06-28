@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   etc.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 16:29:43 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/28 17:25:43 by spenning         ###   ########.fr       */
+/*   Created: 2024/06/24 18:44:04 by spenning          #+#    #+#             */
+/*   Updated: 2024/06/24 18:53:14 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	double_array_len(char **vector)
 {
-	t_msdata	data;
+	int	index;
 
-	if (argc > 1)
-		error("Invalid argument count.");
-	initdata(&data, argv, envp); // malloc >> data->cmd_head, data->envp
-	input_handling(&data);
-	error("No, error.");
-	return (0);
+	index = 0;
+	while (vector[index] != NULL)
+		index++;
+	return (index);
 }

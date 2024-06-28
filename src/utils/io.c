@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 16:29:43 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/28 17:25:43 by spenning         ###   ########.fr       */
+/*   Created: 2024/06/24 18:41:05 by spenning          #+#    #+#             */
+/*   Updated: 2024/06/24 18:53:06 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	check_dir(char *dirname)
 {
-	t_msdata	data;
+	struct stat	s;
+	int			err;
 
-	if (argc > 1)
-		error("Invalid argument count.");
-	initdata(&data, argv, envp); // malloc >> data->cmd_head, data->envp
-	input_handling(&data);
-	error("No, error.");
-	return (0);
+	err = stat(dirname, &s);
+	if (err == -1)
+	{
+		if (ENOENT == errno)
+			return (EXIT_FAILURE);
+		else
+			return (-1);
+	}
+	else
+	{
+		if (S_ISDIR(s.st_mode))
+			return (EXIT_SUCCESS);
+	}
+	return (EXIT_FAILURE);
 }

@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 16:29:43 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/28 17:25:43 by spenning         ###   ########.fr       */
+/*   Created: 2024/06/25 14:59:21 by spenning          #+#    #+#             */
+/*   Updated: 2024/06/26 15:15:57 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../../include/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+// TESTCASES
+//unset $PWD && ./minishell pwd should still work
+
+void	pwd(t_msdata *data)
 {
-	t_msdata	data;
+	char	cwd[PATH_MAX];
 
-	if (argc > 1)
-		error("Invalid argument count.");
-	initdata(&data, argv, envp); // malloc >> data->cmd_head, data->envp
-	input_handling(&data);
-	error("No, error.");
-	return (0);
+	if (double_array_len(data->argv) > 1)
+		return ;
+	if (!getcwd(cwd, PATH_MAX))
+		return ;
+	ft_printf("%s\n", cwd);
 }
