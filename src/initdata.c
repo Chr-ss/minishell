@@ -19,7 +19,7 @@ void	initdata_cpy_envp(t_msdata *data, char **envp)
 	i = 0;
 	while (envp && envp[i])
 		i++;
-	data->envp = ft_calloc(i, sizeof(char *));
+	data->envp = ft_calloc(i + 1, sizeof(char *));
 	if (!data->envp)
 		error("initdata_envp, malloc error");
 	i = 0;
