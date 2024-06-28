@@ -104,7 +104,7 @@ char	*cd_parse(t_msdata *data)
 
 	cdpath = NULL;
 	ft_strlcpy(operand, data->argv[1], 2);
-	if (!strncmp(data->argv[1], "-", ft_strlen(data->argv[1])))
+	if (!ft_strncmp(data->argv[1], "-", ft_strlen(data->argv[1])))
 		return (get_envp(data, "OLDPWD"));
 	if (operand[0] == '/')
 		return (data->argv[1]);
