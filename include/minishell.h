@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/27 16:07:18 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 14:47:07 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,33 @@ Function will free dst if there is a malloc error
 Function returns nothing
 */
 void	copy_over_str(int index, char**dst, char **src);
+
+/**
+@brief
+This function takes a full envp, and it will retrieve the key of key[=value]
+of a envp.
+@param 
+ char** input
+@exception
+Function will return null if there is a malloc error
+@return
+Function will return a malloced string.
+*/
+char	*get_envp_key(char *input);
+
+/**
+@brief
+This function takes a full envp, and it will retrieve the value of key[=value]
+of a envp.
+@param 
+ char** input
+@exception
+Function will return null if there is a malloc error
+@return
+Function will return a malloced string. If there was no value in the envp it will
+return an empty string ""
+*/
+char	*get_envp_value(char *input);
 
 
 /**
