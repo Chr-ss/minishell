@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/28 15:57:44 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 16:09:55 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,18 @@ void	export(t_msdata *data);
 */
 void unset(t_msdata *data, char *arg);
 
+
+/**
+ * @brief
+ * This function is the built-in for echo.
+ * it will take the argv and print it with a nl,
+ * expect if -n is specified
+ * @param
+ *  t_msdata* data
+ * @return
+ * Function returns nothing
+*/
+void	echo(t_msdata* data);
 
 //UTILS
 
