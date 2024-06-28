@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:58:39 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 17:18:29 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:29:11 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	echo(t_msdata *data)
 		return (echo_nl());
 	printline = echo_getline(data->argv, &print_nl);
 	if (printline == NULL)
-		ms_error("error in malloc for echo");
+		error("error in malloc for echo");
 	ft_printf("%s", printline);
 	if (print_nl)
 		echo_nl();

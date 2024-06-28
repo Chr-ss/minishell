@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:41:51 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/25 14:37:19 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:29:02 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,17 @@ int	cd(t_msdata *data)
 
 	dir = NULL;
 	if (ft_strlen (data->argv[1]) > PATH_MAX)
-		ms_error("path too long for cd");
+		error("path too long for cd");
 	arglen = double_array_len(data->argv);
 	if (arglen == 1)
 		dir = get_envp(data, "HOME");
 	else if (arglen > 2)
-		ms_error("too many arguments for cd");
+		error("too many arguments for cd");
 	else
 		dir = cd_parse(data);
 	if (dir == NULL)
-		ms_error("allocation error");
+		error("allocation error");
 	if (cd_chdir(data, dir))
-		ms_error("chdir error");
+		error("chdir error");
 	return (EXIT_SUCCESS);
 }

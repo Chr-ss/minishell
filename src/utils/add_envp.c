@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:02:08 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 15:12:45 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:29:47 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	add_envp(t_msdata *data, char *key, char *value)
 	len = double_array_len(data->envp) + 1;
 	new_envp = ft_calloc(len + 1, sizeof(char *));
 	if (new_envp == NULL)
-		ms_error("add_envp, envp double char array malloc error");
+		error("add_envp, envp double char array malloc error");
 	new_envp[len] = NULL;
 	while (data->envp[index] != NULL)
 	{
@@ -53,7 +53,7 @@ void	add_envp(t_msdata *data, char *key, char *value)
 	}
 	new_entry = add_envp_new_entry(new_envp, key, value);
 	if (new_entry == NULL)
-		ms_error("add_envp, new entry join malloc error #1");
+		error("add_envp, new entry join malloc error #1");
 	new_envp[index] = new_entry;
 	swap_envp(data, new_envp);
 }

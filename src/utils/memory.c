@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 18:43:01 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 17:19:09 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:29:58 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ void	copy_over_str(int dst_index, int src_index, char**dst, char **src)
 	if (!dst[dst_index])
 	{
 		free_char_array(dst);
-		ms_error("copy_over_str, malloc error");
+		error("copy_over_str, malloc error");
 	}
 }
