@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:59:21 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 14:52:03 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:03:49 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 // export lol=wat wat wat
 // export wat=lol=wat {wat='lol=wat'}
 // export wat= {wat="", echo $wat = ""}
+// export [existing variable]=new_value {[existing variable]=new_value, echo $[existing variable] = new_value}
 
 char	*export_check_value(char *value)
 {
@@ -63,6 +64,8 @@ void	export(t_msdata *data)
 	value = export_check_value(value);
 	if (value == NULL)
 		ms_error("malloc error in export_check_value");
+	// check if value already exists
+	// if it exists delete with unset
 	ft_printf("key %s\n", key);
 	ft_printf("value %s\n", value);
 	add_envp(data, key, value);

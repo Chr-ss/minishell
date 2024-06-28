@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/28 14:47:07 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:11:29 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ Function will free dst if there is a malloc error
 @return
 Function returns nothing
 */
-void	copy_over_str(int index, char**dst, char **src);
+void	copy_over_str(int dst_index, int src_index, char**dst, char **src);
 
 /**
 @brief

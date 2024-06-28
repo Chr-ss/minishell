@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:02:08 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/27 16:00:25 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:12:45 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ void	add_envp(t_msdata *data, char *key, char *value)
 		ms_error("add_envp, envp double char array malloc error");
 	new_envp[len] = NULL;
 	while (data->envp[index] != NULL)
-		copy_over_str(index++, new_envp, data->envp);
+	{
+		copy_over_str(index, index, new_envp, data->envp);
+		index++;
+	}
 	new_entry = add_envp_new_entry(new_envp, key, value);
 	if (new_entry == NULL)
 		ms_error("add_envp, new entry join malloc error #1");

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:20:04 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/27 16:36:12 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:14:16 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,28 @@
 char **unset_new_envp(t_msdata *data, int skip_index)
 {
 	int		index;
+	int		old_index;
 	int		envp_len;
 	char	**new_envp;
 
 	index = 0;
+	old_index = 0;
 	envp_len = double_array_len(data->envp);
 	new_envp = ft_calloc(envp_len, sizeof(char *));
 	if (new_envp == NULL)
 		return (NULL);
 	new_envp[--envp_len] = NULL;
 	ft_printf("skip_index %d\n", skip_index);
-	while (data->envp[index] != NULL)
+	while (data->envp[old_index] != NULL)
 	{
-		if (index == envp_len)
+		if (old_index == envp_len)
 			break ;
-		if (index == skip_index)
-			index++;
-		copy_over_str(index, new_envp, data->envp);
+		if (old_index == skip_index)
+			old_index++;
+		copy_over_str(index, old_index, new_envp, data->envp);
 		ft_printf("index %d %s %s\n", index, new_envp[index], data->envp[index]);
 		index++;
+		old_index++;
 	}
 	return (new_envp);
 }
