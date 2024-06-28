@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/28 15:11:29 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:27:38 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,32 +77,37 @@ void	init_signal();
 
 // BUILT-INS:
 
-//[Description]
-//This function is the built-in for cd
-//[Parameters]
-// t_msdata *data
-//[Return]
-//Function successful or not succesful operation based on int
-// 0 == succesful operation
-//[Error]
-// 1 == unsuccesful operation
+/**
+@brief
+This function is the built-in for cd
+@param
+ t_msdata *data
+@return
+ 0 is succesful operation
+@exception
+ 1 is unsuccesful operation
+*/
 int cd (t_msdata *data);
 
-//[Description]
-//This function is the built-in for pwd
-//[Parameters]
-// t_msdata *data
-//[Return]
-//Function returns nothing
+/**
+@brief
+This function is the built-in for pwd
+@param
+ t_msdata *data
+@return
+Function returns nothing
+*/
 void	pwd(t_msdata *data);
 
-//[Description]
-//This function is the built-in for env
-// it will print all environment variables to stdout with \n
-//[Parameters]
-// t_msdata *data
-//[Return]
-//Function returns nothing
+/**
+@brief
+This function is the built-in for env
+it will print all environment variables to stdout with 
+@param
+ t_msdata *data
+@return
+Function returns nothing
+*/
 void	env(t_msdata *data);
 
 /**
@@ -141,6 +146,12 @@ This function is the built-in function for unset. It will unset
 a environmental variable if it exists.
 @param
  t_msdata* data
+@param
+ char* arg
+@note 
+	the char *arg is a temporary parameter to work with export builtin
+	pass NULL if you want to use with argv in data struct, otherwise arg
+	will be used
 @return
 Function returns nothing
 @exception
@@ -148,7 +159,7 @@ function will do nothing if there is an error with the parameters or
 if variable is not found. If there is a malloc error then minishell will
 exit
 */
-void unset(t_msdata *data);
+void unset(t_msdata *data, char *arg);
 
 
 //UTILS

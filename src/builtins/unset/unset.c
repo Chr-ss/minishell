@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:20:04 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 15:14:16 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:19:32 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ char **unset_new_envp(t_msdata *data, int skip_index)
 	if (new_envp == NULL)
 		return (NULL);
 	new_envp[--envp_len] = NULL;
-	ft_printf("skip_index %d\n", skip_index);
 	while (data->envp[old_index] != NULL)
 	{
 		if (old_index == envp_len)
@@ -34,34 +33,29 @@ char **unset_new_envp(t_msdata *data, int skip_index)
 		if (old_index == skip_index)
 			old_index++;
 		copy_over_str(index, old_index, new_envp, data->envp);
-		ft_printf("index %d %s %s\n", index, new_envp[index], data->envp[index]);
 		index++;
 		old_index++;
 	}
 	return (new_envp);
 }
 
-void unset(t_msdata *data)
+void unset(t_msdata *data, char	*arg)
 {
 	int		arglen;
 	int		env_index;
 	char	**new_envp;
-	// int		index;
 
 	arglen = double_array_len(data->argv);
 	if (arglen > 2)
 		return ;
-	env_index = get_envp_index(data->argv[1], data->envp);
+	if (arg == NULL)
+		env_index = get_envp_index(arg, data->envp);
+	else 
+		env_index = get_envp_index(data->argv[1], data->envp);
 	if (env_index == -1)
 		return ;
 	new_envp = unset_new_envp(data, env_index);
 	if (new_envp == NULL)
 		return ;
 	swap_envp(data, new_envp);
-	// index = 0;
-	// while (data->envp[index] != NULL)
-	// {
-	// 	ft_printf("index %d %s\n", index, data->envp[index]);
-	// 	index++;
-	// }
 }

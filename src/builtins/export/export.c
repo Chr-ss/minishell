@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:59:21 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 15:03:49 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:23:00 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	export(t_msdata *data)
 {
 	char	*value;
 	char	*key;
+	int		check_envp;
 
 	if (double_array_len(data->argv) == 1)
 		return (env(data));
@@ -64,9 +65,8 @@ void	export(t_msdata *data)
 	value = export_check_value(value);
 	if (value == NULL)
 		ms_error("malloc error in export_check_value");
-	// check if value already exists
-	// if it exists delete with unset
-	ft_printf("key %s\n", key);
-	ft_printf("value %s\n", value);
+	check_envp = get_envp_index(key, data->envp);
+	if (check_envp != -1)
+		unset(data, key);
 	add_envp(data, key, value);
 }
