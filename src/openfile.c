@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ms_openfile.c                                      :+:    :+:            */
+/*   openfile.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
@@ -13,7 +13,7 @@
 #include "../include/minishell.h"
 
 
-void	ms_openfile(t_cmd *cmd, t_token token, int open_flag, int *fd)
+void	openfile(t_cmd *cmd, t_token token, int open_flag, int *fd)
 {
 	int		new_fd;
 	char	*filename;
