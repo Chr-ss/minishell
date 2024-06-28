@@ -1,0 +1,19 @@
+echo test > out1
+echo test > empty
+echo test > noaccess
+echo test > doesnotexsits
+
+echo test < in1
+echo test < empty
+echo test < noaccess
+echo test < doesnotexsits
+
+cat -e > out1 < test2
+cat -e > out1 < empty
+cat -e > empty < test2
+cat -e > out1 < noaccess
+cat -e > noaccess < test2
+cat -e > out1 < doesnotexsits
+cat -e > doesnotexsits < test2
+
+cat -e > test1 < test2

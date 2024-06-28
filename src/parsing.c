@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ms_parsing.c                                       :+:    :+:            */
+/*   parsing.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-int	ms_parsing_syntax_quotes(t_msdata *data)
+int	parsing_syntax_quotes(t_msdata *data)
 {
 	int		i;
 	bool	single_q;
@@ -34,35 +34,35 @@ int	ms_parsing_syntax_quotes(t_msdata *data)
 	return(1);
 }
 
-// int	ms_parsing_syntax_meta(t_msdata *data)
+// int	parsing_syntax_meta(t_msdata *data)
 // {
 // 	int		i;
 
 // 	i = 0;
 // 	while(data->line[i])
 // 	{
-// 		i = ms_skipspace(data->line, i);
+// 		i = skipspace(data->line, i);
 // 		if (data->line[i] == '|' || data->line[i] == '' )
 // 		i++;
 // 	}
 // 	return(1);
 // }
 
-void	ms_parsing_syntax(t_msdata *data)
+void	parsing_syntax(t_msdata *data)
 {
 	if (!data->line)
-		ms_error("ms_parsing_syntax, syntax error. (NULL line)");
-	if(ms_parsing_syntax_quotes(data) == -1)
-		ms_error("ms_parsing_syntax, syntax error. (quotes)");
-	// if(ms_parsing_syntax_meta(data) == -1)
-	// 	ms_error("ms_parsing_syntax, syntax error.");
+		error("parsing_syntax, syntax error. (NULL line)");
+	if(parsing_syntax_quotes(data) == -1)
+		error("parsing_syntax, syntax error. (quotes)");
+	// if(parsing_syntax_meta(data) == -1)
+	// 	error("parsing_syntax, syntax error.");
 }
 
-void	ms_parsing(t_msdata *data)
+void	parsing(t_msdata *data)
 {
 	//check for syntax errors before tokenizing
 	// | ls  | cat |
 	// "hello
 	// >>> <<<
-	ms_parsing_syntax(data);
+	parsing_syntax(data);
 }

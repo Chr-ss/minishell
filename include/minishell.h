@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/28 16:09:55 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:23:27 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@
 
 typedef struct s_cmd
 {
-	char			*cmd;		// can be used for execution 
-	char			**argv;		// can be used for execution 
+	char			*cmd;		// can be used for execution
+	char			**argv;		// can be used for execution
 	char			**heredoc;	// heredoc delimiters (write heredocs into tempfile and transfer fd to infd??)
 	struct s_cmd	*pipe;		// if NULL no more pipe
 	int				infd;		// if -1 do not execute cmd | if 0 no change
@@ -50,7 +50,7 @@ typedef struct s_cmd
 
 typedef struct s_msdata
 {
-	t_cmd		*cmd_head;
+	t_cmd		*cmd_head;		// head of CMD struct
 // TOKEN TO CMD
 	t_cmd		*cmd_curr;
 	char		*line;
@@ -58,8 +58,9 @@ typedef struct s_msdata
 // TOKEN TO CMD
 	char		**argv;
 	char		**envp;
+	int			exit_code;
 	char		pwd[PATH_MAX];
-	t_expend	*exp;
+	t_expend	*exp;			// struct for line expansion
 }	t_msdata;
 
 // SIGNAL:
@@ -334,58 +335,51 @@ int	check_dir(char *dirname);
 
 
 // FUNCTIONS:
-void	ms_readline(t_msdata *data);
+void	input_handling(t_msdata *data);
+void	parsing(t_msdata *data);
+void	error(char *msg);
 
-void	ms_parsing(t_msdata *data);
-void	ms_error(char *msg);
-
-// UTILS_CHRISS
-char	*str_expand(char *str, int *capacity);
-int		ms_skipspace(char *str, int pos);
+// UTILS
+int		skipspace(char *str, int pos);
+int		ft_isbashtoken(int c);
+int		strarr_size(char **strarr);
+char	**extend_strarr(t_cmd *cmd, char **strarr, int strarr_size);
 
 // INITDATA.c
-void	ms_initdata_cpy_envp(t_msdata *data, char **envp);
-void	ms_initdata(t_msdata *data, char **argv, char **envp);
+void	initdata_cpy_envp(t_msdata *data, char **envp);
+void	initdata(t_msdata *data, char **argv, char **envp);
 
 // PARSING
-void	ms_parsing(t_msdata *data);
-void	ms_parsing_syntax(t_msdata *data);
-int		ms_parsing_syntax_quotes(t_msdata *data);
+void	parsing(t_msdata *data);
+void	parsing_syntax(t_msdata *data);
+int		parsing_syntax_quotes(t_msdata *data);
 
 // EXPANSION
-void	ms_expand_exp_init(t_msdata *data, t_expend *exp);
-void	ms_expand_var_nl(t_expend *exp);
-char	*ms_expand_getenv(char **envp, char *env_start, int length);
-void	ms_expand_var(t_msdata *data, t_expend *exp, int *pos);
-void	ms_expand_copy(t_msdata *data, t_expend *exp);
-char	*ms_expand(t_msdata *data);
+void	expand_exp_init(t_msdata *data, t_expend *exp);
+void	expand_var_nl(t_expend *exp);
+char	*expand_getenv(char **envp, char *env_start, int length);
+void	expand_var(t_msdata *data, t_expend *exp, int *pos);
+void	expand_copy(t_msdata *data, t_expend *exp);
+char	*expand(t_msdata *data);
 
 // SORT THIS LATER
-void	ms_token_to_strarr(t_msdata *data, char **strarr, t_token token);
-// void ms_clear_append(t_cmd *cmd);
-void	ms_init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_token token, int *pos));
-t_token ms_token_to_cmd(t_msdata *data, t_token token, int *pos);
-t_token ms_type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_eof(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_error(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_pipe(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token ms_type_handler_word(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+void	token_to_strarr(t_msdata *data, char **strarr, t_token token);
+void	unexpected_token(t_msdata *data, t_token token);
 
-void	ms_unexpected_token(t_msdata *data, t_token token);
-void printf_cmd(t_cmd *cmd);
-char	**ms_extend_strarr(t_cmd *cmd, char **strarr, int strarr_size);
-void ms_l(t_msdata *data, char *line);
-void ms_readline(t_msdata *data);
-int ms_strarr_size(char **strarr);
-
-
+t_token	tokenizer(char *line);
 void	temp_print_tokens(t_msdata *data, char *line);
-t_token	ms_tokenizer(char *line);
-int	ft_isbashtoken(int c);
+void	printf_cmd(t_cmd *cmd);
+void	init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_token token, int *pos));
+t_token token_to_cmd(t_msdata *data, t_token token, int *pos);
+t_token	type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_eof(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_error(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_pipe(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+t_token	type_handler_word(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
 
-void	ms_openfile(t_cmd *cmd, t_token token, int open_flag, int *fd);
+void	openfile(t_cmd *cmd, t_token token, int open_flag, int *fd);
 
 #endif	// MINISHELL_H
