@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/28 15:55:36 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:57:44 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,6 @@ void	add_envp(t_msdata *data, char *key, char *value);
  * Return values and error code will be changed due to ambiguity in future development
 */
 char	*get_envp(t_msdata *data, char *envp);
-
 
 /**
  * @brief This function will change a envp in the envp member 

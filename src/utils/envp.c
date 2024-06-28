@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 18:41:23 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 14:38:12 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 16:00:07 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,3 @@ void	swap_envp(t_msdata *data, char **envp)
 	free_char_array (data->envp);
 	data->envp = envp;
 }
-

@@ -6,13 +6,13 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 15:20:04 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 15:19:32 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:59:25 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
-char **unset_new_envp(t_msdata *data, int skip_index)
+char	**unset_new_envp(t_msdata *data, int skip_index)
 {
 	int		index;
 	int		old_index;
@@ -39,7 +39,7 @@ char **unset_new_envp(t_msdata *data, int skip_index)
 	return (new_envp);
 }
 
-void unset(t_msdata *data, char	*arg)
+void	unset(t_msdata *data, char	*arg)
 {
 	int		arglen;
 	int		env_index;
@@ -50,7 +50,7 @@ void unset(t_msdata *data, char	*arg)
 		return ;
 	if (arg == NULL)
 		env_index = get_envp_index(arg, data->envp);
-	else 
+	else
 		env_index = get_envp_index(data->argv[1], data->envp);
 	if (env_index == -1)
 		return ;

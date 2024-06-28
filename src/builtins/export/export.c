@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 14:59:21 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 15:23:00 by spenning         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:59:49 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 // export lol=wat wat wat
 // export wat=lol=wat {wat='lol=wat'}
 // export wat= {wat="", echo $wat = ""}
-// export [existing variable]=new_value {[existing variable]=new_value, echo $[existing variable] = new_value}
+// export [existing variable]=new_value 
+// {[existing variable]=new_value, echo $[existing variable] = new_value}
 
 char	*export_check_value(char *value)
 {
