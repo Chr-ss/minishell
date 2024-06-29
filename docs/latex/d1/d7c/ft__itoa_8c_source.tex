@@ -1,0 +1,76 @@
+\doxysection{ft\+\_\+itoa.\+c}
+\hypertarget{ft__itoa_8c_source}{}\label{ft__itoa_8c_source}\index{libft/src/libft/convert/ft\_itoa.c@{libft/src/libft/convert/ft\_itoa.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::::::::\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ \ ft\_itoa.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ crasche\ <crasche@student.codam.nl>\ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/10/08\ 14:26:27\ by\ crasche\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/04\ 17:21:03\ by\ crasche\ \ \ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ odam.nl\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../../../include/libft.h"{}}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00016}00016\ \textcolor{keyword}{static}\ \ \textcolor{keywordtype}{void}\ \ \ \ getstring(\textcolor{keywordtype}{int}\ n,\ \textcolor{keywordtype}{char}\ *buffer,\ \textcolor{keywordtype}{int}\ *buffer\_len)}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00017}00017\ \{}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00018}00018\ \ \ \ \ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00019}00019\ \ \ \ \ \textcolor{keywordtype}{int}\ pre;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00021}00021\ \ \ \ \ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00022}00022\ \ \ \ \ pre\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00023}00023\ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00024}00024\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00025}00025\ \ \ \ \ \ \ \ \ buffer[i]\ =\ ((n\ \%\ 10)\ *\ -\/1)\ +\ 48;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00026}00026\ \ \ \ \ \ \ \ \ n\ =\ n\ /\ 10;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00027}00027\ \ \ \ \ \ \ \ \ n\ *=\ -\/1;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00028}00028\ \ \ \ \ \ \ \ \ pre\ *=\ -\/1;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00029}00029\ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00030}00030\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00031}00031\ \ \ \ \ \textcolor{keywordflow}{while}\ (n\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00032}00032\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00033}00033\ \ \ \ \ \ \ \ \ buffer[i]\ =\ (n\ \%\ 10)\ +\ 48;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00034}00034\ \ \ \ \ \ \ \ \ buffer[i\ +\ 1]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00035}00035\ \ \ \ \ \ \ \ \ n\ =\ n\ /\ 10;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00036}00036\ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00037}00037\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00038}00038\ \ \ \ \ \textcolor{keywordflow}{if}\ (pre\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00039}00039\ \ \ \ \ \ \ \ \ buffer[i]\ =\ \textcolor{charliteral}{'-\/'};}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00040}00040\ \ \ \ \ *buffer\_len\ =\ (int)\ ft\_strlen(buffer);}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00041}00041\ \}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00043}00043\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_itoa(\textcolor{keywordtype}{int}\ n)}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00044}00044\ \{}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00045}00045\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ buffer[20];}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00046}00046\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ *str;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00047}00047\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ buffer\_len;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00048}00048\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ i;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00050}00050\ \ \ \ \ ft\_bzero(buffer,\ 20);}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00051}00051\ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00052}00052\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00053}00053\ \ \ \ \ \ \ \ \ buffer\_len\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00054}00054\ \ \ \ \ \ \ \ \ buffer[0]\ =\ \textcolor{charliteral}{'0'};}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00055}00055\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00056}00056\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00057}00057\ \ \ \ \ \ \ \ \ getstring(n,\ buffer,\ \&buffer\_len);}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00058}00058\ \ \ \ \ str\ =\ ft\_calloc(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char}),\ (buffer\_len\ +\ 1));}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00059}00059\ \ \ \ \ \textcolor{keywordflow}{if}\ (!str)}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (NULL);}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00061}00061\ \ \ \ \ str[buffer\_len-\/-\/]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00062}00062\ \ \ \ \ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00063}00063\ \ \ \ \ \textcolor{keywordflow}{while}\ (buffer\_len\ >=\ 0)}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00064}00064\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00065}00065\ \ \ \ \ \ \ \ \ str[i]\ =\ buffer[buffer\_len];}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00066}00066\ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00067}00067\ \ \ \ \ \ \ \ \ buffer\_len-\/-\/;}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00068}00068\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00069}00069\ \ \ \ \ \textcolor{keywordflow}{return}\ (str);}
+\DoxyCodeLine{\Hypertarget{ft__itoa_8c_source_l00070}00070\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,29 @@
+\doxysection{ft\+\_\+strchr.\+c}
+\hypertarget{ft__strchr_8c_source}{}\label{ft__strchr_8c_source}\index{libft/src/libft/str/ft\_strchr.c@{libft/src/libft/str/ft\_strchr.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::::::::\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ \ ft\_strchr.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ crasche\ <crasche@student.codam.nl>\ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/10/03\ 14:26:40\ by\ crasche\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/05/26\ 14:43:06\ by\ crasche\ \ \ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ odam.nl\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../../../include/libft.h"{}}}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00015}00015\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_strchr(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *s,\ \textcolor{keywordtype}{int}\ c)}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00016}00016\ \{}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00017}00017\ \ \ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char})\ *s\ ==\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char})\ c)}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ((\textcolor{keywordtype}{char}\ *)\ s);}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00019}00019\ \ \ \ \ \textcolor{keywordflow}{while}\ (*s++\ !=\ \textcolor{charliteral}{'\(\backslash\)0'})}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char})\ *s\ ==\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char})\ c)}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ((\textcolor{keywordtype}{char}\ *)\ s);}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00022}00022\ \ \ \ \ \textcolor{keywordflow}{return}\ (NULL);}
+\DoxyCodeLine{\Hypertarget{ft__strchr_8c_source_l00023}00023\ \}}
+
+\end{DoxyCode}

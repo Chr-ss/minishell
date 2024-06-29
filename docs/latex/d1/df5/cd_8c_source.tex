@@ -1,0 +1,96 @@
+\doxysection{cd.\+c}
+\hypertarget{cd_8c_source}{}\label{cd_8c_source}\index{src/builtins/cd/cd.c@{src/builtins/cd/cd.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ \ cd.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ spenning\ <spenning@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2024/06/18\ 14:41:51\ by\ spenning\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/28\ 17:29:02\ by\ spenning\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00013}00013\ \textcolor{comment}{//https://stackoverflow.com/questions/12510874/how-\/can-\/i-\/check-\/if-\/a-\/directory}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00014}00014\ \textcolor{comment}{//-\/exists}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00015}00015\ \textcolor{comment}{//https://stackoverflow.com/questions/291828/what-\/is-\/the-\/best-\/way-\/to-\/return-\/an-\/}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00016}00016\ \textcolor{comment}{//error-\/from-\/a-\/function-\/when-\/im-\/already-\/returni}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00017}00017\ \textcolor{comment}{//https://stackoverflow.com/questions/9314586/c-\/faster-\/way-\/to-\/check-\/if-\/a-\/}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00018}00018\ \textcolor{comment}{//directory-\/exists}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00019}00019\ \textcolor{comment}{//https://insanecoding.blogspot.com/2007/11/pathmax-\/simply-\/isnt.html}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00020}00020\ \textcolor{preprocessor}{\#include\ "{}../../../include/minishell.h"{}}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00021}00021\ \textcolor{preprocessor}{\#include\ "{}../../../include/builtins.h"{}}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00023}00023\ \textcolor{keywordtype}{int}\ cd\_chdir(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \textcolor{keywordtype}{char}\ *dir)}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00024}00024\ \{}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00025}00025\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ *pwd;}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00026}00026\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ *old\_pwd;}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00028}00028\ \ \ \ \ old\_pwd\ =\ get\_envp(data,\ \textcolor{stringliteral}{"{}PWD"{}});}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00029}00029\ \ \ \ \ pwd\ =\ ft\_strdup(dir);}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00030}00030\ \ \ \ \ \textcolor{keywordflow}{if}\ (!pwd\ ||\ !old\_pwd)}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00031}00031\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pwd)}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ free(pwd);}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (old\_pwd)}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ free(old\_pwd);}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00037}00037\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00038}00038\ \ \ \ \ \textcolor{keywordflow}{if}\ (chdir(dir)\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00040}00040\ \ \ \ \ \textcolor{keywordflow}{if}\ (change\_envp(\textcolor{stringliteral}{"{}PWD"{}},\ pwd,\ data-\/>envp)\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00042}00042\ \ \ \ \ \textcolor{keywordflow}{if}\ (change\_envp(\textcolor{stringliteral}{"{}OLDPWD"{}},\ old\_pwd,\ data-\/>envp)\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00043}00043\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (change\_envp(\textcolor{stringliteral}{"{}PWD"{}},\ old\_pwd,\ data-\/>envp)\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00046}00046\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00047}00047\ \ \ \ \ \textcolor{keywordflow}{return}\ (EXIT\_SUCCESS);}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00048}00048\ \}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00050}00050\ \textcolor{comment}{//TEST\ CASES\ }}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00051}00051\ \textcolor{comment}{//\ pso:\ make\ re\ \&\&\ export\ CDPATH=.:\string~/projects/core\_projects/minishell/src\ }}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00052}00052\ \textcolor{comment}{//\ \&\&\ mkdir\ -\/p\ \string~/projects/core\_projects/minishell/src/lol\ cd\ \string~/projects\ }}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00053}00053\ \textcolor{comment}{//\ \&\&\ valgrind\ -\/-\/leak-\/check=full\ cd\ lol\ \&\&\ unset\ CDPATH}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00054}00054\ \textcolor{comment}{//\ dso:\ mkdir\ -\/p\ \string~/projects/core\_projects/minishell/src/lol\ }}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00055}00055\ \textcolor{comment}{//\ \&\&\ cd\ \string~/projects/core\_projects/minishell/src\ \&\&\ cd\ lol}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00056}00056\ \textcolor{comment}{//\ canonical\ form\ test\ Original\ Path:\ ///a/./b/../c//d/e/../\ ;\ }}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00057}00057\ \textcolor{comment}{//\ ///a/b/../c//d/e/../;\ ///a/c//d/e/../;\ ///a/c//d/;\ /a/c/d}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00058}00058\ \textcolor{comment}{//\ cd\ \$(echo\ \$(perl\ -\/E\ 'say\ "{}/"{}\ x\ 5000')"{}home/spenning"{})\ works\ in\ cd,\ }}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00059}00059\ \textcolor{comment}{//\ but\ does\ not\ work\ here\ because\ of\ PATH\_MAX}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00061}00061\ \textcolor{comment}{//\ add\ to\ debug}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00062}00062\ \textcolor{comment}{//\ char\ cwd[PATH\_MAX];}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00063}00063\ \textcolor{comment}{//\ ft\_printf("{}before\ PWD\ \%s\(\backslash\)n"{},\ get\_envp(data,\ "{}PWD"{}));}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00064}00064\ \textcolor{comment}{//\ ft\_printf("{}before\ OLDPWD\%s\(\backslash\)n"{},\ get\_envp(data,\ "{}OLDPWD"{}));}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00065}00065\ \textcolor{comment}{//\ ft\_printf("{}after\ PWD\ \%s\(\backslash\)n"{},\ get\_envp(data,\ "{}PWD"{}));}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00066}00066\ \textcolor{comment}{//\ ft\_printf("{}after\ OLDPWD\%s\(\backslash\)n"{},\ get\_envp(data,\ "{}OLDPWD"{}));}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00067}00067\ \textcolor{comment}{//\ getcwd(cwd,\ sizeof(cwd));}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00068}00068\ \textcolor{comment}{//\ ft\_printf("{}\%s\(\backslash\)n"{},\ cwd);}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00070}00070\ \textcolor{keywordtype}{int}\ cd(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data)}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00071}00071\ \{}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00072}00072\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ *dir;}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00073}00073\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ arglen;}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00075}00075\ \ \ \ \ dir\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00076}00076\ \ \ \ \ \textcolor{keywordflow}{if}\ (ft\_strlen\ (data-\/>argv[1])\ >\ PATH\_MAX)}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00077}00077\ \ \ \ \ \ \ \ \ error(\textcolor{stringliteral}{"{}path\ too\ long\ for\ cd"{}});}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00078}00078\ \ \ \ \ arglen\ =\ double\_array\_len(data-\/>argv);}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00079}00079\ \ \ \ \ \textcolor{keywordflow}{if}\ (arglen\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00080}00080\ \ \ \ \ \ \ \ \ dir\ =\ get\_envp(data,\ \textcolor{stringliteral}{"{}HOME"{}});}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00081}00081\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (arglen\ >\ 2)}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00082}00082\ \ \ \ \ \ \ \ \ error(\textcolor{stringliteral}{"{}too\ many\ arguments\ for\ cd"{}});}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00083}00083\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00084}00084\ \ \ \ \ \ \ \ \ dir\ =\ cd\_parse(data);}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00085}00085\ \ \ \ \ \textcolor{keywordflow}{if}\ (dir\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00086}00086\ \ \ \ \ \ \ \ \ error(\textcolor{stringliteral}{"{}allocation\ error"{}});}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00087}00087\ \ \ \ \ \textcolor{keywordflow}{if}\ (cd\_chdir(data,\ dir))}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00088}00088\ \ \ \ \ \ \ \ \ error(\textcolor{stringliteral}{"{}chdir\ error"{}});}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00089}00089\ \ \ \ \ \textcolor{keywordflow}{return}\ (EXIT\_SUCCESS);}
+\DoxyCodeLine{\Hypertarget{cd_8c_source_l00090}00090\ \}}
+
+\end{DoxyCode}

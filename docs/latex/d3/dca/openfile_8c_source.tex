@@ -1,0 +1,48 @@
+\doxysection{openfile.\+c}
+\hypertarget{openfile_8c_source}{}\label{openfile_8c_source}\index{src/openfile.c@{src/openfile.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::::::::\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ \ openfile.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ crasche\ <crasche@student.codam.nl>\ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2024/05/18\ 16:29:43\ by\ crasche\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/13\ 14:22:39\ by\ crasche\ \ \ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ odam.nl\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../include/minishell.h"{}}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00016}00016\ \textcolor{keywordtype}{void}\ \ \ \ openfile(\mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ open\_flag,\ \textcolor{keywordtype}{int}\ *fd)}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00017}00017\ \{}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00018}00018\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ new\_fd;}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00019}00019\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ *filename;}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00021}00021\ \ \ \ \ filename\ =\ ft\_strndup(token.start,\ token.length);}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00022}00022\ \ \ \ \ new\_fd\ =\ open(filename,\ O\_RDWR,\ open\_flag);}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00023}00023\ \ \ \ \ \textcolor{keywordflow}{if}\ (new\_fd\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00024}00024\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00025}00025\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Can\ not\ open\ file.\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00026}00026\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00027}00027\ \ \ \ \ \textcolor{keywordflow}{if}\ (*fd)}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00028}00028\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00029}00029\ \ \ \ \ \ \ \ \ close(*fd);}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00030}00030\ \ \ \ \ \ \ \ \ *fd\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00031}00031\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00032}00032\ \ \ \ \ \textcolor{keywordflow}{if}\ (*fd\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00033}00033\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00034}00034\ \ \ \ \ \ \ \ \ *fd\ =\ new\_fd;}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00035}00035\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00036}00036\ \ \ \ \ \textcolor{keywordflow}{if}\ (*fd\ <\ 0\ \&\&\ new\_fd\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00037}00037\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00038}00038\ \ \ \ \ \ \ \ \ close\ (new\_fd);}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00039}00039\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00040}00040\ \ \ \ \ free(filename);}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00041}00041\ \ \ \ \ (void)\ cmd;}
+\DoxyCodeLine{\Hypertarget{openfile_8c_source_l00042}00042\ \}}
+
+\end{DoxyCode}

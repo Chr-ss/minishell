@@ -1,0 +1,147 @@
+\doxysection{libft.\+h}
+\hypertarget{libft_8h_source}{}\label{libft_8h_source}\index{libft/include/libft.h@{libft/include/libft.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::::::::\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00004}00004\ \textcolor{comment}{/*\ \ \ libft.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ crasche\ <crasche@student.codam.nl>\ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/10/03\ 15:23:23\ by\ crasche\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/04\ 18:16:20\ by\ crasche\ \ \ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ odam.nl\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00013}00013\ \textcolor{preprocessor}{\#ifndef\ LIBFT\_H}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00014}00014\ \textcolor{preprocessor}{\#\ define\ LIBFT\_H}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00016}00016\ \textcolor{preprocessor}{\#\ include\ <stddef.h>}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00017}00017\ \textcolor{preprocessor}{\#\ include\ <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00018}00018\ \textcolor{preprocessor}{\#\ include\ <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00019}00019\ \textcolor{preprocessor}{\#\ include\ <limits.h>}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00020}00020\ \textcolor{preprocessor}{\#\ include\ <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00021}00021\ \textcolor{preprocessor}{\#\ include\ <stdarg.h>}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00022}00022\ \textcolor{preprocessor}{\#\ include\ <limits.h>}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00023}00023\ \textcolor{preprocessor}{\#\ include\ <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00025}00025\ \textcolor{comment}{//\ LIBFT\ BONUS\ STRUCT}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00026}\mbox{\hyperlink{structs__libft}{00026}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__libft}{s\_libft}}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00027}00027\ \{}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00028}00028\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ \ \ \ \ \ \ \ \ *content;}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00029}00029\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__libft}{s\_libft}}\ \ \ *next;}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00030}00030\ \}\ \ \ \mbox{\hyperlink{structs__libft}{t\_libft}};}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00032}00032\ \textcolor{comment}{//\ GET\_NEXT\_LINE\ STRUCT}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00033}\mbox{\hyperlink{structs__gnl}{00033}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__gnl}{s\_gnl}}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00034}00034\ \{}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00035}00035\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ *buffer;}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00036}00036\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__gnl}{s\_gnl}}\ \ \ *next;}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00037}00037\ \}\ \ \ \mbox{\hyperlink{structs__gnl}{t\_gnl}};}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00039}00039\ \textcolor{comment}{//\ FT\_PRINTF\ STRUCT}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00040}\mbox{\hyperlink{structs__flags}{00040}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__flags}{s\_flags}}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00041}00041\ \{}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00042}00042\ \ \ \ \ \textcolor{keywordtype}{int}\ spec;}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00043}00043\ \ \ \ \ \textcolor{keywordtype}{int}\ width;}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00044}00044\ \ \ \ \ \textcolor{keywordtype}{int}\ star;}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00045}00045\ \ \ \ \ \textcolor{keywordtype}{int}\ zero;}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00046}00046\ \ \ \ \ \textcolor{keywordtype}{int}\ minus;}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00047}00047\ \ \ \ \ \textcolor{keywordtype}{int}\ dot;}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00048}00048\ \ \ \ \ \textcolor{keywordtype}{int}\ hash;}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00049}00049\ \ \ \ \ \textcolor{keywordtype}{int}\ space;}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00050}00050\ \ \ \ \ \textcolor{keywordtype}{int}\ plus;}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00051}00051\ \}\ \ \ \mbox{\hyperlink{structs__flags}{t\_flags}};}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00053}00053\ \textcolor{comment}{//\ GET\_NEXT\_LINE\ DEFINE\ BUFFER\_SIZE}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00054}00054\ \textcolor{preprocessor}{\#\ ifndef\ BUFFER\_SIZE}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00055}00055\ \textcolor{preprocessor}{\#\ \ define\ BUFFER\_SIZE\ 50000}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00056}00056\ \textcolor{preprocessor}{\#\ endif}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00058}00058\ \textcolor{comment}{//\ LIBFT\ FUNCTIONS}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00059}00059\ \textcolor{comment}{//\ ft\_convert..}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00060}00060\ \textcolor{keywordtype}{char}\ \ \ \ **ft\_split(\textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *s,\ \textcolor{keywordtype}{char}\ c);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00061}00061\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_atoi(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *nptr);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00062}00062\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_itoa(\textcolor{keywordtype}{int}\ n);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00063}00063\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_tolower(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00064}00064\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_toupper(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00065}00065\ \textcolor{comment}{//\ ft\_istype}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00066}00066\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_isdigit(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00067}00067\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_isspace(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00068}00068\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_isalnum(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00069}00069\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_isupper(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00070}00070\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_islower(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00071}00071\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_isalpha(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00072}00072\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_isascii(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00073}00073\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_isprint(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00074}00074\ \textcolor{comment}{//\ ft\_list..}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00075}00075\ \mbox{\hyperlink{structs__libft}{t\_libft}}\ \ *ft\_lstnew(\textcolor{keywordtype}{void}\ *content);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00076}00076\ \textcolor{keywordtype}{void}\ \ \ \ ft\_lstadd\_front(\mbox{\hyperlink{structs__libft}{t\_libft}}\ **lst,\ \mbox{\hyperlink{structs__libft}{t\_libft}}\ *lstnew);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00077}00077\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_lstsize(\mbox{\hyperlink{structs__libft}{t\_libft}}\ *lst);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00078}00078\ \mbox{\hyperlink{structs__libft}{t\_libft}}\ \ *ft\_lstlast(\mbox{\hyperlink{structs__libft}{t\_libft}}\ *lst);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00079}00079\ \textcolor{keywordtype}{void}\ \ \ \ ft\_lstadd\_back(\mbox{\hyperlink{structs__libft}{t\_libft}}\ **lst,\ \mbox{\hyperlink{structs__libft}{t\_libft}}\ *lstnew);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00080}00080\ \textcolor{keywordtype}{void}\ \ \ \ ft\_lstdelone(\mbox{\hyperlink{structs__libft}{t\_libft}}\ *lst,\ \textcolor{keywordtype}{void}\ (*del)(\textcolor{keywordtype}{void}*));}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00081}00081\ \textcolor{keywordtype}{void}\ \ \ \ ft\_lstiter(\mbox{\hyperlink{structs__libft}{t\_libft}}\ *lst,\ \textcolor{keywordtype}{void}\ (*f)(\textcolor{keywordtype}{void}\ *));}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00082}00082\ \textcolor{keywordtype}{void}\ \ \ \ ft\_lstclear(\mbox{\hyperlink{structs__libft}{t\_libft}}\ **lst,\ \textcolor{keywordtype}{void}\ (*del)(\textcolor{keywordtype}{void}*));}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00083}00083\ \mbox{\hyperlink{structs__libft}{t\_libft}}\ \ *ft\_lstmap(\mbox{\hyperlink{structs__libft}{t\_libft}}\ *lst,\ \textcolor{keywordtype}{void}\ *(*f)(\textcolor{keywordtype}{void}\ *),\ \textcolor{keywordtype}{void}\ (*del)(\textcolor{keywordtype}{void}\ *));}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00084}00084\ \textcolor{comment}{//\ ft\_melloc..}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00085}00085\ \textcolor{keywordtype}{void}\ \ \ \ ft\_bzero(\textcolor{keywordtype}{void}\ *s,\ \textcolor{keywordtype}{size\_t}\ n);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00086}00086\ \textcolor{keywordtype}{void}\ \ \ \ *ft\_calloc(\textcolor{keywordtype}{size\_t}\ nmemb,\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00087}00087\ \textcolor{keywordtype}{void}\ \ \ \ ft\_free\_strarr(\textcolor{keywordtype}{char}\ **strarr);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00088}00088\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_dynstralloc(\textcolor{keywordtype}{char}\ *original\_str,\ \textcolor{keywordtype}{int}\ *capacity);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00089}00089\ \textcolor{comment}{//\ ft\_mem..}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00090}00090\ \textcolor{keywordtype}{void}\ \ \ \ *ft\_memcpy(\textcolor{keywordtype}{void}\ *dest,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *src,\ \textcolor{keywordtype}{size\_t}\ n);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00091}00091\ \textcolor{keywordtype}{void}\ \ \ \ *ft\_memmove(\textcolor{keywordtype}{void}\ *dest,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *src,\ \textcolor{keywordtype}{size\_t}\ n);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00092}00092\ \textcolor{keywordtype}{void}\ \ \ \ *ft\_memset(\textcolor{keywordtype}{void}\ *s,\ \textcolor{keywordtype}{int}\ c,\ \textcolor{keywordtype}{size\_t}\ n);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00093}00093\ \textcolor{keywordtype}{void}\ \ \ \ *ft\_memchr(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *s,\ \textcolor{keywordtype}{int}\ c,\ \textcolor{keywordtype}{size\_t}\ n);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00094}00094\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_memcmp(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *s1,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *s2,\ \textcolor{keywordtype}{size\_t}\ n);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00095}00095\ \textcolor{comment}{//\ ft\_put..}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00096}00096\ \textcolor{keywordtype}{void}\ \ \ \ ft\_putchar\_fd(\textcolor{keywordtype}{char}\ c,\ \textcolor{keywordtype}{int}\ fd);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00097}00097\ \textcolor{keywordtype}{void}\ \ \ \ ft\_putstr\_fd(\textcolor{keywordtype}{char}\ *s,\ \textcolor{keywordtype}{int}\ fd);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00098}00098\ \textcolor{keywordtype}{void}\ \ \ \ ft\_putendl\_fd(\textcolor{keywordtype}{char}\ *s,\ \textcolor{keywordtype}{int}\ fd);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00099}00099\ \textcolor{keywordtype}{void}\ \ \ \ ft\_putnbr\_fd(\textcolor{keywordtype}{int}\ n,\ \textcolor{keywordtype}{int}\ fd);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00100}00100\ \textcolor{comment}{//\ ft\_str..}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00101}00101\ \textcolor{keywordtype}{size\_t}\ \ ft\_strlen(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *s);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00102}00102\ \textcolor{keywordtype}{size\_t}\ \ ft\_strlcpy(\textcolor{keywordtype}{char}\ *dst,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *src,\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00103}00103\ \textcolor{keywordtype}{size\_t}\ \ ft\_strlcat(\textcolor{keywordtype}{char}\ *dst,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *src,\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00104}00104\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_strncmp(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *s1,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *s2,\ \textcolor{keywordtype}{size\_t}\ n);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00105}00105\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_strnstr(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *big,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *little,\ \textcolor{keywordtype}{size\_t}\ len);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00106}00106\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_strchr(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *s,\ \textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00107}00107\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_strrchr(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *s,\ \textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00108}00108\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_strdup(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *s);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00109}00109\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_strndup(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *s,\ \textcolor{keywordtype}{size\_t}\ n);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00110}00110\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_substr(\textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *s,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ start,\ \textcolor{keywordtype}{size\_t}\ len);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00111}00111\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_strjoin(\textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *s1,\ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *s2);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00112}00112\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_strtrim(\textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *s1,\ \textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *set);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00113}00113\ \textcolor{keywordtype}{char}\ \ \ \ *ft\_strmapi(\textcolor{keywordtype}{char}\ \textcolor{keyword}{const}\ *s,\ \textcolor{keywordtype}{char}\ (*f)(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int},\ \textcolor{keywordtype}{char}));}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00114}00114\ \textcolor{keywordtype}{void}\ \ \ \ ft\_striteri(\textcolor{keywordtype}{char}\ *s,\ \textcolor{keywordtype}{void}\ (*f)(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int},\ \textcolor{keywordtype}{char}*));}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00116}00116\ \textcolor{comment}{//\ FT\_PRINTF\ FUNCTIONS}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00117}00117\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_printf(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *format,\ ...);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00118}00118\ \textcolor{comment}{//\ hex.c\ functions\ for\ hex\ conversions\ for\ flags:\ x\ X\ p}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00119}00119\ \textcolor{keywordtype}{void}\ \ \ \ printf\_x\_upper(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *count,\ \mbox{\hyperlink{structs__flags}{t\_flags}}\ flags);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00120}00120\ \textcolor{keywordtype}{void}\ \ \ \ printf\_x(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *count,\ \mbox{\hyperlink{structs__flags}{t\_flags}}\ flags);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00121}00121\ \textcolor{keywordtype}{void}\ \ \ \ printf\_p(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ n,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00122}00122\ \textcolor{keywordtype}{void}\ \ \ \ printf\_get\_hex(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ n,\ \textcolor{keywordtype}{char}\ *number);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00123}00123\ \textcolor{comment}{//\ chars.c\ functions\ for\ char\ and\ string\ for\ flags:\ c\ s}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00124}00124\ \textcolor{keywordtype}{int}\ \ \ \ \ printf\_s(\textcolor{keywordtype}{char}\ *s,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00125}00125\ \textcolor{keywordtype}{int}\ \ \ \ \ printf\_c(\textcolor{keywordtype}{int}\ i,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00126}00126\ \textcolor{comment}{//\ numbers.c\ functions\ for\ nubmers\ for\ flags:\ i\ d\ u}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00127}00127\ \textcolor{keywordtype}{void}\ \ \ \ printf\_int(\textcolor{keywordtype}{int}\ n,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *count,\ \mbox{\hyperlink{structs__flags}{t\_flags}}\ flags);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00128}00128\ \textcolor{keywordtype}{void}\ \ \ \ printf\_u(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *count);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00129}00129\ \textcolor{keywordtype}{void}\ \ \ \ printf\_int\_digits(\textcolor{keywordtype}{int}\ n,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *count,\ \textcolor{keywordtype}{int}\ len,\ \mbox{\hyperlink{structs__flags}{t\_flags}}\ flags);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00131}00131\ \textcolor{comment}{//\ GET\_NEXT\_LINE\ FUNCTIONS}}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00132}00132\ \textcolor{keywordtype}{char}\ \ \ \ *get\_next\_line(\textcolor{keywordtype}{int}\ fd);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00134}00134\ \textcolor{keywordtype}{int}\ \ \ \ \ gnl\_lst\_until\_nl(\mbox{\hyperlink{structs__gnl}{t\_gnl}}\ *lst);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00135}00135\ \textcolor{keywordtype}{int}\ \ \ \ \ gnl\_lst\_until\_nl1(\mbox{\hyperlink{structs__gnl}{t\_gnl}}\ *lst);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00136}00136\ \textcolor{keywordtype}{void}\ \ \ \ *gnl\_ft\_calloc(\textcolor{keywordtype}{size\_t}\ nmemb,\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00137}00137\ \textcolor{keywordtype}{void}\ \ \ \ gnl\_lst\_to\_next\_line(\mbox{\hyperlink{structs__gnl}{t\_gnl}}\ *lst,\ \textcolor{keywordtype}{char}\ *next\_line);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00138}00138\ \textcolor{keywordtype}{int}\ \ \ \ \ gnl\_free\_master(\mbox{\hyperlink{structs__gnl}{t\_gnl}}\ **list,\ \mbox{\hyperlink{structs__gnl}{t\_gnl}}\ **clean\_node,}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ **buf,\ \textcolor{keywordtype}{char}\ **nl);}
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{libft_8h_source_l00141}00141\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LIBFT\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

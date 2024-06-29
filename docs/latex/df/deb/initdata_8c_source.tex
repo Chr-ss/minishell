@@ -1,0 +1,50 @@
+\doxysection{initdata.\+c}
+\hypertarget{initdata_8c_source}{}\label{initdata_8c_source}\index{src/initdata.c@{src/initdata.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::::::::\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ \ initdata.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ crasche\ <crasche@student.codam.nl>\ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2024/06/02\ 13:50:51\ by\ crasche\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/04\ 23:27:38\ by\ crasche\ \ \ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ odam.nl\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../include/minishell.h"{}}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00015}00015\ \textcolor{keywordtype}{void}\ \ \ \ initdata\_cpy\_envp(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \textcolor{keywordtype}{char}\ **envp)}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00016}00016\ \{}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00017}00017\ \ \ \ \ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00019}00019\ \ \ \ \ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00020}00020\ \ \ \ \ \textcolor{keywordflow}{while}\ (envp\ \&\&\ envp[i])}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00021}00021\ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00022}00022\ \ \ \ \ data-\/>envp\ =\ ft\_calloc(i\ +\ 1,\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char}\ *));}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00023}00023\ \ \ \ \ \textcolor{keywordflow}{if}\ (!data-\/>envp)}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00024}00024\ \ \ \ \ \ \ \ \ error(\textcolor{stringliteral}{"{}initdata\_envp,\ malloc\ error"{}});}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00025}00025\ \ \ \ \ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00026}00026\ \ \ \ \ \textcolor{keywordflow}{while}\ (envp\ \&\&\ envp[i])}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00027}00027\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00028}00028\ \ \ \ \ \ \ \ \ data-\/>envp[i]\ =\ ft\_strdup(envp[i]);}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!data-\/>envp[i])}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ error(\textcolor{stringliteral}{"{}initdata\_envp,\ malloc\ error"{}});}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00031}00031\ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00033}00033\ \}}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00035}00035\ \textcolor{keywordtype}{void}\ \ \ \ initdata(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \textcolor{keywordtype}{char}\ **argv,\ \textcolor{keywordtype}{char}\ **envp)}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00036}00036\ \{}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00037}00037\ \ \ \ \ data-\/>cmd\_head\ =\ ft\_calloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structs__cmd}{t\_cmd}}),\ 1);}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00038}00038\ \ \ \ \ data-\/>cmd\_curr\ =\ data-\/>cmd\_head;}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00039}00039\ \ \ \ \ data-\/>line\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00040}00040\ \ \ \ \ data-\/>pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00041}00041\ \ \ \ \ data-\/>argv\ =\ argv;}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00042}00042\ \ \ \ \ data-\/>exp\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00043}00043\ \ \ \ \ initdata\_cpy\_envp(data,\ envp);}
+\DoxyCodeLine{\Hypertarget{initdata_8c_source_l00044}00044\ \}}
+
+\end{DoxyCode}

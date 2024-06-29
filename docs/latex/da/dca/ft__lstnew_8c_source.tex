@@ -1,0 +1,31 @@
+\doxysection{ft\+\_\+lstnew.\+c}
+\hypertarget{ft__lstnew_8c_source}{}\label{ft__lstnew_8c_source}\index{libft/src/libft/list/ft\_lstnew.c@{libft/src/libft/list/ft\_lstnew.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::::::::\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ \ ft\_lstnew.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ crasche\ <crasche@student.codam.nl>\ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/10/10\ 14:13:39\ by\ crasche\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/04\ 18:03:23\ by\ crasche\ \ \ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ odam.nl\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../../../include/libft.h"{}}}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00015}00015\ \mbox{\hyperlink{structs__libft}{t\_libft}}\ \ *ft\_lstnew(\textcolor{keywordtype}{void}\ *content)}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00016}00016\ \{}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00017}00017\ \ \ \ \ \mbox{\hyperlink{structs__libft}{t\_libft}}\ \ *ret;}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00019}00019\ \ \ \ \ ret\ =\ ft\_calloc(1,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structs__libft}{t\_libft}}));}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00020}00020\ \ \ \ \ \textcolor{keywordflow}{if}\ (!ret)}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (NULL);}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00022}00022\ \ \ \ \ ret-\/>content\ =\ content;}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00023}00023\ \ \ \ \ ret-\/>next\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00024}00024\ \ \ \ \ \textcolor{keywordflow}{return}\ (ret);}
+\DoxyCodeLine{\Hypertarget{ft__lstnew_8c_source_l00025}00025\ \}}
+
+\end{DoxyCode}

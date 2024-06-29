@@ -1,0 +1,47 @@
+\doxysection{envp.\+c}
+\hypertarget{envp_8c_source}{}\label{envp_8c_source}\index{src/utils/envp.c@{src/utils/envp.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ \ envp.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ spenning\ <spenning@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2024/06/24\ 18:41:23\ by\ spenning\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/28\ 16:00:07\ by\ spenning\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../../include/minishell.h"{}}}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00015}00015\ \textcolor{keywordtype}{int}\ change\_envp(\textcolor{keywordtype}{char}\ *key,\ \textcolor{keywordtype}{char}\ *env,\ \textcolor{keywordtype}{char}\ **envp)}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00016}00016\ \{}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00017}00017\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ index;}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00018}00018\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ *temp;}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00019}00019\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ *concat;}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00021}00021\ \ \ \ \ index\ =\ get\_envp\_index(key,\ envp);}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00022}00022\ \ \ \ \ \textcolor{keywordflow}{if}\ (index\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00024}00024\ \ \ \ \ temp\ =\ ft\_strjoin(key,\ \textcolor{stringliteral}{"{}="{}});}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00025}00025\ \ \ \ \ \textcolor{keywordflow}{if}\ (temp\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00027}00027\ \ \ \ \ concat\ =\ ft\_strjoin(temp,\ env);}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00028}00028\ \ \ \ \ free(temp);}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00029}00029\ \ \ \ \ \textcolor{keywordflow}{if}\ (concat\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00031}00031\ \ \ \ \ temp\ =\ envp[index];}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00032}00032\ \ \ \ \ envp[index]\ =\ concat;}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00033}00033\ \ \ \ \ free(temp);}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00034}00034\ \ \ \ \ \textcolor{keywordflow}{return}\ (EXIT\_SUCCESS);}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00035}00035\ \}}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00037}00037\ \textcolor{keywordtype}{void}\ \ \ \ swap\_envp(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \textcolor{keywordtype}{char}\ **envp)}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00038}00038\ \{}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00039}00039\ \ \ \ \ free\_char\_array\ (data-\/>envp);}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00040}00040\ \ \ \ \ data-\/>envp\ =\ envp;}
+\DoxyCodeLine{\Hypertarget{envp_8c_source_l00041}00041\ \}}
+
+\end{DoxyCode}

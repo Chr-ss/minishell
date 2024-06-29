@@ -1,0 +1,74 @@
+\doxysection{echo.\+c}
+\hypertarget{echo_8c_source}{}\label{echo_8c_source}\index{src/builtins/echo/echo.c@{src/builtins/echo/echo.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ \ echo.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ spenning\ <spenning@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2024/06/28\ 15:58:39\ by\ spenning\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/28\ 17:29:11\ by\ spenning\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../../../include/minishell.h"{}}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}../../../include/builtins.h"{}}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00016}00016\ \textcolor{comment}{//\ TESTCASES}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00017}00017\ \textcolor{comment}{//\ echo\ -\/n\ lol\ lol}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00018}00018\ \textcolor{comment}{//\ echo\ lol\ echo\ lol}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00019}00019\ \textcolor{comment}{//\ echo}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00020}00020\ \textcolor{comment}{//\ echo\ -\/n}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00021}00021\ \textcolor{comment}{//\ echo\ -\/nnnnn}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00022}00022\ \textcolor{comment}{//\ echo\ -\/nnnn\ -\/nnnnn}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00023}00023\ \textcolor{comment}{//\ echo\ -\/nnnn\ nnnnn}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00024}00024\ \textcolor{comment}{//\ echo\ -\/-\/-\/-\/nnnn\ nnnnn}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00025}00025\ \textcolor{comment}{//\ echo\ -\/-\/-\/-\/nnnn\ loool\ -\/nnnnn}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00027}00027\ \textcolor{keywordtype}{int}\ echo\_check\_nl(\textcolor{keywordtype}{char}\ *arg)}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00028}00028\ \{}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00029}00029\ \ \ \ \ \textcolor{keywordtype}{int}\ index;}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00030}00030\ \ \ \ \ \textcolor{keywordtype}{int}\ ret;}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00032}00032\ \ \ \ \ index\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00033}00033\ \ \ \ \ ret\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00034}00034\ \ \ \ \ \textcolor{keywordflow}{if}\ (arg[index]\ ==\ \textcolor{charliteral}{'-\/'})}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00035}00035\ \ \ \ \ \ \ \ \ index++;}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00036}00036\ \ \ \ \ \textcolor{keywordflow}{while}\ (arg[index]\ !=\ \textcolor{charliteral}{'\(\backslash\)0'})}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00037}00037\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (arg[index]\ !=\ \textcolor{charliteral}{'n'})}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (ret);}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00040}00040\ \ \ \ \ \ \ \ \ index++;}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00041}00041\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00042}00042\ \ \ \ \ \textcolor{keywordflow}{if}\ (index\ >\ 1)}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00043}00043\ \ \ \ \ \ \ \ \ ret\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00044}00044\ \ \ \ \ \textcolor{keywordflow}{return}\ (ret);}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00045}00045\ \}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00047}00047\ \textcolor{keywordtype}{void}\ \ \ \ echo\_nl(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00048}00048\ \{}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00049}00049\ \ \ \ \ ft\_printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00050}00050\ \}}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00052}00052\ \textcolor{keywordtype}{void}\ \ \ \ echo(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data)}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00053}00053\ \{}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00054}00054\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ print\_nl;}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00055}00055\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ arglen;}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00056}00056\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ *printline;}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00058}00058\ \ \ \ \ print\_nl\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00059}00059\ \ \ \ \ arglen\ =\ double\_array\_len(data-\/>argv);}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00060}00060\ \ \ \ \ \textcolor{keywordflow}{if}\ (arglen\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (echo\_nl());}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00062}00062\ \ \ \ \ printline\ =\ echo\_getline(data-\/>argv,\ \&print\_nl);}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00063}00063\ \ \ \ \ \textcolor{keywordflow}{if}\ (printline\ ==\ NULL)}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00064}00064\ \ \ \ \ \ \ \ \ error(\textcolor{stringliteral}{"{}error\ in\ malloc\ for\ echo"{}});}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00065}00065\ \ \ \ \ ft\_printf(\textcolor{stringliteral}{"{}\%s"{}},\ printline);}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00066}00066\ \ \ \ \ \textcolor{keywordflow}{if}\ (print\_nl)}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00067}00067\ \ \ \ \ \ \ \ \ echo\_nl();}
+\DoxyCodeLine{\Hypertarget{echo_8c_source_l00068}00068\ \}}
+
+\end{DoxyCode}

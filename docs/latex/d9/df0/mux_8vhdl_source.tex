@@ -1,0 +1,29 @@
+\doxysection{mux.\+vhdl}
+\hypertarget{mux_8vhdl_source}{}\label{mux_8vhdl_source}\index{docs/doxygen/examples/mux.vhdl@{docs/doxygen/examples/mux.vhdl}}
+\mbox{\hyperlink{mux_8vhdl}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00001}00001\ \textcolor{comment}{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00004}00004\ \textcolor{comment}{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00007}00007\ \textcolor{vhdlkeyword}{library\ }\textcolor{keywordflow}{ieee};}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00009}\mbox{\hyperlink{classmux__using__with_a44d1d60c58066d98a072e90b31c9d908}{00009}}\ \textcolor{vhdlkeyword}{\ \ \ \ use\ }ieee.std\_logic\_1164.\textcolor{keywordflow}{all};}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00015}\mbox{\hyperlink{classmux__using__with}{00015}}\ \textcolor{keywordflow}{entity\ }\mbox{\hyperlink{classmux__using__with}{mux\_using\_with}}\ \textcolor{keywordflow}{is}}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00016}00016\ \ \ \ \ \textcolor{keywordflow}{port}\ \textcolor{vhdlchar}{(}}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00017}\mbox{\hyperlink{classmux__using__with_a9fc14b65611c7124d4cab27b963f3011}{00017}}\ \ \ \ \ \ \ \ \ \textcolor{vhdlchar}{\mbox{\hyperlink{classmux__using__with_a9fc14b65611c7124d4cab27b963f3011}{din\_0}}}\ \ \ \textcolor{vhdlchar}{:}\ \textcolor{keywordflow}{in}\ \ \textcolor{keywordtype}{std\_logic};}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00018}\mbox{\hyperlink{classmux__using__with_aaedccad88ca9b207c86a561342fcbaa1}{00018}}\ \ \ \ \ \ \ \ \ \textcolor{vhdlchar}{\mbox{\hyperlink{classmux__using__with_aaedccad88ca9b207c86a561342fcbaa1}{din\_1}}}\ \ \ \textcolor{vhdlchar}{:}\ \textcolor{keywordflow}{in}\ \ \textcolor{keywordtype}{std\_logic};}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00019}\mbox{\hyperlink{classmux__using__with_ac474329b8f25c575e4376d65f6a3e43f}{00019}}\ \ \ \ \ \ \ \ \ \textcolor{vhdlchar}{\mbox{\hyperlink{classmux__using__with_ac474329b8f25c575e4376d65f6a3e43f}{sel}}}\ \ \ \ \ \textcolor{vhdlchar}{:}\ \textcolor{keywordflow}{in}\ \ \textcolor{keywordtype}{std\_logic};}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{vhdlchar}{\mbox{\hyperlink{classmux__using__with_a6258515f40573285292fdb0b9663c422}{mux\_out}}}\ \textcolor{vhdlchar}{:}\ \textcolor{keywordflow}{out}\ \textcolor{keywordtype}{std\_logic}}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00021}\mbox{\hyperlink{classmux__using__with_a6258515f40573285292fdb0b9663c422}{00021}}\ \ \ \ \ \textcolor{vhdlchar}{)};}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00022}00022\ \textcolor{keywordflow}{end}\ \textcolor{keywordflow}{entity};}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00026}00026\ \textcolor{keywordflow}{architecture}\ \mbox{\hyperlink{classmux__using__with}{behavior}}\ \textcolor{keywordflow}{of}\ \mbox{\hyperlink{classmux__using__with}{mux\_using\_with}}\ \textcolor{keywordflow}{is}}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00027}00027\ \textcolor{vhdlkeyword}{begin}}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00028}00028\ \ \ \ \ \textcolor{keywordflow}{with}\ \textcolor{vhdlchar}{(}\textcolor{vhdlchar}{\mbox{\hyperlink{classmux__using__with_ac474329b8f25c575e4376d65f6a3e43f}{sel}}}\textcolor{vhdlchar}{)}\ \textcolor{keywordflow}{select}}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00029}00029\ \ \ \ \ \textcolor{vhdlchar}{\mbox{\hyperlink{classmux__using__with_a6258515f40573285292fdb0b9663c422}{mux\_out}}}\ \textcolor{vhdlchar}{<=}\ \textcolor{vhdlchar}{\mbox{\hyperlink{classmux__using__with_a9fc14b65611c7124d4cab27b963f3011}{din\_0}}}\ \textcolor{keywordflow}{when}\ \textcolor{vhdlchar}{'}\textcolor{vhdllogic}{}\textcolor{vhdllogic}{0}\textcolor{vhdlchar}{'}\textcolor{vhdlchar}{,}}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{vhdlchar}{\mbox{\hyperlink{classmux__using__with_aaedccad88ca9b207c86a561342fcbaa1}{din\_1}}}\ \textcolor{keywordflow}{when}\ \textcolor{keywordflow}{others};}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00031}00031\ \textcolor{keywordflow}{end}\ \textcolor{keywordflow}{architecture};}
+\DoxyCodeLine{\Hypertarget{mux_8vhdl_source_l00032}00032\ }
+
+\end{DoxyCode}

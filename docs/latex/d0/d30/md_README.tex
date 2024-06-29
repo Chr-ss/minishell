@@ -1,0 +1,157 @@
+\chapter{minishell}
+\hypertarget{md_README}{}\label{md_README}\index{minishell@{minishell}}
+\label{md_README_autotoc_md9}%
+\Hypertarget{md_README_autotoc_md9}%
+ This project is about creating a Bourne-\/\+Again Shell (BASH) replica for the minishell project at Codam. Minishell is therefore a user-\/mode program that implements a Command Line Interface (CLI).
+
+In general terms what this program does is\+:
+
+
+\begin{DoxyItemize}
+\item Print a prompt
+\item Read a line
+\item Parse
+\item Execute
+\item Repeat
+\end{DoxyItemize}
+
+{\bfseries{Features}}
+
+{\itshape options} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{minishell:\string~\$\ pgrm\ -\/r\ -\/f\ path/to/file}
+
+\end{DoxyCode}
+
+
+{\itshape i/o redirections} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{minishell:\string~\$\ pgrm\ <\ infile\ >\ outfile}
+\DoxyCodeLine{minishell:\string~\$\ pgrm\ <\ infile\ >>\ outfile}
+
+\end{DoxyCode}
+ {\itshape pipes} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{minishell:\string~\$\ pgrm\ |\ pgrm2\ |\ pgrm3}
+
+\end{DoxyCode}
+
+
+{\itshape enviroment variables} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{minishell:\string~\$ARG=something}
+\DoxyCodeLine{minishell:\string~\$\ pgrm\ \$ARG}
+
+\end{DoxyCode}
+
+
+{\itshape previous foreground exit status} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{minishell:\string~\$\ pgrm\ \$?}
+
+\end{DoxyCode}
+
+
+{\itshape single quotes} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{minishell:\string~\$\ pgrm\ '\$ARG\ \$ARG2'}
+
+\end{DoxyCode}
+
+
+{\itshape double quotes} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{minishell:\string~\$\ pgrm\ "{}\$ARG\ \$ARG2"{}}
+
+\end{DoxyCode}
+
+
+{\itshape key bindings}
+\begin{DoxyItemize}
+\item arrow up / down for history.
+\item ctrl-\/C displays a new prompt on a new line.
+\item ctrl-\/D exits the shell.
+\item ctrl-\/\textbackslash{} does nothing.
+\end{DoxyItemize}
+
+{\bfseries{Built-\/ins}}
+
+
+\begin{DoxyItemize}
+\item echo with option -\/n
+\item cd with only a relative or absolute path
+\item pwd with no options
+\item export with no options
+\item unset with no options
+\item env with no options or arguments
+\item exit with no options
+\end{DoxyItemize}
+
+{\bfseries{Missing}}
+
+
+\begin{DoxyItemize}
+\item scripting control
+\item command / filename completion
+\item background control
+\item initialization / startup files
+\end{DoxyItemize}
+
+{\bfseries{system calls}}
+
+
+\begin{DoxyItemize}
+\item fork
+\item exec
+\item exit
+\item wait
+\item open
+\item close
+\item read
+\item write
+\item pipe
+\item dup
+\item chdir
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md10}{}\doxysection{\texorpdfstring{GETTING STARTED}{GETTING STARTED}}\label{md_README_autotoc_md10}
+
+\begin{DoxyEnumerate}
+\item Clone the repo
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ clone\ https://github.com/Chr-\/ss/minishell.git}
+
+\end{DoxyCode}
+
+\begin{DoxyEnumerate}
+\item cd into directory
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ minishell}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyEnumerate}
+\item Call the Makefile
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md11}{}\doxysection{\texorpdfstring{Other Docs}{Other Docs}}\label{md_README_autotoc_md11}
+In addition to the README you\textquotesingle{}re reading right now, there are other documents which describe more about this project\+:
+
+
+\begin{DoxyItemize}
+\item \href{https://github.com/Chr-ss/minishell/tree/main/docs/ARCHITECTURE.md}{\texttt{ docs/\+ARCHITECTURE.\+md}}
+\item \href{https://github.com/Chr-ss/minishell/tree/main/docs/CONTRIBUTING.md}{\texttt{ docs/\+CONTRIBUTING.\+md}}
+\item \href{https://github.com/Chr-ss/minishell/tree/main/docs/CODEOWNERS}{\texttt{ docs/\+CODEOWNERS}}
+\item \href{https://github.com/Chr-ss/minishell/tree/main/docs/SOURCES.md}{\texttt{ docs/\+SOURCES.\+md}} 
+\end{DoxyItemize}

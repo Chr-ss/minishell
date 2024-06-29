@@ -1,0 +1,36 @@
+\doxysection{ft\+\_\+free\+\_\+strarr.\+c}
+\hypertarget{ft__free__strarr_8c_source}{}\label{ft__free__strarr_8c_source}\index{libft/src/libft/malloc/ft\_free\_strarr.c@{libft/src/libft/malloc/ft\_free\_strarr.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::::::::\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ \ ft\_free\_strarr.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ crasche\ <crasche@student.codam.nl>\ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2024/06/04\ 17:50:52\ by\ crasche\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/04\ 18:16:46\ by\ crasche\ \ \ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ odam.nl\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../../../include/libft.h"{}}}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00015}00015\ \textcolor{keywordtype}{void}\ \ \ \ ft\_free\_strarr(\textcolor{keywordtype}{char}\ **strarr)}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00016}00016\ \{}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00017}00017\ \ \ \ \ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00019}00019\ \ \ \ \ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00020}00020\ \ \ \ \ \textcolor{keywordflow}{if}\ (!strarr)}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00021}00021\ \ \ \ \ \ \ \ \ return\ ;}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00022}00022\ \ \ \ \ \textcolor{keywordflow}{while}\ (strarr[i])}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00023}00023\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00024}00024\ \ \ \ \ \ \ \ \ free(strarr[i]);}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00025}00025\ \ \ \ \ \ \ \ \ strarr[i]\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00026}00026\ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00027}00027\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00028}00028\ \ \ \ \ free(strarr);}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00029}00029\ \ \ \ \ strarr\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{ft__free__strarr_8c_source_l00030}00030\ \}}
+
+\end{DoxyCode}

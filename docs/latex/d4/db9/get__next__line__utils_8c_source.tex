@@ -1,0 +1,159 @@
+\doxysection{get\+\_\+next\+\_\+line\+\_\+utils.\+c}
+\hypertarget{get__next__line__utils_8c_source}{}\label{get__next__line__utils_8c_source}\index{libft/src/get\_next\_line/get\_next\_line\_utils.c@{libft/src/get\_next\_line/get\_next\_line\_utils.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::::::::\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ \ get\_next\_line\_utils.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ crasche\ <crasche@student.codam.nl>\ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/10/14\ 22:16:29\ by\ crasche\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/04\ 18:02:16\ by\ crasche\ \ \ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ odam.nl\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../../include/libft.h"{}}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00015}00015\ \textcolor{comment}{//\ \ gnl\_free\_master\ -\/\ combined\ free\ function,\ used\ for\ most\ cases\ when}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00016}00016\ \textcolor{comment}{//\ \ my\ malloc\ mem\ has\ to\ be\ free'd}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00018}00018\ \textcolor{keywordtype}{int}\ gnl\_free\_master(\mbox{\hyperlink{structs__gnl}{t\_gnl}}\ **list,\ \mbox{\hyperlink{structs__gnl}{t\_gnl}}\ **clean\_node,\ \textcolor{keywordtype}{char}\ **buf,\ \textcolor{keywordtype}{char}\ **nl)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00019}00019\ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00020}00020\ \ \ \ \ \mbox{\hyperlink{structs__gnl}{t\_gnl}}\ \ *tmp;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00022}00022\ \ \ \ \ \textcolor{keywordflow}{while}\ (*list)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00023}00023\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00024}00024\ \ \ \ \ \ \ \ \ tmp\ =\ (*list)-\/>next;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00025}00025\ \ \ \ \ \ \ \ \ free((*list)-\/>buffer);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00026}00026\ \ \ \ \ \ \ \ \ free(*list);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00027}00027\ \ \ \ \ \ \ \ \ *list\ =\ tmp;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00028}00028\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00029}00029\ \ \ \ \ *list\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00030}00030\ \ \ \ \ \textcolor{keywordflow}{if}\ (clean\_node\ \&\&\ (*clean\_node)-\/>buffer[0]\ !=\ \textcolor{charliteral}{'\(\backslash\)0'})}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00031}00031\ \ \ \ \ \ \ \ \ *list\ =\ *clean\_node;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00032}00032\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (buf\ ||\ clean\_node\ ||\ nl)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00033}00033\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buf)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ free(*buf);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (clean\_node)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ free(*clean\_node);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (nl)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00039}00039\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ free(*nl);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ *nl\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00042}00042\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00044}00044\ \ \ \ \ \textcolor{keywordflow}{return}\ (-\/1);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00045}00045\ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00047}00047\ \textcolor{comment}{//\ \ gnl\_lst\_to\_next\_line\ -\/\ reading\ and\ copying\ lst\ until\ new\ line\ char}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00049}00049\ \textcolor{keywordtype}{void}\ \ \ \ gnl\_lst\_to\_next\_line(\mbox{\hyperlink{structs__gnl}{t\_gnl}}\ *lst,\ \textcolor{keywordtype}{char}\ *next\_line)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00050}00050\ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00051}00051\ \ \ \ \ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00052}00052\ \ \ \ \ \textcolor{keywordtype}{int}\ j;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00054}00054\ \ \ \ \ \textcolor{keywordflow}{if}\ (!lst)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00055}00055\ \ \ \ \ \ \ \ \ return\ ;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00056}00056\ \ \ \ \ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00057}00057\ \ \ \ \ \textcolor{keywordflow}{while}\ (lst)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00058}00058\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00059}00059\ \ \ \ \ \ \ \ \ j\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (lst-\/>buffer[j])}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00061}00061\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lst-\/>buffer[j]\ ==\ \textcolor{charliteral}{'\(\backslash\)n'})}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ next\_line[i++]\ =\ \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ next\_line[i]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ ;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ next\_line[i++]\ =\ lst-\/>buffer[j++];}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00069}00069\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00070}00070\ \ \ \ \ \ \ \ \ lst\ =\ lst-\/>next;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00071}00071\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00072}00072\ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00074}00074\ \textcolor{comment}{//\ \ gnl\_ft\_calloc\ -\/\ pretty\ much\ calloc\ from\ libft}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00075}00075\ \textcolor{comment}{//\ \ included\ b\_zero\ in-\/line\ to\ not\ have\ another\ func}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00077}00077\ \textcolor{keywordtype}{void}\ \ \ \ *gnl\_ft\_calloc(\textcolor{keywordtype}{size\_t}\ nmemb,\ \textcolor{keywordtype}{size\_t}\ size)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00078}00078\ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00079}00079\ \ \ \ \ \textcolor{keywordtype}{void}\ \ \ \ *ptr;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00080}00080\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ n;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00082}00082\ \ \ \ \ \textcolor{keywordflow}{if}\ (nmemb\ ==\ 0\ ||\ size\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00083}00083\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00084}00084\ \ \ \ \ \ \ \ \ nmemb\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00085}00085\ \ \ \ \ \ \ \ \ size\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00086}00086\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00087}00087\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (!(((nmemb\ *\ size)\ /\ size)\ ==\ nmemb))}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (NULL);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00089}00089\ \ \ \ \ ptr\ =\ ft\_calloc(nmemb,\ size);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00090}00090\ \ \ \ \ \textcolor{keywordflow}{if}\ (!ptr)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (NULL);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00092}00092\ \ \ \ \ n\ =\ nmemb\ *\ size;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00093}00093\ \ \ \ \ \textcolor{keywordflow}{while}\ (n-\/-\/)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00094}00094\ \ \ \ \ \ \ \ \ ((\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *)ptr)[n]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00095}00095\ \ \ \ \ \textcolor{keywordflow}{return}\ (ptr);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00096}00096\ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00098}00098\ \textcolor{comment}{//\ \ gnl\_lst\_until\_nl1\ -\/\ counting\ characters\ until\ new\ line}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00099}00099\ \textcolor{comment}{//\ \ returning\ 0\ if\ no\ nl\ is\ found\ (use\ for\ the\ if\ statement)}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00101}00101\ \textcolor{keywordtype}{int}\ gnl\_lst\_until\_nl1(\mbox{\hyperlink{structs__gnl}{t\_gnl}}\ *lst)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00102}00102\ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00103}00103\ \ \ \ \ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00105}00105\ \ \ \ \ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00106}00106\ \ \ \ \ \textcolor{keywordflow}{if}\ (!lst)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00107}00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (0);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00108}00108\ \ \ \ \ \textcolor{keywordflow}{while}\ (lst-\/>buffer[i])}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00109}00109\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lst-\/>buffer[i]\ ==\ \textcolor{charliteral}{'\(\backslash\)n'})}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (1);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00112}00112\ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00113}00113\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00114}00114\ \ \ \ \ \textcolor{keywordflow}{while}\ (lst-\/>next)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00115}00115\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00116}00116\ \ \ \ \ \ \ \ \ lst\ =\ lst-\/>next;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00117}00117\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00118}00118\ \ \ \ \ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00119}00119\ \ \ \ \ \textcolor{keywordflow}{while}\ (lst-\/>buffer[i])}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00120}00120\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lst-\/>buffer[i]\ ==\ \textcolor{charliteral}{'\(\backslash\)n'})}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (1);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00123}00123\ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00124}00124\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00125}00125\ \ \ \ \ \textcolor{keywordflow}{return}\ (0);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00126}00126\ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00128}00128\ \textcolor{comment}{//\ \ gnl\_lst\_until\_nl\ -\/\ pretty\ much\ copy\ of\ gnl\_lst\_until\_nl\ -\/}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00129}00129\ \textcolor{comment}{//\ \ characters\ until}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00130}00130\ \textcolor{comment}{//\ \ new\ line,\ returning\ number\ of\ characters\ until\ nl\ or\ end\ of\ list}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00132}00132\ \textcolor{keywordtype}{int}\ gnl\_lst\_until\_nl(\mbox{\hyperlink{structs__gnl}{t\_gnl}}\ *lst)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00133}00133\ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00134}00134\ \ \ \ \ \textcolor{keywordtype}{int}\ i;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00135}00135\ \ \ \ \ \textcolor{keywordtype}{int}\ ret;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00137}00137\ \ \ \ \ ret\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00138}00138\ \ \ \ \ \textcolor{keywordflow}{if}\ (!lst)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (0);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00140}00140\ \ \ \ \ \textcolor{keywordflow}{while}\ (lst)}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00141}00141\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00142}00142\ \ \ \ \ \ \ \ \ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00143}00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (lst-\/>buffer[i])}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00144}00144\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lst-\/>buffer[i]\ ==\ \textcolor{charliteral}{'\(\backslash\)n'})}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (++ret);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ ret++;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00149}00149\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00150}00150\ \ \ \ \ \ \ \ \ lst\ =\ lst-\/>next;}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00151}00151\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00152}00152\ \ \ \ \ \textcolor{keywordflow}{return}\ (ret);}
+\DoxyCodeLine{\Hypertarget{get__next__line__utils_8c_source_l00153}00153\ \}}
+
+\end{DoxyCode}

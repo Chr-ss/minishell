@@ -1,0 +1,42 @@
+\doxysection{token.\+h}
+\hypertarget{token_8h_source}{}\label{token_8h_source}\index{include/token.h@{include/token.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::::::::\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00004}00004\ \textcolor{comment}{/*\ \ \ lexer.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ crasche\ <crasche@student.codam.nl>\ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2024/05/24\ 21:12:18\ by\ crasche\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/02\ 16:32:26\ by\ crasche\ \ \ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ odam.nl\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00013}00013\ \textcolor{preprocessor}{\#ifndef\ LEXER\_H}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00014}00014\ \textcolor{preprocessor}{\#\ define\ LEXER\_H}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00016}00016\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ e\_token\_type}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00017}00017\ \{}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00018}00018\ \ \ \ \ TOKEN\_WORD,}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00019}00019\ \ \ \ \ TOKEN\_PIPE,}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00020}00020\ \ \ \ \ TOKEN\_REIN,}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00021}00021\ \ \ \ \ TOKEN\_REOUT,}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00022}00022\ \ \ \ \ TOKEN\_APPEND,}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00023}00023\ \ \ \ \ TOKEN\_HEREDOC,}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00024}00024\ \ \ \ \ TOKEN\_EOF,}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00025}00025\ \ \ \ \ TOKEN\_ERROR}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00026}00026\ \}\ \ \ t\_token\_type;}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00028}\mbox{\hyperlink{structs__token}{00028}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__token}{s\_token}}}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00029}00029\ \{}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00030}00030\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ *start;}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00031}00031\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ length;}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00032}00032\ \ \ \ \ t\_token\_type\ \ \ \ type;}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00033}00033\ \}\ \ \ \mbox{\hyperlink{structs__token}{t\_token}};}
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{token_8h_source_l00036}00036\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ LEXER\_H}}
+
+\end{DoxyCode}

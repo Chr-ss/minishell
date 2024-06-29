@@ -1,0 +1,144 @@
+\doxysection{type\+\_\+handler.\+c}
+\hypertarget{type__handler_8c_source}{}\label{type__handler_8c_source}\index{src/token/type\_handler.c@{src/token/type\_handler.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::::::::\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ \ type\_handler.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ crasche\ <crasche@student.codam.nl>\ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2024/06/12\ 16:17:52\ by\ crasche\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/20\ 17:30:53\ by\ crasche\ \ \ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ odam.nl\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../../include/minishell.h"{}}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00016}00016\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_word(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00017}00017\ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00018}00018\ \ \ \ \ printf(\textcolor{stringliteral}{"{}type\_handler\_word:\ Token\ WORD\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00020}00020\ \ \ \ \ (void)\ data;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00021}00021\ \ \ \ \ (void)\ pos;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00022}00022\ \ \ \ \ \textcolor{keywordflow}{if}\ (!cmd-\/>cmd)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00023}00023\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00024}00024\ \ \ \ \ \ \ \ \ cmd-\/>cmd\ =\ ft\_strndup(token.start,\ (\textcolor{keywordtype}{size\_t})\ token.length);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!cmd-\/>cmd)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ error(\textcolor{stringliteral}{"{}type\_handler\_word:\ malloc\ error."{}});}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00027}00027\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00028}00028\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00029}00029\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00030}00030\ \ \ \ \ \ \ \ \ cmd-\/>argv\ =\ extend\_strarr(cmd,\ cmd-\/>argv,\ strarr\_size(cmd-\/>argv));}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00031}00031\ \ \ \ \ \ \ \ \ token\_to\_strarr(data,\ cmd-\/>argv,\ token);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00033}00033\ \ \ \ \ \textcolor{keywordflow}{return}\ (token);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00034}00034\ \}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00036}00036\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_pipe(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00037}00037\ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00038}00038\ \ \ \ \ printf(\textcolor{stringliteral}{"{}type\_handler\_pipe:\ Token\ pipe"{}});}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00040}00040\ \ \ \ \ data-\/>cmd\_curr-\/>pipe\ =\ ft\_calloc(1,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structs__cmd}{t\_cmd}}));}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00041}00041\ \ \ \ \ data-\/>cmd\_curr\ =\ data-\/>cmd\_curr-\/>pipe;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00043}00043\ \ \ \ \ (void)\ cmd;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00044}00044\ \ \ \ \ (void)\ pos;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00045}00045\ \ \ \ \ \textcolor{keywordflow}{return}\ (token);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00046}00046\ \}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00048}00048\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_rein(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00049}00049\ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00050}00050\ \ \ \ \ printf(\textcolor{stringliteral}{"{}type\_handler\_rein:\ Token\ REIN\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00051}00051\ \ \ \ \ \mbox{\hyperlink{structs__token}{t\_token}}\ \ infile;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00053}00053\ \ \ \ \ *pos\ +=\ token.length;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00054}00054\ \ \ \ \ *pos\ =\ skipspace(data-\/>line,\ *pos);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00055}00055\ \ \ \ \ token.length\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00056}00056\ \ \ \ \ infile\ =\ tokenizer(\&(data-\/>line[*pos]));}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00057}00057\ \ \ \ \ \textcolor{keywordflow}{if}\ (infile.type\ !=\ TOKEN\_WORD)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00058}00058\ \ \ \ \ \ \ \ \ unexpected\_token(data,\ infile);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00059}00059\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00060}00060\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00061}00061\ \ \ \ \ \ \ \ \ openfile(cmd,\ infile,\ O\_TRUNC,\ \&cmd-\/>infd);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00062}00062\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00063}00063\ \ \ \ \ \textcolor{keywordflow}{return}\ (infile);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00064}00064\ \}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00066}00066\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_reout(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00067}00067\ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00068}00068\ \ \ \ \ printf(\textcolor{stringliteral}{"{}type\_handler\_reout:\ Token\ REOUT\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00069}00069\ \ \ \ \ \mbox{\hyperlink{structs__token}{t\_token}}\ \ outfile;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00071}00071\ \ \ \ \ *pos\ +=\ token.length;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00072}00072\ \ \ \ \ *pos\ =\ skipspace(data-\/>line,\ *pos);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00073}00073\ \ \ \ \ token.length\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00074}00074\ \ \ \ \ outfile\ =\ tokenizer(\&(data-\/>line[*pos]));}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00075}00075\ \ \ \ \ \textcolor{keywordflow}{if}\ (outfile.type\ !=\ TOKEN\_WORD)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00076}00076\ \ \ \ \ \ \ \ \ unexpected\_token(data,\ outfile);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00077}00077\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00078}00078\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00079}00079\ \ \ \ \ \ \ \ \ openfile(cmd,\ outfile,\ O\_TRUNC,\ \&cmd-\/>outfd);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00080}00080\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00081}00081\ \ \ \ \ \textcolor{keywordflow}{return}\ (outfile);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00082}00082\ \}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00084}00084\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_append(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00085}00085\ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00086}00086\ \ \ \ \ printf(\textcolor{stringliteral}{"{}type\_handler\_append:\ Token\ APPEND\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00087}00087\ \ \ \ \ \mbox{\hyperlink{structs__token}{t\_token}}\ \ append;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00089}00089\ \ \ \ \ *pos\ +=\ token.length;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00090}00090\ \ \ \ \ *pos\ =\ skipspace(data-\/>line,\ *pos);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00091}00091\ \ \ \ \ token.length\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00092}00092\ \ \ \ \ append\ =\ tokenizer(\&(data-\/>line[*pos]));}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00093}00093\ \ \ \ \ \textcolor{keywordflow}{if}\ (append.type\ !=\ TOKEN\_WORD)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00094}00094\ \ \ \ \ \ \ \ \ unexpected\_token(data,\ append);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00095}00095\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00096}00096\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00097}00097\ \ \ \ \ \ \ \ \ openfile(cmd,\ append,\ O\_APPEND,\ \&cmd-\/>outfd);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00098}00098\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00099}00099\ \ \ \ \ \textcolor{keywordflow}{return}\ (append);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00100}00100\ \}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00102}00102\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_heredoc(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00103}00103\ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00104}00104\ \ \ \ \ printf(\textcolor{stringliteral}{"{}type\_handler\_reout:\ Token\ REOUT\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00105}00105\ \ \ \ \ \mbox{\hyperlink{structs__token}{t\_token}}\ \ heredoc;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00107}00107\ \ \ \ \ *pos\ +=\ token.length;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00108}00108\ \ \ \ \ *pos\ =\ skipspace(data-\/>line,\ *pos);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00109}00109\ \ \ \ \ token.length\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00110}00110\ \ \ \ \ heredoc\ =\ tokenizer(\&(data-\/>line[*pos]));}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00111}00111\ \ \ \ \ \textcolor{keywordflow}{if}\ (heredoc.type\ !=\ TOKEN\_WORD)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00112}00112\ \ \ \ \ \ \ \ \ unexpected\_token(data,\ heredoc);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00113}00113\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00114}00114\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00115}00115\ \ \ \ \ \ \ \ \ cmd-\/>heredoc\ =\ extend\_strarr(cmd,\ cmd-\/>heredoc,\ strarr\_size(cmd-\/>heredoc));}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00116}00116\ \ \ \ \ \ \ \ \ token\_to\_strarr(data,\ cmd-\/>heredoc,\ heredoc);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00117}00117\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00118}00118\ \ \ \ \ \textcolor{keywordflow}{return}\ (heredoc);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00119}00119\ \}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00121}00121\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_eof(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00122}00122\ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00123}00123\ \ \ \ \ (void)\ cmd;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00124}00124\ \ \ \ \ (void)\ data;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00125}00125\ \ \ \ \ (void)\ pos;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00126}00126\ \ \ \ \ printf(\textcolor{stringliteral}{"{}type\_handler\_eof:\ Token\ EOF"{}});}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00127}00127\ \ \ \ \ \textcolor{keywordflow}{return}\ (token);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00128}00128\ \}}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00130}00130\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_error(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos)}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00131}00131\ \{}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00132}00132\ \ \ \ \ (void)\ cmd;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00133}00133\ \ \ \ \ (void)\ data;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00134}00134\ \ \ \ \ (void)\ token;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00135}00135\ \ \ \ \ (void)\ pos;}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00136}00136\ \ \ \ \ error(\textcolor{stringliteral}{"{}Token\ error."{}});}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00137}00137\ \ \ \ \ \textcolor{keywordflow}{return}\ (token);}
+\DoxyCodeLine{\Hypertarget{type__handler_8c_source_l00138}00138\ \}}
+
+\end{DoxyCode}

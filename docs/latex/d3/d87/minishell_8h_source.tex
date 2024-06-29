@@ -1,0 +1,167 @@
+\doxysection{minishell.\+h}
+\hypertarget{minishell_8h_source}{}\label{minishell_8h_source}\index{include/minishell.h@{include/minishell.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :::\ \ \ \ \ \ ::::::::\ \ \ */}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00004}00004\ \textcolor{comment}{/*\ \ \ minishell.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ */}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ +:+\ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ spenning\ <spenning@student.42.fr>\ \ \ \ \ \ \ \ \ \ +\#+\ \ +:+\ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\#+\#+\#+\#+\ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2024/05/18\ 16:32:33\ by\ crasche\ \ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/28\ 17:23:27\ by\ spenning\ \ \ \ \ \ \ \ \ \#\#\#\ \ \ \#\#\#\#\#\#\#\#.fr\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00013}00013\ \textcolor{preprocessor}{\#ifndef\ MINISHELL\_H}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00014}00014\ \textcolor{preprocessor}{\#\ define\ MINISHELL\_H}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00016}00016\ \textcolor{preprocessor}{\#\ include\ <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00017}00017\ \textcolor{preprocessor}{\#\ include\ <readline/readline.h>}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00018}00018\ \textcolor{preprocessor}{\#\ include\ <readline/history.h>}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00020}00020\ \textcolor{preprocessor}{\#\ include\ <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00021}00021\ \textcolor{preprocessor}{\#\ include\ <stdbool.h>}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00022}00022\ \textcolor{preprocessor}{\#\ include\ <limits.h>}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00024}00024\ \textcolor{preprocessor}{\#\ include\ <signal.h>}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00026}00026\ \textcolor{preprocessor}{\#\ include\ <fcntl.h>}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00028}00028\ \textcolor{preprocessor}{\#\ include\ "{}../libft/include/libft.h"{}}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00029}00029\ \textcolor{preprocessor}{\#\ include\ "{}token.h"{}}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00030}00030\ \textcolor{preprocessor}{\#\ include\ "{}expansion.h"{}}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00031}00031\ \textcolor{preprocessor}{\#\ include\ <dirent.h>}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00032}00032\ \textcolor{preprocessor}{\#\ include\ <errno.h>}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00033}00033\ \textcolor{preprocessor}{\#\ include\ <sys/stat.h>}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00035}00035\ \textcolor{preprocessor}{\#\ define\ DYNSTRING\ 8}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00037}00037\ \textcolor{preprocessor}{\#\ ifndef\ PATH\_MAX}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00038}00038\ \textcolor{preprocessor}{\#\ \ define\ PATH\_MAX\ 4096}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00039}00039\ \textcolor{preprocessor}{\#\ endif}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00041}\mbox{\hyperlink{structs__cmd}{00041}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__cmd}{s\_cmd}}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00042}00042\ \{}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00043}00043\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ *cmd;\ \ \ \ \ \ \ \textcolor{comment}{//\ can\ be\ used\ for\ execution}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00044}00044\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ **argv;\ \ \ \ \ \textcolor{comment}{//\ can\ be\ used\ for\ execution}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00045}00045\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ **heredoc;\ \ \textcolor{comment}{//\ heredoc\ delimiters\ (write\ heredocs\ into\ tempfile\ and\ transfer\ fd\ to\ infd??)}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00046}00046\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__cmd}{s\_cmd}}\ \ \ *pipe;\ \ \ \ \ \ \textcolor{comment}{//\ if\ NULL\ no\ more\ pipe}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00047}00047\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ infd;\ \ \ \ \ \ \ \textcolor{comment}{//\ if\ -\/1\ do\ not\ execute\ cmd\ |\ if\ 0\ no\ change}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00048}00048\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ \ \ \ \ outfd;\ \ \ \ \ \ \textcolor{comment}{//\ if\ -\/1\ do\ not\ execute\ cmd\ |\ if\ 0\ no\ change}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00049}00049\ \}\ \ \ \mbox{\hyperlink{structs__cmd}{t\_cmd}};}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00051}\mbox{\hyperlink{structs__msdata}{00051}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structs__msdata}{s\_msdata}}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00052}00052\ \{}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00053}00053\ \ \ \ \ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ \ \ \ \ \ *cmd\_head;\ \ \ \ \ \ \textcolor{comment}{//\ head\ of\ CMD\ struct}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00054}00054\ \textcolor{comment}{//\ TOKEN\ TO\ CMD}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00055}00055\ \ \ \ \ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ \ \ \ \ \ *cmd\_curr;}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00056}00056\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ *line;}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00057}00057\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ pos;}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00058}00058\ \textcolor{comment}{//\ TOKEN\ TO\ CMD}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00059}00059\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ **argv;}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00060}00060\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ **envp;}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00061}00061\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ \ \ \ \ exit\_code;}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00062}00062\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ pwd[PATH\_MAX];}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00063}00063\ \ \ \ \ \mbox{\hyperlink{structs__expend}{t\_expend}}\ \ \ \ *exp;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ struct\ for\ line\ expansion}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00064}00064\ \}\ \ \ \mbox{\hyperlink{structs__msdata}{t\_msdata}};}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00066}00066\ \textcolor{comment}{//\ SIGNAL:}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00079}00079\ \textcolor{keywordtype}{void}\ \ \ \ init\_signal();}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00081}00081\ \textcolor{comment}{//\ BUILT-\/INS:}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00093}00093\ \textcolor{keywordtype}{int}\ cd\ (\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00103}00103\ \textcolor{keywordtype}{void}\ \ \ \ pwd(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00114}00114\ \textcolor{keywordtype}{void}\ \ \ \ env(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00128}00128\ \textcolor{keywordtype}{void}\ \ \ \ mini\_exit(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00144}00144\ \textcolor{keywordtype}{void}\ \ \ \ export(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00165}00165\ \textcolor{keywordtype}{void}\ unset(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \textcolor{keywordtype}{char}\ *arg);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00178}00178\ \textcolor{keywordtype}{void}\ \ \ \ echo(\mbox{\hyperlink{structs__msdata}{t\_msdata}}*\ data);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00180}00180\ \textcolor{comment}{//UTILS}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00197}00197\ \textcolor{keywordtype}{void}\ \ \ \ copy\_over\_str(\textcolor{keywordtype}{int}\ dst\_index,\ \textcolor{keywordtype}{int}\ src\_index,\ \textcolor{keywordtype}{char}**dst,\ \textcolor{keywordtype}{char}\ **src);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00210}00210\ \textcolor{keywordtype}{char}\ \ \ \ *get\_envp\_key(\textcolor{keywordtype}{char}\ *input);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00211}00211\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00224}00224\ \textcolor{keywordtype}{char}\ \ \ \ *get\_envp\_value(\textcolor{keywordtype}{char}\ *input);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00225}00225\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00238}00238\ \textcolor{keywordtype}{void}\ \ \ \ swap\_envp(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \textcolor{keywordtype}{char}\ **envp);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00254}00254\ \textcolor{keywordtype}{void}\ \ \ \ add\_envp(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \textcolor{keywordtype}{char}\ *key,\ \textcolor{keywordtype}{char}\ *value);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00271}00271\ \textcolor{keywordtype}{char}\ \ \ \ *get\_envp(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \textcolor{keywordtype}{char}\ *envp);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00272}00272\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00284}00284\ \textcolor{keywordtype}{int}\ change\_envp(\textcolor{keywordtype}{char}\ *key,\ \textcolor{keywordtype}{char}\ *env,\ \textcolor{keywordtype}{char}\ **envp);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00285}00285\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00299}00299\ \textcolor{keywordtype}{int}\ get\_envp\_index(\textcolor{keywordtype}{char}\ *env,\ \textcolor{keywordtype}{char}\ **envp);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00300}00300\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00310}00310\ \textcolor{keywordtype}{void}\ \ \ \ free\_char\_array(\textcolor{keywordtype}{char}\ **arr);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00311}00311\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00320}00320\ \textcolor{keywordtype}{int}\ double\_array\_len(\textcolor{keywordtype}{char}\ **vector);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00321}00321\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00334}00334\ \textcolor{keywordtype}{int}\ check\_dir(\textcolor{keywordtype}{char}\ *dirname);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00335}00335\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00337}00337\ \textcolor{comment}{//\ FUNCTIONS:}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00338}00338\ \textcolor{keywordtype}{void}\ \ \ \ input\_handling(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00339}00339\ \textcolor{keywordtype}{void}\ \ \ \ parsing(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00340}00340\ \textcolor{keywordtype}{void}\ \ \ \ error(\textcolor{keywordtype}{char}\ *msg);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00342}00342\ \textcolor{comment}{//\ UTILS}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00343}00343\ \textcolor{keywordtype}{int}\ \ \ \ \ skipspace(\textcolor{keywordtype}{char}\ *str,\ \textcolor{keywordtype}{int}\ pos);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00344}00344\ \textcolor{keywordtype}{int}\ \ \ \ \ ft\_isbashtoken(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00345}00345\ \textcolor{keywordtype}{int}\ \ \ \ \ strarr\_size(\textcolor{keywordtype}{char}\ **strarr);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00346}00346\ \textcolor{keywordtype}{char}\ \ \ \ **extend\_strarr(\mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \textcolor{keywordtype}{char}\ **strarr,\ \textcolor{keywordtype}{int}\ strarr\_size);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00347}00347\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00348}00348\ \textcolor{comment}{//\ INITDATA.c}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00349}00349\ \textcolor{keywordtype}{void}\ \ \ \ initdata\_cpy\_envp(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \textcolor{keywordtype}{char}\ **envp);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00350}00350\ \textcolor{keywordtype}{void}\ \ \ \ initdata(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \textcolor{keywordtype}{char}\ **argv,\ \textcolor{keywordtype}{char}\ **envp);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00351}00351\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00352}00352\ \textcolor{comment}{//\ PARSING}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00353}00353\ \textcolor{keywordtype}{void}\ \ \ \ parsing(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00354}00354\ \textcolor{keywordtype}{void}\ \ \ \ parsing\_syntax(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00355}00355\ \textcolor{keywordtype}{int}\ \ \ \ \ parsing\_syntax\_quotes(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00356}00356\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00357}00357\ \textcolor{comment}{//\ EXPANSION}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00358}00358\ \textcolor{keywordtype}{void}\ \ \ \ expand\_exp\_init(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__expend}{t\_expend}}\ *exp);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00359}00359\ \textcolor{keywordtype}{void}\ \ \ \ expand\_var\_nl(\mbox{\hyperlink{structs__expend}{t\_expend}}\ *exp);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00360}00360\ \textcolor{keywordtype}{char}\ \ \ \ *expand\_getenv(\textcolor{keywordtype}{char}\ **envp,\ \textcolor{keywordtype}{char}\ *env\_start,\ \textcolor{keywordtype}{int}\ length);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00361}00361\ \textcolor{keywordtype}{void}\ \ \ \ expand\_var(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__expend}{t\_expend}}\ *exp,\ \textcolor{keywordtype}{int}\ *pos);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00362}00362\ \textcolor{keywordtype}{void}\ \ \ \ expand\_copy(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__expend}{t\_expend}}\ *exp);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00363}00363\ \textcolor{keywordtype}{char}\ \ \ \ *expand(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00364}00364\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00365}00365\ \textcolor{comment}{//\ SORT\ THIS\ LATER}}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00366}00366\ \textcolor{keywordtype}{void}\ \ \ \ token\_to\_strarr(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \textcolor{keywordtype}{char}\ **strarr,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00367}00367\ \textcolor{keywordtype}{void}\ \ \ \ unexpected\_token(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00368}00368\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00369}00369\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ tokenizer(\textcolor{keywordtype}{char}\ *line);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00370}00370\ \textcolor{keywordtype}{void}\ \ \ \ temp\_print\_tokens(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \textcolor{keywordtype}{char}\ *line);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00371}00371\ \textcolor{keywordtype}{void}\ \ \ \ printf\_cmd(\mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00372}00372\ \textcolor{keywordtype}{void}\ \ \ \ init\_type\_handler(\mbox{\hyperlink{structs__token}{t\_token}}\ (*type\_handler[8])(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos));}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00373}00373\ \mbox{\hyperlink{structs__token}{t\_token}}\ token\_to\_cmd(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00374}00374\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_append(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00375}00375\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_eof(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00376}00376\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_error(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00377}00377\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_heredoc(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00378}00378\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_pipe(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00379}00379\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_rein(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00380}00380\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_reout(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00381}00381\ \mbox{\hyperlink{structs__token}{t\_token}}\ \ type\_handler\_word(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data,\ \mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ *pos);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00382}00382\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00383}00383\ \textcolor{keywordtype}{void}\ \ \ \ openfile(\mbox{\hyperlink{structs__cmd}{t\_cmd}}\ *cmd,\ \mbox{\hyperlink{structs__token}{t\_token}}\ token,\ \textcolor{keywordtype}{int}\ open\_flag,\ \textcolor{keywordtype}{int}\ *fd);}
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00384}00384\ }
+\DoxyCodeLine{\Hypertarget{minishell_8h_source_l00385}00385\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ MINISHELL\_H}}
+
+\end{DoxyCode}

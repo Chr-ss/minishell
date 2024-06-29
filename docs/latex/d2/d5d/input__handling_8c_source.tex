@@ -1,0 +1,39 @@
+\doxysection{input\+\_\+handling.\+c}
+\hypertarget{input__handling_8c_source}{}\label{input__handling_8c_source}\index{src/input\_handling.c@{src/input\_handling.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::::::::\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ \ input\_handling.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ crasche\ <crasche@student.codam.nl>\ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2024/05/26\ 17:45:15\ by\ crasche\ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/06/23\ 14:39:27\ by\ crasche\ \ \ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ odam.nl\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../include/minishell.h"{}}}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00015}00015\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ g\_sigint\ ;}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00017}00017\ \textcolor{keywordtype}{void}\ \ \ \ input\_handling(\mbox{\hyperlink{structs__msdata}{t\_msdata}}\ *data)}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00018}00018\ \{}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00019}00019\ \ \ \ \ \textcolor{keywordflow}{while}\ (1)}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00020}00020\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00021}00021\ \ \ \ \ \ \ \ \ data-\/>line\ =\ readline(\textcolor{stringliteral}{"{}minishell:\string~\$"{}});}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!data-\/>line)}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ error(\textcolor{stringliteral}{"{}Ok,\ EMPTY.\ EXIT"{}});}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00024}00024\ \ \ \ \ \ \ \ \ data-\/>line\ =\ expand(data);}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!data-\/>line)}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ error(\textcolor{stringliteral}{"{}input\_handling\ malloc\ error."{}});}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00027}00027\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}>>>\%s\(\backslash\)n\(\backslash\)n"{}},\ data-\/>line);}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00028}00028\ \ \ \ \ \ \ \ \ temp\_print\_tokens(data,\ data-\/>line);}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00029}00029\ \ \ \ \ \ \ \ \ parsing(data);}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00030}00030\ \ \ \ \ \ \ \ \ free(data-\/>line);}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00031}00031\ \ \ \ \ \ \ \ \ data-\/>line\ =\ NULL;}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{input__handling_8c_source_l00033}00033\ \}}
+
+\end{DoxyCode}

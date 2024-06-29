@@ -1,0 +1,88 @@
+\doxysection{hex.\+c}
+\hypertarget{hex_8c_source}{}\label{hex_8c_source}\index{libft/src/ft\_printf/hex.c@{libft/src/ft\_printf/hex.c}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00001}00001\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00002}00002\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::::::::\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ \ hex.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :+:\ \ \ \ :+:\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +:+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ \ By:\ veno\ <veno@student.codam.nl>\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\#+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00008}00008\ \textcolor{comment}{/*\ \ \ Created:\ 2023/11/03\ 17:39:55\ by\ veno\ \ \ \ \ \ \ \ \ \ \#+\#\ \ \ \ \#+\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00009}00009\ \textcolor{comment}{/*\ \ \ Updated:\ 2024/05/26\ 14:44:35\ by\ crasche\ \ \ \ \ \ \ \#\#\#\#\#\#\#\#\ \ \ odam.nl\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00011}00011\ \textcolor{comment}{/*\ **************************************************************************\ */}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}../../include/libft.h"{}}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00015}00015\ \textcolor{keywordtype}{void}\ \ \ \ printf\_get\_hex(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ n,\ \textcolor{keywordtype}{char}\ *number)}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00016}00016\ \{}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00017}00017\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \ \ num;}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00018}00018\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \ \ \ len;}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00019}00019\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ \ \ \ \ \ \ \ \ *hex;}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00021}00021\ \ \ \ \ hex\ =\ \textcolor{stringliteral}{"{}0123456789abcdef"{}};}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00022}00022\ \ \ \ \ len\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00023}00023\ \ \ \ \ num\ =\ n;}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00024}00024\ \ \ \ \ \textcolor{keywordflow}{while}\ (n\ !=\ 0\ \&\&\ ++len)}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00025}00025\ \ \ \ \ \ \ \ \ n\ /=\ 16;}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00026}00026\ \ \ \ \ \textcolor{keywordflow}{while}\ (num\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00027}00027\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00028}00028\ \ \ \ \ \ \ \ \ number[-\/-\/len]\ =\ hex[(num\ \%\ 16)];}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00029}00029\ \ \ \ \ \ \ \ \ num\ /=\ 16;}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00030}00030\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00031}00031\ \}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00033}00033\ \textcolor{keywordtype}{void}\ \ \ \ printf\_p(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ n,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *count)}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00034}00034\ \{}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00035}00035\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ number[23];}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00037}00037\ \ \ \ \ ft\_bzero(number,\ 23);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00038}00038\ \ \ \ \ ft\_strlcpy(number,\ \textcolor{stringliteral}{"{}0x"{}},\ 3);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00039}00039\ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00040}00040\ \ \ \ \ \ \ \ \ ft\_strlcpy(number,\ \textcolor{stringliteral}{"{}(nil)"{}},\ 6);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00041}00041\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00042}00042\ \ \ \ \ \ \ \ \ printf\_get\_hex(n,\ \&number[2]);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00043}00043\ \ \ \ \ printf\_s(number,\ count);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00044}00044\ \}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00046}00046\ \textcolor{keywordtype}{void}\ \ \ \ printf\_x(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *count,\ \mbox{\hyperlink{structs__flags}{t\_flags}}\ flags)}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00047}00047\ \{}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00048}00048\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ number[23];}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00050}00050\ \ \ \ \ ft\_bzero(number,\ 23);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00051}00051\ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00052}00052\ \ \ \ \ \ \ \ \ number[0]\ =\ \textcolor{charliteral}{'0'};}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00053}00053\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (flags.hash\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00054}00054\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00055}00055\ \ \ \ \ \ \ \ \ ft\_strlcpy(number,\ \textcolor{stringliteral}{"{}0x"{}},\ 3);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00056}00056\ \ \ \ \ \ \ \ \ printf\_get\_hex(n,\ \&number[2]);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00057}00057\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00058}00058\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00059}00059\ \ \ \ \ \ \ \ \ printf\_get\_hex(n,\ \&number[0]);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00060}00060\ \ \ \ \ printf\_s(number,\ count);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00061}00061\ \}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00063}00063\ \textcolor{keywordtype}{void}\ \ \ \ printf\_x\_upper(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ n,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *count,\ \mbox{\hyperlink{structs__flags}{t\_flags}}\ flags)}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00064}00064\ \{}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00065}00065\ \ \ \ \ \textcolor{keywordtype}{char}\ \ \ \ number[23];}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00066}00066\ \ \ \ \ \textcolor{keywordtype}{int}\ \ \ \ \ i;}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00068}00068\ \ \ \ \ ft\_bzero(number,\ 23);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00069}00069\ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00070}00070\ \ \ \ \ \ \ \ \ number[0]\ =\ \textcolor{charliteral}{'0'};}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00071}00071\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (flags.hash\ ==\ 1)}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00072}00072\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00073}00073\ \ \ \ \ \ \ \ \ ft\_strlcpy(number,\ \textcolor{stringliteral}{"{}0x"{}},\ 3);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00074}00074\ \ \ \ \ \ \ \ \ printf\_get\_hex(n,\ \&number[2]);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00075}00075\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00076}00076\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00077}00077\ \ \ \ \ \ \ \ \ printf\_get\_hex(n,\ \&number[0]);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00078}00078\ \ \ \ \ i\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00079}00079\ \ \ \ \ \textcolor{keywordflow}{while}\ (number[++i])}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00080}00080\ \ \ \ \ \ \ \ \ number[i]\ =\ (char)ft\_toupper((\textcolor{keywordtype}{char})number[i]);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00081}00081\ \ \ \ \ printf\_s(number,\ count);}
+\DoxyCodeLine{\Hypertarget{hex_8c_source_l00082}00082\ \}}
+
+\end{DoxyCode}
