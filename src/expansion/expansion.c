@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   expansion.c                                     :+:    :+:            */
+/*   expansion.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void	expand_exp_init(t_msdata *data, t_expend *exp)
+static void	expand_exp_init(t_msdata *data, t_expand *exp)
 {
 	data->exp = exp;
 	exp->env = NULL;
@@ -21,7 +21,7 @@ void	expand_exp_init(t_msdata *data, t_expend *exp)
 	exp->capacity = DYNSTRING;
 }
 
-void	expand_var_nl(t_expend *exp)
+static void	expand_var_nl(t_expand *exp)
 {
 	int	i;
 
@@ -41,7 +41,7 @@ void	expand_var_nl(t_expend *exp)
 	exp->env = NULL;
 }
 
-char	*expand_getenv(char **envp, char *env_start, int env_len)
+static char	*expand_getenv(char **envp, char *env_start, int env_len)
 {
 	int	i;
 
@@ -55,7 +55,7 @@ char	*expand_getenv(char **envp, char *env_start, int env_len)
 	return (NULL);
 }
 
-void	expand_var(t_msdata *data, t_expend *exp, int *pos)
+static void	expand_var(t_msdata *data, t_expand *exp, int *pos)
 {
 	char	*env_start;
 	int		env_len;
@@ -71,7 +71,7 @@ void	expand_var(t_msdata *data, t_expend *exp, int *pos)
 	expand_var_nl(exp);
 }
 
-void	expand_copy(t_msdata *data, t_expend *exp)
+static void	expand_copy(t_msdata *data, t_expand *exp)
 {
 	int	pos;
 	bool	single_q;
@@ -109,7 +109,7 @@ void	expand_copy(t_msdata *data, t_expend *exp)
 
 char	*expand(t_msdata *data)
 {
-	t_expend	exp;
+	t_expand	exp;
 
 	expand_exp_init(data, &exp);
 	exp.line = ft_dynstralloc(exp.line, &exp.capacity);

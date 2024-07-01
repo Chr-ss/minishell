@@ -29,5 +29,6 @@ void	input_handling(t_msdata *data)
 		parsing(data);
 		free(data->line);
 		data->line = NULL;
+		heredoc(data);
 	}
 }

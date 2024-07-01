@@ -13,12 +13,12 @@
 #ifndef EXPANSION_H
 # define EXPANSION_H
 
-typedef struct s_expend
+typedef struct s_expand
 {
 	char			*env;
 	char			*line;
 	int				line_pos;
 	int				capacity;
-}	t_expend;
+}	t_expand;
 
 #endif	// EXPANSION_H

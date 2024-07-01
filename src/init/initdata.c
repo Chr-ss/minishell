@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   initdata.c                                      :+:    :+:            */
+/*   initdata.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	initdata_cpy_envp(t_msdata *data, char **envp)
 {

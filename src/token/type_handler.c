@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   type_handler.c                                  :+:    :+:            */
+/*   type_handler.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
@@ -59,6 +59,10 @@ t_token	type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 	else
 	{
 		openfile(cmd, infile, O_TRUNC, &cmd->infd);
+		if (cmd->heredoc)
+			free_char_array(cmd->heredoc);
+		cmd->heredoc = NULL;
+		// EMPTY HERE DOC POINTER
 	}
 	return (infile);
 }
@@ -114,6 +118,8 @@ t_token	type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token token, int *pos
 	{
 		cmd->heredoc = extend_strarr(cmd, cmd->heredoc, strarr_size(cmd->heredoc));
 		token_to_strarr(data, cmd->heredoc, heredoc);
+
+		// Clear infd if not 0 or -1
 	}
 	return (heredoc);
 }

@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <unistd.h>
 
 # include <signal.h>
 
@@ -60,7 +61,7 @@ typedef struct s_msdata
 	char		**envp;
 	int			exit_code;
 	char		pwd[PATH_MAX];
-	t_expend	*exp;			// struct for line expansion
+	t_expand	*exp;			// struct for line expansion
 }	t_msdata;
 
 // SIGNAL:
@@ -354,13 +355,39 @@ void	parsing(t_msdata *data);
 void	parsing_syntax(t_msdata *data);
 int		parsing_syntax_quotes(t_msdata *data);
 
-// EXPANSION
-void	expand_exp_init(t_msdata *data, t_expend *exp);
-void	expand_var_nl(t_expend *exp);
-char	*expand_getenv(char **envp, char *env_start, int length);
-void	expand_var(t_msdata *data, t_expend *exp, int *pos);
-void	expand_copy(t_msdata *data, t_expend *exp);
+/**
+ * @brief
+ * This function checks for expansions.
+ * Found expansons are expanded with subfunctions
+ * @param
+ *  t_msdata *data
+ * @return
+ *  char* expanded line
+ * @exception
+ *  only as error()
+*/
 char	*expand(t_msdata *data);
+// static functions:
+// void	expand_exp_init(t_msdata *data, t_expand *exp);
+// void	expand_var_nl(t_expand *exp);
+// char	*expand_getenv(char **envp, char *env_start, int length);
+// void	expand_var(t_msdata *data, t_expand *exp, int *pos);
+// void	expand_copy(t_msdata *data, t_expand *exp);
+
+
+/**
+ * @brief
+ * Checks for heredoc delimitors in all cmd structs.
+ * Found delimitors activate readline and read
+ * into a pipe for each cmd struct with subfunctions.
+ * @param
+ *  t_msdata *data
+ * @return
+ *  void
+ * @exception
+ *  only as error()
+*/
+void	heredoc(t_msdata *data);
 
 // SORT THIS LATER
 void	token_to_strarr(t_msdata *data, char **strarr, t_token token);

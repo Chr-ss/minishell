@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   printf_cmd.c                                    :+:    :+:            */
+/*   printf_cmd.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
@@ -30,6 +30,12 @@ void	printf_cmd(t_cmd *cmd)
 		// if (cmd->infd)
 		printf("INFILE:%d\n", cmd->infd);
 		printf("OUTFILE:%d\n", cmd->outfd);
+		i = 0;
+		while (cmd->heredoc && cmd->heredoc[i])
+		{
+			printf("HEREDOC[%d]:%s\n", i, cmd->heredoc[i]);
+			i++;
+		}
 		cmd = cmd->pipe;
 		printf("\n\n");
 	}

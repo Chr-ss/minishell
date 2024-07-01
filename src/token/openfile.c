@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   openfile.c                                      :+:    :+:            */
+/*   openfile.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 
 void	openfile(t_cmd *cmd, t_token token, int open_flag, int *fd)
@@ -22,7 +22,7 @@ void	openfile(t_cmd *cmd, t_token token, int open_flag, int *fd)
 	new_fd = open(filename, O_RDWR, open_flag);
 	if (new_fd == -1)
 	{
-		printf("Can not open file.\n");
+		printf("Can not open file: %s\n", filename);
 	}
 	if (*fd)
 	{
