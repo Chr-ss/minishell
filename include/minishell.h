@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/28 17:23:27 by spenning         ###   ########.fr       */
+/*   Updated: 2024/07/02 17:39:45 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,18 @@
 # include <dirent.h>
 # include <errno.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 
 # define DYNSTRING 8
 
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
+
+enum e_pipe
+{
+	read, write
+}	;
 
 typedef struct s_cmd
 {
@@ -334,10 +340,29 @@ int	double_array_len(char **vector);
 int	check_dir(char *dirname);
 
 
+/**
+ * @brief
+ * This function checks if a file exists or not.
+ *  function can take relative and absolute path
+ * @param
+ *  char *file
+ * @return
+ *  0 is not found;
+ *  1 is found
+ * @exception
+ *  -1 is error
+*/
+int	check_file(char *file);
+
+
 // FUNCTIONS:
 void	input_handling(t_msdata *data);
 void	parsing(t_msdata *data);
 void	error(char *msg);
+
+// EXECUTION:
+
+void	execute(t_msdata *data);
 
 // UTILS
 int		skipspace(char *str, int pos);
