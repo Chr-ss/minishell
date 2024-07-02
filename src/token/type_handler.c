@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/20 17:30:53 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/02 15:58:36 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,11 @@ t_token	type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token token, int *pos
 	{
 		cmd->heredoc = extend_strarr(cmd, cmd->heredoc, strarr_size(cmd->heredoc));
 		token_to_strarr(data, cmd->heredoc, heredoc);
-
-		// Clear infd if not 0 or -1
+		if (cmd->infd > 0)
+		{
+			close(cmd->infd);
+			cmd->infd = 0;
+		}
 	}
 	return (heredoc);
 }
