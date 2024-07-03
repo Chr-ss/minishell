@@ -119,5 +119,6 @@ void	temp_print_tokens(t_msdata *data, char *line)
 			break ;
 	}
 	printf("\n");
+	execute(data);
 	printf_cmd(data->cmd_head);
 }
