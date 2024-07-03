@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:51:12 by spenning          #+#    #+#             */
-/*   Updated: 2024/07/03 19:47:36 by spenning         ###   ########.fr       */
+/*   Updated: 2024/07/03 20:00:56 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ void	execute(t_msdata *data)
 		{
 			if (pipe(cmd->pipe->pipefd) == -1)
 				error("pipe error\n");
-			ft_printf("pipefd[0] %d\n", cmd->pipe->pipefd[0]);
-			ft_printf("pipefd[1] %d\n", cmd->pipe->pipefd[1]);
+			// ft_printf("pipefd[0] %d\n", cmd->pipe->pipefd[0]);
+			// ft_printf("pipefd[1] %d\n", cmd->pipe->pipefd[1]);
 		}
 		pid = fork();
 		if (pid < 0)
@@ -151,8 +151,8 @@ void	execute(t_msdata *data)
 			execve(path_cmd, cmd->argv, data->envp);
 			error("execute error\n");
 		}
-		ft_printf("parent\n");
-		ft_printf("cmd %s\n", cmd->cmd);
+		// ft_printf("parent\n");
+		// ft_printf("cmd %s\n", cmd->cmd);
 		if (!(data->cmd_head == cmd))
 		{
 			if(close(cmd->pipefd[RD]) == -1)
@@ -166,7 +166,7 @@ void	execute(t_msdata *data)
 		cmd = cmd->pipe;
 	}
 	while(waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD);
-	ft_printf("here2\n");
+	// ft_printf("here2\n");
 	if (WIFEXITED(wstatus))
 	{
 		statuscode = WEXITSTATUS(wstatus);

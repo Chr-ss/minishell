@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   token.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: crasche <crasche@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/06/05 21:40:05 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/12 16:25:28 by crasche       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   token.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 21:40:05 by crasche           #+#    #+#             */
+/*   Updated: 2024/07/03 19:59:52 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,6 @@ void	temp_print_tokens(t_msdata *data, char *line)
 			break ;
 	}
 	printf("\n");
-	execute(data);
 	printf_cmd(data->cmd_head);
+	execute(data);
 }
