@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:51:12 by spenning          #+#    #+#             */
-/*   Updated: 2024/07/02 19:16:11 by spenning         ###   ########.fr       */
+/*   Updated: 2024/07/03 19:47:36 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ char	*execute_path(char	*cmd, t_msdata *data)
 	return (ret);
 }
 
-
 void	print_cmd(t_cmd *cmd, char *path_cmd)
 {
 	int i;
@@ -87,13 +86,34 @@ void	print_cmd(t_cmd *cmd, char *path_cmd)
 // REFERENCE: https://www.gnu.org/software/libc/manual/html_node/Testing-File-Type.html
 // REFERENCE: https://janelbrandon.medium.com/understanding-the-path-variable-6eae0936e976
 
+int add_command_to_argv(t_cmd** cmd_s, char **cmd)
+{
+	int	index;
+	int	arglen;
+	char	**new_argv;
+
+	index = 0;
+	arglen = double_array_len((*cmd_s)->argv);
+	new_argv = ft_calloc(sizeof(char *) * (arglen + 2), 1);
+	if (new_argv == NULL)
+		return (1);
+	new_argv[arglen + 1] = NULL;
+	new_argv[0] = *cmd;
+	while ((*cmd_s)->argv[index] != NULL)
+	{
+		copy_over_str(index + 1, index, new_argv, (*cmd_s)->argv);
+		index++;
+	}
+	free_char_array((*cmd_s)->argv);
+	(*cmd_s)->argv= new_argv;
+	return (0);
+}
 
 void	execute(t_msdata *data)
 {
 	t_cmd *cmd;
 	char* path_cmd;
 	pid_t pid;
-	int pipefd[2];
 	int wstatus;
 	int statuscode;
 
@@ -103,30 +123,50 @@ void	execute(t_msdata *data)
 	{
 		if (cmd->pipe != NULL)
 		{
-			if (pipe(pipefd) == -1)
-				error("pipe\n");
+			if (pipe(cmd->pipe->pipefd) == -1)
+				error("pipe error\n");
+			ft_printf("pipefd[0] %d\n", cmd->pipe->pipefd[0]);
+			ft_printf("pipefd[1] %d\n", cmd->pipe->pipefd[1]);
 		}
 		pid = fork();
+		if (pid < 0)
+			error("fork error\n");
 		if (pid == 0)
 		{
 			if (cmd->pipe != NULL)
-				dup2(stdout, pipefd[write]);
-			if (!data->cmd_head == cmd)
-				dup2(stdin, pipefd[read]);
+			{
+				dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO);
+				close(cmd->pipe->pipefd[WR]);
+				close(cmd->pipe->pipefd[RD]);
+			}
+			if (!(data->cmd_head == cmd))
+			{
+				dup2(cmd->pipefd[RD], STDIN_FILENO);
+				close(cmd->pipefd[RD]);
+			}
 			path_cmd = execute_path(cmd->cmd, data);
-			print_cmd(cmd, path_cmd);
+			if(add_command_to_argv(&cmd, &path_cmd))
+				error("copy over error\n");
+			// print_cmd(cmd, path_cmd);
 			execve(path_cmd, cmd->argv, data->envp);
-			ft_printf("fail execve\n");
-			close(pipefd[read]);
-			close(pipefd[write]);
-			exit(0);
+			error("execute error\n");
 		}
-		close(pipefd[read]);
-		close(pipefd[write]);
+		ft_printf("parent\n");
+		ft_printf("cmd %s\n", cmd->cmd);
+		if (!(data->cmd_head == cmd))
+		{
+			if(close(cmd->pipefd[RD]) == -1)
+				ft_printf("close fail\n");
+		}
+		if (cmd->pipe != NULL)
+		{
+			if(close(cmd->pipe->pipefd[WR]) == -1)
+				ft_printf("close fail\n");
+		}
 		cmd = cmd->pipe;
-		ft_printf("here\n");
 	}
-	while(wait(&wstatus) != -1 || errno != ECHILD);
+	while(waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD);
+	ft_printf("here2\n");
 	if (WIFEXITED(wstatus))
 	{
 		statuscode = WEXITSTATUS(wstatus);

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/07/02 17:39:45 by spenning         ###   ########.fr       */
+/*   Updated: 2024/07/03 17:38:50 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 
 enum e_pipe
 {
-	read, write
+	RD, WR
 }	;
 
 typedef struct s_cmd
@@ -52,6 +52,7 @@ typedef struct s_cmd
 	struct s_cmd	*pipe;		// if NULL no more pipe
 	int				infd;		// if -1 do not execute cmd | if 0 no change
 	int				outfd;		// if -1 do not execute cmd | if 0 no change
+	int 			pipefd[2];	// holds the pipe from previous cmd to current
 }	t_cmd;
 
 typedef struct s_msdata

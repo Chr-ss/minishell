@@ -105,7 +105,6 @@ t_token	tokenizer(char *line)
 	return (token);
 }
 
-// ! uncomment later when finished 
 void	temp_print_tokens(t_msdata *data, char *line)
 {
 	t_token	token;
@@ -121,5 +120,5 @@ void	temp_print_tokens(t_msdata *data, char *line)
 	}
 	printf("\n");
 	execute(data);
-	// printf_cmd(data->cmd_head);
+	printf_cmd(data->cmd_head);
 }
