@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 14:41:51 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 17:29:02 by spenning         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cd.c                                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
+/*   Updated: 2024/07/04 15:39:01 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	cd_chdir(t_msdata *data, char *dir)
 	char	*pwd;
 	char	*old_pwd;
 
-	old_pwd = get_envp(data, "PWD");
+	if(get_envp(data, "PWD", &old_pwd) == -1)
+		error ("cd_chdir get_envp error\n");
 	pwd = ft_strdup(dir);
 	if (!pwd || !old_pwd)
 	{
@@ -77,7 +78,10 @@ int	cd(t_msdata *data)
 		error("path too long for cd");
 	arglen = double_array_len(data->argv);
 	if (arglen == 1)
-		dir = get_envp(data, "HOME");
+	{
+		if(get_envp(data, "HOME", &dir) == -1)
+			error("cd get_envp error");
+	}
 	else if (arglen > 2)
 		error("too many arguments for cd");
 	else
