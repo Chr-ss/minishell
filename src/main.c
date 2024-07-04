@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 16:29:43 by crasche           #+#    #+#             */
-/*   Updated: 2024/06/28 17:25:43 by spenning         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
+/*   Updated: 2024/07/04 16:07:05 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc > 1)
 		error("Invalid argument count.");
+	check_tty();
 	initdata(&data, argv, envp); // malloc >> data->cmd_head, data->envp
 	input_handling(&data);
-	error("No, error.");
+	rl_clear_history();
+	exit(data.exit_code);
 	return (0);
 }
