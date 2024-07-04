@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 16:31:20 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/05 21:25:26 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/04 16:16:59 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	expand_var(t_msdata *data, t_expand *exp, int *pos)
 
 static void	expand_copy(t_msdata *data, t_expand *exp)
 {
-	int	pos;
+	int		pos;
 	bool	single_q;
 	bool	double_q;
 
@@ -86,7 +86,9 @@ static void	expand_copy(t_msdata *data, t_expand *exp)
 			single_q = !single_q;
 		else if (data->line[pos] == '"' && single_q == true)
 			double_q = !double_q;
-		if (data->line[pos] != '$' || single_q == false)
+		if (data->line[pos] == '$' && ft_isdigit((int) data->line[pos + 1]) && single_q == true)
+			pos += 2;
+		else if (data->line[pos] != '$' || single_q == false || (data->line[pos] == '$' && !ft_isalpha((int) data->line[pos + 1]) && single_q == true))
 		{
 			if (exp->line_pos == exp->capacity)
 			{
@@ -97,8 +99,6 @@ static void	expand_copy(t_msdata *data, t_expand *exp)
 			exp->line[exp->line_pos] = data->line[pos++];
 			exp->line_pos++;
 		}
-		else if (data->line[pos] == '$' && ft_isdigit((int) data->line[pos + 1]) && single_q == true)
-			pos += 2;
 		else if (data->line[pos] == '$' && single_q == true)
 		{
 			pos++;
