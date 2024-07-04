@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_envp.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 14:34:53 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 14:47:22 by spenning         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_envp.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/06/28 14:34:53 by spenning      #+#    #+#                 */
+/*   Updated: 2024/07/04 12:24:39 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,22 +97,23 @@ char	*get_envp_value_pointer(char *envp)
 
 //TODO change to return int, and have pointer 
 // as parameter
-char	*get_envp(t_msdata *data, char *envp)
+int	get_envp(t_msdata *data, char *envp, char **env)
 {
 	int		index;
-	char	*path;
 
-	path = NULL;
+	*env = NULL;
 	index = get_envp_index(envp, data->envp);
 	if (index == -1)
-		ft_printf(" %s not set\n", envp);
+		return (1);
 	else
-		path = get_envp_value_pointer(data->envp[index]);
-	if (path != NULL)
+		*env = get_envp_value_pointer(data->envp[index]);
+	if (*env != NULL)
 	{
-		path = ft_strdup(path);
-		if (path == NULL)
-			return (NULL);
+		*env = ft_strdup(*env);
+		if (*env == NULL)
+			return (-1);
 	}
-	return (path);
+	else 
+		return (1);
+	return (0);
 }

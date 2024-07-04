@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 16:32:33 by crasche           #+#    #+#             */
-/*   Updated: 2024/07/03 17:38:50 by spenning         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
+/*   Updated: 2024/07/04 12:26:30 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,21 +262,20 @@ void	swap_envp(t_msdata *data, char **envp);
 void	add_envp(t_msdata *data, char *key, char *value);
 
 /**
- * @brief
- * This function will search the envp member in the data structure
- *  for the envp as paramater. 
- * @param
- *  t_msdata* data
- * @param
- *  char* envp
+ * @brief This function will search the envp member in the data structure
+ *  for the envp as paramater and puts it in env argument. Otherwise env is null
+ *  and error code is returned
+ * @param t_msdata* data
+ * @param char* envp
+ * @param char** env
  * @return
- * Function returns malloced string of the envp if envp was found.
+ * Function returns int to indicate succesful operation or not
+ * 0 is succesful operation
+ * 1 is unsuccesful operation due to parameter not found
  * @exception
- * Will give back NULL on memory allocation or if envp was not found
- * @note
- * Return values and error code will be changed due to ambiguity in future development
+ * -1 is unsuccesful operation due to malloc failure
 */
-char	*get_envp(t_msdata *data, char *envp);
+int	get_envp(t_msdata *data, char *envp, char **env);
 
 /**
  * @brief This function will change a envp in the envp member 

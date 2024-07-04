@@ -1,109 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/02 12:51:12 by spenning          #+#    #+#             */
-/*   Updated: 2024/07/04 11:30:16 by spenning         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   execution.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
+/*   Updated: 2024/07/04 12:16:10 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-char	*execute_path_check(char **path_spl, char *cmd)
-{
-	int		index;
-	char	*temp;
-	char	*temp_cmd;
-	int		check;
-
-	index = 0;
-	while (path_spl[index] != NULL)
-	{
-		temp = ft_strjoin(path_spl[index], "/");
-		if (!temp)
-			return (NULL);
-		temp_cmd = ft_strjoin(temp, cmd);
-		free(temp);
-		if (!temp_cmd)
-			return (NULL);
-		check = access(temp_cmd, X_OK);
-		if (check == 0)
-			return (temp_cmd);
-		else
-			free(temp_cmd);
-		index++;
-	}
-	return (NULL);
-}
-
-char	*execute_path(char	*cmd, t_msdata *data)
-{
-	char	*path;
-	char	**path_spl;
-	char	*ret;
-
-	path = get_envp(data, "PATH");
-	if (!path)
-		return (NULL);
-	path_spl = ft_split(path, ':');
-	if (!path_spl)
-	{
-		if (path)
-			free(path);
-		return (NULL);
-	}
-	ret = execute_path_check(path_spl, cmd);
-	free_char_array(path_spl);
-	if (ret == NULL)
-		return (NULL);
-	return (ret);
-}
-
-// void	print_cmd(t_cmd *cmd, char *path_cmd)
-// {
-// 	int	i;
-// 	ft_printf("cmd %s\n", path_cmd);
-// 	i = 0;
-// 	while (cmd->argv && cmd->argv[i])
-// 	{
-// 		ft_printf("ARGV[%d]:%s\n", i, cmd->argv[i]);
-// 		i++;
-// 	}
-// 	ft_printf("INFILE:%d\n", cmd->infd);
-// 	ft_printf("OUTFILE:%d\n\n", cmd->outfd);
-// }
+#include "../../include/execution.h"
 
 // REFERENCE: https://reactive.so/post/42-a-comprehensive-guide-to-pipex
 // REFERENCE: https://www.gnu.org/software/libc/manual/html_node/
 // Testing-File-Type.html
 // REFERENCE: https://janelbrandon.medium.com/understanding-the-path-variable 
 // -6eae0936e976
-
-int	add_command_to_argv(t_cmd	**cmd_s, char **cmd)
-{
-	int		index;
-	int		arglen;
-	char	**new_argv;
-
-	index = 0;
-	arglen = double_array_len((*cmd_s)->argv);
-	new_argv = ft_calloc(sizeof(char *) * (arglen + 2), 1);
-	if (new_argv == NULL)
-		return (1);
-	new_argv[arglen + 1] = NULL;
-	new_argv[0] = *cmd;
-	while ((*cmd_s)->argv[index] != NULL)
-	{
-		copy_over_str(index + 1, index, new_argv, (*cmd_s)->argv);
-		index++;
-	}
-	free_char_array((*cmd_s)->argv);
-	(*cmd_s)->argv = new_argv;
-	return (0);
-}
 
 void	execute_child_dup(t_msdata *data, t_cmd *cmd)
 {
@@ -139,10 +53,21 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 	}
 }
 
+void	execute_child(t_msdata *data, t_cmd *cmd)
+{
+	char	*path_cmd;
+
+	execute_child_dup(data, cmd);
+	execute_path(cmd->cmd, data, &path_cmd);
+	if(add_command_to_argv(data, &cmd) == -1)
+		error("add command to argv malloc error\n");
+	execve(path_cmd, cmd->argv, data->envp);
+	error("execute error in child\n");
+}
+
 void	execute(t_msdata *data)
 {
 	t_cmd	*cmd;
-	char	*path_cmd;
 	pid_t	pid;
 	int		wstatus;
 	int		statuscode;
@@ -162,14 +87,7 @@ void	execute(t_msdata *data)
 		if (pid < 0)
 			error("fork error\n");
 		if (pid == 0)
-		{
-			execute_child_dup(data, cmd);
-			path_cmd = execute_path(cmd->cmd, data);
-			if(add_command_to_argv(&cmd, &path_cmd))
-				error("copy over error\n");
-			execve(path_cmd, cmd->argv, data->envp);
-			error("execute error\n");
-		}
+			execute_child(data, cmd);
 		// ft_printf("parent\n");
 		// ft_printf("cmd %s\n", cmd->cmd);
 		execute_parent_close_pipe(data, cmd);
