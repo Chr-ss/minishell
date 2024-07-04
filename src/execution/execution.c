@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 12:51:12 by spenning          #+#    #+#             */
-/*   Updated: 2024/07/03 20:00:56 by spenning         ###   ########.fr       */
+/*   Updated: 2024/07/04 11:30:16 by spenning         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,11 @@ char	*execute_path_check(char **path_spl, char *cmd)
 		free(temp);
 		if (!temp_cmd)
 			return (NULL);
-		// check = check_file(temp_cmd);
-		// if (check == 0)
-		// {
 		check = access(temp_cmd, X_OK);
 		if (check == 0)
 			return (temp_cmd);
 		else
 			free(temp_cmd);
-		// }
-		// else
-			// free(temp_cmd);
 		index++;
 	}
 	return (NULL);
@@ -47,9 +41,9 @@ char	*execute_path_check(char **path_spl, char *cmd)
 
 char	*execute_path(char	*cmd, t_msdata *data)
 {
-	char *path;
-	char **path_spl;
-	char *ret;
+	char	*path;
+	char	**path_spl;
+	char	*ret;
 
 	path = get_envp(data, "PATH");
 	if (!path)
@@ -68,28 +62,30 @@ char	*execute_path(char	*cmd, t_msdata *data)
 	return (ret);
 }
 
-void	print_cmd(t_cmd *cmd, char *path_cmd)
-{
-	int i;
-	ft_printf("cmd %s\n", path_cmd);
-	i = 0;
-	while (cmd->argv && cmd->argv[i])
-	{
-		ft_printf("ARGV[%d]:%s\n", i, cmd->argv[i]);
-		i++;
-	}
-	ft_printf("INFILE:%d\n", cmd->infd);
-	ft_printf("OUTFILE:%d\n\n", cmd->outfd);
-}
+// void	print_cmd(t_cmd *cmd, char *path_cmd)
+// {
+// 	int	i;
+// 	ft_printf("cmd %s\n", path_cmd);
+// 	i = 0;
+// 	while (cmd->argv && cmd->argv[i])
+// 	{
+// 		ft_printf("ARGV[%d]:%s\n", i, cmd->argv[i]);
+// 		i++;
+// 	}
+// 	ft_printf("INFILE:%d\n", cmd->infd);
+// 	ft_printf("OUTFILE:%d\n\n", cmd->outfd);
+// }
 
 // REFERENCE: https://reactive.so/post/42-a-comprehensive-guide-to-pipex
-// REFERENCE: https://www.gnu.org/software/libc/manual/html_node/Testing-File-Type.html
-// REFERENCE: https://janelbrandon.medium.com/understanding-the-path-variable-6eae0936e976
+// REFERENCE: https://www.gnu.org/software/libc/manual/html_node/
+// Testing-File-Type.html
+// REFERENCE: https://janelbrandon.medium.com/understanding-the-path-variable 
+// -6eae0936e976
 
-int add_command_to_argv(t_cmd** cmd_s, char **cmd)
+int	add_command_to_argv(t_cmd	**cmd_s, char **cmd)
 {
-	int	index;
-	int	arglen;
+	int		index;
+	int		arglen;
 	char	**new_argv;
 
 	index = 0;
@@ -105,17 +101,51 @@ int add_command_to_argv(t_cmd** cmd_s, char **cmd)
 		index++;
 	}
 	free_char_array((*cmd_s)->argv);
-	(*cmd_s)->argv= new_argv;
+	(*cmd_s)->argv = new_argv;
 	return (0);
+}
+
+void	execute_child_dup(t_msdata *data, t_cmd *cmd)
+{
+	if (cmd->pipe != NULL)
+	{
+		if (dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
+			error("dup error child write end pipe to stdout");
+		if (close(cmd->pipe->pipefd[WR]) == -1)
+			error("close error child write end pipe after dub to stdout");
+		if (close(cmd->pipe->pipefd[RD]) == -1)
+			error("close error child read end pipe after dub to stdout");
+	}
+	if (!(data->cmd_head == cmd))
+	{
+		if (dup2(cmd->pipefd[RD], STDIN_FILENO) == -1)
+			error("dup error child read end pipe to stdin");
+		if (close(cmd->pipefd[RD]) == -1)
+			error("close error child read end pipe after dub to stdin");
+	}
+}
+
+void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
+{
+	if (!(data->cmd_head == cmd))
+	{
+		if (close(cmd->pipefd[RD]) == -1)
+			error("close error parent read end of pipe");
+	}
+	if (cmd->pipe != NULL)
+	{
+		if (close(cmd->pipe->pipefd[WR]) == -1)
+			error("close error parent write end of pipe");
+	}
 }
 
 void	execute(t_msdata *data)
 {
-	t_cmd *cmd;
-	char* path_cmd;
-	pid_t pid;
-	int wstatus;
-	int statuscode;
+	t_cmd	*cmd;
+	char	*path_cmd;
+	pid_t	pid;
+	int		wstatus;
+	int		statuscode;
 
 	cmd = data->cmd_head;
 	ft_printf("\n------------execution----------------\n\n");
@@ -133,45 +163,21 @@ void	execute(t_msdata *data)
 			error("fork error\n");
 		if (pid == 0)
 		{
-			if (cmd->pipe != NULL)
-			{
-				dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO);
-				close(cmd->pipe->pipefd[WR]);
-				close(cmd->pipe->pipefd[RD]);
-			}
-			if (!(data->cmd_head == cmd))
-			{
-				dup2(cmd->pipefd[RD], STDIN_FILENO);
-				close(cmd->pipefd[RD]);
-			}
+			execute_child_dup(data, cmd);
 			path_cmd = execute_path(cmd->cmd, data);
 			if(add_command_to_argv(&cmd, &path_cmd))
 				error("copy over error\n");
-			// print_cmd(cmd, path_cmd);
 			execve(path_cmd, cmd->argv, data->envp);
 			error("execute error\n");
 		}
 		// ft_printf("parent\n");
 		// ft_printf("cmd %s\n", cmd->cmd);
-		if (!(data->cmd_head == cmd))
-		{
-			if(close(cmd->pipefd[RD]) == -1)
-				ft_printf("close fail\n");
-		}
-		if (cmd->pipe != NULL)
-		{
-			if(close(cmd->pipe->pipefd[WR]) == -1)
-				ft_printf("close fail\n");
-		}
+		execute_parent_close_pipe(data, cmd);
 		cmd = cmd->pipe;
 	}
 	while(waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD);
-	// ft_printf("here2\n");
 	if (WIFEXITED(wstatus))
-	{
 		statuscode = WEXITSTATUS(wstatus);
-	}
-
 	//while loop to wait for child waitpid(?, ?,?) exit_code
 	//WIFSIGNAL()
 		//whatever it is returned += 128
