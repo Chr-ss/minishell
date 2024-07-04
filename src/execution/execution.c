@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/04 12:16:10 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/04 16:17:11 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	char	*path_cmd;
 
 	execute_child_dup(data, cmd);
-	execute_path(cmd->cmd, data, &path_cmd);
-	if(add_command_to_argv(data, &cmd) == -1)
+	if (execute_path(cmd->cmd, data, &path_cmd) == -1)
+		error("execute_child execute path error\n");
+	if (add_command_to_argv(data, &cmd) == -1)
 		error("add command to argv malloc error\n");
 	execve(path_cmd, cmd->argv, data->envp);
 	error("execute error in child\n");

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 11:49:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/04 12:29:54 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/04 16:14:25 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,12 @@ int	execute_path(char	*cmd, t_msdata *data, char **path_cmd)
 	int		ret;
 	char	*path;
 	char	**path_spl;
-	int		ret;
 
 	ret = get_envp(data, "PATH", &path);
 	if (ret == -1)
 		return (-1);
-	else if (ret == 0)
-		return (0);
+	else if (ret == 1)
+		return (1);
 	path_spl = ft_split(path, ':');
 	if (!path_spl)
 	{

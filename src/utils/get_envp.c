@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/28 14:34:53 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/04 12:24:39 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/04 15:39:35 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ char	*get_envp_value_pointer(char *envp)
 	return (env);
 }
 
-//TODO change to return int, and have pointer 
-// as parameter
 int	get_envp(t_msdata *data, char *envp, char **env)
 {
 	int		index;

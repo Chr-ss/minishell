@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cd_parse.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/24 19:15:45 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 17:59:14 by spenning         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cd_parse.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/06/24 19:15:45 by spenning      #+#    #+#                 */
+/*   Updated: 2024/07/04 15:36:43 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,22 +101,28 @@ char	*cd_parse(t_msdata *data)
 {
 	char	operand[2];
 	char	*cdpath;
+	int		ret;
 
 	cdpath = NULL;
 	ft_strlcpy(operand, data->argv[1], 2);
 	if (!ft_strncmp(data->argv[1], "-", ft_strlen(data->argv[1])))
-		return (get_envp(data, "OLDPWD"));
+	{
+		ret = get_envp(data, "OLDPWD", &cdpath);
+		if (ret == -1)
+			error("cdparse getenvp error");
+		return (cdpath);
+	}
 	if (operand[0] == '/')
 		return (data->argv[1]);
 	else if (operand[0] == '.' || !ft_strncmp(operand, "..", 2))
 		return (data->argv[1]);
 	else
 	{
-		cdpath = get_envp(data, "CDPATH");
-		if (cdpath != NULL)
+		ret = get_envp(data, "CDPATH", &cdpath);
+		if (cdpath != NULL && ret != -1)
 			cdpath = cd_parse_pso(cdpath, data->argv[1]);
 	}
-	if (cdpath == NULL)
+	if (cdpath == NULL && ret == 1)
 		cdpath = cd_parse_dso(data->argv[1]);
 	return (cdpath);
 }
