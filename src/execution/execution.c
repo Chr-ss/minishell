@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/04 16:17:11 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/04 17:21:23 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,56 @@
 // REFERENCE: https://janelbrandon.medium.com/understanding-the-path-variable 
 // -6eae0936e976
 
+// cat < src/main.c | grep if < src/execution/execution.c
+// cat < src/main.c | grep if > test
+// ls -l | grep build > test | cat -e
+
+int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
+{
+	int ret;
+
+	ret = 0;
+	if (cmd->infd < 0 || cmd->outfd < 0)
+		return (-1);
+	if (cmd->infd > 0)
+	{
+		if (dup2(cmd->infd, STDIN_FILENO) == -1)
+			error("dup error child infd to stdin");
+		if (close(cmd->infd) == -1)
+			error("close error child infd after dub to stdin");
+		if (!(data->cmd_head == cmd))
+		{
+			if (close(cmd->pipefd[RD]) == -1)
+				error("close error child read end pipe after fd dub to stdout");
+		}
+		ret = 1;
+	}
+	if (cmd->outfd > 0)
+	{
+		if (dup2(cmd->outfd, STDOUT_FILENO) == -1)
+			error("dup error child outfd to stdout");
+		if (close(cmd->outfd) == -1)
+			error("close error child outfd after dub to stdout");
+		if (cmd->pipe != NULL)
+		{
+			if (close(cmd->pipe->pipefd[WR]) == -1)
+				error("close error child read end pipe after fd dub to stdin");
+		}
+		ret = 1;
+	}
+	return (ret);
+}
+
+
 void	execute_child_dup(t_msdata *data, t_cmd *cmd)
 {
+	int ret;
+
+	ret = execute_child_dup_fd(data, cmd);
+	if (ret == -1)
+		exit (1);
+	else if (ret == 1)
+		return ; 
 	if (cmd->pipe != NULL)
 	{
 		if (dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
@@ -81,16 +129,12 @@ void	execute(t_msdata *data)
 		{
 			if (pipe(cmd->pipe->pipefd) == -1)
 				error("pipe error\n");
-			// ft_printf("pipefd[0] %d\n", cmd->pipe->pipefd[0]);
-			// ft_printf("pipefd[1] %d\n", cmd->pipe->pipefd[1]);
 		}
 		pid = fork();
 		if (pid < 0)
 			error("fork error\n");
 		if (pid == 0)
 			execute_child(data, cmd);
-		// ft_printf("parent\n");
-		// ft_printf("cmd %s\n", cmd->cmd);
 		execute_parent_close_pipe(data, cmd);
 		cmd = cmd->pipe;
 	}
