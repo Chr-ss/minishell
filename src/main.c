@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/04 16:07:05 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/04 16:43:13 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1)
 		error("Invalid argument count.");
 	check_tty();
+	init_signal();
 	initdata(&data, argv, envp); // malloc >> data->cmd_head, data->envp
 	input_handling(&data);
 	rl_clear_history();
