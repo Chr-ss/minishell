@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/05 18:46:45 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 18:54:39 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,10 +152,9 @@ int	export(t_msdata *data);
  * @brief
  * This function is the built-in function for unset. It will unset
  * a environmental variable if it exists.
- * @param
- *  t_msdata* data
- * @param
- *  char* arg
+ * @param t_msdata* data
+ * @param char** argv
+ * @param char* arg
  * @note
  * 	the char *arg is a temporary parameter to work with export builtin
  * 	pass NULL if you want to use with argv in data struct, otherwise arg
@@ -167,7 +166,7 @@ int	export(t_msdata *data);
  * if variable is not found. If there is a malloc error then minishell will
  * exit
 */
-void unset(t_msdata *data, char *arg);
+int unset(t_msdata *data, char **argv, char *arg);
 
 
 /**

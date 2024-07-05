@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/05 18:43:16 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 18:55:59 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	export(t_msdata *data)
 		error("malloc error in export_check_value");
 	check_envp = get_envp_index(key, data->envp);
 	if (check_envp != -1)
-		unset(data, key);
+		unset(data, NULL, key);
 	add_envp(data, key, value);
 	return (0);
 }
