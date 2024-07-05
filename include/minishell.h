@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/05 18:43:38 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 18:46:45 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int cd (t_msdata *data, char **argv);
  * @return
  * Function returns nothing
 */
-void	pwd(t_msdata *data);
+int	pwd(t_msdata *data);
 
 /**
  * @brief

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/05 18:19:03 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 18:46:23 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,28 +102,28 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 }
 
 
-void execute_check_builtin(t_msdata *data, t_cmd *cmd)
+int execute_check_builtin(t_msdata *data, t_cmd *cmd)
 {
 	int len;
 
 	len = ft_strlen(cmd->cmd);
 	if (!ft_strncmp("echo", cmd->cmd, len))
-		echo(cmd->argv);
+		return (echo(cmd->argv));
 	else if (!ft_strncmp("cd", cmd->cmd, len))
-		cd(data, cmd->argv);
+		return (cd(data, cmd->argv));
 	else if (!ft_strncmp("env", cmd->cmd, len))
-		env(data);
+		return (env(data));
 	else if (!ft_strncmp("export", cmd->cmd, len))
-		export(data);
+		return (export(data));
 	else if (!ft_strncmp("pwd", cmd->cmd, len))
-		pwd(data);
+		return (pwd(data));
 	else if (!ft_strncmp("unset", cmd->cmd, len))
 		unset(data, "lol");
 	else if (!ft_strncmp("exit", cmd->cmd, len))
 		mini_exit(data);
 	else
-		return ;
-	exit(0);
+		return (1);
+	return (1);
 }
 
 void	execute_child(t_msdata *data, t_cmd *cmd)
@@ -131,7 +131,6 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	char	*path_cmd;
 
 	execute_child_dup(data, cmd);
-	execute_check_builtin(data, cmd);
 	if (execute_path(cmd->cmd, data, &path_cmd) == -1)
 		error("execute_child execute path error\n");
 	if (add_command_to_argv(data, &cmd) == -1)
@@ -140,6 +139,7 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	error("execute error in child\n");
 }
 
+// TODO: exit code from child + builtins
 void	execute(t_msdata *data)
 {
 	t_cmd	*cmd;
@@ -156,13 +156,18 @@ void	execute(t_msdata *data)
 			if (pipe(cmd->pipe->pipefd) == -1)
 				error("pipe error\n");
 		}
-		pid = fork();
-		if (pid < 0)
-			error("fork error\n");
-		if (pid == 0)
-			execute_child(data, cmd);
-		execute_parent_close_pipe(data, cmd);
-		cmd = cmd->pipe;
+		if (!execute_check_builtin(data, cmd))
+			cmd = cmd->pipe;
+		else 
+		{
+			pid = fork();
+			if (pid < 0)
+				error("fork error\n");
+			if (pid == 0)
+				execute_child(data, cmd);
+			execute_parent_close_pipe(data, cmd);
+			cmd = cmd->pipe;
+		}
 	}
 	while(waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD);
 	if (WIFEXITED(wstatus))
