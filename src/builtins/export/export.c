@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 14:59:21 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 17:29:31 by spenning         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   export.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
+/*   Updated: 2024/07/05 18:43:16 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*export_check_value(char *value)
 	return (value);
 }
 
-void	export(t_msdata *data)
+int	export(t_msdata *data)
 {
 	char	*value;
 	char	*key;
@@ -70,4 +70,5 @@ void	export(t_msdata *data)
 	if (check_envp != -1)
 		unset(data, key);
 	add_envp(data, key, value);
+	return (0);
 }
