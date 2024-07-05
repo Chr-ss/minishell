@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/05 19:04:59 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 19:09:25 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int execute_check_builtin(t_msdata *data, t_cmd *cmd)
 	else if (!ft_strncmp("unset", cmd->cmd, len))
 		return (unset(data, cmd->argv, NULL));
 	else if (!ft_strncmp("exit", cmd->cmd, len))
-		mini_exit(data);
+		return (mini_exit(cmd->argv));
 	else
 		return (1);
 	return (1);

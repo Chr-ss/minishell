@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/05 18:54:39 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 19:08:20 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,12 +125,11 @@ int	env(t_msdata *data);
  *  as argument with argv, the exit code should be in between
  *  0-255, otherwise it will returned a remaining exit code
  *  after modulu operation.
- * @param
- *  t_msdata* data
+ * @param char **argv
  * @return
  * Function returns nothing
 */
-void	mini_exit(t_msdata *data);
+int	mini_exit(char **argv);
 
 /**
  * @brief
