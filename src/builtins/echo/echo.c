@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/28 15:58:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/05 14:42:22 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 18:17:27 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	echo(char	**argv)
 
 	print_nl = 1;
 	arglen = double_array_len(argv);
-	if (arglen == 1)
+	if (arglen == 0)
 		return (echo_nl());
 	printline = echo_getline(argv, &print_nl);
 	if (printline == NULL)

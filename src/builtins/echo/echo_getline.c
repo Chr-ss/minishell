@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/28 17:06:50 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/05 14:41:46 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 18:17:59 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*echo_getline(char **argv, int *print_nl)
 	char	*ret;
 	int		index;
 
-	index = 1;
+	index = 0;
 	ret = echo_getline_first_arg(argv, print_nl, &index);
 	if (ret == NULL)
 		return (NULL);

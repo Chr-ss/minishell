@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/05 14:52:22 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 18:19:03 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,7 @@ void execute_check_builtin(t_msdata *data, t_cmd *cmd)
 	if (!ft_strncmp("echo", cmd->cmd, len))
 		echo(cmd->argv);
 	else if (!ft_strncmp("cd", cmd->cmd, len))
-	{
-		printf("hello\n");
 		cd(data, cmd->argv);
-	}
 	else if (!ft_strncmp("env", cmd->cmd, len))
 		env(data);
 	else if (!ft_strncmp("export", cmd->cmd, len))
