@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/04 16:22:47 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 14:34:44 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ void unset(t_msdata *data, char *arg);
  * @return
  * Function returns nothing
 */
-void	echo(t_msdata* data);
+void	echo(char **argv);
 
 //UTILS
 

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/04 17:21:23 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 14:44:09 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,31 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 	}
 }
 
+
+void execute_check_builtin(t_msdata *data, t_cmd *cmd)
+{
+	int len;
+
+	len = ft_strlen(cmd->cmd);
+	if (!ft_strncmp("echo", cmd->cmd, len))
+		echo(cmd->argv);
+	else if (!ft_strncmp("cd", cmd->cmd, len))
+		cd(data);
+	else if (!ft_strncmp("env", cmd->cmd, len))
+		env(data);
+	else if (!ft_strncmp("export", cmd->cmd, len))
+		export(data);
+	else if (!ft_strncmp("pwd", cmd->cmd, len))
+		pwd(data);
+	else if (!ft_strncmp("unset", cmd->cmd, len))
+		unset(data, "lol");
+	else if (!ft_strncmp("exit", cmd->cmd, len))
+		mini_exit(data);
+	else
+		return ;
+	exit(0);
+}
+
 void	execute_child(t_msdata *data, t_cmd *cmd)
 {
 	char	*path_cmd;
@@ -110,6 +135,7 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 		error("execute_child execute path error\n");
 	if (add_command_to_argv(data, &cmd) == -1)
 		error("add command to argv malloc error\n");
+	execute_check_builtin(data, cmd);
 	execve(path_cmd, cmd->argv, data->envp);
 	error("execute error in child\n");
 }

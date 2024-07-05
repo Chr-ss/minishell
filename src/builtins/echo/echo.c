@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 15:58:39 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 17:29:11 by spenning         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   echo.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/06/28 15:58:39 by spenning      #+#    #+#                 */
+/*   Updated: 2024/07/05 14:42:22 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,17 @@ void	echo_nl(void)
 	ft_printf("\n");
 }
 
-void	echo(t_msdata *data)
+void	echo(char	**argv)
 {
 	int		print_nl;
 	int		arglen;
 	char	*printline;
 
 	print_nl = 1;
-	arglen = double_array_len(data->argv);
+	arglen = double_array_len(argv);
 	if (arglen == 1)
 		return (echo_nl());
-	printline = echo_getline(data->argv, &print_nl);
+	printline = echo_getline(argv, &print_nl);
 	if (printline == NULL)
 		error("error in malloc for echo");
 	ft_printf("%s", printline);
