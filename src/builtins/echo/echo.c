@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/28 15:58:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/05 18:17:27 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 18:24:12 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,13 @@ int	echo_check_nl(char *arg)
 	return (ret);
 }
 
-void	echo_nl(void)
+int	echo_nl(void)
 {
 	ft_printf("\n");
+	return (0);
 }
 
-void	echo(char	**argv)
+int	echo(char	**argv)
 {
 	int		print_nl;
 	int		arglen;
@@ -65,4 +66,5 @@ void	echo(char	**argv)
 	ft_printf("%s", printline);
 	if (print_nl)
 		echo_nl();
+	return (0);
 }

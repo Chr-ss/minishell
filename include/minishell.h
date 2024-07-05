@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/05 14:47:59 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 18:43:38 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,12 @@ void	pwd(t_msdata *data);
  * @brief
  * This function is the built-in for env
  * it will print all environment variables to stdout with
- * @param
- *  t_msdata *data
+ * @param t_msdata *data
+ * @param char **argv
  * @return
  * Function returns nothing
 */
-void	env(t_msdata *data);
+int	env(t_msdata *data);
 
 /**
  * @brief
@@ -146,7 +146,7 @@ void	mini_exit(t_msdata *data);
  * @return
  * Function returns nothing
 */
-void	export(t_msdata *data);
+int	export(t_msdata *data);
 
 /**
  * @brief
@@ -178,7 +178,7 @@ void unset(t_msdata *data, char *arg);
  * @param char **argv
  * @return Function returns nothing
 */
-void	echo(char **argv);
+int	echo(char **argv);
 
 //UTILS
 
