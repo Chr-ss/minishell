@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/24 19:15:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/04 15:36:43 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 18:37:15 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,15 @@ char	*cd_parse_pso(char *cdpath, char *operand)
 	return (dirname);
 }
 
-char	*cd_parse(t_msdata *data)
+char	*cd_parse(t_msdata *data, char **argv)
 {
 	char	operand[2];
 	char	*cdpath;
 	int		ret;
 
 	cdpath = NULL;
-	ft_strlcpy(operand, data->argv[1], 2);
-	if (!ft_strncmp(data->argv[1], "-", ft_strlen(data->argv[1])))
+	ft_strlcpy(operand, argv[0], 2);
+	if (!ft_strncmp(argv[0], "-", ft_strlen(argv[0])))
 	{
 		ret = get_envp(data, "OLDPWD", &cdpath);
 		if (ret == -1)
@@ -113,16 +113,16 @@ char	*cd_parse(t_msdata *data)
 		return (cdpath);
 	}
 	if (operand[0] == '/')
-		return (data->argv[1]);
+		return (argv[0]);
 	else if (operand[0] == '.' || !ft_strncmp(operand, "..", 2))
-		return (data->argv[1]);
+		return (argv[0]);
 	else
 	{
 		ret = get_envp(data, "CDPATH", &cdpath);
 		if (cdpath != NULL && ret != -1)
-			cdpath = cd_parse_pso(cdpath, data->argv[1]);
+			cdpath = cd_parse_pso(cdpath, argv[0]);
 	}
 	if (cdpath == NULL && ret == 1)
-		cdpath = cd_parse_dso(data->argv[1]);
+		cdpath = cd_parse_dso(argv[0]);
 	return (cdpath);
 }

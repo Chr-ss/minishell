@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 15:58:39 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 17:29:11 by spenning         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   echo.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/06/28 15:58:39 by spenning      #+#    #+#                 */
+/*   Updated: 2024/07/05 18:24:12 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,27 @@ int	echo_check_nl(char *arg)
 	return (ret);
 }
 
-void	echo_nl(void)
+int	echo_nl(void)
 {
 	ft_printf("\n");
+	return (0);
 }
 
-void	echo(t_msdata *data)
+int	echo(char	**argv)
 {
 	int		print_nl;
 	int		arglen;
 	char	*printline;
 
 	print_nl = 1;
-	arglen = double_array_len(data->argv);
-	if (arglen == 1)
+	arglen = double_array_len(argv);
+	if (arglen == 0)
 		return (echo_nl());
-	printline = echo_getline(data->argv, &print_nl);
+	printline = echo_getline(argv, &print_nl);
 	if (printline == NULL)
 		error("error in malloc for echo");
 	ft_printf("%s", printline);
 	if (print_nl)
 		echo_nl();
+	return (0);
 }
