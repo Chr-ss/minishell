@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/04 15:39:01 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 14:46:10 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,15 @@ int	cd_chdir(t_msdata *data, char *dir)
 // getcwd(cwd, sizeof(cwd));
 // ft_printf("%s\n", cwd);
 
-int	cd(t_msdata *data)
+int	cd(t_msdata *data, char ** argv)
 {
 	char	*dir;
 	int		arglen;
 
 	dir = NULL;
-	if (ft_strlen (data->argv[1]) > PATH_MAX)
+	if (ft_strlen (argv[1]) > PATH_MAX)
 		error("path too long for cd");
-	arglen = double_array_len(data->argv);
+	arglen = double_array_len(argv);
 	if (arglen == 1)
 	{
 		if(get_envp(data, "HOME", &dir) == -1)

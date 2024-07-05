@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/05 14:34:44 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 14:47:59 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,16 +89,13 @@ void	init_signal();
 // BUILT-INS:
 
 /**
- * @brief
- * This function is the built-in for cd
- * @param
- *  t_msdata *data
- * @return
- *  0 is succesful operation
- * @exception
- *  1 is unsuccesful operation
+ * @brief This function is the built-in for cd
+ * @param t_msdata *data
+ * @param char **argv
+ * @return 0 is succesful operation
+ * @exception 1 is unsuccesful operation
 */
-int cd (t_msdata *data);
+int cd (t_msdata *data, char **argv);
 
 /**
  * @brief
@@ -178,10 +175,8 @@ void unset(t_msdata *data, char *arg);
  * This function is the built-in for echo.
  * it will take the argv and print it with a nl,
  * expect if -n is specified
- * @param
- *  t_msdata* data
- * @return
- * Function returns nothing
+ * @param char **argv
+ * @return Function returns nothing
 */
 void	echo(char **argv);
 
