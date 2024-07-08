@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 21:40:05 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/04 14:29:30 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/08 14:50:13 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,5 @@ void	temp_print_tokens(t_msdata *data, char *line)
 		if (token.type == TOKEN_EOF)
 			break ;
 	}
-	printf("\n");
-	printf_cmd(data->cmd_head);
+	printf("\n\n\n");
 }
