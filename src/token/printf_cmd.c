@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:05:57 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/12 16:06:26 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/08 14:50:32 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,5 @@ void	printf_cmd(t_cmd *cmd)
 		cmd = cmd->pipe;
 		printf("\n\n");
 	}
-	printf("\n\n");
 }
 
