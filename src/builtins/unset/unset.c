@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/27 15:20:04 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 15:59:25 by spenning         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   unset.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/06/27 15:20:04 by spenning      #+#    #+#                 */
+/*   Updated: 2024/07/05 19:04:48 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,27 @@ char	**unset_new_envp(t_msdata *data, int skip_index)
 	return (new_envp);
 }
 
-void	unset(t_msdata *data, char	*arg)
+int	unset(t_msdata *data, char	**argv, char	*arg)
 {
 	int		arglen;
 	int		env_index;
 	char	**new_envp;
 
-	arglen = double_array_len(data->argv);
-	if (arglen > 2)
-		return ;
-	if (arg == NULL)
+	if (argv)
+	{
+		arglen = double_array_len(argv);
+		if (arglen > 1)
+			return (1);
+	}
+	if (arg != NULL)
 		env_index = get_envp_index(arg, data->envp);
 	else
-		env_index = get_envp_index(data->argv[1], data->envp);
+		env_index = get_envp_index(argv[0], data->envp);
 	if (env_index == -1)
-		return ;
+		return (1);
 	new_envp = unset_new_envp(data, env_index);
 	if (new_envp == NULL)
-		return ;
+		return (1);
 	swap_envp(data, new_envp);
+	return (0);
 }

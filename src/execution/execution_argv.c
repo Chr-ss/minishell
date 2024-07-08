@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 11:49:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/04 16:14:25 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 14:49:18 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	add_command_to_argv(t_msdata *data, t_cmd	**cmd_s)
 		return(-1);
 	}
 	else if (ret == 1)
-		ft_printf("handle command not found");
+		ft_printf("handle command not found\n");
 	else 
 		new_argv[0] = path_cmd;
 	while ((*cmd_s)->argv[index] != NULL)

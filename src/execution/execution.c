@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/04 17:21:23 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 19:09:25 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,31 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 	}
 }
 
+
+int execute_check_builtin(t_msdata *data, t_cmd *cmd)
+{
+	int len;
+
+	len = ft_strlen(cmd->cmd);
+	if (!ft_strncmp("echo", cmd->cmd, len))
+		return (echo(cmd->argv));
+	else if (!ft_strncmp("cd", cmd->cmd, len))
+		return (cd(data, cmd->argv));
+	else if (!ft_strncmp("env", cmd->cmd, len))
+		return (env(data));
+	else if (!ft_strncmp("export", cmd->cmd, len))
+		return (export(data));
+	else if (!ft_strncmp("pwd", cmd->cmd, len))
+		return (pwd(data));
+	else if (!ft_strncmp("unset", cmd->cmd, len))
+		return (unset(data, cmd->argv, NULL));
+	else if (!ft_strncmp("exit", cmd->cmd, len))
+		return (mini_exit(cmd->argv));
+	else
+		return (1);
+	return (1);
+}
+
 void	execute_child(t_msdata *data, t_cmd *cmd)
 {
 	char	*path_cmd;
@@ -114,6 +139,7 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	error("execute error in child\n");
 }
 
+// TODO: exit code from child + builtins
 void	execute(t_msdata *data)
 {
 	t_cmd	*cmd;
@@ -130,13 +156,18 @@ void	execute(t_msdata *data)
 			if (pipe(cmd->pipe->pipefd) == -1)
 				error("pipe error\n");
 		}
-		pid = fork();
-		if (pid < 0)
-			error("fork error\n");
-		if (pid == 0)
-			execute_child(data, cmd);
-		execute_parent_close_pipe(data, cmd);
-		cmd = cmd->pipe;
+		if (!execute_check_builtin(data, cmd))
+			cmd = cmd->pipe;
+		else 
+		{
+			pid = fork();
+			if (pid < 0)
+				error("fork error\n");
+			if (pid == 0)
+				execute_child(data, cmd);
+			execute_parent_close_pipe(data, cmd);
+			cmd = cmd->pipe;
+		}
 	}
 	while(waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD);
 	if (WIFEXITED(wstatus))

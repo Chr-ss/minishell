@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/04 16:22:47 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/05 19:08:20 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,16 +89,13 @@ void	init_signal();
 // BUILT-INS:
 
 /**
- * @brief
- * This function is the built-in for cd
- * @param
- *  t_msdata *data
- * @return
- *  0 is succesful operation
- * @exception
- *  1 is unsuccesful operation
+ * @brief This function is the built-in for cd
+ * @param t_msdata *data
+ * @param char **argv
+ * @return 0 is succesful operation
+ * @exception 1 is unsuccesful operation
 */
-int cd (t_msdata *data);
+int cd (t_msdata *data, char **argv);
 
 /**
  * @brief
@@ -108,18 +105,18 @@ int cd (t_msdata *data);
  * @return
  * Function returns nothing
 */
-void	pwd(t_msdata *data);
+int	pwd(t_msdata *data);
 
 /**
  * @brief
  * This function is the built-in for env
  * it will print all environment variables to stdout with
- * @param
- *  t_msdata *data
+ * @param t_msdata *data
+ * @param char **argv
  * @return
  * Function returns nothing
 */
-void	env(t_msdata *data);
+int	env(t_msdata *data);
 
 /**
  * @brief
@@ -128,12 +125,11 @@ void	env(t_msdata *data);
  *  as argument with argv, the exit code should be in between
  *  0-255, otherwise it will returned a remaining exit code
  *  after modulu operation.
- * @param
- *  t_msdata* data
+ * @param char **argv
  * @return
  * Function returns nothing
 */
-void	mini_exit(t_msdata *data);
+int	mini_exit(char **argv);
 
 /**
  * @brief
@@ -149,16 +145,15 @@ void	mini_exit(t_msdata *data);
  * @return
  * Function returns nothing
 */
-void	export(t_msdata *data);
+int	export(t_msdata *data);
 
 /**
  * @brief
  * This function is the built-in function for unset. It will unset
  * a environmental variable if it exists.
- * @param
- *  t_msdata* data
- * @param
- *  char* arg
+ * @param t_msdata* data
+ * @param char** argv
+ * @param char* arg
  * @note
  * 	the char *arg is a temporary parameter to work with export builtin
  * 	pass NULL if you want to use with argv in data struct, otherwise arg
@@ -170,7 +165,7 @@ void	export(t_msdata *data);
  * if variable is not found. If there is a malloc error then minishell will
  * exit
 */
-void unset(t_msdata *data, char *arg);
+int unset(t_msdata *data, char **argv, char *arg);
 
 
 /**
@@ -178,12 +173,10 @@ void unset(t_msdata *data, char *arg);
  * This function is the built-in for echo.
  * it will take the argv and print it with a nl,
  * expect if -n is specified
- * @param
- *  t_msdata* data
- * @return
- * Function returns nothing
+ * @param char **argv
+ * @return Function returns nothing
 */
-void	echo(t_msdata* data);
+int	echo(char **argv);
 
 //UTILS
 
