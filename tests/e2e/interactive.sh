@@ -107,6 +107,9 @@ export minishell
 #prepare minishell
 make -C $minishelldir re
 
+#https://stackoverflow.com/questions/30137135/confused-about-docker-t-option-to-allocate-a-pseudo-tty
+#https://gist.github.com/janert/e1d8e6ae74a8c94173ef35fa356ce2da
+
 apt-get update
 apt-get install -y sudo
 sudo apt-get install -y xdotool
