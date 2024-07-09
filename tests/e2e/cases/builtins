@@ -1,1 +1,2 @@
 echo hello world
+rm -rf files/static_outfile/lol
