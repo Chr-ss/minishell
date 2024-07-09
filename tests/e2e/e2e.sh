@@ -10,16 +10,14 @@ Arguments:
   -h, --help
 	Display this usage message and exit.
 
-  -f <val>, --file <val>, --file=<val>
-	After setting this parameter, an argument must follow with relative
-	path to the program.
-	e.g. [bash ./ms_e2e -f ./relative/path/pgrm]
-	Without this parameter the program will not continue
-
   -c, --check
 	This check the dependencies that the script needs.
 	Shows which dependencies are installed and which not,
 	and then exits
+
+  -C, --clean
+	This will clean all directories that are not needed, usually
+	temporary directories used by the tester 
 
   -v, --virtual
 	This will boot up a virtual machine to run the tests in. 
@@ -77,6 +75,7 @@ e2e=1
 interactive=0
 set_only=0
 set_only_multiple=0
+clean=0
 
 
 # parse options
@@ -92,6 +91,10 @@ while [ "$#" -gt 0 ]; do
 		continue;;
 		-c|--check)
 		check=1
+		shift 
+		;;
+		-C|--clean)
+		clean=1
 		shift 
 		;;
 		-v|--virtual)
@@ -196,6 +199,8 @@ while [ "$#" -gt 0 ]; do
 	esac
 done
 
+
+
 #check only flags
 if [[ $set_only_multiple == 1 ]];
 then 
@@ -271,12 +276,34 @@ ERROR_LOG=$LOG_DIR/error_message.log
 OUTPUT_LOG=$LOG_DIR/output_diff.log
 EXIT_LOG=$LOG_DIR/exit_code.log
 OUTFILES_LOG=$LOG_DIR/outfiles_diff.log
-outfiles=./outfiles
-bash_outfiles=./bash_outfiles
-mini_outfiles=./mini_outfiles
+outfiles=./files/outfiles
+bash_outfiles=./files/bash_outfiles
+mini_outfiles=./files/mini_outfiles
+noaccess=./files/noaccess/noaccess
+chmod 000 $noaccess
 minishell=$(find ../../../ -type f -name minishell)
 minishelldir=$(find ../../../ -type d -name minishell)
 cases="./cases"
+static_outfile_temp=./files/static_outfile_temp
+static_outfile=files/static_outfile
+
+
+clean()
+{
+rm -rf $LOG_DIR
+rm -rf $outfiles 
+rm -rf $bash_outfiles 
+rm -rf $mini_outfiles 
+rm -rf $static_outfile_temp
+exit
+}
+
+if [[ $clean == 1 ]];
+then 
+clean
+exit
+fi
+
 rm -rf $LOG_DIR
 mkdir -p $LOG_DIR
 rm -rf $outfiles
@@ -285,6 +312,8 @@ rm -rf $bash_outfiles
 mkdir -p $bash_outfiles
 rm -rf $mini_outfiles
 mkdir -p $mini_outfiles
+rm -rf $static_outfile_temp
+mkdir -p $static_outfile_temp
 
 #prepare minishell
 make -C $minishelldir re
@@ -327,21 +356,36 @@ fi
 
 x=0
 
+# TODO: add ability to skip comment lines 
 for case in "$cases"/*; do
 echo -e "${BCYN}$case${RESET}"
 while IFS= read -r line; do
+	if [[ "${line:0:1}" == "#" ]];
+	then
+	continue
+	fi
+	
 	x=$(( $x + 1 ))
 	echo -ne "${YEL} $x ${BLU}| ${BMAG}$line ${BLU}|${RESET}"
+	cp $static_outfile/* $static_outfile_temp &>> $MS_LOG
 	rm -rf $outfiles/*
 	rm -rf $mini_outfiles/*
-	MINI_OUTPUT=$(echo -e "$line" | ./minishell 2>> $MS_LOG)
+	MINI_OUTPUT=$(echo -e "$line" | $minishell)
+	MINI_OUTPUT=${MINI_OUTPUT#*"$line"}
+	MINI_OUTPUT=${MINI_OUTPUT%'minishell:~$'}
+	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs)
+	echo $MINI_OUTPUT >> $MS_LOG
 	MINI_EXIT_CODE=$(echo $?)
 	MINI_OUTFILES=$(cp $outfiles/* $mini_outfiles &>> $MS_LOG)
-	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | ./minishell 2>&1 >> $MS_LOG | grep -o '[^:]*$' )
+	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -o '[^:]*$' )
+	
+	cp $static_outfile_temp/* $static_outfile &>> $MS_LOG
+	cp $static_outfile/* $static_outfile_temp &>> $MS_LOG
 
 	rm -rf $outfiles/*
 	rm -rf $bash_outfiles/*
-	BASH_OUTPUT=$(echo -e "$line" | bash 2> $MS_LOG)
+	BASH_OUTPUT=$(echo -e "$line" | bash 2>>$MS_LOG)
+	echo $BASH_OUTPUT &>> $MS_LOG
 	BASH_EXIT_CODE=$(echo $?)
 	BASH_OUTFILES=$(cp $outfiles/* $bash_outfiles &>>$MS_LOG)
 	BASH_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 >> $MS_LOG | grep -o '[^:]*$' | head -n1)
@@ -361,7 +405,7 @@ while IFS= read -r line; do
 
 	if [ "$OUTFILES_DIFF" ]; then
 		OUTFILES_FAIL=true
-		printf "${RED} outfiles error${RESET}" 
+		printf "${RED} outfiles error;${RESET}" 
 		echo -e "$x | $line |${RESET}" >> $OUTFILES_LOG
 		echo "$OUTFILES_DIFF" >> $OUTFILES_LOG
 		echo mini outfiles: >> $OUTFILES_LOG
@@ -371,28 +415,32 @@ while IFS= read -r line; do
 	fi
 	if [ "$MINI_OUTPUT" != "$BASH_OUTPUT" ]; then
 		OUTPUT_FAIL=true
-		printf "${RED} output error${RESET}"
+		printf "${RED} output error;${RESET}"
 		echo -e "$x | $line " >> $OUTPUT_LOG
 		echo mini output = \($MINI_OUTPUT\) >> $OUTPUT_LOG
 		echo bash output = \($BASH_OUTPUT\) >> $OUTPUT_LOG
 	fi
 	if [ "$MINI_EXIT_CODE" != "$BASH_EXIT_CODE" ]; then
 		EXIT_FAIL=true
-		printf "${RED} exit code error${RESET}"
+		printf "${RED} exit code error;${RESET}"
 		echo -e "$x | $line " >> $EXIT_LOG
 		echo mini exit code = $MINI_EXIT_CODE >> $EXIT_LOG
 		echo bash exit code = $BASH_EXIT_CODE >> $EXIT_LOG
 	fi
 	if [ "$MINI_ERROR_MSG" != "$BASH_ERROR_MSG" ]; then
 		ERROR_FAIL=true
-		printf "${RED} error message error${RESET}"
-		echo -e "$x | $line " >> $EXIT_LOG
-		echo mini error = \($MINI_ERROR_MSG\) >> $EXIT_LOG
-		echo bash error = \($BASH_ERROR_MSG\) >> $EXIT_LOG
+		printf "${RED} error message error;${RESET}"
+		echo -e "$x | $line " >> $ERROR_LOG
+		echo mini error = \($MINI_ERROR_MSG\) >> $ERROR_LOG
+		echo bash error = \($BASH_ERROR_MSG\) >> $ERROR_LOG
 	fi
 	printf "\n"
 done < $case
 done
+
+chmod 444 $noaccess
+cp $static_outfile_temp/* $static_outfile/ &>> $MS_LOG
+rm -rf $static_outfile_temp
 
 if [ $FAIL = true ];
 then 
@@ -417,8 +465,6 @@ rm -rf $mini_outfiles
 exit 1
 else 
 echo -e "${GRE}Congratulations, all tests are succesfull :)${RESET}"
-rm -rf $LOG_DIR
-rm -rf $bash_outfiles
-rm -rf $mini_outfiles
+clean
 fi
 exit 0
