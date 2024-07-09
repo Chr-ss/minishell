@@ -6,12 +6,11 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 13:45:17 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/04 14:32:43 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/09 17:58:48 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 
 //free_char_array
 static void	freecmd(t_cmd *cmd)

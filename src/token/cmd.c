@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 21:56:01 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/12 16:36:54 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/09 17:50:20 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	token_to_strarr(t_msdata *data, char **strarr, t_token token)
 {
-	(void) data;
 	int	i;
 
+	(void) data;
 	i = 0;
 	while (strarr[i])
 		i++;
@@ -34,7 +34,8 @@ void	unexpected_token(t_msdata *data, t_token token)
 	error("");
 }
 
-void	init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_token token, int *pos))
+void	init_type_handler(t_token (*type_handler[8])(t_msdata *data, \
+	t_cmd *cmd, t_token token, int *pos))
 {
 	type_handler[0] = type_handler_word;
 	type_handler[1] = type_handler_pipe;
@@ -48,7 +49,8 @@ void	init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_
 
 t_token	token_to_cmd(t_msdata *data, t_token token, int *pos)
 {
-	t_token (*type_handler[8])(t_msdata * data, t_cmd * cmd, t_token token, int *pos);
+	t_token (*type_handler[8])(t_msdata * data, \
+		t_cmd * cmd, t_token token, int *pos);
 	init_type_handler(type_handler);
 	token = type_handler[token.type](data, data->cmd_curr, token, pos);
 	return (token);
