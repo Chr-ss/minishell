@@ -1,19 +1,21 @@
-echo test > out1
-echo test > empty
-echo test > noaccess
-echo test > doesnotexsits
-
-echo test < in1
-echo test < empty
-echo test < noaccess
-echo test < doesnotexsits
-
-cat -e > out1 < test2
-cat -e > out1 < empty
-cat -e > empty < test2
-cat -e > out1 < noaccess
-cat -e > noaccess < test2
-cat -e > out1 < doesnotexsits
-cat -e > doesnotexsits < test2
-
-cat -e > test1 < test2
+#
+echo test > files/outfiles/out1
+echo test > files/static_outfile/empty
+echo test > files/noaccess/noaccess
+echo test > files/outfiles/doesnotexsits
+rm -rf files/static_outfile/lol
+#
+echo test < files/infile/test1
+echo test < files/infile/empty
+echo test < files/noaccess/noaccess
+echo test < files/infile/doesnotexsits
+#
+cat -e > files/outfiles/out1 < files/infile/test2
+cat -e > files/outfiles/out1 < files/infile/empty
+cat -e > files/static_outfile/empty < files/infile/test2
+cat -e > files/outfiles/out1 < files/noaccess/noaccess
+cat -e > files/noaccess/noaccess < files/infile/test2
+cat -e > files/outfiles/out1 < files/infile/doesnotexsits
+cat -e > files/outfiles/doesnotexsits < files/infile/test2
+#
+cat -e > files/outfiles/test1 < files/infile/test2
