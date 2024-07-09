@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/20 17:30:53 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/08 14:58:56 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,16 @@ void	heredoc_test(int read_pipe)
 
 void	read_heredoc(t_msdata *data, char *delim, int write_pipe)
 {
+	int	len;
+
 	while (1)
 	{
 		data->line = readline(">");
-		if (!data->line)
-		{
-			write(1, "EMPTY. EXIT HEREDOC.", 19);
-			return ;
-		}
 		data->line = expand(data);
 		if (!data->line)
-			error("input_handling malloc error.");
-		printf(">>>%s|%s\n\n", data->line, delim);
-		if (ft_strncmp(data->line, delim, ft_strlen(delim)) == 0)
+			error("read_heredoc expand malloc error.");
+		len = ft_strlen(data->line) > ft_strlen(delim) ? ft_strlen(data->line) : ft_strlen(delim);
+		if (ft_strncmp(data->line, delim, len) == 0)
 		{
 			if (data->line)
 				free(data->line);
@@ -74,7 +71,7 @@ void	heredoc_cmds(t_msdata *data, t_cmd *cmd)
 	}
 	if (close(fd[1]) == -1)
 		error("Error closing write_end heredoc.");
-	heredoc_test(cmd->infd);
+	// heredoc_test(cmd->infd);
 }
 
 void	heredoc(t_msdata *data)

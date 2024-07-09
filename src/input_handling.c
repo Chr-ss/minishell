@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/04 16:02:03 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/09 14:43:25 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,25 @@ void	input_handling(t_msdata *data)
 	{
 		data->line = readline("minishell:~$");
 		if (!data->line)
-			error("Ok, EMPTY. EXIT");
+			exit(0);
 		if (data->line[0])
 			add_history(data->line);
 		data->line = expand(data);
 		if (!data->line)
 			error("input_handling malloc error.");
-		printf("expanded:~$%s\n\n", data->line);
+	// EXPAND DEBUG //
+	debugger("\nexpanded:~$%s\n\n", data->line);
+	// EXPAND DEBUG //
 		parsing(data);
-		heredoc(data);
 		temp_print_tokens(data, data->line);
-		execute(data);
-		clearcmd(data);
 		free(data->line);
 		data->line = NULL;
+		heredoc(data);
+	// CMD PRINTING DEBUG //
+	debugger("\n");
+	printf_cmd(data->cmd_head);
+	// CMD PRINTING DEBUG //
+		execute(data);
+		clearcmd(data);
 	}
 }

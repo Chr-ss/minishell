@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/05 19:08:20 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/09 13:24:31 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@
 
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
+# endif
+
+# ifndef DEBUG
+#  define DEBUG 0
 # endif
 
 enum e_pipe
@@ -179,6 +183,18 @@ int unset(t_msdata *data, char **argv, char *arg);
 int	echo(char **argv);
 
 //UTILS
+
+/**
+ * @brief
+ * This function will take the same arguments as printf
+ * and then print out if debug flag is active DEBUG=1
+ * @param char *format
+ * @param (...) variadic parameters 
+ * @return
+ * Function returns nothing
+*/
+void debugger(char *format, ...);
+
 
 /**
  * @brief

@@ -1,9 +1,32 @@
 # Chriss NOTES #
 
-bash-3.2$ cat << 1
-> $USER
-> 1
-christian.rasche
+TO-DO
+EXPANSION: $?
+HEREDOC: NOT WORKING
+FILEOPENING: IN AND OUT REDIRECTION
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 At some point we have to take care of expanding still (most likely at the very beginning of the code...)

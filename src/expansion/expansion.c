@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 16:31:20 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/04 17:36:41 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/08 18:13:58 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ static char	*expand_getenv(char **envp, char *env_start, int env_len)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], env_start, env_len) == 0)
-			return (&envp[i][env_len + 1]);
+		if (ft_strncmp(envp[i], env_start, env_len) == 0) // env_len can not be used to compare to envp !!
+		{
+			if (envp[i][env_len + 1] == '=')
+				return (&envp[i][env_len + 1]);
+		}
 		i++;
 	}
 	return (NULL);
@@ -61,7 +64,7 @@ static void	expand_exit_code(t_msdata *data, t_expand *exp, int *pos)
 	(*pos)++;
 	printf("test");
 	exp->env = ft_itoa(data->exit_code);
-	printf("HERE:: %s\n\n", exp->env);
+	printf("HERE:: %s, %d\n\n", exp->env, data->exit_code);
 	expand_var_nl(exp);
 }
 
@@ -98,7 +101,7 @@ static void	expand_copy(t_msdata *data, t_expand *exp)
 			double_q = !double_q;
 		if (data->line[pos] == '$' && ft_isdigit((int) data->line[pos + 1]) && single_q == true)
 			pos += 2;
-		if (data->line[pos] == '$' && data->line[pos] == '?' && single_q == true)
+		if (data->line[pos] == '$' && data->line[pos + 1] == '?' && single_q == true)
 			expand_exit_code(data, exp, &pos);
 		else if (data->line[pos] != '$' || single_q == false || (data->line[pos] == '$' && !ft_isalpha((int) data->line[pos + 1]) && single_q == true))
 		{

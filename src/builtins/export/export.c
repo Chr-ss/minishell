@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/05 18:55:59 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/09 11:03:55 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,43 @@ char	*export_check_value(char *value)
 	return (value);
 }
 
+int export_print_env(t_msdata *data)
+{
+	int		index;
+	int		inner_index;
+	int		len;
+	int		inner_len;
+	char	*temp;
+
+	index = 0;
+	inner_index = 1;
+	len = 0;
+	inner_len = 0;
+	while (data->envp[index] != NULL)
+	{
+		while (data->envp[inner_index] != NULL)
+		{
+			len = ft_strlen(data->envp[index]);
+			inner_len = ft_strlen(data->envp[inner_index]);
+			if (inner_len > len)
+				len = inner_len;
+			if (ft_strncmp(data->envp[inner_index], data->envp[index], len) > 0)
+			{
+				temp = data->envp[index];
+				data->envp[index] = data->envp[inner_index];
+				data->envp[inner_index] = temp;
+			}
+			inner_index++;
+		}
+		inner_index = 0;
+		index++;
+	}
+	index = 0;
+	while (data->envp[index] != NULL)
+		ft_printf("declare -x %s\n", data->envp[index++]);
+	return (0);
+}
+
 int	export(t_msdata *data)
 {
 	char	*value;
@@ -56,7 +93,7 @@ int	export(t_msdata *data)
 	int		check_envp;
 
 	if (double_array_len(data->argv) == 1)
-		return (env(data));
+		return (export_print_env(data));
 	key = get_envp_key(data->argv[1]);
 	if (key == NULL)
 		error("malloc error in envp_get_key in export");

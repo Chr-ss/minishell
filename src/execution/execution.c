@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/05 19:09:25 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/09 11:46:16 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void	execute(t_msdata *data)
 	int		statuscode;
 
 	cmd = data->cmd_head;
-	ft_printf("\n------------execution----------------\n\n");
+	debugger("\n------------execution----------------\n\n");
 	while (cmd)
 	{
 		if (cmd->pipe != NULL)
