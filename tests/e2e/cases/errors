@@ -1,0 +1,22 @@
+# syntax error cases
+|
+>
+<
+$
+$1
+echo "test
+echo 'test
+echo "test"'
+echo "test"'
+ls | ls <
+| ls | cat
+    | echo test | cat -e
+echo >>>>
+echo >>>
+cat <<<
+cat <<<<
+echo test | <
+echo test |<
+echo test | <>
+echo test | <<
+echo test || <<

@@ -1,0 +1,48 @@
+# simple cases
+echo $USER
+echo $PWD
+echo $user
+echo $USER
+echo $PWD$USER
+echo $PWD$NOTSET$USER
+echo $NOTSET$USER
+echo $USER$NOTSET$PWD
+echo $PWD$PWD$PWD$PWD$PWD$PWD
+echo $USER $PWD $HOME $NAME $PATH
+echo $USER test
+echo test$USER
+echo test$USER test
+echo test$USER test
+# quotes
+echo "$USER"
+echo "$USER"test
+echo test"$USER"
+echo test"$USER"test
+echo "$USER"
+echo "$USER"$USER
+echo $USER"$USER"
+echo $USER"$USER"$USER
+echo '$USER'
+echo '$USER'$USER
+echo $USER'$USER'
+echo $USER'$USER'$USER
+echo $USER"'$USER'"$USER
+echo "$USER"'$USER'"$USER"
+echo "$USER"$USER"$USER"
+# exit code
+echo $?
+echo test$?
+echo $? test
+echo test$? test
+echo test"$?"
+echo test"$?"test
+echo "$?"
+echo '$?'
+# numbers
+echo $1
+echo $1test
+echo test$1
+echo test$1test
+echo test$1 test
+# underscore var
+echo $VAR_
