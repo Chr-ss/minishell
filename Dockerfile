@@ -5,4 +5,4 @@ COPY . .
 
 SHELL ["/bin/bash", "-c"]
 
-ENTRYPOINT cd tests/e2e/ && bash e2e.sh
+ENTRYPOINT cd tests/e2e/ && bash interactive.sh

@@ -17,4 +17,4 @@ fi
 
 docker build -t minishell/tester .
 
-docker run minishell/tester
+docker run -it minishell/tester
