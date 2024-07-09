@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/04 16:43:13 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/09 11:22:33 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 // This function still needs to be called at some point to check if our stdin and out are tty!!
 void	check_tty(void)
 {
-	if (!isatty(STDIN_FILENO))
-	{
-		write (2, "minishell: stdin: not a tty\n", 28);
-		exit (1);
-	}
+	// if (!isatty(STDIN_FILENO))
+	// {
+	// 	write (2, "minishell: stdin: not a tty\n", 28);
+	// 	exit (1);
+	// }
 	if (!isatty(STDOUT_FILENO))
 	{
 		write (2, "minishell: stdout: not a tty\n", 29);

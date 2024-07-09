@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 21:40:05 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/08 14:50:13 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/09 13:33:02 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,46 +45,64 @@ t_token	tokenizer(char *line)
 	if (!*token.start)
 	{
 		token.type = TOKEN_EOF;
-		write(1, "EOF, ", 5);
-		write(1, &token.start[0], token.length);
-		write(1, "$\n", 2);
+		if (DEBUG == 1)
+		{
+			write(1, "EOF, ", 5);
+			write(1, &token.start[0], token.length);
+			write(1, "$\n", 2);
+		}
 	}
 	else if (!ft_strncmp(token.start, "|", 1))
 	{
 		token.type = TOKEN_PIPE;
+		if (DEBUG == 1)
+		{
 		write(1, "PIPE, ", 6);
 		write(1, &token.start[0], token.length);
 		write(1, "$\n", 2);
+		}
 	}
 	else if (!ft_strncmp(token.start, "<<", 2))
 	{
 		token.type = TOKEN_HEREDOC;
 		token.length = 2;
+		if (DEBUG == 1)
+		{
 		write(1, "HEREDOC, ", 9);
 		write(1, &token.start[0], token.length);
 		write(1, "$\n", 2);
+		}
 	}
 	else if (!ft_strncmp(token.start, "<", 1))
 	{
 		token.type = TOKEN_REIN;
+		if (DEBUG == 1)
+		{
 		write(1, "REIN, ", 6);
 		write(1, &token.start[0], token.length);
 		write(1, "$\n", 2);
+		}
 	}
 	else if (!ft_strncmp(token.start, ">>", 2))
 	{
 		token.type = TOKEN_APPEND;
 		token.length = 2;
+		if (DEBUG == 1)
+		{
 		write(1, "APPEND, ", 8);
 		write(1, &token.start[0], token.length);
 		write(1, "$\n", 2);
+		}
 	}
 	else if (!ft_strncmp(token.start, ">", 1))
 	{
-		write(1, "REOUT, ", 7);
 		token.type = TOKEN_REOUT;
+		if (DEBUG == 1)
+		{
+		write(1, "REOUT, ", 7);
 		write(1, &token.start[0], token.length);
 		write(1, "$\n", 2);
+		}
 	}
 	else if (token.start && *token.start && ft_isprint((int) *token.start) && !ft_isbashtoken((int) *token.start) && !ft_isspace((int) *token.start))
 	{
@@ -96,9 +114,12 @@ t_token	tokenizer(char *line)
 				token.length += return_quoted_length(&temp[token.length], temp[token.length]);
 			token.length++;
 		}
+		if (DEBUG == 1)
+		{
 		write(1, "WORD, ", 6);
 		write(1, &token.start[0], token.length);
 		write(1, "$\n", 2);
+		}
 	}
 	else
 		token.type = TOKEN_ERROR;
@@ -118,5 +139,5 @@ void	temp_print_tokens(t_msdata *data, char *line)
 		if (token.type == TOKEN_EOF)
 			break ;
 	}
-	printf("\n\n\n");
+	debugger("\n\n\n");
 }
