@@ -1,4 +1,5 @@
 NAME		=	minishell
+NAME_DEBUG	=	minishell_debug
 RM			=	rm -rf
 CC			=	cc
 CFLAGS		=	-Wall -Werror -Wextra -Wunused -Wuninitialized -Wunreachable-code -g3 # -MMD -fsanitize=address # -Ofast
@@ -13,6 +14,9 @@ LIBFT		=	libft/libft.a
 
 
 all:	$(NAME)
+
+debug: CFLAGS += -DDEBUG
+debug: fclean $(NAME)
 
 $(NAME):	$(OBJ)	$(LIBFT)
 		@$(CC) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
@@ -32,7 +36,7 @@ clean:
 		@printf "$(REMOVED)" $(OBJDIR) $(CUR_DIR)
 
 fclean: clean
-		$(RM) $(NAME)
+		$(RM) $(NAME) $(NAME_DEBUG)
 		@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
 re:				fclean all

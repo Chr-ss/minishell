@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:05:57 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/08 14:50:32 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/09 13:27:03 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,27 @@ void	printf_cmd(t_cmd *cmd)
 	int	i;
 
 	i = 0;
-	printf("\n\t ## CMD ## \n");
+	debugger("\n\t ## CMD ## \n");
 	while (cmd)
 	{
-		printf("CMD:%s\n", cmd->cmd);
+		debugger("CMD:%s\n", cmd->cmd);
 		i = 0;
 		while (cmd->argv && cmd->argv[i])
 		{
-			printf("ARGV[%d]:%s\n", i, cmd->argv[i]);
+			debugger("ARGV[%d]:%s\n", i, cmd->argv[i]);
 			i++;
 		}
 		// if (cmd->infd)
-		printf("INFILE:%d\n", cmd->infd);
-		printf("OUTFILE:%d\n", cmd->outfd);
+		debugger("INFILE:%d\n", cmd->infd);
+		debugger("OUTFILE:%d\n", cmd->outfd);
 		i = 0;
 		while (cmd->heredoc && cmd->heredoc[i])
 		{
-			printf("HEREDOC[%d]:%s\n", i, cmd->heredoc[i]);
+			debugger("HEREDOC[%d]:%s\n", i, cmd->heredoc[i]);
 			i++;
 		}
 		cmd = cmd->pipe;
-		printf("\n\n");
+		debugger("\n\n");
 	}
 }
 
