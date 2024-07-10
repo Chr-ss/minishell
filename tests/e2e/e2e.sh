@@ -358,7 +358,17 @@ fi
 
 x=0
 
+test_cases=("error")
+
 for case in "$cases"/*; do
+
+case_check=${case##*/}
+case $case_check in
+	error) :;;
+	*)	continue;;
+esac
+
+
 echo -e "${BCYN}$case${RESET}"
 while IFS= read -r line; do
 	if [[ "${line:0:1}" == "#" ]];
@@ -371,7 +381,7 @@ while IFS= read -r line; do
 	cp $static_outfile/* $static_outfile_temp &>> $MS_LOG
 	rm -rf $outfiles/*
 	rm -rf $mini_outfiles/*
-	MINI_OUTPUT=$(echo -e "$line" | $minishell)
+	MINI_OUTPUT=$(echo -e "$line" | $minishell 2>>$MS_LOG)
 	MINI_OUTPUT=${MINI_OUTPUT#*"$line"}
 	MINI_OUTPUT=${MINI_OUTPUT%'minishell:~$'}
 	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs -0)
