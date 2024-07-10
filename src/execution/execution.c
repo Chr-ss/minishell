@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/10 17:21:45 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 17:36:00 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,10 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	error("execute error in child\n");
 }
 
-// TODO: exit code from child + builtins
+// TODO: exit code builtins
+// TODO: exit code other commands
+// TODO: change stderr messages from error function to perror
+// TODO: add error to system call failure
 void	execute(t_msdata *data)
 {
 	t_cmd	*cmd;
