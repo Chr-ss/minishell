@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 11:49:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/05 14:49:18 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 14:00:58 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,12 @@ int	execute_path(char	*cmd, t_msdata *data, char **path_cmd)
 	return (0);
 }
 
-int	add_command_to_argv(t_msdata *data, t_cmd	**cmd_s)
+int	add_command_to_argv(t_cmd	**cmd_s, char **path_cmd)
 {
 	int		index;
 	int		arglen;
 	char	**new_argv;
-	char	*path_cmd;
-	int		ret;
+	char	*path;
 
 	index = 0;
 	arglen = double_array_len((*cmd_s)->argv);
@@ -83,17 +82,14 @@ int	add_command_to_argv(t_msdata *data, t_cmd	**cmd_s)
 	if (new_argv == NULL)
 		return (-1);
 	new_argv[arglen + 1] = NULL;
-	ret = execute_path((*cmd_s)->cmd, data, &path_cmd);
-	if (ret == -1)
+	path = ft_strdup(path_cmd[0]);
+	if (path == NULL)
 	{
 		free_char_array(new_argv);
-		return(-1);
+		return (-1);
 	}
-	else if (ret == 1)
-		ft_printf("handle command not found\n");
-	else 
-		new_argv[0] = path_cmd;
-	while ((*cmd_s)->argv[index] != NULL)
+	new_argv[0] = path;
+	while ((*cmd_s)->argv && (*cmd_s)->argv[index] != NULL)
 	{
 		copy_over_str(index + 1, index, new_argv, (*cmd_s)->argv);
 		index++;

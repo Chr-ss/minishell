@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   memory.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spenning <spenning@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/24 18:43:01 by spenning          #+#    #+#             */
-/*   Updated: 2024/06/28 17:29:58 by spenning         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   memory.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/06/24 18:43:01 by spenning      #+#    #+#                 */
+/*   Updated: 2024/07/10 13:59:14 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_char_array(char **arr)
 	int	index;
 
 	index = 0;
+	if (arr == NULL)
+		return ;
 	while (arr[index] != NULL)
 	{
 		free(arr[index]);
