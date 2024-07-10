@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:05:57 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/08 14:50:32 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 11:40:45 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	printf_cmd(t_cmd *cmd)
 			debugger("ARGV[%d]:%s\n", i, cmd->argv[i]);
 			i++;
 		}
-		// if (cmd->infd)
 		debugger("INFILE:%d\n", cmd->infd);
 		debugger("OUTFILE:%d\n", cmd->outfd);
 		i = 0;
@@ -40,4 +39,3 @@ void	printf_cmd(t_cmd *cmd)
 		debugger("\n\n");
 	}
 }
-

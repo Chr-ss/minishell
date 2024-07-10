@@ -6,13 +6,13 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:02:41 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/02 16:30:21 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/09 17:47:35 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	parsing_syntax_quotes(t_msdata *data)
+static int	parsing_syntax_quotes(t_msdata *data)
 {
 	int		i;
 	bool	single_q;
@@ -34,35 +34,27 @@ int	parsing_syntax_quotes(t_msdata *data)
 	return(1);
 }
 
-// int	parsing_syntax_meta(t_msdata *data)
-// {
-// 	int		i;
+static int	parsing_syntax_meta(t_msdata *data)
+{
+	int		i;
 
-// 	i = 0;
-// 	while(data->line[i])
-// 	{
-// 		i = skipspace(data->line, i);
-// 		if (data->line[i] == '|' || data->line[i] == '' )
-// 		i++;
-// 	}
-// 	return(1);
-// }
+	i = 0;
+	while(data->line[i])
+	{
+		i = skipspace(data->line, i);
+		if (data->line[i] == '|')
+			return (-1);
+		i++;
+	}
+	return(1);
+}
 
-void	parsing_syntax(t_msdata *data)
+void	parsing(t_msdata *data)
 {
 	if (!data->line)
 		error("parsing_syntax, syntax error. (NULL line)");
 	if(parsing_syntax_quotes(data) == -1)
 		error("parsing_syntax, syntax error. (quotes)");
-	// if(parsing_syntax_meta(data) == -1)
-	// 	error("parsing_syntax, syntax error.");
-}
-
-void	parsing(t_msdata *data)
-{
-	//check for syntax errors before tokenizing
-	// | ls  | cat |
-	// "hello
-	// >>> <<<
-	parsing_syntax(data);
+	if(parsing_syntax_meta(data) == -1)
+		error("parsing_syntax, syntax error.");
 }

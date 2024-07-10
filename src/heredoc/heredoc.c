@@ -6,31 +6,17 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/08 14:58:56 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/09 17:38:39 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int g_sigint ;
+extern int	g_sigint ;
 
-void	heredoc_test(int read_pipe)
+static void	read_heredoc(t_msdata *data, char *delim, int write_pipe)
 {
-	char *temp;
-
-	temp = get_next_line(read_pipe);
-	while (temp)
-	{
-		ft_printf("%s", temp);
-		free(temp);
-		temp = NULL;
-		temp = get_next_line(read_pipe);
-	}
-}
-
-void	read_heredoc(t_msdata *data, char *delim, int write_pipe)
-{
-	int	len;
+	size_t	len;
 
 	while (1)
 	{
@@ -38,7 +24,9 @@ void	read_heredoc(t_msdata *data, char *delim, int write_pipe)
 		data->line = expand(data);
 		if (!data->line)
 			error("read_heredoc expand malloc error.");
-		len = ft_strlen(data->line) > ft_strlen(delim) ? ft_strlen(data->line) : ft_strlen(delim);
+		len = ft_strlen(delim);
+		if (ft_strlen(data->line) > len)
+			len = ft_strlen(data->line);
 		if (ft_strncmp(data->line, delim, len) == 0)
 		{
 			if (data->line)
@@ -53,7 +41,7 @@ void	read_heredoc(t_msdata *data, char *delim, int write_pipe)
 	}
 }
 
-void	heredoc_cmds(t_msdata *data, t_cmd *cmd)
+static void	heredoc_cmds(t_msdata *data, t_cmd *cmd)
 {
 	int	i;
 	int	fd[2];
@@ -71,12 +59,11 @@ void	heredoc_cmds(t_msdata *data, t_cmd *cmd)
 	}
 	if (close(fd[1]) == -1)
 		error("Error closing write_end heredoc.");
-	// heredoc_test(cmd->infd);
 }
 
 void	heredoc(t_msdata *data)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = data->cmd_head;
 	while (cmd)

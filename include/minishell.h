@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/09 13:24:31 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/09 17:47:57 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_msdata
 	char		pwd[PATH_MAX];
 	t_expand	*exp;			// struct for line expansion
 }	t_msdata;
+
 
 // SIGNAL:
 
@@ -189,7 +190,7 @@ int	echo(char **argv);
  * This function will take the same arguments as printf
  * and then print out if debug flag is active DEBUG=1
  * @param char *format
- * @param (...) variadic parameters 
+ * @param (...) variadic parameters
  * @return
  * Function returns nothing
 */
@@ -273,7 +274,7 @@ void	add_envp(t_msdata *data, char *key, char *value);
 /**
  * @brief
  * This function will search the envp member in the data structure
- *  for the envp as paramater. 
+ *  for the envp as paramater.
  * @param
  *  t_msdata* data
  * @param
@@ -368,7 +369,6 @@ int	check_file(char *file);
 
 // FUNCTIONS:
 void	input_handling(t_msdata *data);
-void	parsing(t_msdata *data);
 void	error(char *msg);
 
 // EXECUTION:
@@ -387,8 +387,6 @@ void	initdata(t_msdata *data, char **argv, char **envp);
 
 // PARSING
 void	parsing(t_msdata *data);
-void	parsing_syntax(t_msdata *data);
-int		parsing_syntax_quotes(t_msdata *data);
 
 
 void	clearcmd(t_msdata *data);
@@ -405,6 +403,9 @@ void	clearcmd(t_msdata *data);
  *  only as error()
 */
 char	*expand(t_msdata *data);
+void	expand_exp_init(t_msdata *data, t_expand *exp);
+void	expand_var_nl(t_expand *exp);
+void	expand_quote_check(char c, bool *single_q, bool *double_q);
 // static functions:
 // void	expand_exp_init(t_msdata *data, t_expand *exp);
 // void	expand_var_nl(t_expand *exp);
