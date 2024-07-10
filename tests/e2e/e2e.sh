@@ -396,8 +396,12 @@ while IFS= read -r line; do
 	rm -rf $bash_outfiles/*
 	BASH_OUTPUT=$(echo -e "$line" | bash 2>>$MS_LOG)
 	echo $BASH_OUTPUT &>> $MS_LOG
-	BASH_EXIT_CODE=$(echo -e "$line$exit_code_line" | bash | tail -1)
-	echo $BASH_EXIT_CODE &>> $MS_LOG
+	# TODO: fix bash exit code 
+	BASH_EXIT_CODE=$(echo -e "$line$exit_code_line" | bash 2>> $MS_LOG)
+	echo 
+	IFS=/ read -rd '' -a arr <<<"$BASH_EXIT_CODE"
+	test=$BASH_EXIT_CODE | sed -n '1p'
+	echo $test
 	BASH_OUTFILES=$(cp $outfiles/* $bash_outfiles &>>$MS_LOG)
 	BASH_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 >> $MS_LOG | grep -o '[^:]*$' | head -n1)
 
