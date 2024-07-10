@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 16:25:46 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 16:55:56 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_token	type_handler_word(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 	}
 	else
 	{
-		cmd->argv = extend_strarr(cmd, cmd->argv, strarr_size(cmd->argv));
+		cmd->argv = extend_strarr(cmd->argv, double_array_len(cmd->argv));
 		if (!cmd->argv)
 			error("type_handler_word; malloc error", data);
 		token_to_strarr(data, cmd->argv, token);

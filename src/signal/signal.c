@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/04 13:46:31 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/04 16:42:06 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 16:37:12 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 	}
 }
 
-void	init_signal()
+void	init_signal(void)
 {
 	struct sigaction	sa;
 	int					ret;

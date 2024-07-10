@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/10 14:56:49 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 16:23:43 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 16:56:02 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_token	type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token token, int *pos
 		heredoc = unexpected_token(data, heredoc);
 	else
 	{
-		cmd->heredoc = extend_strarr(cmd, cmd->heredoc, strarr_size(cmd->heredoc));
+		cmd->heredoc = extend_strarr(cmd->heredoc, double_array_len(cmd->heredoc));
 		if (!cmd->heredoc)
 			error("type_handler_heredoc; malloc error", data);
 		token_to_strarr(data, cmd->heredoc, heredoc);

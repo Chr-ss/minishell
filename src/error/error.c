@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:52:00 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 13:46:33 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 17:00:07 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,24 @@ void	error(char *msg, t_msdata *data)
 		data->envp = NULL;
 	}
 	perror(msg);
-	exit(1);
+	exit(EXIT_FAILURE);
+}
+
+void	check_tty(void)
+{
+	if (!isatty(STDIN_FILENO))
+	{
+		write (2, "minishell: stdin: not a tty\n", 28);
+		exit (EXIT_FAILURE);
+	}
+	if (!isatty(STDOUT_FILENO))
+	{
+		write (2, "minishell: stdout: not a tty\n", 29);
+		exit (EXIT_FAILURE);
+	}
+	if (!isatty(STDERR_FILENO))
+	{
+		write (2, "minishell: stderr: not a tty\n", 29);
+		exit (EXIT_FAILURE);
+	}
 }

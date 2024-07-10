@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:50:51 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 13:46:52 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 16:58:27 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ static void	initdata_cpy_envp(t_msdata *data, char **envp)
 		i++;
 	data->envp = ft_calloc(i + 1, sizeof(char *));
 	if (!data->envp)
-		error("initdata_envp, malloc error", data);
+		error("initdata_envp: malloc error", data);
 	i = 0;
 	while (envp && envp[i])
 	{
 		data->envp[i] = ft_strdup(envp[i]);
 		if (!data->envp[i])
-			error("initdata_envp, malloc error", data);
+			error("initdata_envp: malloc error", data);
 		i++;
 	}
 }
@@ -35,6 +35,8 @@ static void	initdata_cpy_envp(t_msdata *data, char **envp)
 void	initdata(t_msdata *data, char **envp)
 {
 	data->cmd_head = ft_calloc(sizeof(t_cmd), 1);
+	if (!data->cmd_head)
+		error("initdata: malloc error", data);
 	data->cmd_curr = data->cmd_head;
 	data->line = NULL;
 	data->pos = 0;

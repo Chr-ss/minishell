@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 16:24:14 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 17:24:48 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,19 @@
 
 enum e_pipe
 {
-	RD, WR
+	RD,
+	WR
 }	;
 
 typedef struct s_cmd
 {
 	char			*cmd;		// can be used for execution
 	char			**argv;		// can be used for execution
-	char			**heredoc;	// heredoc delimiters (write heredocs into tempfile and transfer fd to infd??)
+	char			**heredoc;	// heredoc delimiters
 	struct s_cmd	*pipe;		// if NULL no more pipe
 	int				infd;		// if -1 do not execute cmd | if 0 no change
 	int				outfd;		// if -1 do not execute cmd | if 0 no change
-	int 			pipefd[2];	// holds the pipe from previous cmd to current
+	int				pipefd[2];	// holds the pipe from previous cmd to current
 }	t_cmd;
 
 typedef struct s_msdata
@@ -72,7 +73,6 @@ typedef struct s_msdata
 	t_expand	*exp;			// struct for line expansion
 }	t_msdata;
 
-
 // SIGNAL:
 
 /**
@@ -82,11 +82,26 @@ typedef struct s_msdata
  * @param
  *  void
  * @return
- * Function returns nothing
+ *  void
  * @exception
- *  if initialization goes wrong then exits with failure exit code
+ *  exit (EXIT_FAILURE)
 */
-void	init_signal();
+void		init_signal(void);
+
+// INITDATA.c
+
+/**
+ * @brief
+ * This function initializes the data strcut in the main function.
+ * @param
+ *  t_msdata *data
+ *  char **envp
+ * @return
+ *  void
+ * @exception
+ *  exit (EXIT_FAILURE)
+*/
+void		initdata(t_msdata *data, char **envp);
 
 // BUILT-INS:
 
@@ -97,7 +112,7 @@ void	init_signal();
  * @return 0 is succesful operation
  * @exception 1 is unsuccesful operation
 */
-int cd (t_msdata *data, char **argv);
+int			cd(t_msdata *data, char **argv);
 
 /**
  * @brief
@@ -107,7 +122,7 @@ int cd (t_msdata *data, char **argv);
  * @return
  * Function returns nothing
 */
-int	pwd(t_msdata *data);
+int			pwd(t_msdata *data);
 
 /**
  * @brief
@@ -118,7 +133,7 @@ int	pwd(t_msdata *data);
  * @return
  * Function returns nothing
 */
-int	env(t_msdata *data);
+int			env(t_msdata *data);
 
 /**
  * @brief
@@ -131,7 +146,7 @@ int	env(t_msdata *data);
  * @return
  * Function returns nothing
 */
-int	mini_exit(char **argv);
+int			mini_exit(char **argv);
 
 /**
  * @brief
@@ -147,7 +162,7 @@ int	mini_exit(char **argv);
  * @return
  * Function returns nothing
 */
-int	export(t_msdata *data);
+int			export(t_msdata *data);
 
 /**
  * @brief
@@ -167,8 +182,7 @@ int	export(t_msdata *data);
  * if variable is not found. If there is a malloc error then minishell will
  * exit
 */
-int unset(t_msdata *data, char **argv, char *arg);
-
+int			unset(t_msdata *data, char **argv, char *arg);
 
 /**
  * @brief
@@ -178,9 +192,9 @@ int unset(t_msdata *data, char **argv, char *arg);
  * @param char **argv
  * @return Function returns nothing
 */
-int	echo(char **argv);
+int			echo(char **argv);
 
-//UTILS
+// UTILS:
 
 /**
  * @brief
@@ -191,8 +205,7 @@ int	echo(char **argv);
  * @return
  * Function returns nothing
 */
-void debugger(char *format, ...);
-
+void		debugger(char *format, ...);
 
 /**
  * @brief
@@ -209,7 +222,7 @@ void debugger(char *format, ...);
  * @return
  * Function returns nothing
 */
-void	copy_over_str(int dst_index, int src_index, char**dst, char **src);
+void		copy_over_str(int dst_index, int src_index, char**dst, char **src);
 
 /**
  * @brief
@@ -222,7 +235,7 @@ void	copy_over_str(int dst_index, int src_index, char**dst, char **src);
  * @return
  * Function will return a malloced string.
 */
-char	*get_envp_key(char *input);
+char		*get_envp_key(char *input);
 
 /**
  * @brief
@@ -233,11 +246,11 @@ char	*get_envp_key(char *input);
  * @exception
  * Function will return null if there is a malloc error
  * @return
- * Function will return a malloced string. If there was no value in the envp it will
+ * Function will return a malloced string.
+ * If there was no value in the envp it will
  * return an empty string ""
 */
-char	*get_envp_value(char *input);
-
+char		*get_envp_value(char *input);
 
 /**
  * @brief
@@ -250,7 +263,7 @@ char	*get_envp_value(char *input);
  * @return
  * Function returns nothing
 */
-void	swap_envp(t_msdata *data, char **envp);
+void		swap_envp(t_msdata *data, char **envp);
 
 /**
  * @brief
@@ -266,7 +279,7 @@ void	swap_envp(t_msdata *data, char **envp);
  * @return
  * Function returns nothing
 */
-void	add_envp(t_msdata *data, char *key, char *value);
+void		add_envp(t_msdata *data, char *key, char *value);
 
 /**
  * @brief
@@ -283,7 +296,7 @@ void	add_envp(t_msdata *data, char *key, char *value);
  * @exception
  * -1 is unsuccesful operation due to malloc failure
 */
-int	get_envp(t_msdata *data, char *envp, char **env);
+int			get_envp(t_msdata *data, char *envp, char **env);
 
 /**
  * @brief This function will change a envp in the envp member
@@ -296,7 +309,7 @@ will change the value of $HOME to "HOME=/home/else"
  * @return 0 is a succesful operation
  * @exception 1 is a unsuccesful operation
  */
-int	change_envp(char *key, char *env, char **envp);
+int			change_envp(char *key, char *env, char **envp);
 
 /**
  * @brief
@@ -311,7 +324,7 @@ int	change_envp(char *key, char *env, char **envp);
  * @exception
  *  -1 is env not found
 */
-int	get_envp_index(char *env, char **envp);
+int			get_envp_index(char *env, char **envp);
 
 /**
  * @brief
@@ -322,7 +335,7 @@ int	get_envp_index(char *env, char **envp);
  * @return
  * Function returns nothing
 */
-void	free_char_array(char **arr);
+void		free_char_array(char **arr);
 
 /**
  * @brief
@@ -332,7 +345,7 @@ void	free_char_array(char **arr);
  * @return
  * Function returns length of array.
 */
-int	double_array_len(char **vector);
+int			double_array_len(char **vector);
 
 /**
  * @brief
@@ -346,8 +359,7 @@ int	double_array_len(char **vector);
  * @exception
  *  -1 is error
 */
-int	check_dir(char *dirname);
-
+int			check_dir(char *dirname);
 
 /**
  * @brief
@@ -361,32 +373,125 @@ int	check_dir(char *dirname);
  * @exception
  *  -1 is error
 */
-int	check_file(char *file);
+int			check_file(char *file);
 
+/**
+ * @brief
+ * This function is using the current position and
+ *  moving it until there is not more whitespace.
+ * @param
+ *  char *str
+ *  int pos
+ * @return
+ *  new position integer
+*/
+int			skipspace(char *str, int pos);
 
-// FUNCTIONS:
-void	input_handling(t_msdata *data);
-void	error(char *msg, t_msdata *data);
+/**
+ * @brief
+ * This function checks if a char is a bash token.
+ * @param
+ *  char c
+ * @return
+ *  0 if no
+ *  1 if yes
+*/
+int			ft_isbashtoken(int c);
+
+/**
+ * @brief
+ * This function is extending **char by 1.
+ * @param
+ *  char **strarr
+ *  int strarr_size
+ * @return
+ *  **char with +1 size
+ * @exception
+ *  NULL
+*/
+char		**extend_strarr(char **strarr, int strarr_size);
+
+// INPUT HANDLING:
+
+/**
+ * @brief
+ * This function is using readline to accept
+ *  commands from the user.
+ * @param
+ *  t_msdata *data
+ * @return
+ *  void
+*/
+void		input_handling(t_msdata *data);
+
+/**
+ * @brief
+ * This function is parsing user input for syntax errors.
+ * @param
+ *  t_msdata *data
+ * @return
+ *  0
+ * @exception
+ *  -1
+*/
+int			parsing(t_msdata *data);
+
+/**
+ * @brief
+ * Checks function takes the lines and converts it
+ *  into tokens. The tokens then are used to fill
+ *  the cmd struct.
+ * @param
+ *  t_msdata *data
+ *  char *line
+ * @return
+ *  0
+ * @exception
+ *  -1
+*/
+int			line_to_token(t_msdata *data, char *line);
+
+/**
+ * @brief
+ * Checks for heredoc delimitors in all cmd structs.
+ *  Found delimitors activate readline and read
+ *  into a pipe for each cmd struct and safe pipe
+ *  readfd in infd for each strcut.
+ * @param
+ *  t_msdata *data
+ * @return
+ *  0
+ * @exception
+ *  -1
+*/
+int			heredoc(t_msdata *data);
 
 // EXECUTION:
+void		execute(t_msdata *data);
 
-void	execute(t_msdata *data);
+// CMD RESET:
+/**
+ * @brief
+ * This function is freeing all elements in cmd linked list.
+ * @param
+ *  t_msdata *data
+ * @return
+ *  void
+*/
+void		cmd_clear(t_msdata *data);
 
-// UTILS
-int		skipspace(char *str, int pos);
-int		ft_isbashtoken(int c);
-int		strarr_size(char **strarr);
-char	**extend_strarr(t_cmd *cmd, char **strarr, int strarr_size);
-
-// INITDATA.c
-void	initdata(t_msdata *data, char **envp);
-
-// PARSING
-int	parsing(t_msdata *data);
-
-// cmd_reset.c
-void	cmd_clear(t_msdata *data);
-void	cmd_reset(t_msdata *data);
+/**
+ * @brief
+ * This function is using cmd_clear() to clear the cmd struct
+ *  and callocs a new clean first element.
+ * @param
+ *  t_msdata *data
+ * @return
+ *  0
+ * @exception
+ *  exit(EXIT_FAILURE) over error
+*/
+void		cmd_reset(t_msdata *data);
 
 /**
  * @brief
@@ -399,50 +504,176 @@ void	cmd_reset(t_msdata *data);
  * @exception
  *  only as error()
 */
-char	*expand(t_msdata *data);
-void	expand_exp_init(t_msdata *data, t_expand *exp);
-void	expand_var_nl(t_msdata *data, t_expand *exp);
-void	expand_quote_check(char c, bool *single_q, bool *double_q);
-// static functions:
-// void	expand_exp_init(t_msdata *data, t_expand *exp);
-// void	expand_var_nl(t_expand *exp);
-// char	*expand_getenv(char **envp, char *env_start, int length);
-// void	expand_var(t_msdata *data, t_expand *exp, int *pos);
-// void	expand_copy(t_msdata *data, t_expand *exp);
+char		*expand(t_msdata *data);
+void		expand_exp_init(t_msdata *data, t_expand *exp);
+void		expand_var_nl(t_msdata *data, t_expand *exp);
+void		expand_quote_check(char c, bool *single_q, bool *double_q);
 
+// SORT THIS LATER
+void		token_to_strarr(t_msdata *data, char **strarr, t_token token);
+t_token		unexpected_token(t_msdata *data, t_token token);
+
+t_token		tokenizer(char *line);
+void		printf_cmd(t_cmd *cmd);
+void		init_type_handler(t_token (*type_handler[8])(t_msdata *data, \
+				t_cmd *cmd, t_token token, int *pos));
+t_token		token_to_cmd(t_msdata *data, t_token token, int *pos);
 
 /**
  * @brief
- * Checks for heredoc delimitors in all cmd structs.
- * Found delimitors activate readline and read
- * into a pipe for each cmd struct with subfunctions.
+ * This function handles specified token type.
  * @param
  *  t_msdata *data
+ *  t_cmd *cmd
+ *  t_token token
+ *  int *pos
  * @return
- *  int 0 if ok, -1 if error
+ *  t_token token
  * @exception
- *  only as error()
+ *  token.type == TOKEN_ERROR
 */
-int	heredoc(t_msdata *data);
+t_token		type_handler_append(t_msdata *data, t_cmd *cmd, \
+				t_token token, int *pos);
 
-// SORT THIS LATER
-void	token_to_strarr(t_msdata *data, char **strarr, t_token token);
-t_token	unexpected_token(t_msdata *data, t_token token);
+/**
+ * @brief
+ * This function handles specified token type.
+ * @param
+ *  t_msdata *data
+ *  t_cmd *cmd
+ *  t_token token
+ *  int *pos
+ * @return
+ *  t_token token
+ * @exception
+ *  token.type == TOKEN_ERROR
+*/
+t_token		type_handler_eof(t_msdata *data, t_cmd *cmd, \
+				t_token token, int *pos);
 
-t_token	tokenizer(char *line);
-int	line_to_token(t_msdata *data, char *line);
-void	printf_cmd(t_cmd *cmd);
-void	init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_token token, int *pos));
-t_token token_to_cmd(t_msdata *data, t_token token, int *pos);
-t_token	type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token	type_handler_eof(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token	type_handler_error(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token	type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token	type_handler_pipe(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token	type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token	type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
-t_token	type_handler_word(t_msdata *data, t_cmd *cmd, t_token token, int *pos);
+/**
+ * @brief
+ * This function handles specified token type.
+ * @param
+ *  t_msdata *data
+ *  t_cmd *cmd
+ *  t_token token
+ *  int *pos
+ * @return
+ *  t_token token
+ * @exception
+ *  token.type == TOKEN_ERROR
+*/
+t_token		type_handler_error(t_msdata *data, t_cmd *cmd, \
+				t_token token, int *pos);
 
-void	openfile(t_cmd *cmd, t_token token, int open_flag, int *fd);
+/**
+ * @brief
+ * This function handles specified token type.
+ * @param
+ *  t_msdata *data
+ *  t_cmd *cmd
+ *  t_token token
+ *  int *pos
+ * @return
+ *  t_token token
+ * @exception
+ *  token.type == TOKEN_ERROR
+*/
+t_token		type_handler_heredoc(t_msdata *data, t_cmd *cmd, \
+				t_token token, int *pos);
+
+/**
+ * @brief
+ * This function handles specified token type.
+ * @param
+ *  t_msdata *data
+ *  t_cmd *cmd
+ *  t_token token
+ *  int *pos
+ * @return
+ *  t_token token
+ * @exception
+ *  token.type == TOKEN_ERROR
+*/
+t_token		type_handler_pipe(t_msdata *data, t_cmd *cmd, \
+				t_token token, int *pos);
+
+/**
+ * @brief
+ * This function handles specified token type.
+ * @param
+ *  t_msdata *data
+ *  t_cmd *cmd
+ *  t_token token
+ *  int *pos
+ * @return
+ *  t_token token
+ * @exception
+ *  token.type == TOKEN_ERROR
+*/
+t_token		type_handler_rein(t_msdata *data, t_cmd *cmd, \
+				t_token token, int *pos);
+
+/**
+ * @brief
+ * This function handles specified token type.
+ * @param
+ *  t_msdata *data
+ *  t_cmd *cmd
+ *  t_token token
+ *  int *pos
+ * @return
+ *  t_token token
+ * @exception
+ *  token.type == TOKEN_ERROR
+*/
+t_token		type_handler_reout(t_msdata *data, t_cmd *cmd, \
+				t_token token, int *pos);
+
+/**
+ * @brief
+ * This function handles specified token type.
+ * @param
+ *  t_msdata *data
+ *  t_cmd *cmd
+ *  t_token token
+ *  int *pos
+ * @return
+ *  t_token token
+ * @exception
+ *  token.type == TOKEN_ERROR
+*/
+t_token		type_handler_word(t_msdata *data, t_cmd *cmd, \
+				t_token token, int *pos);
+
+void		openfile(t_cmd *cmd, t_token token, int open_flag, int *fd);
+
+/**
+ * @brief
+ *  This function checks if STDIN, STDOUT and
+ *  STDERR are tty.
+ * @param
+ *  void
+ * @return
+ *  void
+ * @exception
+ *  exit(EXIT_FAILURE)
+*/
+void		check_tty(void);
+
+/**
+ * @brief
+ *  Error function to exit minishell
+ *  printf msg to STDERR and exit(EXIT_FAILURE)
+ * @param
+ *  char *msg
+ *  t_msdata *data
+ * @return
+ *  void
+ * @exception
+ *  exit(EXIT_FAILURE)
+*/
+void		error(char *msg, t_msdata *data);
 
 #endif	// MINISHELL_H
