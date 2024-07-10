@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 14:35:00 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 17:25:08 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int cd (t_msdata *data, char **argv);
  * @return
  * Function returns nothing
 */
-int	pwd(t_msdata *data);
+int	pwd(void);
 
 /**
  * @brief
@@ -119,7 +119,9 @@ int	pwd(t_msdata *data);
  * @param t_msdata *data
  * @param char **argv
  * @return
- * Function returns nothing
+ * Function returns int to indicate operation successful or not,
+ * 0 is succesful operation
+ * 1 is unsuccesful operation due to envp not found
 */
 int	env(t_msdata *data);
 

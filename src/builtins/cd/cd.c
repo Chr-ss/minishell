@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/10 16:33:06 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 17:18:29 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	cd(t_msdata *data, char ** argv)
 	if (dir == NULL) // this should change based on the change of cd_parse
 	{
 		error("cd");
-		return (EXIT_FAILURE);
+		return (1);
 	}
 	if (cd_chdir(data, dir))
 		error("chdir error");

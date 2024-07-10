@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/10 14:21:29 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 17:21:45 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int execute_check_builtin(t_msdata *data, t_cmd *cmd)
 	else if (!ft_strncmp("export", cmd->cmd, len))
 		return (export(data, cmd->argv));
 	else if (!ft_strncmp("pwd", cmd->cmd, len))
-		return (pwd(data));
+		return (pwd());
 	else if (!ft_strncmp("unset", cmd->cmd, len))
 		return (unset(data, cmd->argv, NULL));
 	else if (!ft_strncmp("exit", cmd->cmd, len))
@@ -132,6 +132,7 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	int		ret;
 
 	execute_child_dup(data, cmd);
+	execute_check_builtin(data, cmd);
 	ret= execute_path(cmd->cmd, data, &path_cmd);
 	if (ret == -1)
 		error("execute_child execute path error\n");
@@ -151,6 +152,7 @@ void	execute(t_msdata *data)
 	int		wstatus;
 	int		statuscode;
 
+	statuscode = 0;
 	cmd = data->cmd_head;
 	debugger("\n------------execution----------------\n\n");
 	while (cmd)
@@ -160,8 +162,8 @@ void	execute(t_msdata *data)
 			if (pipe(cmd->pipe->pipefd) == -1)
 				error("pipe error\n");
 		}
-		if (!execute_check_builtin(data, cmd))
-			cmd = cmd->pipe;
+		if (cmd->pipe == NULL)
+			statuscode = execute_check_builtin(data, cmd);
 		else 
 		{
 			pid = fork();
@@ -170,12 +172,13 @@ void	execute(t_msdata *data)
 			if (pid == 0)
 				execute_child(data, cmd);
 			execute_parent_close_pipe(data, cmd);
-			cmd = cmd->pipe;
 		}
+		cmd = cmd->pipe;
 	}
 	while(waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD);
 	if (WIFEXITED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
+	ft_printf("statuscode %d\n", statuscode);
 	//while loop to wait for child waitpid(?, ?,?) exit_code
 	//WIFSIGNAL()
 		//whatever it is returned += 128

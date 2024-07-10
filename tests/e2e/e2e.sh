@@ -357,8 +357,8 @@ fi
 # https://github.com/LucasKuhn/minishell_tester
 
 x=0
-
 test_cases=("error")
+exit_code_line=' ; echo $?'
 
 for case in "$cases"/*; do
 
@@ -397,7 +397,7 @@ while IFS= read -r line; do
 	rm -rf $bash_outfiles/*
 	BASH_OUTPUT=$(echo -e "$line" | bash 2>>$MS_LOG)
 	echo $BASH_OUTPUT &>> $MS_LOG
-	BASH_EXIT_CODE=$(echo $?)
+	BASH_EXIT_CODE=$(echo -e "$line$exit_code_line" | bash 2>>$MS_LOG)
 	BASH_OUTFILES=$(cp $outfiles/* $bash_outfiles &>>$MS_LOG)
 	BASH_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 >> $MS_LOG | grep -o '[^:]*$' | head -n1)
 
