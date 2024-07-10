@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   utils_chriss.c                                     :+:    :+:            */
+/*   utils.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/01 15:01:31 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/23 14:28:21 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 15:11:49 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ char	**extend_strarr(t_cmd *cmd, char **strarr, int strarr_size)
 
 	i = 0;
 	strarr_size++;
-	new_strarr = calloc(strarr_size + 1, sizeof(char*));
+	new_strarr = ft_calloc(strarr_size + 1, sizeof(char*));
 	if (!new_strarr)
-		error("extend_strarr: malloc error.");
+		return (NULL);
 	while (strarr && strarr[i])
 	{
 		new_strarr[i] = strarr[i];

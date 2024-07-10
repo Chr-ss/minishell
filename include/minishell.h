@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/09 17:47:57 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 16:24:14 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,9 @@ typedef struct s_cmd
 typedef struct s_msdata
 {
 	t_cmd		*cmd_head;		// head of CMD struct
-// TOKEN TO CMD
 	t_cmd		*cmd_curr;
 	char		*line;
 	int			pos;
-// TOKEN TO CMD
-	char		**argv;
 	char		**envp;
 	int			exit_code;
 	char		pwd[PATH_MAX];
@@ -369,7 +366,7 @@ int	check_file(char *file);
 
 // FUNCTIONS:
 void	input_handling(t_msdata *data);
-void	error(char *msg);
+void	error(char *msg, t_msdata *data);
 
 // EXECUTION:
 
@@ -382,14 +379,14 @@ int		strarr_size(char **strarr);
 char	**extend_strarr(t_cmd *cmd, char **strarr, int strarr_size);
 
 // INITDATA.c
-void	initdata_cpy_envp(t_msdata *data, char **envp);
-void	initdata(t_msdata *data, char **argv, char **envp);
+void	initdata(t_msdata *data, char **envp);
 
 // PARSING
-void	parsing(t_msdata *data);
+int	parsing(t_msdata *data);
 
-
-void	clearcmd(t_msdata *data);
+// cmd_reset.c
+void	cmd_clear(t_msdata *data);
+void	cmd_reset(t_msdata *data);
 
 /**
  * @brief
@@ -404,7 +401,7 @@ void	clearcmd(t_msdata *data);
 */
 char	*expand(t_msdata *data);
 void	expand_exp_init(t_msdata *data, t_expand *exp);
-void	expand_var_nl(t_expand *exp);
+void	expand_var_nl(t_msdata *data, t_expand *exp);
 void	expand_quote_check(char c, bool *single_q, bool *double_q);
 // static functions:
 // void	expand_exp_init(t_msdata *data, t_expand *exp);
@@ -422,18 +419,18 @@ void	expand_quote_check(char c, bool *single_q, bool *double_q);
  * @param
  *  t_msdata *data
  * @return
- *  void
+ *  int 0 if ok, -1 if error
  * @exception
  *  only as error()
 */
-void	heredoc(t_msdata *data);
+int	heredoc(t_msdata *data);
 
 // SORT THIS LATER
 void	token_to_strarr(t_msdata *data, char **strarr, t_token token);
-void	unexpected_token(t_msdata *data, t_token token);
+t_token	unexpected_token(t_msdata *data, t_token token);
 
 t_token	tokenizer(char *line);
-void	temp_print_tokens(t_msdata *data, char *line);
+int	line_to_token(t_msdata *data, char *line);
 void	printf_cmd(t_cmd *cmd);
 void	init_type_handler(t_token (*type_handler[8])(t_msdata *data, t_cmd *cmd, t_token token, int *pos));
 t_token token_to_cmd(t_msdata *data, t_token token, int *pos);
