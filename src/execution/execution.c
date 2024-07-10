@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/10 14:01:19 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 14:21:29 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int execute_check_builtin(t_msdata *data, t_cmd *cmd)
 	else if (!ft_strncmp("env", cmd->cmd, len))
 		return (env(data));
 	else if (!ft_strncmp("export", cmd->cmd, len))
-		return (export(data));
+		return (export(data, cmd->argv));
 	else if (!ft_strncmp("pwd", cmd->cmd, len))
 		return (pwd(data));
 	else if (!ft_strncmp("unset", cmd->cmd, len))
