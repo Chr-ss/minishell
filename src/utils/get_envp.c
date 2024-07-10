@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/28 14:34:53 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/04 15:39:35 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/09 17:58:08 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	get_envp(t_msdata *data, char *envp, char **env)
 		if (*env == NULL)
 			return (-1);
 	}
-	else 
+	else
 		return (1);
 	return (0);
 }

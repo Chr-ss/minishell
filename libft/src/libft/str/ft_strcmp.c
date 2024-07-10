@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   etc.c                                              :+:    :+:            */
+/*   ft_strcmp.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: spenning <spenning@student.42.fr>            +#+                     */
+/*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/06/24 18:44:04 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/09 10:27:50 by spenning      ########   odam.nl         */
+/*   Created: 2023/10/03 15:31:31 by crasche       #+#    #+#                 */
+/*   Updated: 2024/07/08 14:54:20 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../../include/libft.h"
 
-int	double_array_len(char **vector)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	int	index;
+	size_t	i;
 
-	if (vector == NULL)
-		return (0);
-	index = 0;
-	while (vector[index] != NULL)
-		index++;
-	return (index);
+	i = 0;
+	while (s1[i] && s2[i])
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char) s1[i] - (unsigned char) s2[i]);
+		i++;
+	}
+	return (0);
 }

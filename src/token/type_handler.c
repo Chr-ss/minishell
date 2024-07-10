@@ -6,17 +6,15 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/02 15:58:36 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/09 17:54:31 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-
 t_token	type_handler_word(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
-	printf("type_handler_word: Token WORD\n");
-
+	debugger("type_handler_word: Token WORD\n");
 	(void) data;
 	(void) pos;
 	if (!cmd->cmd)
@@ -35,11 +33,9 @@ t_token	type_handler_word(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 
 t_token	type_handler_pipe(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
-	printf("type_handler_pipe: Token pipe");
-
+	debugger("type_handler_pipe: Token pipe");
 	data->cmd_curr->pipe = ft_calloc(1, sizeof(t_cmd));
 	data->cmd_curr = data->cmd_curr->pipe;
-
 	(void) cmd;
 	(void) pos;
 	return (token);
@@ -47,9 +43,9 @@ t_token	type_handler_pipe(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 
 t_token	type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
-	printf("type_handler_rein: Token REIN\n");
 	t_token	infile;
 
+	debugger("type_handler_rein: Token REIN\n");
 	*pos += token.length;
 	*pos = skipspace(data->line, *pos);
 	token.length = 0;
@@ -62,16 +58,15 @@ t_token	type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 		if (cmd->heredoc)
 			free_char_array(cmd->heredoc);
 		cmd->heredoc = NULL;
-		// EMPTY HERE DOC POINTER
 	}
 	return (infile);
 }
 
 t_token	type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
-	printf("type_handler_reout: Token REOUT\n");
 	t_token	outfile;
 
+	debugger("type_handler_reout: Token REOUT\n");
 	*pos += token.length;
 	*pos = skipspace(data->line, *pos);
 	token.length = 0;
@@ -87,9 +82,9 @@ t_token	type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 
 t_token	type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
-	printf("type_handler_append: Token APPEND\n");
 	t_token	append;
 
+	debugger("type_handler_append: Token APPEND\n");
 	*pos += token.length;
 	*pos = skipspace(data->line, *pos);
 	token.length = 0;
@@ -105,9 +100,9 @@ t_token	type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 
 t_token	type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
-	printf("type_handler_reout: Token REOUT\n");
 	t_token	heredoc;
 
+	debugger("type_handler_reout: Token REOUT\n");
 	*pos += token.length;
 	*pos = skipspace(data->line, *pos);
 	token.length = 0;
@@ -132,7 +127,7 @@ t_token	type_handler_eof(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 	(void) cmd;
 	(void) data;
 	(void) pos;
-	printf("type_handler_eof: Token EOF");
+	debugger("type_handler_eof: Token EOF");
 	return (token);
 }
 

@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   etc.c                                              :+:    :+:            */
+/*   debug.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/06/24 18:44:04 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/09 10:27:50 by spenning      ########   odam.nl         */
+/*   Created: 2024/06/27 15:02:08 by spenning      #+#    #+#                 */
+/*   Updated: 2024/07/10 13:11:31 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <stdarg.h>
 
-int	double_array_len(char **vector)
+void	debugger(char *format, ...)
 {
-	int	index;
+	va_list	ptr;
 
-	if (vector == NULL)
-		return (0);
-	index = 0;
-	while (vector[index] != NULL)
-		index++;
-	return (index);
+
+	if (DEBUG == 1)
+	{
+		va_start(ptr, format);
+		vprintf(format, ptr);
+		va_end(ptr);
+	}
 }

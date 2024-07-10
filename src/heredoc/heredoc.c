@@ -6,43 +6,28 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/20 17:30:53 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/09 17:38:39 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int g_sigint ;
+extern int	g_sigint ;
 
-void	heredoc_test(int read_pipe)
+static void	read_heredoc(t_msdata *data, char *delim, int write_pipe)
 {
-	char *temp;
+	size_t	len;
 
-	temp = get_next_line(read_pipe);
-	while (temp)
-	{
-		ft_printf("%s", temp);
-		free(temp);
-		temp = NULL;
-		temp = get_next_line(read_pipe);
-	}
-}
-
-void	read_heredoc(t_msdata *data, char *delim, int write_pipe)
-{
 	while (1)
 	{
 		data->line = readline(">");
-		if (!data->line)
-		{
-			write(1, "EMPTY. EXIT HEREDOC.", 19);
-			return ;
-		}
 		data->line = expand(data);
 		if (!data->line)
-			error("input_handling malloc error.");
-		printf(">>>%s|%s\n\n", data->line, delim);
-		if (ft_strncmp(data->line, delim, ft_strlen(delim)) == 0)
+			error("read_heredoc expand malloc error.");
+		len = ft_strlen(delim);
+		if (ft_strlen(data->line) > len)
+			len = ft_strlen(data->line);
+		if (ft_strncmp(data->line, delim, len) == 0)
 		{
 			if (data->line)
 				free(data->line);
@@ -56,7 +41,7 @@ void	read_heredoc(t_msdata *data, char *delim, int write_pipe)
 	}
 }
 
-void	heredoc_cmds(t_msdata *data, t_cmd *cmd)
+static void	heredoc_cmds(t_msdata *data, t_cmd *cmd)
 {
 	int	i;
 	int	fd[2];
@@ -74,12 +59,11 @@ void	heredoc_cmds(t_msdata *data, t_cmd *cmd)
 	}
 	if (close(fd[1]) == -1)
 		error("Error closing write_end heredoc.");
-	heredoc_test(cmd->infd);
 }
 
 void	heredoc(t_msdata *data)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = data->cmd_head;
 	while (cmd)

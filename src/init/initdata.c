@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:50:51 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/04 23:27:38 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/04 17:47:22 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ void	initdata(t_msdata *data, char **argv, char **envp)
 	data->pos = 0;
 	data->argv = argv;
 	data->exp = NULL;
+	data->exit_code = 0;
 	initdata_cpy_envp(data, envp);
 }

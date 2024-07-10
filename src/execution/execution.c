@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/05 19:09:25 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 14:01:19 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,15 @@ int execute_check_builtin(t_msdata *data, t_cmd *cmd)
 void	execute_child(t_msdata *data, t_cmd *cmd)
 {
 	char	*path_cmd;
+	int		ret;
 
 	execute_child_dup(data, cmd);
-	if (execute_path(cmd->cmd, data, &path_cmd) == -1)
+	ret= execute_path(cmd->cmd, data, &path_cmd);
+	if (ret == -1)
 		error("execute_child execute path error\n");
-	if (add_command_to_argv(data, &cmd) == -1)
+	else if (ret == 1)
+		ft_printf("handle command not found\n");
+	if (add_command_to_argv(&cmd, &path_cmd) == -1)
 		error("add command to argv malloc error\n");
 	execve(path_cmd, cmd->argv, data->envp);
 	error("execute error in child\n");
@@ -148,7 +152,7 @@ void	execute(t_msdata *data)
 	int		statuscode;
 
 	cmd = data->cmd_head;
-	ft_printf("\n------------execution----------------\n\n");
+	debugger("\n------------execution----------------\n\n");
 	while (cmd)
 	{
 		if (cmd->pipe != NULL)
