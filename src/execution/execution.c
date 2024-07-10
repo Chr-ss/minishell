@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/10 17:36:00 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 19:07:26 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int execute_check_builtin(t_msdata *data, t_cmd *cmd)
 	else if (!ft_strncmp("cd", cmd->cmd, len))
 		return (cd(data, cmd->argv));
 	else if (!ft_strncmp("env", cmd->cmd, len))
-		return (env(data));
+		return (env(data, cmd->argv));
 	else if (!ft_strncmp("export", cmd->cmd, len))
 		return (export(data, cmd->argv));
 	else if (!ft_strncmp("pwd", cmd->cmd, len))
@@ -122,8 +122,8 @@ int execute_check_builtin(t_msdata *data, t_cmd *cmd)
 	else if (!ft_strncmp("exit", cmd->cmd, len))
 		return (mini_exit(cmd->argv));
 	else
-		return (1);
-	return (1);
+		return (-1);
+	return (-1);
 }
 
 void	execute_child(t_msdata *data, t_cmd *cmd)
@@ -132,7 +132,9 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	int		ret;
 
 	execute_child_dup(data, cmd);
-	execute_check_builtin(data, cmd);
+	ret = execute_check_builtin(data, cmd);
+	if (ret > -1)
+		exit(ret);
 	ret= execute_path(cmd->cmd, data, &path_cmd);
 	if (ret == -1)
 		error("execute_child execute path error\n");
@@ -144,8 +146,7 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	error("execute error in child\n");
 }
 
-// TODO: exit code builtins
-// TODO: exit code other commands
+// TODO: exit with data->exit_code when bash send kill signal
 // TODO: change stderr messages from error function to perror
 // TODO: add error to system call failure
 void	execute(t_msdata *data)
@@ -155,19 +156,19 @@ void	execute(t_msdata *data)
 	int		wstatus;
 	int		statuscode;
 
-	statuscode = 0;
+	statuscode = -1;
 	cmd = data->cmd_head;
 	debugger("\n------------execution----------------\n\n");
 	while (cmd)
 	{
 		if (cmd->pipe != NULL)
 		{
-			if (pipe(cmd->pipe->pipefd) == -1)
+			if (pipe(cmd->pipe->pipefd) == -1) 
 				error("pipe error\n");
 		}
-		if (cmd->pipe == NULL)
+		if (cmd->pipe == NULL && cmd == data->cmd_head)
 			statuscode = execute_check_builtin(data, cmd);
-		else 
+		if (statuscode == -1)
 		{
 			pid = fork();
 			if (pid < 0)
@@ -179,12 +180,11 @@ void	execute(t_msdata *data)
 		cmd = cmd->pipe;
 	}
 	while(waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD);
+	// if (WIFSIGNALED(wstatus))
+	// 	statuscode = WEXITSTATUS(wstatus);
+	// else 
 	if (WIFEXITED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
-	ft_printf("statuscode %d\n", statuscode);
-	//while loop to wait for child waitpid(?, ?,?) exit_code
-	//WIFSIGNAL()
-		//whatever it is returned += 128
-	//WIFEXIT()
+	data->exit_code = statuscode;
 	return ;
 }

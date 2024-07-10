@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 17:25:08 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 18:15:14 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	pwd(void);
 
 /**
  * @brief
- * This function is the built-in for env
+ * function is the built-in for env
  * it will print all environment variables to stdout with
  * @param t_msdata *data
  * @param char **argv
@@ -123,7 +123,7 @@ int	pwd(void);
  * 0 is succesful operation
  * 1 is unsuccesful operation due to envp not found
 */
-int	env(t_msdata *data);
+int	env(t_msdata *data, char **argv);
 
 /**
  * @brief

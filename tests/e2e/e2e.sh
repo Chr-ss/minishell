@@ -382,11 +382,10 @@ while IFS= read -r line; do
 	rm -rf $outfiles/*
 	rm -rf $mini_outfiles/*
 	MINI_OUTPUT=$(echo -e "$line" | $minishell 2>>$MS_LOG)
+	MINI_EXIT_CODE=$(echo $?)
 	MINI_OUTPUT=${MINI_OUTPUT#*"$line"}
 	MINI_OUTPUT=${MINI_OUTPUT%'minishell:~$'}
 	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs -0)
-	echo $MINI_OUTPUT >> $MS_LOG
-	MINI_EXIT_CODE=$(echo $?)
 	MINI_OUTFILES=$(cp $outfiles/* $mini_outfiles &>> $MS_LOG)
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -o '[^:]*$' )
 	
@@ -397,7 +396,8 @@ while IFS= read -r line; do
 	rm -rf $bash_outfiles/*
 	BASH_OUTPUT=$(echo -e "$line" | bash 2>>$MS_LOG)
 	echo $BASH_OUTPUT &>> $MS_LOG
-	BASH_EXIT_CODE=$(echo -e "$line$exit_code_line" | bash 2>>$MS_LOG)
+	BASH_EXIT_CODE=$(echo -e "$line$exit_code_line" | bash | tail -1)
+	echo $BASH_EXIT_CODE &>> $MS_LOG
 	BASH_OUTFILES=$(cp $outfiles/* $bash_outfiles &>>$MS_LOG)
 	BASH_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 >> $MS_LOG | grep -o '[^:]*$' | head -n1)
 
