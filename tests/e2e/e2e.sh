@@ -374,7 +374,7 @@ while IFS= read -r line; do
 	MINI_OUTPUT=$(echo -e "$line" | $minishell)
 	MINI_OUTPUT=${MINI_OUTPUT#*"$line"}
 	MINI_OUTPUT=${MINI_OUTPUT%'minishell:~$'}
-	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs)
+	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs -0)
 	echo $MINI_OUTPUT >> $MS_LOG
 	MINI_EXIT_CODE=$(echo $?)
 	MINI_OUTFILES=$(cp $outfiles/* $mini_outfiles &>> $MS_LOG)
