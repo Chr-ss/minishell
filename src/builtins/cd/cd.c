@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/09 10:29:33 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 16:00:41 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	cd_chdir(t_msdata *data, char *dir)
 // ft_printf("after OLDPWD%s\n", get_envp(data, "OLDPWD"));
 // getcwd(cwd, sizeof(cwd));
 // ft_printf("%s\n", cwd);
+
+// TODO: look at printing directory after cd -
 
 int	cd(t_msdata *data, char ** argv)
 {
