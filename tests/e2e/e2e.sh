@@ -254,6 +254,8 @@ fi
 # Reference: https://github.com/LucasKuhn/minishell_tester
 
 #initialize variables
+#TODO: fix noaccess and static_outfile so they are reset to standard, now the content is changed after test run
+
 RED="\x1B[31m"
 GRN="\x1B[1;32m"
 YEL="\x1B[33m"
@@ -356,7 +358,6 @@ fi
 
 x=0
 
-# TODO: add ability to skip comment lines 
 for case in "$cases"/*; do
 echo -e "${BCYN}$case${RESET}"
 while IFS= read -r line; do
