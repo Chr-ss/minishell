@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 11:49:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/10 14:00:58 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 15:06:24 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,38 @@ int	execute_path_check(char **path_spl, char *cmd, char **path_cmd)
 	return (1);
 }
 
+int	execute_path_local(char	*cmd, char **path_cmd)
+{
+	int		ret;
+	char	*str;
+
+	ret = access(cmd, X_OK);
+	if (ret == 0)
+	{
+		str = ft_strdup(cmd);
+		if (str == NULL)
+			return (-1);
+		*path_cmd = str;
+		return (1);
+	}
+	else if (ret == -1)
+		return (-1);
+	return(0);
+}
+
+
+
 int	execute_path(char	*cmd, t_msdata *data, char **path_cmd)
 {
 	int		ret;
 	char	*path;
 	char	**path_spl;
 
+	ret = execute_path_local(cmd, path_cmd);
+	if (ret == -1)
+		return (-1);
+	else if (ret == 1)
+		return (0);
 	ret = get_envp(data, "PATH", &path);
 	if (ret == -1)
 		return (-1);
