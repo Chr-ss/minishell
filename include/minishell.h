@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/11 13:05:48 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/11 14:00:12 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,11 +144,12 @@ int	env(t_msdata *data, char **argv);
  *  as argument with argv, the exit code should be in between
  *  0-255, otherwise it will returned a remaining exit code
  *  after modulu operation.
+ * @param t_msdata *data
  * @param char **argv
  * @return
  * Function returns nothing
 */
-int			mini_exit(char **argv);
+int			mini_exit(t_msdata *data, char **argv);
 
 /**
  * @brief
@@ -192,10 +193,12 @@ int			unset(t_msdata *data, char **argv, char *arg);
  * This function is the built-in for echo.
  * it will take the argv and print it with a nl,
  * expect if -n is specified
+ * @param t_msdata *data
  * @param char **argv
- * @return Function returns nothing
+ * @return Function returns int to indicate exit code
+ * @exception Will call error() when malloc error occurs
 */
-int			echo(char **argv);
+int			echo(t_msdata *data, char **argv);
 
 // UTILS:
 
@@ -212,6 +215,35 @@ void		debugger(char *format, ...);
 
 /**
  * @brief
+ * will free the whole command structures
+ * @param t_cmd *cmd
+ * @return
+ * Function returns nothing
+*/
+void	free_cmd(t_cmd *cmd);
+
+/**
+ * @brief
+ * This function will free everything except the cmd structure in the 
+ * data structure
+ * @param t_msdata *data
+ * @return
+ * Function returns nothing
+*/
+void	free_data(t_msdata *data);
+
+/**
+ * @brief
+ * This function will free everything in the data structure
+ * @param t_msdata *data
+ * @return
+ * Function returns nothing
+*/
+void	free_all(t_msdata *data);
+
+
+/**
+ * @brief
  * This function will take an index and copy over the
  * string located at index from src to dst by mallocing a copy.
  * @param
@@ -220,12 +252,13 @@ void		debugger(char *format, ...);
  *  char** dst
  * @param
  *  char** src
- * @exception
- * Function will free dst if there is a malloc error
  * @return
- * Function returns nothing
+ * Function returns int to indicate succesful operation 
+ * 0 is succesful operation
+ * @exception
+ * 1 is unsuccesful operation due to malloc error
 */
-void		copy_over_str(int dst_index, int src_index, char**dst, char **src);
+int		copy_over_str(int dst_index, int src_index, char**dst, char **src);
 
 /**
  * @brief

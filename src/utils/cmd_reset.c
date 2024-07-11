@@ -6,11 +6,11 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 13:45:17 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 16:14:03 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/11 14:01:02 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 static void	cmd_close_fd(int *fd)
 {
@@ -18,7 +18,8 @@ static void	cmd_close_fd(int *fd)
 	*fd = 0;
 }
 
-static void	cmd_free(t_cmd *cmd)
+// TODO: this doesn't free the whole structure?
+void	free_cmd(t_cmd *cmd)
 {
 	if (cmd->cmd)
 		free(cmd->cmd);
@@ -44,7 +45,7 @@ void	cmd_clear(t_msdata *data)
 	tempcmd = data->cmd_head;
 	while (tempcmd)
 	{
-		cmd_free(tempcmd);
+		free_cmd(tempcmd);
 		freelast = tempcmd;
 		tempcmd = tempcmd->pipe;
 		free(freelast);

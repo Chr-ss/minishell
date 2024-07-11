@@ -6,11 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:02:41 by crasche       #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2024/07/10 17:07:35 by spenning      ########   odam.nl         */
-=======
-/*   Updated: 2024/07/10 14:23:52 by crasche       ########   odam.nl         */
->>>>>>> chriss
+/*   Updated: 2024/07/11 14:08:39 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

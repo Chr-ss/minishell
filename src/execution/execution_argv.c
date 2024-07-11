@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 11:49:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/10 16:02:17 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/11 14:04:03 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,11 @@ int	add_command_to_argv(t_cmd	**cmd_s, char **path_cmd)
 	new_argv[0] = path;
 	while ((*cmd_s)->argv && (*cmd_s)->argv[index] != NULL)
 	{
-		copy_over_str(index + 1, index, new_argv, (*cmd_s)->argv);
+		if(copy_over_str(index + 1, index, new_argv, (*cmd_s)->argv))
+		{
+			free_char_array(new_argv);
+			return(-1);
+		}
 		index++;
 	}
 	free_char_array((*cmd_s)->argv);

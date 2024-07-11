@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/10 14:56:49 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 16:56:02 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/11 13:57:17 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 t_token	unexpected_token(t_msdata *data, t_token token)
 {
+	(void)data;
 	write(2, "-minishell: syntax error near unexpected token '", 48);
 	write(2, token.start, token.length);
 	write(2, "'", 1);

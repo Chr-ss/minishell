@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/11 13:04:23 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/11 14:09:10 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_msdata	data;
 
+	(void)argv;
 	if (argc > 1)
 		error("Invalid argument count.", &data);
 	// check_tty();
