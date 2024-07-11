@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 16:31:20 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 14:17:16 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/11 15:11:07 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*expand_getenv(char **envp, char *env_start, int env_len)
 	{
 		if (ft_strncmp(envp[i], env_start, env_len) == 0)
 		{
-			if (envp[i][env_len + 1] == '=')
+			if (envp[i][env_len] == '=')
 				return (&envp[i][env_len + 1]);
 		}
 		i++;
