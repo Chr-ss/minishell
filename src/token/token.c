@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 21:40:05 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 16:27:12 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/11 19:15:14 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,16 @@ t_token	tokenizer(char *line)
 		{
 			if (temp[token.length] == '\'' || temp[token.length] == '"')
 				token.length += return_quoted_length(&temp[token.length], temp[token.length]);
-			token.length++;
+			else
+				token.length++;
 		}
 	}
 	else
 		token.type = TOKEN_ERROR;
 	return (token);
 }
+
+// echo "$USER"'$USER'"$USER"
 
 // DEBUGGNG DUNCTION:
 // t_token	tokenizer(char *line)
