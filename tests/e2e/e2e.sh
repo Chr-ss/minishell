@@ -357,7 +357,7 @@ fi
 # https://github.com/LucasKuhn/minishell_tester
 
 x=0
-test_cases=("error")
+test_cases=("exit")
 exit_code_line=' ; echo $?'
 
 for case in "$cases"/*; do
