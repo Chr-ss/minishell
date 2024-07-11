@@ -357,14 +357,14 @@ fi
 # https://github.com/LucasKuhn/minishell_tester
 
 x=0
-test_cases=("exit")
-exit_code_line=' ; echo $?'
-
+test_cases=("errors")
+s
 for case in "$cases"/*; do
 
+# uncomment to only do certain test files
 # case_check=${case##*/}
 # case $case_check in
-# 	error) :;;
+# 	$test_cases) :;;
 # 	*)	continue;;
 # esac
 
@@ -387,7 +387,7 @@ while IFS= read -r line; do
 	MINI_OUTPUT=${MINI_OUTPUT%'minishell:~$'}
 	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs -0)
 	MINI_OUTFILES=$(cp $outfiles/* $mini_outfiles &>> $MS_LOG)
-	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -o '[^:]*$' )
+	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0')
 	
 	cp $static_outfile_temp/* $static_outfile &>> $MS_LOG
 	cp $static_outfile/* $static_outfile_temp &>> $MS_LOG
@@ -396,8 +396,7 @@ while IFS= read -r line; do
 	rm -rf $bash_outfiles/*
 	BASH_OUTPUT=$(echo -e "$line" | bash 2>>$MS_LOG)
 	echo $BASH_OUTPUT &>> $MS_LOG
-	BASH_EXIT_CODE=$(echo -e "$line$exit_code_line" | bash 2>> $MS_LOG)
-	BASH_EXIT_CODE=$(echo "${BASH_EXIT_CODE##* }" | tail -1)
+	BASH_EXIT_CODE=$(echo -e "$line" | bash 2>> $MS_LOG ; echo $?)
 	BASH_OUTFILES=$(cp $outfiles/* $bash_outfiles &>>$MS_LOG)
 	BASH_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 >> $MS_LOG | grep -o '[^:]*$' | head -n1)
 
