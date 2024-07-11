@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 21:56:01 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/09 17:50:20 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 14:56:08 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,12 @@ void	token_to_strarr(t_msdata *data, char **strarr, t_token token)
 {
 	int	i;
 
-	(void) data;
 	i = 0;
 	while (strarr[i])
 		i++;
 	strarr[i] = ft_strndup(token.start, (size_t) token.length);
 	if (!strarr[i])
-		error("token_to_strarr: malloc error.");
-}
-
-void	unexpected_token(t_msdata *data, t_token token)
-{
-	(void) data;
-	write(2, "-minishell: syntax error near unexpected token '", 48);
-	write(2, token.start, token.length);
-	write(2, "'", 1);
-	error("");
+		error("token_to_strarr: malloc error.", data);
 }
 
 void	init_type_handler(t_token (*type_handler[8])(t_msdata *data, \

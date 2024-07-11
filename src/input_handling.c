@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 19:05:35 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/11 13:04:36 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ void	input_handling(t_msdata *data)
 {
 	while (1)
 	{
+		if (data->line)
+			free(data->line);
+		data->line = NULL;
 		data->line = readline("minishell:~$");
 		if (!data->line)
 			exit(data->exit_code);
@@ -25,20 +28,21 @@ void	input_handling(t_msdata *data)
 			add_history(data->line);
 		data->line = expand(data);
 		if (!data->line)
-			error("input_handling malloc error.");
-	// EXPAND DEBUG //
-	debugger("\nexpanded:~$%s\n\n", data->line);
-	// EXPAND DEBUG //
-		parsing(data);
-		temp_print_tokens(data, data->line);
-		free(data->line);
-		data->line = NULL;
-		heredoc(data);
-	// CMD PRINTING DEBUG //
-	debugger("\n");
-	printf_cmd(data->cmd_head);
-	// CMD PRINTING DEBUG //
+			error("input_handling malloc error.", data);
+// EXPAND DEBUG //
+debugger("\nexpanded:~$%s\n\n", data->line);
+// EXPAND DEBUG //
+		if (parsing(data) == -1)
+			break ;
+		if (line_to_token(data, data->line) == -1)
+			break ;
+		if (heredoc(data) == -1)
+			break ;
+// CMD PRINTING DEBUG //
+debugger("\n");
+printf_cmd(data->cmd_head);
+// CMD PRINTING DEBUG //
 		execute(data);
-		clearcmd(data);
+		cmd_reset(data);
 	}
 }

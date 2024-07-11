@@ -1,37 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   clearcmd.c                                         :+:    :+:            */
+/*   cmd_reset.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 13:45:17 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/09 17:58:48 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 16:14:03 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//free_char_array
-static void	freecmd(t_cmd *cmd)
+static void	cmd_close_fd(int *fd)
+{
+	close(*fd);
+	*fd = 0;
+}
+
+static void	cmd_free(t_cmd *cmd)
 {
 	if (cmd->cmd)
 		free(cmd->cmd);
+	if (cmd->argv)
+		free_char_array(cmd->argv);
 	if (cmd->heredoc)
 		free_char_array(cmd->heredoc);
 	if (cmd->infd > 0)
-	{
-		close(cmd->infd);
-		cmd->infd = 0;
-	}
+		cmd_close_fd(&cmd->infd);
 	if (cmd->outfd > 0)
-	{
-		close(cmd->outfd);
-		cmd->outfd = 0;
-	}
+		cmd_close_fd(&cmd->outfd);
+	if (cmd->pipefd[0] > 0)
+		cmd_close_fd(&cmd->pipefd[0]);
+	if (cmd->pipefd[0] > 0)
+		cmd_close_fd(&cmd->pipefd[1]);
 }
 
-void	clearcmd(t_msdata *data)
+void	cmd_clear(t_msdata *data)
 {
 	t_cmd	*tempcmd;
 	t_cmd	*freelast;
@@ -39,12 +44,22 @@ void	clearcmd(t_msdata *data)
 	tempcmd = data->cmd_head;
 	while (tempcmd)
 	{
-		freecmd(tempcmd);
+		cmd_free(tempcmd);
 		freelast = tempcmd;
 		tempcmd = tempcmd->pipe;
 		free(freelast);
 	}
+	data->cmd_head = NULL;
+	data->cmd_curr = NULL;
+	data->pos = 0;
+}
+
+void	cmd_reset(t_msdata *data)
+{
+	cmd_clear(data);
 	data->cmd_head = ft_calloc(sizeof(t_cmd), 1);
+	if (!data->cmd_head)
+		error("cmd_reset: malloc error.", data);
 	data->cmd_curr = data->cmd_head;
 	data->pos = 0;
 }
