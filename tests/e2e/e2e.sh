@@ -397,6 +397,7 @@ while IFS= read -r line; do
 	BASH_OUTPUT=$(echo -e "$line" | bash 2>>$MS_LOG)
 	echo $BASH_OUTPUT &>> $MS_LOG
 	BASH_EXIT_CODE=$(echo -e "$line" | bash 2>> $MS_LOG ; echo $?)
+	BASH_EXIT_CODE=$(echo "${BASH_EXIT_CODE##* }" | tail -1)
 	BASH_OUTFILES=$(cp $outfiles/* $bash_outfiles &>>$MS_LOG)
 	BASH_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 >> $MS_LOG | grep -o '[^:]*$' | head -n1)
 
