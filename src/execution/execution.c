@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/11 13:55:06 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/11 21:08:13 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,37 @@
 // REFERENCE: https://reactive.so/post/42-a-comprehensive-guide-to-pipex
 // REFERENCE: https://www.gnu.org/software/libc/manual/html_node/
 // Testing-File-Type.html
-// REFERENCE: https://janelbrandon.medium.com/understanding-the-path-variable 
+// REFERENCE: https://janelbrandon.medium.com/understanding-the-path-variable
 // -6eae0936e976
 
 // cat < src/main.c | grep if < src/execution/execution.c
 // cat < src/main.c | grep if > test
 // ls -l | grep build > test | cat -e
 
-int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
+static int	execute_child_dup_outfd(t_msdata *data, t_cmd *cmd)
+{
+	int ret;
+
+	ret = 0;
+	if (cmd->infd < 0 || cmd->outfd < 0)
+		error("error in parsing, cmds not executed", data);
+	if (cmd->outfd > 0)
+	{
+		if (dup2(cmd->outfd, STDOUT_FILENO) == -1)
+			error("dup error child outfd to stdout", data);
+		if (close(cmd->outfd) == -1)
+			error("close error child outfd after dub to stdout", data);
+		if (cmd->pipe != NULL)
+		{
+			if (close(cmd->pipe->pipefd[WR]) == -1)
+				error("close error child read end pipe after fd dub to stdin", data);
+		}
+		ret = 1;
+	}
+	return (ret);
+}
+
+static int	execute_child_dup_infd(t_msdata *data, t_cmd *cmd)
 {
 	int ret;
 
@@ -43,31 +66,17 @@ int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
 		}
 		ret = 1;
 	}
-	if (cmd->outfd > 0)
-	{
-		if (dup2(cmd->outfd, STDOUT_FILENO) == -1)
-			error("dup error child outfd to stdout", data);
-		if (close(cmd->outfd) == -1)
-			error("close error child outfd after dub to stdout", data);
-		if (cmd->pipe != NULL)
-		{
-			if (close(cmd->pipe->pipefd[WR]) == -1)
-				error("close error child read end pipe after fd dub to stdin", data);
-		}
-		ret = 1;
-	}
 	return (ret);
 }
 
-
 void	execute_child_dup(t_msdata *data, t_cmd *cmd)
 {
-	int ret;
+	// int ret;
 
-	ret = execute_child_dup_fd(data, cmd);
-	if (ret == 1)
-		return ; 
-	if (cmd->pipe != NULL)
+	// ret = execute_child_dup_infd(data, cmd);
+	// if (ret == 1)
+	// 	return ;
+	if (execute_child_dup_outfd(data, cmd) == 0 && cmd->pipe != NULL)
 	{
 		if (dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
 			error("dup error child write end pipe to stdout", data);
@@ -76,7 +85,7 @@ void	execute_child_dup(t_msdata *data, t_cmd *cmd)
 		if (close(cmd->pipe->pipefd[RD]) == -1)
 			error("close error child read end pipe after dub to stdout", data);
 	}
-	if (!(data->cmd_head == cmd))
+	if (execute_child_dup_infd(data, cmd) == 0 && !(data->cmd_head == cmd))
 	{
 		if (dup2(cmd->pipefd[RD], STDIN_FILENO) == -1)
 			error("dup error child read end pipe to stdin", data);
@@ -161,11 +170,15 @@ void	execute(t_msdata *data)
 	{
 		if (cmd->pipe != NULL)
 		{
-			if (pipe(cmd->pipe->pipefd) == -1) 
+			if (pipe(cmd->pipe->pipefd) == -1)
 				error("pipe error\n", data);
 		}
 		if (cmd->pipe == NULL && cmd == data->cmd_head)
+		{
+			execute_child_dup_infd(data, cmd);
+			execute_child_dup_outfd(data, cmd);
 			statuscode = execute_check_builtin(data, cmd);
+		}
 		if (statuscode == -1)
 		{
 			pid = fork();
@@ -180,7 +193,7 @@ void	execute(t_msdata *data)
 	while(waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD);
 	// if (WIFSIGNALED(wstatus))
 	// 	statuscode = WEXITSTATUS(wstatus);
-	// else 
+	// else
 	if (WIFEXITED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
 	data->exit_code = statuscode;
