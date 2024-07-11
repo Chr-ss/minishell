@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/09 10:29:33 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 17:32:23 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ int	cd_chdir(t_msdata *data, char *dir)
 // getcwd(cwd, sizeof(cwd));
 // ft_printf("%s\n", cwd);
 
+// TODO: change cd parse to return error code
+// TODO: change cd return value and error message to match bash cd
+
 int	cd(t_msdata *data, char ** argv)
 {
 	char	*dir;
@@ -86,8 +89,11 @@ int	cd(t_msdata *data, char ** argv)
 		error("too many arguments for cd");
 	else
 		dir = cd_parse(data, argv);
-	if (dir == NULL)
-		error("allocation error");
+	if (dir == NULL) // this should change based on the change of cd_parse
+	{
+		perror("cd");
+		return (1);
+	}
 	if (cd_chdir(data, dir))
 		error("chdir error");
 	return (EXIT_SUCCESS);

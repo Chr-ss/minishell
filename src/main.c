@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/09 17:59:20 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 19:03:23 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,5 @@ int	main(int argc, char **argv, char **envp)
 	input_handling(&data);
 	rl_clear_history();
 	exit(data.exit_code);
-	return (0);
+	return (data.exit_code);
 }

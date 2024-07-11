@@ -254,6 +254,8 @@ fi
 # Reference: https://github.com/LucasKuhn/minishell_tester
 
 #initialize variables
+#TODO: fix noaccess and static_outfile so they are reset to standard, now the content is changed after test run
+
 RED="\x1B[31m"
 GRN="\x1B[1;32m"
 YEL="\x1B[33m"
@@ -355,9 +357,18 @@ fi
 # https://github.com/LucasKuhn/minishell_tester
 
 x=0
+test_cases=("error")
+exit_code_line=' ; echo $?'
 
-# TODO: add ability to skip comment lines 
 for case in "$cases"/*; do
+
+case_check=${case##*/}
+case $case_check in
+	error) :;;
+	*)	continue;;
+esac
+
+
 echo -e "${BCYN}$case${RESET}"
 while IFS= read -r line; do
 	if [[ "${line:0:1}" == "#" ]];
@@ -370,12 +381,11 @@ while IFS= read -r line; do
 	cp $static_outfile/* $static_outfile_temp &>> $MS_LOG
 	rm -rf $outfiles/*
 	rm -rf $mini_outfiles/*
-	MINI_OUTPUT=$(echo -e "$line" | $minishell)
+	MINI_OUTPUT=$(echo -e "$line" | $minishell 2>>$MS_LOG)
+	MINI_EXIT_CODE=$(echo $?)
 	MINI_OUTPUT=${MINI_OUTPUT#*"$line"}
 	MINI_OUTPUT=${MINI_OUTPUT%'minishell:~$'}
-	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs)
-	echo $MINI_OUTPUT >> $MS_LOG
-	MINI_EXIT_CODE=$(echo $?)
+	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs -0)
 	MINI_OUTFILES=$(cp $outfiles/* $mini_outfiles &>> $MS_LOG)
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -o '[^:]*$' )
 	
@@ -386,7 +396,12 @@ while IFS= read -r line; do
 	rm -rf $bash_outfiles/*
 	BASH_OUTPUT=$(echo -e "$line" | bash 2>>$MS_LOG)
 	echo $BASH_OUTPUT &>> $MS_LOG
-	BASH_EXIT_CODE=$(echo $?)
+	# TODO: fix bash exit code 
+	BASH_EXIT_CODE=$(echo -e "$line$exit_code_line" | bash 2>> $MS_LOG)
+	echo 
+	IFS=/ read -rd '' -a arr <<<"$BASH_EXIT_CODE"
+	test=$BASH_EXIT_CODE | sed -n '1p'
+	echo $test
 	BASH_OUTFILES=$(cp $outfiles/* $bash_outfiles &>>$MS_LOG)
 	BASH_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 >> $MS_LOG | grep -o '[^:]*$' | head -n1)
 

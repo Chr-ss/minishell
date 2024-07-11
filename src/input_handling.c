@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 13:12:09 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 19:05:35 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	input_handling(t_msdata *data)
 	{
 		data->line = readline("minishell:~$");
 		if (!data->line)
-			exit(0);
+			exit(data->exit_code);
 		if (data->line[0])
 			add_history(data->line);
 		data->line = expand(data);

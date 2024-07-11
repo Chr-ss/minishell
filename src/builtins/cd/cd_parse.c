@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/24 19:15:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/05 18:37:15 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/10 16:06:14 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char	*cd_parse(t_msdata *data, char **argv)
 		ret = get_envp(data, "OLDPWD", &cdpath);
 		if (ret == -1)
 			error("cdparse getenvp error");
+		ft_printf("%s\n", cdpath);
 		return (cdpath);
 	}
 	if (operand[0] == '/')

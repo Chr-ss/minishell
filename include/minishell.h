@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/09 17:47:57 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 18:15:14 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,18 +110,20 @@ int cd (t_msdata *data, char **argv);
  * @return
  * Function returns nothing
 */
-int	pwd(t_msdata *data);
+int	pwd(void);
 
 /**
  * @brief
- * This function is the built-in for env
+ * function is the built-in for env
  * it will print all environment variables to stdout with
  * @param t_msdata *data
  * @param char **argv
  * @return
- * Function returns nothing
+ * Function returns int to indicate operation successful or not,
+ * 0 is succesful operation
+ * 1 is unsuccesful operation due to envp not found
 */
-int	env(t_msdata *data);
+int	env(t_msdata *data, char **argv);
 
 /**
  * @brief
@@ -145,12 +147,12 @@ int	mini_exit(char **argv);
  * export [] will return env command output
  * @note
  * export name[] will add name with empty string as [=word]
- * @param
- *  t_msdata* data
+ * @param t_msdata* data
+ * @param char** argv
  * @return
  * Function returns nothing
 */
-int	export(t_msdata *data);
+int	export(t_msdata *data, char **argv);
 
 /**
  * @brief
@@ -164,10 +166,11 @@ int	export(t_msdata *data);
  * 	pass NULL if you want to use with argv in data struct, otherwise arg
  * 	will be used
  * @return
- * Function returns nothing
+ * Function returns int to indicate operation successful or not,
+ * 0 is succesful operation
+ * 1 is unsuccesful operation due to envp not found
  * @exception
- * function will do nothing if there is an error with the parameters or
- * if variable is not found. If there is a malloc error then minishell will
+ * -1 is unsuccesful operation due to malloc error
  * exit
 */
 int unset(t_msdata *data, char **argv, char *arg);

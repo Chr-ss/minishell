@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:52:00 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/04 18:17:13 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 17:32:26 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,4 @@
 void	error(char *msg)
 {
 	perror(msg);
-	exit(1);
 }
