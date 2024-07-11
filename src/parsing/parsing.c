@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:02:41 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 17:07:35 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/11 14:08:39 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,22 @@ static int	parsing_syntax_meta(t_msdata *data)
 	return(1);
 }
 
-void	parsing(t_msdata *data)
+int	parsing(t_msdata *data)
 {
 	if (!data->line)
-		error("parsing_syntax, syntax error. (NULL line)");
+	{
+		perror("parsing_syntax, syntax error. (NULL line)");
+		return (-1);
+	}
 	if(parsing_syntax_quotes(data) == -1)
-		error("parsing_syntax, syntax error. (quotes)");
+	{
+		perror("parsing_syntax, syntax error. (quotes)");
+		return (-1);
+	}
 	if(parsing_syntax_meta(data) == -1)
-		error("parsing_syntax, syntax error.");
+	{
+		perror("parsing_syntax, syntax error.");
+		return (-1);
+	}
+	return (0);
 }

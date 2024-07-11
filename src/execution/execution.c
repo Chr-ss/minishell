@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/10 19:07:26 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/11 13:55:06 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,30 @@ int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
 
 	ret = 0;
 	if (cmd->infd < 0 || cmd->outfd < 0)
-		return (-1);
+		error("error in parsing, cmds not executed", data);
 	if (cmd->infd > 0)
 	{
 		if (dup2(cmd->infd, STDIN_FILENO) == -1)
-			error("dup error child infd to stdin");
+			error("dup error child infd to stdin", data);
 		if (close(cmd->infd) == -1)
-			error("close error child infd after dub to stdin");
+			error("close error child infd after dub to stdin", data);
 		if (!(data->cmd_head == cmd))
 		{
 			if (close(cmd->pipefd[RD]) == -1)
-				error("close error child read end pipe after fd dub to stdout");
+				error("close error child read end pipe after fd dub to stdout", data);
 		}
 		ret = 1;
 	}
 	if (cmd->outfd > 0)
 	{
 		if (dup2(cmd->outfd, STDOUT_FILENO) == -1)
-			error("dup error child outfd to stdout");
+			error("dup error child outfd to stdout", data);
 		if (close(cmd->outfd) == -1)
-			error("close error child outfd after dub to stdout");
+			error("close error child outfd after dub to stdout", data);
 		if (cmd->pipe != NULL)
 		{
 			if (close(cmd->pipe->pipefd[WR]) == -1)
-				error("close error child read end pipe after fd dub to stdin");
+				error("close error child read end pipe after fd dub to stdin", data);
 		}
 		ret = 1;
 	}
@@ -65,25 +65,23 @@ void	execute_child_dup(t_msdata *data, t_cmd *cmd)
 	int ret;
 
 	ret = execute_child_dup_fd(data, cmd);
-	if (ret == -1)
-		exit (1);
-	else if (ret == 1)
+	if (ret == 1)
 		return ; 
 	if (cmd->pipe != NULL)
 	{
 		if (dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
-			error("dup error child write end pipe to stdout");
+			error("dup error child write end pipe to stdout", data);
 		if (close(cmd->pipe->pipefd[WR]) == -1)
-			error("close error child write end pipe after dub to stdout");
+			error("close error child write end pipe after dub to stdout", data);
 		if (close(cmd->pipe->pipefd[RD]) == -1)
-			error("close error child read end pipe after dub to stdout");
+			error("close error child read end pipe after dub to stdout", data);
 	}
 	if (!(data->cmd_head == cmd))
 	{
 		if (dup2(cmd->pipefd[RD], STDIN_FILENO) == -1)
-			error("dup error child read end pipe to stdin");
+			error("dup error child read end pipe to stdin", data);
 		if (close(cmd->pipefd[RD]) == -1)
-			error("close error child read end pipe after dub to stdin");
+			error("close error child read end pipe after dub to stdin", data);
 	}
 }
 
@@ -92,12 +90,12 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 	if (!(data->cmd_head == cmd))
 	{
 		if (close(cmd->pipefd[RD]) == -1)
-			error("close error parent read end of pipe");
+			error("close error parent read end of pipe", data);
 	}
 	if (cmd->pipe != NULL)
 	{
 		if (close(cmd->pipe->pipefd[WR]) == -1)
-			error("close error parent write end of pipe");
+			error("close error parent write end of pipe", data);
 	}
 }
 
@@ -108,7 +106,7 @@ int execute_check_builtin(t_msdata *data, t_cmd *cmd)
 
 	len = ft_strlen(cmd->cmd);
 	if (!ft_strncmp("echo", cmd->cmd, len))
-		return (echo(cmd->argv));
+		return (echo(data, cmd->argv));
 	else if (!ft_strncmp("cd", cmd->cmd, len))
 		return (cd(data, cmd->argv));
 	else if (!ft_strncmp("env", cmd->cmd, len))
@@ -120,7 +118,7 @@ int execute_check_builtin(t_msdata *data, t_cmd *cmd)
 	else if (!ft_strncmp("unset", cmd->cmd, len))
 		return (unset(data, cmd->argv, NULL));
 	else if (!ft_strncmp("exit", cmd->cmd, len))
-		return (mini_exit(cmd->argv));
+		return (mini_exit(data, cmd->argv));
 	else
 		return (-1);
 	return (-1);
@@ -137,13 +135,13 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 		exit(ret);
 	ret= execute_path(cmd->cmd, data, &path_cmd);
 	if (ret == -1)
-		error("execute_child execute path error\n");
+		error("execute_child execute path error\n", data);
 	else if (ret == 1)
-		ft_printf("handle command not found\n");
+		perror("Command not found");
 	if (add_command_to_argv(&cmd, &path_cmd) == -1)
-		error("add command to argv malloc error\n");
+		error("add command to argv malloc error\n", data);
 	execve(path_cmd, cmd->argv, data->envp);
-	error("execute error in child\n");
+	error("execute error in child\n", data);
 }
 
 // TODO: exit with data->exit_code when bash send kill signal
@@ -164,7 +162,7 @@ void	execute(t_msdata *data)
 		if (cmd->pipe != NULL)
 		{
 			if (pipe(cmd->pipe->pipefd) == -1) 
-				error("pipe error\n");
+				error("pipe error\n", data);
 		}
 		if (cmd->pipe == NULL && cmd == data->cmd_head)
 			statuscode = execute_check_builtin(data, cmd);
@@ -172,7 +170,7 @@ void	execute(t_msdata *data)
 		{
 			pid = fork();
 			if (pid < 0)
-				error("fork error\n");
+				error("fork error\n", data);
 			if (pid == 0)
 				execute_child(data, cmd);
 			execute_parent_close_pipe(data, cmd);

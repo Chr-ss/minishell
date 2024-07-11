@@ -6,13 +6,13 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/09 17:08:36 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/09 17:37:28 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 13:50:30 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	expand_var_nl(t_expand *exp)
+void	expand_var_nl(t_msdata *data, t_expand *exp)
 {
 	int	i;
 
@@ -23,7 +23,7 @@ void	expand_var_nl(t_expand *exp)
 		{
 			exp->line = ft_dynstralloc(exp->line, &exp->capacity);
 			if (!exp->line)
-				error("expesion, malloc error.");
+				error("expesion, malloc error.", data);
 		}
 		exp->line[exp->line_pos] = exp->env[i];
 		exp->line_pos++;

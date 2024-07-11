@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/10 17:32:23 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/11 13:25:00 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	cd_chdir(t_msdata *data, char *dir)
 	char	*old_pwd;
 
 	if(get_envp(data, "PWD", &old_pwd) == -1)
-		error ("cd_chdir get_envp error\n");
+		error ("cd_chdir get_envp error\n", data);
 	pwd = ft_strdup(dir);
 	if (!pwd || !old_pwd)
 	{
@@ -81,12 +81,12 @@ int	cd(t_msdata *data, char ** argv)
 	if (arglen == 0)
 	{
 		if(get_envp(data, "HOME", &dir) == -1)
-			error("cd get_envp error");
+			error("cd get_envp error", data);
 	}
 	else if (ft_strlen (argv[0]) > PATH_MAX)
-		error("path too long for cd");
+		perror("path too long for cd\n");
 	else if (arglen > 1)
-		error("too many arguments for cd");
+		perror("too many arguments for cd\n");
 	else
 		dir = cd_parse(data, argv);
 	if (dir == NULL) // this should change based on the change of cd_parse
@@ -95,6 +95,6 @@ int	cd(t_msdata *data, char ** argv)
 		return (1);
 	}
 	if (cd_chdir(data, dir))
-		error("chdir error");
+		error("chdir error", data);
 	return (EXIT_SUCCESS);
 }
