@@ -12,12 +12,14 @@
 
 #include "../../include/minishell.h"
 
-void	openfile(t_cmd *cmd, t_token token, int open_flag, int *fd)
+void	openfile(t_msdata *data, t_token token, int open_flag, int *fd)
 {
 	int		new_fd;
 	char	*filename;
 
 	filename = ft_strndup(token.start, token.length);
+	if (!filename)
+		error("openfile: malloc error.", data);
 	new_fd = open(filename, O_CREAT | open_flag, 0644);
 	if (new_fd == -1)
 		printf("Can not open file: %s\n", filename);
@@ -31,5 +33,4 @@ void	openfile(t_cmd *cmd, t_token token, int open_flag, int *fd)
 	if (*fd < 0 && new_fd > 0)
 		close (new_fd);
 	free(filename);
-	(void) cmd;
 }
