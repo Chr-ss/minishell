@@ -683,7 +683,7 @@ t_token		type_handler_reout(t_msdata *data, t_cmd *cmd, \
 t_token		type_handler_word(t_msdata *data, t_cmd *cmd, \
 				t_token token, int *pos);
 
-void		openfile(t_cmd *cmd, t_token token, int open_flag, int *fd);
+void		openfile(t_msdata *data, t_token token, int open_flag, int *fd);
 
 /**
  * @brief
