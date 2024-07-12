@@ -55,6 +55,7 @@ dkms.conf
 build
 logs
 
+*.DS_Store
 build
 .build
 minishell

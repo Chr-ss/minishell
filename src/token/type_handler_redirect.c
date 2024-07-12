@@ -37,7 +37,7 @@ t_token	type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 		infile = unexpected_token(data, infile);
 	else
 	{
-		openfile(cmd, infile, O_TRUNC, &cmd->infd);
+		openfile(cmd, infile, O_TRUNC | O_RDONLY, &cmd->infd);
 		if (cmd->heredoc)
 			free_char_array(cmd->heredoc);
 		cmd->heredoc = NULL;
@@ -58,7 +58,7 @@ t_token	type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 		outfile = unexpected_token(data, outfile);
 	else
 	{
-		openfile(cmd, outfile, O_TRUNC, &cmd->outfd);
+		openfile(cmd, outfile, O_TRUNC | O_WRONLY, &cmd->outfd);
 	}
 	return (outfile);
 }
@@ -76,7 +76,7 @@ t_token	type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 		append = unexpected_token(data, append);
 	else
 	{
-		openfile(cmd, append, O_APPEND, &cmd->outfd);
+		openfile(cmd, append, O_APPEND | O_WRONLY, &cmd->outfd);
 	}
 	return (append);
 }

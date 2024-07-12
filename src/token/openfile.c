@@ -18,7 +18,7 @@ void	openfile(t_cmd *cmd, t_token token, int open_flag, int *fd)
 	char	*filename;
 
 	filename = ft_strndup(token.start, token.length);
-	new_fd = open(filename, O_CREAT | open_flag | O_RDWR, 0644);
+	new_fd = open(filename, O_CREAT | open_flag, 0644);
 	if (new_fd == -1)
 		printf("Can not open file: %s\n", filename);
 	if (*fd)
