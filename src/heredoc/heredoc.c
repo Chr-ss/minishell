@@ -14,27 +14,26 @@
 
 extern int	g_sigint ;
 
-static void	read_heredoc(t_msdata *data, char *delim, int write_pipe)
+static void	read_heredoc(t_msdata *data, t_cmd *cmd, int i, int write_pipe)
 {
-	size_t	len;
-
 	while (1)
 	{
 		data->line = readline(">");
 		data->line = expand(data);
 		if (!data->line)
 			error("read_heredoc: expand malloc error.", data);
-		len = ft_strlen(delim);
-		if (ft_strlen(data->line) > len)
-			len = ft_strlen(data->line);
-		if (ft_strncmp(data->line, delim, len) == 0)
+		if (ft_strcmp(data->line, cmd->heredoc[i]) == 0)
 		{
 			if (data->line)
 				free(data->line);
+			data->line = NULL;
 			return ;
 		}
-		write(write_pipe, data->line, ft_strlen(data->line));
-		write(write_pipe, "\n", 1);
+		if (cmd->heredoc[i + 1] == NULL)
+		{
+			write(write_pipe, data->line, ft_strlen(data->line));
+			write(write_pipe, "\n", 1);
+		}
 		if (data->line)
 			free(data->line);
 		data->line = NULL;
@@ -57,7 +56,7 @@ static int	heredoc_cmds(t_msdata *data, t_cmd *cmd)
 	cmd->infd = fd[0];
 	while (cmd->heredoc[i])
 	{
-		read_heredoc(data, cmd->heredoc[i], fd[1]);
+		read_heredoc(data, cmd, i, fd[1]);
 		i++;
 	}
 	if (close(fd[1]) == -1)
