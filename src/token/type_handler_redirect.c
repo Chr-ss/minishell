@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/10 14:56:49 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/13 11:41:15 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/13 16:51:08 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 t_token	unexpected_token(t_msdata *data, t_token token)
 {
 	(void)data;
-	write(2, "-minishell: syntax error near unexpected token `", 48);
-	if (!token.length)
+	write(2, "minishell: syntax error near unexpected token `", 47);
+	if (token.start && !token.start[0])
 		write(2, "newline", 7);
 	else
 		write(2, token.start, token.length);
-	write(2, "'", 1);
+	write(2, "'\n", 2);
 	data->exit_code = 2;
 	token.start = NULL;
 	token.length = 0;
