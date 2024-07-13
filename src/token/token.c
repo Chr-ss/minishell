@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 21:40:05 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/11 19:15:14 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/13 11:52:38 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,10 @@ int	line_to_token(t_msdata *data, char *line)
 		token = tokenizer(&line[data->pos]);
 		token = token_to_cmd(data, token, &data->pos);
 		if (token.type == TOKEN_ERROR)
+		{
+			cmd_reset(data);
 			return (-1);
+		}
 		data->pos += token.length;
 	}
 	debugger("\n\n\n");
