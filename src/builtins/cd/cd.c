@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/11 13:25:00 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/13 10:22:10 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,15 @@ int	cd_chdir(t_msdata *data, char *dir)
 	return (EXIT_SUCCESS);
 }
 
-//TEST CASES 
-// pso: make re && export CDPATH=.:~/projects/core_projects/minishell/src 
-// && mkdir -p ~/projects/core_projects/minishell/src/lol cd ~/projects 
+//TEST CASES
+// pso: make re && export CDPATH=.:~/projects/core_projects/minishell/src
+// && mkdir -p ~/projects/core_projects/minishell/src/lol cd ~/projects
 // && valgrind --leak-check=full cd lol && unset CDPATH
-// dso: mkdir -p ~/projects/core_projects/minishell/src/lol 
+// dso: mkdir -p ~/projects/core_projects/minishell/src/lol
 // && cd ~/projects/core_projects/minishell/src && cd lol
-// canonical form test Original Path: ///a/./b/../c//d/e/../ ; 
+// canonical form test Original Path: ///a/./b/../c//d/e/../ ;
 // ///a/b/../c//d/e/../; ///a/c//d/e/../; ///a/c//d/; /a/c/d
-// cd $(echo $(perl -E 'say "/" x 5000')"home/spenning") works in cd, 
+// cd $(echo $(perl -E 'say "/" x 5000')"home/spenning") works in cd,
 // but does not work here because of PATH_MAX
 
 // add to debug
@@ -83,10 +83,10 @@ int	cd(t_msdata *data, char ** argv)
 		if(get_envp(data, "HOME", &dir) == -1)
 			error("cd get_envp error", data);
 	}
-	else if (ft_strlen (argv[0]) > PATH_MAX)
+	else if (ft_strlen(argv[0]) > PATH_MAX)
 		perror("path too long for cd\n");
 	else if (arglen > 1)
-		perror("too many arguments for cd\n");
+		perror(" too many arguments\n");
 	else
 		dir = cd_parse(data, argv);
 	if (dir == NULL) // this should change based on the change of cd_parse
