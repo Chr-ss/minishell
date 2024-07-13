@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/11 13:04:36 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/13 16:40:29 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	input_handling(t_msdata *data)
 debugger("\nexpanded:~$%s\n\n", data->line);
 // EXPAND DEBUG //
 		if (parsing(data) == -1)
-			break ;
+			continue ;
 		if (line_to_token(data, data->line) == -1)
-			break ;
+			continue ;
 		if (heredoc(data) == -1)
 			break ;
 // CMD PRINTING DEBUG //
@@ -45,4 +45,5 @@ printf_cmd(data->cmd_head);
 		execute(data);
 		cmd_reset(data);
 	}
+	printf("NOT HERE!\n");
 }
