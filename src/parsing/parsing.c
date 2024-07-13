@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:02:41 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/13 11:47:05 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/13 17:29:24 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	parsing_syntax_quotes(t_msdata *data)
 	return(1);
 }
 
-static int	parsing_syntax_meta(t_msdata *data)
+static int	parsing_syntax_pipe(t_msdata *data)
 {
 	int		i;
 
@@ -44,14 +44,29 @@ static int	parsing_syntax_meta(t_msdata *data)
 	i = skipspace(data->line, i);
 	if (data->line[i] == '|')
 		return (-1);
-	return(1);
+	return(0);
+}
+
+static int	parsing_syntax_whitespace(t_msdata *data)
+{
+	int	i;
+
+	i = 0;
+	i = skipspace(data->line, i);
+	if (data->line[i] == '\0')
+		return (-1);
+	return (0);
 }
 
 int	parsing(t_msdata *data)
 {
-	if (!data->line)
+	if (!data->line || !data->line[0])
+		return (-1);
+	if (parsing_syntax_whitespace(data) == -1)
+		return (-1);
+	if(parsing_syntax_pipe(data) == -1)
 	{
-		perror("parsing_syntax, syntax error. (NULL line)");
+		perror("syntax error near unexpected token `|'");
 		data->exit_code = 2;
 		return (-1);
 	}
@@ -64,12 +79,6 @@ int	parsing(t_msdata *data)
 	if(parsing_syntax_quotes(data) == -2)
 	{
 		perror(" unexpected EOF while looking for matching `\"'");
-		data->exit_code = 2;
-		return (-1);
-	}
-	if(parsing_syntax_meta(data) == -1)
-	{
-		perror("parsing_syntax, syntax error.");
 		data->exit_code = 2;
 		return (-1);
 	}
