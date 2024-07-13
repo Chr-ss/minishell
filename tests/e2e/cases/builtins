@@ -11,9 +11,12 @@ echo ''
 echo "$PWD"
 echo '$PWD'
 echo "aspas ->'"
+# unsure why it fails, manual tests looks ok
 echo "aspas -> ' "
 echo 'aspas ->"'
+# unsure why it fails, manual tests looks ok
 echo 'aspas -> " '
+# unsure why it fails, manual tests looks ok, tester does some strange stuff for output
 echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<"
 echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<'
 echo "exit_code ->$? user ->$USER home -> $HOME"
@@ -41,7 +44,7 @@ unset HOME
 unset PATH
 unset SHELL
 cd $PWD
-cd $PWD hi 
+cd $PWD hi
 cd 123123
 exit 123
 exit 298
