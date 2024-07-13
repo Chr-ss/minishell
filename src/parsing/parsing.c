@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:02:41 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/11 14:08:39 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/13 11:47:05 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ static int	parsing_syntax_quotes(t_msdata *data)
 			double_q = !double_q;
 		i++;
 	}
-	if(single_q == false || double_q == false)
+	if(single_q == false)
 		return (-1);
+	else if (double_q == false)
+		return (-2);
 	return(1);
 }
 
@@ -50,16 +52,25 @@ int	parsing(t_msdata *data)
 	if (!data->line)
 	{
 		perror("parsing_syntax, syntax error. (NULL line)");
+		data->exit_code = 2;
 		return (-1);
 	}
 	if(parsing_syntax_quotes(data) == -1)
 	{
-		perror("parsing_syntax, syntax error. (quotes)");
+		perror(" unexpected EOF while looking for matching `''");
+		data->exit_code = 2;
+		return (-1);
+	}
+	if(parsing_syntax_quotes(data) == -2)
+	{
+		perror(" unexpected EOF while looking for matching `\"'");
+		data->exit_code = 2;
 		return (-1);
 	}
 	if(parsing_syntax_meta(data) == -1)
 	{
 		perror("parsing_syntax, syntax error.");
+		data->exit_code = 2;
 		return (-1);
 	}
 	return (0);
