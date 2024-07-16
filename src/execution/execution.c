@@ -6,11 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2024/07/16 16:51:28 by spenning      ########   odam.nl         */
-=======
-/*   Updated: 2024/07/11 13:55:06 by spenning      ########   odam.nl         */
->>>>>>> parent of 1579356 (fixed single command redirection)
+/*   Updated: 2024/07/16 17:04:00 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
