@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/11 19:31:01 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/11 21:17:04 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ void	openfile(t_msdata *data, t_token token, int open_flag, int *fd)
 		error("openfile: malloc error.", data);
 	new_fd = open(filename, O_CREAT | open_flag, 0644);
 	if (new_fd == -1)
-		printf("Can not open file: %s\n", filename);
+	{
+		// write(STDERR_FILENO, filename, ft_strlen(filename));
+		perror((const char*)filename);
+		perror(": Permission denied\n");
+	}
 	if (*fd)
 	{
 		close(*fd);
