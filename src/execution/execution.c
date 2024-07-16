@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/11 13:55:06 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/16 15:30:50 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
 	}
 	if (cmd->outfd > 0)
 	{
+		if (data->cmd_head == cmd)
+		{
+			data->org_stdout = dup(STDOUT_FILENO);
+			if (data->org_stdout == -1)
+				error("dup error stdout to data struct", data);
+		}
 		if (dup2(cmd->outfd, STDOUT_FILENO) == -1)
 			error("dup error child outfd to stdout", data);
 		if (close(cmd->outfd) == -1)
@@ -96,6 +102,17 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 	{
 		if (close(cmd->pipe->pipefd[WR]) == -1)
 			error("close error parent write end of pipe", data);
+	}
+	if (data->cmd_head == cmd)
+	{
+		if (data->org_stdout > 0)
+		{
+			
+			if (dup2(data->org_stdout, 1) == -1)
+				error("dup org_stdout to stdout", data);
+			if (close(data->org_stdout) == -1)
+				error("close error org_stdout", data);
+		}
 	}
 }
 
@@ -165,7 +182,11 @@ void	execute(t_msdata *data)
 				error("pipe error\n", data);
 		}
 		if (cmd->pipe == NULL && cmd == data->cmd_head)
+		{
+			execute_child_dup_fd(data, cmd);
 			statuscode = execute_check_builtin(data, cmd);
+			execute_parent_close_pipe(data, cmd);
+		}
 		if (statuscode == -1)
 		{
 			pid = fork();

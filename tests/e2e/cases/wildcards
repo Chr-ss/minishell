@@ -11,9 +11,9 @@ echo "*"
 "*"
 manual*
 echo * | awk -v RS=" " '{print}' | sort
-<*.txt
+<./outfiles/*.txt
 echo 'bye *' t*.c bye
 echo *EMPTY hello READ* world
-cat <README*
+cat <./outfiles/README*
 echo "pip*"
 echo *bonus *.supp bonjour
