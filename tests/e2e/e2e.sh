@@ -286,8 +286,8 @@ chmod 000 $noaccess
 minishell=$(find ../../../ -type f -name minishell)
 minishelldir=$(find ../../../ -type d -name minishell)
 cases="./cases"
-static_outfile_temp=./files/static_outfile_temp
-static_outfile=files/static_outfile
+files_temp=./files_temp
+files=./files
 
 
 clean()
@@ -314,8 +314,8 @@ rm -rf $bash_outfiles
 mkdir -p $bash_outfiles
 rm -rf $mini_outfiles
 mkdir -p $mini_outfiles
-rm -rf $static_outfile_temp
-mkdir -p $static_outfile_temp
+rm -rf $files_temp
+mkdir -p $files_temp
 
 #prepare minishell
 make -C $minishelldir re
@@ -378,7 +378,7 @@ while IFS= read -r line; do
 	
 	x=$(( $x + 1 ))
 	echo -ne "${YEL} $x ${BLU}| ${BMAG}$line ${BLU}|${RESET}"
-	cp $static_outfile/* $static_outfile_temp &>> $MS_LOG
+	cp -r $files/* $files_temp/ &>> $MS_LOG
 	rm -rf $outfiles/*
 	rm -rf $mini_outfiles/*
 	MINI_OUTPUT=$(echo -e "$line" | $minishell 2>>$MS_LOG)
@@ -386,11 +386,11 @@ while IFS= read -r line; do
 	MINI_OUTPUT=${MINI_OUTPUT#*"$line"}
 	MINI_OUTPUT=${MINI_OUTPUT%'minishell:~$'}
 	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs -0)
-	MINI_OUTFILES=$(cp $outfiles/* $mini_outfiles &>> $MS_LOG)
+	MINI_OUTFILES=$(cp -r $outfiles/* $mini_outfiles &>> $MS_LOG)
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0')
 	
-	cp $static_outfile_temp/* $static_outfile &>> $MS_LOG
-	cp $static_outfile/* $static_outfile_temp &>> $MS_LOG
+	cp -r $files_temp/* $files &>> $MS_LOG
+	cp -r $files/* $files_temp &>> $MS_LOG
 
 	rm -rf $outfiles/*
 	rm -rf $bash_outfiles/*
@@ -398,7 +398,7 @@ while IFS= read -r line; do
 	echo $BASH_OUTPUT &>> $MS_LOG
 	BASH_EXIT_CODE=$(echo -e "$line" | bash 2>> $MS_LOG ; echo $?)
 	BASH_EXIT_CODE=$(echo "${BASH_EXIT_CODE##* }" | tail -1)
-	BASH_OUTFILES=$(cp $outfiles/* $bash_outfiles &>>$MS_LOG)
+	BASH_OUTFILES=$(cp -r $outfiles/* $bash_outfiles &>>$MS_LOG)
 	BASH_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 >> $MS_LOG | grep -o '[^:]*$' | head -n1)
 
 
@@ -446,12 +446,12 @@ while IFS= read -r line; do
 		echo bash error = \($BASH_ERROR_MSG\) >> $ERROR_LOG
 	fi
 	printf "\n"
+	cp -r $files_temp/* $files &>> $MS_LOG
 done < $case
 done
 
 chmod 444 $noaccess
-cp $static_outfile_temp/* $static_outfile/ &>> $MS_LOG
-rm -rf $static_outfile_temp
+rm -rf $files_temp
 
 if [ $FAIL = true ];
 then 
