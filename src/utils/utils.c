@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   utils_chriss.c                                     :+:    :+:            */
+/*   utils.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/01 15:01:31 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/23 14:28:21 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/10 16:54:31 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	skipspace(char *str, int pos)
 {
@@ -26,33 +26,27 @@ int	ft_isbashtoken(int c)
 	return (0);
 }
 
-int	strarr_size(char **strarr)
+char	**extend_strarr(char **strarr, int strarr_size)
 {
-	int	i;
-
-	i = 0;
-	while (strarr && strarr[i])
-		i++;
-	return (i);
-}
-
-char	**extend_strarr(t_cmd *cmd, char **strarr, int strarr_size)
-{
-	(void) cmd;
 	int		i;
 	char	**new_strarr;
 
 	i = 0;
 	strarr_size++;
-	new_strarr = calloc(strarr_size + 1, sizeof(char*));
+	new_strarr = ft_calloc(strarr_size + 1, sizeof(char*));
 	if (!new_strarr)
-		error("extend_strarr: malloc error.");
+	{
+		if (strarr)
+			free(strarr);
+		return (NULL);
+	}
 	while (strarr && strarr[i])
 	{
 		new_strarr[i] = strarr[i];
 		strarr[i] = NULL;
 		i++;
 	}
-	free(strarr);
+	if (strarr)
+		free(strarr);
 	return (new_strarr);
 }

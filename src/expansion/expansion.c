@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 16:31:20 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/09 17:37:36 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/11 15:11:07 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	expand_exit_code(t_msdata *data, t_expand *exp, int *pos)
 	(*pos)++;
 	(*pos)++;
 	exp->env = ft_itoa(data->exit_code);
-	expand_var_nl(exp);
+	expand_var_nl(data, exp);
 }
 
 static char	*expand_getenv(char **envp, char *env_start, int env_len)
@@ -29,7 +29,7 @@ static char	*expand_getenv(char **envp, char *env_start, int env_len)
 	{
 		if (ft_strncmp(envp[i], env_start, env_len) == 0)
 		{
-			if (envp[i][env_len + 1] == '=')
+			if (envp[i][env_len] == '=')
 				return (&envp[i][env_len + 1]);
 		}
 		i++;
@@ -51,7 +51,7 @@ static void	expand_var(t_msdata *data, t_expand *exp, int *pos)
 		env_len++;
 	}
 	exp->env = expand_getenv(data->envp, env_start, env_len);
-	expand_var_nl(exp);
+	expand_var_nl(data, exp);
 }
 
 static void	expand_copy(t_msdata *data, t_expand *exp)
@@ -76,7 +76,7 @@ static void	expand_copy(t_msdata *data, t_expand *exp)
 			{
 				exp->line = ft_dynstralloc(exp->line, &exp->capacity);
 				if (!exp->line)
-					error("expesion, malloc error.");
+					error("expesion, malloc error.", data);
 			}
 			exp->line[exp->line_pos] = data->line[pos++];
 			exp->line_pos++;
@@ -93,7 +93,7 @@ char	*expand(t_msdata *data)
 	expand_exp_init(data, &exp);
 	exp.line = ft_dynstralloc(exp.line, &exp.capacity);
 	if (!exp.line)
-		error("expesion, malloc error.");
+		error("expesion, malloc error.", data);
 	expand_copy(data, &exp);
 	if (data->line)
 		free(data->line);

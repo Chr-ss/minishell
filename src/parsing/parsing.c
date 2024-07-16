@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:02:41 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/09 17:47:35 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/13 17:29:24 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,58 @@ static int	parsing_syntax_quotes(t_msdata *data)
 			double_q = !double_q;
 		i++;
 	}
-	if(single_q == false || double_q == false)
+	if(single_q == false)
 		return (-1);
+	else if (double_q == false)
+		return (-2);
 	return(1);
 }
 
-static int	parsing_syntax_meta(t_msdata *data)
+static int	parsing_syntax_pipe(t_msdata *data)
 {
 	int		i;
 
 	i = 0;
-	while(data->line[i])
-	{
-		i = skipspace(data->line, i);
-		if (data->line[i] == '|')
-			return (-1);
-		i++;
-	}
-	return(1);
+	i = skipspace(data->line, i);
+	if (data->line[i] == '|')
+		return (-1);
+	return(0);
 }
 
-void	parsing(t_msdata *data)
+static int	parsing_syntax_whitespace(t_msdata *data)
 {
-	if (!data->line)
-		error("parsing_syntax, syntax error. (NULL line)");
+	int	i;
+
+	i = 0;
+	i = skipspace(data->line, i);
+	if (data->line[i] == '\0')
+		return (-1);
+	return (0);
+}
+
+int	parsing(t_msdata *data)
+{
+	if (!data->line || !data->line[0])
+		return (-1);
+	if (parsing_syntax_whitespace(data) == -1)
+		return (-1);
+	if(parsing_syntax_pipe(data) == -1)
+	{
+		perror("syntax error near unexpected token `|'");
+		data->exit_code = 2;
+		return (-1);
+	}
 	if(parsing_syntax_quotes(data) == -1)
-		error("parsing_syntax, syntax error. (quotes)");
-	if(parsing_syntax_meta(data) == -1)
-		error("parsing_syntax, syntax error.");
+	{
+		perror(" unexpected EOF while looking for matching `''");
+		data->exit_code = 2;
+		return (-1);
+	}
+	if(parsing_syntax_quotes(data) == -2)
+	{
+		perror(" unexpected EOF while looking for matching `\"'");
+		data->exit_code = 2;
+		return (-1);
+	}
+	return (0);
 }
