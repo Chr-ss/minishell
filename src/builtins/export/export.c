@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/16 17:57:26 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/16 18:23:52 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int export_print_env(t_msdata *data)
 		inner_index = 0;
 		index++;
 	}
+	ft_printf("%s\n", data->envp[index]);
 	index = 0;
 	while (data->envp[index] != NULL)
 		ft_printf("declare -x %s\n", data->envp[index++]);

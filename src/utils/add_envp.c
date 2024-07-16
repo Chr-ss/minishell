@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/27 15:02:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/11 13:53:00 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/16 18:33:42 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ char	*add_envp_new_entry(char **new_envp, char *key, char *value)
 {
 	char	*new_entry;
 	char	*temp;
-
-	temp = ft_strjoin(key, "=");
+	
+	if (value && ft_strncmp(value, "", 1))
+		temp = ft_strjoin(key, "=");
+	else 
+		temp = key;
 	if (temp == NULL)
 	{
 		free_char_array(new_envp);
