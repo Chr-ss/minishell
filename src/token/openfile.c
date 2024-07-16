@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/11 21:17:04 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/16 18:56:32 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	openfile(t_msdata *data, t_token token, int open_flag, int *fd)
 	if (new_fd == -1)
 	{
 		// write(STDERR_FILENO, filename, ft_strlen(filename));
-		perror((const char*)filename);
-		perror(": Permission denied\n");
+		write(2, (const char*)filename, ft_strlen(filename));
+		write(2, ": Permission denied\n", 20);
 	}
 	if (*fd)
 	{

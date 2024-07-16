@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/16 17:54:55 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/16 18:59:41 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // REFERENCE: https://reactive.so/post/42-a-comprehensive-guide-to-pipex
 // REFERENCE: https://www.gnu.org/software/libc/manual/html_node/
 // Testing-File-Type.html
-// REFERENCE: https://janelbrandon.medium.com/understanding-the-path-variable 
+// REFERENCE: https://janelbrandon.medium.com/understanding-the-path-variable
 // -6eae0936e976
 
 // cat < src/main.c | grep if < src/execution/execution.c
@@ -72,7 +72,7 @@ void	execute_child_dup(t_msdata *data, t_cmd *cmd)
 
 	ret = execute_child_dup_fd(data, cmd);
 	if (ret == 1)
-		return ; 
+		return ;
 	if (cmd->pipe != NULL)
 	{
 		if (dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
@@ -107,7 +107,7 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 	{
 		if (data->org_stdout > 0)
 		{
-			
+
 			if (dup2(data->org_stdout, 1) == -1)
 				error("dup org_stdout to stdout", data);
 			if (close(data->org_stdout) == -1)
@@ -162,7 +162,6 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 }
 
 // TODO: exit with data->exit_code when bash send kill signal
-// TODO: change stderr messages from error function to perror
 // TODO: add error to system call failure
 void	execute(t_msdata *data)
 {
@@ -178,7 +177,7 @@ void	execute(t_msdata *data)
 	{
 		if (cmd->pipe != NULL)
 		{
-			if (pipe(cmd->pipe->pipefd) == -1) 
+			if (pipe(cmd->pipe->pipefd) == -1)
 				error("pipe error\n", data);
 		}
 		if (cmd->pipe == NULL && cmd == data->cmd_head)
@@ -201,7 +200,7 @@ void	execute(t_msdata *data)
 	while(waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD);
 	// if (WIFSIGNALED(wstatus))
 	// 	statuscode = WEXITSTATUS(wstatus);
-	// else 
+	// else
 	if (WIFEXITED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
 	data->exit_code = statuscode;

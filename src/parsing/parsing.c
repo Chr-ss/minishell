@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:02:41 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/13 17:29:24 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/16 18:52:47 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,19 @@ int	parsing(t_msdata *data)
 		return (-1);
 	if(parsing_syntax_pipe(data) == -1)
 	{
-		perror("syntax error near unexpected token `|'");
+		write(2, "syntax error near unexpected token `|'\n", 39);
 		data->exit_code = 2;
 		return (-1);
 	}
 	if(parsing_syntax_quotes(data) == -1)
 	{
-		perror(" unexpected EOF while looking for matching `''");
+		write(2, " unexpected EOF while looking for matching `''\n", 47);
 		data->exit_code = 2;
 		return (-1);
 	}
 	if(parsing_syntax_quotes(data) == -2)
 	{
-		perror(" unexpected EOF while looking for matching `\"'");
+		write(2, " unexpected EOF while looking for matching `\"'\n", 48);
 		data->exit_code = 2;
 		return (-1);
 	}

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/13 10:22:10 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/16 18:58:51 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,14 @@ int	cd(t_msdata *data, char ** argv)
 			error("cd get_envp error", data);
 	}
 	else if (ft_strlen(argv[0]) > PATH_MAX)
-		perror("path too long for cd\n");
+		write(2, "path too long for cd\n", 21);
 	else if (arglen > 1)
-		perror(" too many arguments\n");
+		write(2, "too many arguments\n", 19);
 	else
 		dir = cd_parse(data, argv);
 	if (dir == NULL) // this should change based on the change of cd_parse
 	{
-		perror("cd");
+		write(2, "cd\n", 3);
 		return (1);
 	}
 	if (cd_chdir(data, dir))
