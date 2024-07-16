@@ -358,7 +358,6 @@ fi
 
 x=0
 test_cases=("errors")
-s
 for case in "$cases"/*; do
 
 # uncomment to only do certain test files

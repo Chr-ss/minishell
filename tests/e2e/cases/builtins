@@ -34,9 +34,11 @@ export A-
 export HELLO=123 A
 export HELLO="123 A-"
 export hello world
+export hello 1world
 export HELLO-=123
 export =
 export 123
+export 
 unset
 unset HELLO
 unset HELLO1 HELLO2
