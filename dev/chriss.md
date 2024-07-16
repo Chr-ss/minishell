@@ -12,6 +12,16 @@ everytime shell level in env >> SHLVL +1, and exit SHLVL -1
 after cd, your envp PWD become relative path, not absolute
 unset is not unsetting
 
+## sighandlingi n heredoc
+expanded:~$cat << ""
+
+type_handler_eof: Token EOF
+
+
+>te
+>
+zsh: segmentation fault (core dumped)  ./minishell
+
 
 ### readline ignore leaks?? ##
 

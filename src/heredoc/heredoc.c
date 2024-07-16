@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/15 18:18:41 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/16 16:47:45 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,13 @@ extern int	g_sigint ;
 
 static void	read_heredoc(t_msdata *data, t_cmd *cmd, int i, int write_pipe)
 {
-	size_t	len;
-
 	while (1)
 	{
 		data->line = readline(">");
 		data->line = expand(data);
 		if (!data->line)
 			error("read_heredoc: expand malloc error.", data);
-		len = ft_strlen(cmd->heredoc[i]);
-		if (ft_strlen(data->line) > len)
-			len = ft_strlen(data->line);
-		if (ft_strncmp(data->line, cmd->heredoc[i], len) == 0)
+		if (ft_strcmp(data->line, cmd->heredoc[i]) == 0)
 		{
 			if (data->line)
 				free(data->line);
