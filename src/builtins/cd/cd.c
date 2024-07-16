@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/16 18:58:51 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/16 19:23:30 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@
 #include "../../../include/minishell.h"
 #include "../../../include/builtins.h"
 
+
+char	*cd_chdir_pwd(void)
+{
+	char	cwd[PATH_MAX];
+	char	*ret;
+
+	if (!getcwd(cwd, PATH_MAX))
+		return (NULL);
+	ret = ft_strdup(cwd);
+	if (ret == NULL)
+		return (NULL);
+	return (ret);
+}
+
 int	cd_chdir(t_msdata *data, char *dir)
 {
 	char	*pwd;
@@ -27,7 +41,7 @@ int	cd_chdir(t_msdata *data, char *dir)
 
 	if(get_envp(data, "PWD", &old_pwd) == -1)
 		error ("cd_chdir get_envp error\n", data);
-	pwd = ft_strdup(dir);
+	pwd = cd_chdir_pwd();
 	if (!pwd || !old_pwd)
 	{
 		if (pwd)
