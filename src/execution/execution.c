@@ -6,11 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2024/07/16 15:30:50 by spenning      ########   odam.nl         */
-=======
-/*   Updated: 2024/07/11 21:08:13 by crasche       ########   odam.nl         */
->>>>>>> 0842ebdc971f769a6317392013ce7ef7640e82a4
+/*   Updated: 2024/07/16 16:51:28 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +66,6 @@ static int	execute_child_dup_infd(t_msdata *data, t_cmd *cmd)
 		}
 		ret = 1;
 	}
-<<<<<<< HEAD
 	if (cmd->outfd > 0)
 	{
 		if (data->cmd_head == cmd)
@@ -90,8 +85,6 @@ static int	execute_child_dup_infd(t_msdata *data, t_cmd *cmd)
 		}
 		ret = 1;
 	}
-=======
->>>>>>> 0842ebdc971f769a6317392013ce7ef7640e82a4
 	return (ret);
 }
 
@@ -212,15 +205,9 @@ void	execute(t_msdata *data)
 		}
 		if (cmd->pipe == NULL && cmd == data->cmd_head)
 		{
-<<<<<<< HEAD
 			execute_child_dup_fd(data, cmd);
 			statuscode = execute_check_builtin(data, cmd);
 			execute_parent_close_pipe(data, cmd);
-=======
-			execute_child_dup_infd(data, cmd);
-			execute_child_dup_outfd(data, cmd);
-			statuscode = execute_check_builtin(data, cmd);
->>>>>>> 0842ebdc971f769a6317392013ce7ef7640e82a4
 		}
 		if (statuscode == -1)
 		{
