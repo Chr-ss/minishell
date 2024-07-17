@@ -1,5 +1,25 @@
 #!/bin/bash
 
+# Reference: https://github.com/aeruder/expect/blob/master/INSTALL
+# Reference: https://gabrielstaples.com/ydotool-tutorial/#gsc.tab=0
+# Reference: https://github.com/ReimuNotMoe/ydotool
+# Reference: https://github.com/ReimuNotMoe/ydotool/issues/10
+# Reference: https://github.com/ReimuNotMoe/ydotool/issues/170
+# Reference: file:///usr/include/linux/input-event-codes.h
+# Reference: https://gabrielstaples.com/ydotool-tutorial/#gsc.tab=0
+# Reference: https://stackoverflow.com/questions/13242469/how-to-use-sed-grep-to-extract-text-between-two-words
+# Reference: https://stackoverflow.com/questions/34412754/trying-to-remove-non-printable-characters-junk-values-from-a-unix-file
+# Reference: https://stackoverflow.com/questions/67900936/use-cut-in-shell-to-extract-last-word
+# Reference: https://stackoverflow.com/questions/6070995/how-to-make-valgrind-report-an-error-when-there-are-still-reachable-allocs
+# Reference: https://stackoverflow.com/questions/255898/how-to-iterate-over-arguments-in-a-bash-script
+# Reference: https://stackoverflow.com/questions/9057387/process-all-arguments-except-the-first-one-in-a-bash-script
+# Reference: https://stackoverflow.com/questions/30873858/how-to-exit-if-statement-in-bash-without-exiting-program
+# Reference: https://stackoverflow.com/questions/10319652/check-if-a-file-is-executable
+# Reference: https://git.sr.ht/~geb/dotool/tree/master/doc/dotool.1.scd
+# Reference: https://github.com/LucasKuhn/minishell_tester
+# Reference: https://valgrind.org/docs/manual/manual-core.html#:~:text=Valgrind%20loads%20suppression%20patterns%20from,supp%20one%20or%20more%20times.
+# Reference: https://valgrind.org/docs/manual/manual-core.html#manual-core.options
+
 #usage function
 usage() {
 	cat <<EOF
@@ -25,37 +45,33 @@ Arguments:
 	device. To run this flag the dependencies for running in 
 	a virtual machine need to be installed.
 
+  -nm, --no-memory
+	This flag will disable the memory tests run in this tester.
+	This flag does not work with all no flags selected
+
   -nu, --no-unit
 	This flag will disable the unit tests run in this tester.
-	This flag does not work with
-
-  -nc, --no-component
-	This flag will disable the component tests run in this tester.
-	This flag does not work with
+	This flag does not work with all no flags selected
 
   -ni, --no-integration
 	This flag will disable the integration tests run in this tester.
-	This flag does not work with
+	This flag does not work with all no flags selected
 
   -ne, --no-e2e
 	This flag will disable the end-to-end tests run in this tester.
-	This flag does not work with
+	This flag does not work with all no flags selected
 
   -ou, --only-unit
 	This flag will only run the unit tests run in this tester. 
-	This flag does not work with
-
-  -oc, --only-component
-	This flag will only run the component tests run in this tester.
-	This flag does not work with
+	This flag does not work with multiple only flags
 
   -oi, --only-integration
 	This flag will only run the integration tests run in this tester.
-	This flag does not work with
+	This flag does not work with multiple only flags
 
   -oe, --only-e2e
 	This flag will only run the end-to-end tests run in this tester.
-	This flag does not work with
+	This flag does not work with multiple only flags
 
 EOF
 }
@@ -69,7 +85,7 @@ usage_fatal() { error "$*"; usage >&2; exit 1; }
 check=0
 virtual=0
 unit=1
-component=1
+memory=1
 integration=1
 e2e=1
 interactive=0
@@ -105,13 +121,13 @@ while [ "$#" -gt 0 ]; do
 		interactive=1
 		shift 
 		;;
+		-nm|--no-memory)
+		memory=0
+		shift 
+		;;
 		-nu|--no-unit)
 		unit=0
 		shift 
-		;;
-		-nc|--no-component)
-		component=0
-		shift
 		;;
 		-ni|--no-integration)
 		integration=0
@@ -122,7 +138,6 @@ while [ "$#" -gt 0 ]; do
 		shift
 		;;
 		-ou|--only-unit)
-		component=0
 		integration=0
 		e2e=0
 		ou=1
@@ -133,21 +148,8 @@ while [ "$#" -gt 0 ]; do
 		set_only=1
 		shift 
 		;;
-		-oc|--only-component)
-		unit=0
-		integration=0
-		e2e=0
-		oc=1
-		if [ $set_only == 1 ]
-		then 
-		set_only_multiple=1
-		fi
-		set_only=1
-		shift 
-		;;
 		-oi|--only-integration)
 		unit=0
-		component=0
 		e2e=0
 		oi=1
 		if [ $set_only == 1 ]
@@ -159,7 +161,6 @@ while [ "$#" -gt 0 ]; do
 		;;
 		-oI|--only-interactive)
 		unit=0
-		component=0
 		integration=0
 		e2e=0
 		interactive=1
@@ -172,7 +173,6 @@ while [ "$#" -gt 0 ]; do
 		;;
 		-oe|--only-e2e)
 		unit=0
-		component=0
 		integration=0
 		oe=1
 		if [ $set_only == 1 ]
@@ -209,7 +209,7 @@ exit 1
 fi
 
 #check no flags
-if [[ $unit == 0 && $component == 0 && $integration == 0 && $e2e == 0 && $interactive == 0 ]];
+if [[ $unit == 0 && $integration == 0 && $e2e == 0 && $interactive == 0 ]];
 then 
 usage_fatal "not all '-n*, --no-*' flags can be selected at the same time"
 exit 1
@@ -218,13 +218,13 @@ fi
 #check dependencies
 if [[ $check == 1 ]];
 then 
-command -v VBoxManage &> /dev/null
+command -v docker &> /dev/null
 vbox=$?
 if [[ $vbox == 0 ]];
 then 
-echo VBoxManage Installed
+echo docker Installed
 else
-echo VBoxManage Not Installed, needed to run with --virtual option, otherwise not neccessary
+echo docker Not Installed, needed to run with --virtual option, otherwise not neccessary
 cstatus=1
 fi
 if [[ $cstatus == 1 ]];
@@ -235,27 +235,10 @@ exit 0
 fi
 fi
 
-# Reference: https://github.com/aeruder/expect/blob/master/INSTALL
-# Reference: https://gabrielstaples.com/ydotool-tutorial/#gsc.tab=0
-# Reference: https://github.com/ReimuNotMoe/ydotool
-# Reference: https://github.com/ReimuNotMoe/ydotool/issues/10
-# Reference: https://github.com/ReimuNotMoe/ydotool/issues/170
-# Reference: file:///usr/include/linux/input-event-codes.h
-# Reference: https://gabrielstaples.com/ydotool-tutorial/#gsc.tab=0
-# Reference: https://stackoverflow.com/questions/13242469/how-to-use-sed-grep-to-extract-text-between-two-words
-# Reference: https://stackoverflow.com/questions/34412754/trying-to-remove-non-printable-characters-junk-values-from-a-unix-file
-# Reference: https://stackoverflow.com/questions/67900936/use-cut-in-shell-to-extract-last-word
-# Reference: https://stackoverflow.com/questions/6070995/how-to-make-valgrind-report-an-error-when-there-are-still-reachable-allocs
-# Reference: https://stackoverflow.com/questions/255898/how-to-iterate-over-arguments-in-a-bash-script
-# Reference: https://stackoverflow.com/questions/9057387/process-all-arguments-except-the-first-one-in-a-bash-script
-# Reference: https://stackoverflow.com/questions/30873858/how-to-exit-if-statement-in-bash-without-exiting-program
-# Reference: https://stackoverflow.com/questions/10319652/check-if-a-file-is-executable
-# Reference: https://git.sr.ht/~geb/dotool/tree/master/doc/dotool.1.scd
-# Reference: https://github.com/LucasKuhn/minishell_tester
 
-#initialize variables
-#TODO: fix noaccess and static_outfile so they are reset to standard, now the content is changed after test run
+##initialize variables
 
+#colors
 RED="\x1B[31m"
 GRN="\x1B[1;32m"
 YEL="\x1B[33m"
@@ -267,22 +250,32 @@ BCYN="\x1B[1;36m"
 WHT="\x1B[37m"
 RESET="\x1B[0m"
 LINEP="\033[40G"
+
+#fail flags
 FAIL=false
 ERROR_FAIL=false
 OUTPUT_FAIL=false
 EXIT_FAIL=false
 OUTFILES_FAIL=false
+MEMORY_FAIL=false
+
+#logs
 LOG_DIR=logs
 MS_LOG=$LOG_DIR/ms.log
 MEMORY_LOG=$LOG_DIR/memory.log
 ERROR_LOG=$LOG_DIR/error_message.log
 OUTPUT_LOG=$LOG_DIR/output_diff.log
 EXIT_LOG=$LOG_DIR/exit_code.log
+
+#files
 OUTFILES_LOG=$LOG_DIR/outfiles_diff.log
 outfiles=./files/outfiles
 bash_outfiles=./files/bash_outfiles
 mini_outfiles=./files/mini_outfiles
 noaccess=./files/noaccess/noaccess
+suppressions=./utils/valgrind_suppresion
+
+#prepare files
 chmod 000 $noaccess
 minishell=$(find ../../../ -type f -name minishell)
 minishelldir=$(find ../../../ -type d -name minishell)
@@ -338,10 +331,6 @@ if [ $unit == 1 ];
 then
 echo run unit
 fi
-if [ $component == 1 ]; 
-then
-echo run component
-fi
 if [ $integration == 1 ]; 
 then
 echo run integration
@@ -358,15 +347,16 @@ fi
 # https://github.com/LucasKuhn/minishell_tester
 
 x=0
+MINI_MEM_CODE=0
 test_cases=("errors")
 for case in "$cases"/*; do
 
 # uncomment to only do certain test files
-case_check=${case##*/}
-case $case_check in
-	$test_cases) :;;
-	*)	continue;;
-esac
+# case_check=${case##*/}
+# case $case_check in
+# 	$test_cases) :;;
+# 	*)	continue;;
+# esac
 
 
 echo -e "${BCYN}$case${RESET}"
@@ -388,9 +378,10 @@ while IFS= read -r line; do
 	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs -0)
 	MINI_OUTFILES=$(cp -r $outfiles/* $mini_outfiles &>> $MS_LOG)
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0')
-	# valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all --track-origins=yes $minishell &>> $MS_LOG
-	# MINI_MEM_CODE=$(echo $?)
-	echo $MINI_MEM_CODE
+	if [ $memory = 1 ]; then
+	echo -e "$line" | valgrind --leak-check=full --show-leak-kinds=all --suppressions=valgrind_suppresion ../../minishell $minishell &>> $MS_LOG
+	MINI_MEM_CODE=$(echo $?)
+	fi
 
 	cp -r $files_temp/* $files &>> $MS_LOG
 	cp -r $files/* $files_temp &>> $MS_LOG
@@ -408,7 +399,7 @@ while IFS= read -r line; do
 	if [[ "$MINI_OUTPUT" == "$BASH_OUTPUT" && "$MINI_EXIT_CODE" == "$BASH_EXIT_CODE" && -z "$OUTFILES_DIFF" ]]; then
 		printf " ✅"
 		((ok++))
-		if [ "$MINI_ERROR_MSG" != "$BASH_ERROR_MSG" ]; then
+		if [[ "$MINI_ERROR_MSG" != "$BASH_ERROR_MSG" || "$MINI_MEM_CODE" != 0 ]]; then
 			printf " ⚠️ "
 			FAIL=true
 		fi
@@ -448,6 +439,12 @@ while IFS= read -r line; do
 		echo mini error = \($MINI_ERROR_MSG\) >> $ERROR_LOG
 		echo bash error = \($BASH_ERROR_MSG\) >> $ERROR_LOG
 	fi
+	if [ "$MINI_MEM_CODE" != 0 ]; then
+		MEMORY_FAIL=true
+		printf "${RED} memory error;${RESET}"
+		echo -e "$x | $line " >> $MEMORY_LOG
+		echo mini memory exit code = $MINI_MEM_CODE >> $MEMORY_LOG
+	fi
 	printf "\n"
 	cp -r $files_temp/* $files &>> $MS_LOG
 done < $case
@@ -473,6 +470,11 @@ fi
 if [ $ERROR_FAIL = true ];
 then 
 echo -e "${RED}Check $ERROR_LOG ${RESET}"
+fi
+if [ $MEMORY_FAIL = true ];
+then 
+echo -e "${RED}Check $MEMORY_LOG ${RESET}"
+echo -e "${RED}run memory case with valgrind --leak-check=full --show-leak-kinds=all --suppressions=valgrind_suppresion or check $MS_LOG ${RESET}"
 fi
 rm -rf $bash_outfiles
 rm -rf $mini_outfiles
