@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/17 14:03:56 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/17 14:43:19 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int execute_check_builtin(t_msdata *data, t_cmd *cmd)
 
 void	execute_child_minishell(t_cmd *cmd)
 {
-	int	len;
+	int		len;
 
 	len = ft_strlen(cmd->cmd);
 	len -= 9;
@@ -184,8 +184,10 @@ void	execute(t_msdata *data)
 	pid_t	pid;
 	int		wstatus;
 	int		statuscode;
+	int		org_shlvl;
 
 	statuscode = -1;
+	org_shlvl = data->shell_level;
 	cmd = data->cmd_head;
 	debugger("\n------------execution----------------\n\n");
 	while (cmd)
@@ -221,5 +223,7 @@ void	execute(t_msdata *data)
 		statuscode = WEXITSTATUS(wstatus);
 	data->exit_code = statuscode;
 	is_child = 1;
+	if (data->shell_level != org_shlvl)
+		data->shell_level = org_shlvl;
 	return ;
 }
