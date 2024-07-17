@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/17 14:49:14 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/17 15:04:31 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,6 @@ void	execute(t_msdata *data)
 	pid_t	pid;
 	int		wstatus;
 	int		statuscode;
-	int		org_shlvl;
 
 	statuscode = -1;
 	cmd = data->cmd_head;
