@@ -6,12 +6,14 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/16 18:59:41 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/17 14:03:56 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/execution.h"
+
+bool is_child = 1;
 
 // REFERENCE: https://reactive.so/post/42-a-comprehensive-guide-to-pipex
 // REFERENCE: https://www.gnu.org/software/libc/manual/html_node/
@@ -141,6 +143,19 @@ int execute_check_builtin(t_msdata *data, t_cmd *cmd)
 	return (-1);
 }
 
+void	execute_child_minishell(t_cmd *cmd)
+{
+	int	len;
+
+	len = ft_strlen(cmd->cmd);
+	len -= 9;
+	if (len < 0)
+		return ;
+	if(!(ft_strncmp("minishell", cmd->cmd + len, 9)))
+		is_child = 0;
+	return ;
+}
+
 void	execute_child(t_msdata *data, t_cmd *cmd)
 {
 	char	*path_cmd;
@@ -154,7 +169,7 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	if (ret == -1)
 		error("execute_child execute path error\n", data);
 	else if (ret == 1)
-		dprintf(2, "minishell: Command not found\n");
+		write(2, "minishell: Command not found\n", 29);
 	if (add_command_to_argv(&cmd, &path_cmd) == -1)
 		error("add command to argv malloc error\n", data);
 	execve(path_cmd, cmd->argv, data->envp);
@@ -188,6 +203,7 @@ void	execute(t_msdata *data)
 		}
 		if (statuscode == -1)
 		{
+			execute_child_minishell(cmd);
 			pid = fork();
 			if (pid < 0)
 				error("fork error\n", data);
@@ -204,5 +220,6 @@ void	execute(t_msdata *data)
 	if (WIFEXITED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
 	data->exit_code = statuscode;
+	is_child = 1;
 	return ;
 }
