@@ -110,37 +110,9 @@ make -C $minishelldir re
 #https://stackoverflow.com/questions/30137135/confused-about-docker-t-option-to-allocate-a-pseudo-tty
 #https://gist.github.com/janert/e1d8e6ae74a8c94173ef35fa356ce2da
 
-apt-get update
-apt-get install -y sudo
-sudo apt-get install -y xdotool
+#prepare xdotool
+make -C ./xdotool
 
-# #prepare dotool
-# dpkg -l | grep libxkbcommon-dev
-# xkb=$?
-# if [ $xkb != 0 ]; 
-# then
-# sudo apt install -y libxkbcommon-dev
-# fi
-# dpkg -l | grep scdoc
-# sc=$?
-# if [ $sc != 0 ]; 
-# then
-# sudo apt install -y scdoc
-# fi
-# dpkg -l | grep golang-go
-# go=$?
-# if [ $go != 0 ]; 
-# then
-# sudo apt install -y golang-go
-# fi
-# sudo apt-get install -y udev
-# command -v dotool
-# do=$?
-# if [ $do != 0 ]; 
-# then
-# (cd dotool && ./build.sh && sudo ./build.sh install)
-# (cd dotool && sudo udevadm control --reload && sudo udevadm trigger)
-# fi
 #truncate logs
 truncate -s 0 $LOG_DIR/$MS_LOG
 
