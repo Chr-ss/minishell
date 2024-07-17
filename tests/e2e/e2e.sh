@@ -274,6 +274,7 @@ EXIT_FAIL=false
 OUTFILES_FAIL=false
 LOG_DIR=logs
 MS_LOG=$LOG_DIR/ms.log
+MEMORY_LOG=$LOG_DIR/memory.log
 ERROR_LOG=$LOG_DIR/error_message.log
 OUTPUT_LOG=$LOG_DIR/output_diff.log
 EXIT_LOG=$LOG_DIR/exit_code.log
@@ -361,11 +362,11 @@ test_cases=("errors")
 for case in "$cases"/*; do
 
 # uncomment to only do certain test files
-# case_check=${case##*/}
-# case $case_check in
-# 	$test_cases) :;;
-# 	*)	continue;;
-# esac
+case_check=${case##*/}
+case $case_check in
+	$test_cases) :;;
+	*)	continue;;
+esac
 
 
 echo -e "${BCYN}$case${RESET}"
@@ -387,7 +388,10 @@ while IFS= read -r line; do
 	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs -0)
 	MINI_OUTFILES=$(cp -r $outfiles/* $mini_outfiles &>> $MS_LOG)
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0')
-	
+	# valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all --track-origins=yes $minishell &>> $MS_LOG
+	# MINI_MEM_CODE=$(echo $?)
+	echo $MINI_MEM_CODE
+
 	cp -r $files_temp/* $files &>> $MS_LOG
 	cp -r $files/* $files_temp &>> $MS_LOG
 
