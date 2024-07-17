@@ -6,11 +6,13 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:50:51 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/17 13:27:16 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/17 14:46:14 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+extern bool is_child;
 
 static void	initdata_cpy_envp(t_msdata *data, char **envp)
 {
@@ -34,6 +36,11 @@ static void	initdata_cpy_envp(t_msdata *data, char **envp)
 
 void	initdata(t_msdata *data, char **envp)
 {
+	char	*shlvl;
+	int		index;
+
+	index = 0;
+	shlvl = NULL;
 	data->cmd_head = ft_calloc(sizeof(t_cmd), 1);
 	if (!data->cmd_head)
 		error("initdata: malloc error", data);
@@ -44,4 +51,18 @@ void	initdata(t_msdata *data, char **envp)
 	data->exit_code = 0;
 	data->org_stdout = 0;
 	initdata_cpy_envp(data, envp);
+	index = get_envp_index("SHLVL", data->envp);
+	if (index != -1)
+	{
+		shlvl = get_envp_value(data->envp[index]);
+		if (!shlvl)
+			error("initdata: malloc error", data);
+		index = ft_atoi(shlvl);
+		index++;
+		free(shlvl);
+		shlvl = ft_itoa(index);
+		if (!shlvl)
+			error("initdata: malloc error", data);
+		change_envp("SHLVL", shlvl, data->envp);
+	}
 }
