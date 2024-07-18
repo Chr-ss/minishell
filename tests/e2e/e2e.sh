@@ -275,6 +275,9 @@ mini_outfiles=./files/mini_outfiles
 noaccess=./files/noaccess/noaccess
 suppressions=./utils/valgrind_suppresion
 
+#valgrind
+valgrind_cmd="valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all --suppressions=$suppressions"
+
 #prepare files
 chmod 000 $noaccess
 minishell=$(find ../../../ -type f -name minishell)
@@ -379,7 +382,7 @@ while IFS= read -r line; do
 	MINI_OUTFILES=$(cp -r $outfiles/* $mini_outfiles &>> $MS_LOG)
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0')
 	if [ $memory = 1 ]; then
-	echo -e "$line" | valgrind --leak-check=full --show-leak-kinds=all --suppressions=valgrind_suppresion ../../minishell $minishell &>> $MS_LOG
+	echo -e "$line" | $valgrind_cmd ../../minishell $minishell &>> $MS_LOG
 	MINI_MEM_CODE=$(echo $?)
 	fi
 
@@ -439,7 +442,7 @@ while IFS= read -r line; do
 		echo mini error = \($MINI_ERROR_MSG\) >> $ERROR_LOG
 		echo bash error = \($BASH_ERROR_MSG\) >> $ERROR_LOG
 	fi
-	if [ "$MINI_MEM_CODE" != 0 ]; then
+	if [ "$MINI_MEM_CODE" == 42 ]; then
 		MEMORY_FAIL=true
 		printf "${RED} memory error;${RESET}"
 		echo -e "$x | $line " >> $MEMORY_LOG
@@ -474,7 +477,7 @@ fi
 if [ $MEMORY_FAIL = true ];
 then 
 echo -e "${RED}Check $MEMORY_LOG ${RESET}"
-echo -e "${RED}run memory case with valgrind --leak-check=full --show-leak-kinds=all --suppressions=valgrind_suppresion or check $MS_LOG ${RESET}"
+echo -e "${RED}run memory case with $valgrind_cmd or check $MS_LOG ${RESET}"
 fi
 rm -rf $bash_outfiles
 rm -rf $mini_outfiles
