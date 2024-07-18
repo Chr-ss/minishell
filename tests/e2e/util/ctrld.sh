@@ -4,6 +4,6 @@ sleep 0.2
 x=1
 while [ $x -le $1 ]
 do
-	(xdotool key ctrl+d) &
+	(LD_LIBRARY_PATH=xdotool xdotool key ctrl+d) &
   x=$(( $x + 1 ))
 done
