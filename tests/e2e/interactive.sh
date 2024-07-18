@@ -191,20 +191,49 @@ printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
 }
 
 
-
-test "echo lol" "ctrl+c" "ctrl+d"
-# check_result_multiple_files 1 "temp1" "temp2"
-# test "ctrl+c" "ctrl+c" "ctrl+c" "ctrl+d"
-check_result 1
 remove_temp_files
+test 'ctrl+backslash' "ctrl+c" "ctrl+d"
+check_result 0
 
-test "export var0="head -"" "export var1="n 1"" "export var2="0"" 'echo $var1$var2' 'echo $var0$var2' "ctrl+c" "ctrl+d"
+remove_temp_files
+test "echo lol" "ctrl+c" "ctrl+d"
+check_result 1
+
+remove_temp_files
+test 'export var0="head -"' 'export var1="n 1"' 'export var2="0"' 'echo $var1$var2' 'echo $var0$var2' "ctrl+c" "ctrl+d"
 check_result 2
 
 remove_temp_files
-test "export var="    ls    "" '$var' "ctrl+c" "ctrl+d"
+test 'export var="    ls    "' '$var' "ctrl+c" "ctrl+d"
 check_result 3
+$var
 
+remove_temp_files
+test "export var=hi" 'echo $var$PWD' "ctrl+c" "ctrl+d"
+check_result 4
+
+remove_temp_files
+test 'export ls="ls -l"' '$ls' '"$ls"' "ctrl+c" "ctrl+d"
+check_result 5
+
+remove_temp_files
+test 'export v3="hello hello"' 'export v2="$v3  $v3"' 'env | grep v2' "ctrl+c" "ctrl+d"
+check_result 6
+
+#This will always fail, because we won't implement sudo apt install message
+remove_temp_files
+test '$(cmddoesnotexist)' "ctrl+c" "ctrl+d"
+check_result 7
+
+
+remove_temp_files
+test "ctrl+c" "ctrl+d"
+check_result 8
+
+#TODO: add heredoc 
+
+# check_result_multiple_files 1 "temp1" "temp2"
+# test "ctrl+c" "ctrl+c" "ctrl+c" "ctrl+d"
 
 #rm -rf $bash_temp
 #rm -rf $ms_temp
