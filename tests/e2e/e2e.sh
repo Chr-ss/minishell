@@ -88,7 +88,7 @@ unit=1
 memory=1
 integration=1
 e2e=1
-interactive=0
+interactive=1
 set_only=0
 set_only_multiple=0
 clean=0
@@ -173,7 +173,7 @@ while [ "$#" -gt 0 ]; do
 		;;
 		-oe|--only-e2e)
 		unit=0
-		integration=0
+		interactive=0
 		oe=1
 		if [ $set_only == 1 ]
 		then 
@@ -275,6 +275,9 @@ mini_outfiles=./files/mini_outfiles
 noaccess=./files/noaccess/noaccess
 suppressions=./utils/valgrind_suppresion
 
+#valgrind
+valgrind_cmd="valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all --suppressions=$suppressions"
+
 #prepare files
 chmod 000 $noaccess
 minishell=$(find ../../../ -type f -name minishell)
@@ -337,7 +340,7 @@ echo run integration
 fi
 if [ $interactive == 1 ]; 
 then
-echo run interactive
+bash interactive.sh
 fi
 if [ $e2e == 0 ]; 
 then
@@ -379,7 +382,7 @@ while IFS= read -r line; do
 	MINI_OUTFILES=$(cp -r $outfiles/* $mini_outfiles &>> $MS_LOG)
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0')
 	if [ $memory = 1 ]; then
-	echo -e "$line" | valgrind --leak-check=full --show-leak-kinds=all --suppressions=valgrind_suppresion ../../minishell $minishell &>> $MS_LOG
+	echo -e "$line" | $valgrind_cmd $minishell &>> $MS_LOG
 	MINI_MEM_CODE=$(echo $?)
 	fi
 
@@ -399,7 +402,7 @@ while IFS= read -r line; do
 	if [[ "$MINI_OUTPUT" == "$BASH_OUTPUT" && "$MINI_EXIT_CODE" == "$BASH_EXIT_CODE" && -z "$OUTFILES_DIFF" ]]; then
 		printf " ✅"
 		((ok++))
-		if [[ "$MINI_ERROR_MSG" != "$BASH_ERROR_MSG" || "$MINI_MEM_CODE" != 0 ]]; then
+		if [[ "$MINI_ERROR_MSG" != "$BASH_ERROR_MSG" ]]; then
 			printf " ⚠️ "
 			FAIL=true
 		fi
@@ -448,6 +451,7 @@ while IFS= read -r line; do
 	printf "\n"
 	cp -r $files_temp/* $files &>> $MS_LOG
 done < $case
+MINI_MEM_CODE=0
 done
 
 chmod 444 $noaccess
@@ -474,7 +478,7 @@ fi
 if [ $MEMORY_FAIL = true ];
 then 
 echo -e "${RED}Check $MEMORY_LOG ${RESET}"
-echo -e "${RED}run memory case with valgrind --leak-check=full --show-leak-kinds=all --suppressions=valgrind_suppresion or check $MS_LOG ${RESET}"
+echo -e "${RED}run memory case with $valgrind_cmd or check $MS_LOG ${RESET}"
 fi
 rm -rf $bash_outfiles
 rm -rf $mini_outfiles

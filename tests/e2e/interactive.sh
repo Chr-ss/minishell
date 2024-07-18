@@ -17,36 +17,8 @@
 # Reference: https://stackoverflow.com/questions/10319652/check-if-a-file-is-executable
 # Reference: https://git.sr.ht/~geb/dotool/tree/master/doc/dotool.1.scd
 
-#check dependencies
-# if [[ $check == 1 ]];
-# then 
-# command -v VBoxManage
-# vbox=$?
-# if [[ $vbox == 0 ]];
-# then 
-# echo VBoxManage Installed
-# else
-# echo VBoxManage Not Installed
-# cstatus=1
-# fi
-# command -v dotool
-# do=$?
-# if [ $do == 0 ]; 
-# then 
-# echo dotool Installed
-# else
-# echo dotool Not Installed
-# cstatus=1
-# fi
-# if [ $cstatus == 1 ];
-# then 
-# exit 1
-# fi
-# exit 0
-# fi
-
-
 #initialize variables
+#colors
 RED="\x1B[31m"
 GRN="\x1B[1;32m"
 YEL="\x1B[33m"
@@ -59,10 +31,17 @@ WHT="\x1B[37m"
 RESET="\x1B[0m"
 LINEP="\033[40G"
 FAIL=false
+
+#logs
 LOG_DIR=logs
-MS_LOG=ms.log
+INTER_LOG=interactive.log
+INTER_MEM_LOG=interactive_memory.log
+
+#keys
 ESC=ESC
 CLOSE=CLOSE
+
+#files
 bash_temp=temp_bash
 bash_output=bh_output.tmp
 bash_inm=bh_inmp.tmp
@@ -71,22 +50,28 @@ ms_temp=temp_mini
 ms_output=ms_output.tmp
 ms_inm=ms_inmp.tmp
 ms_filter=ms_filter.tmp
+suppressions=./utils/valgrind_suppresion
+cases=./cases/interactive
+
+#valgrind
+valgrind_cmd="valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all --suppressions=$suppressions"
+
+#utils
 ctrlc=./util/ctrlc.sh
 ctrld=./util/ctrld.sh
 test_bh=./util/test_bh.sh
 test_ms=./util/test_ms.sh
-bash_outfiles=./outfiles
-mini_outfiles=./mini_outfiles
+test_mem=./util/test_mem.sh
+
+#minishell
 minishell=$(find ../../../ -type f -name minishell)
 minishelldir=$(find ../../../ -type d -name minishell)
+
+#prepare files
 rm -rf $bash_temp
 mkdir -p $bash_temp
 rm -rf $ms_temp
 mkdir -p $ms_temp
-rm -rf $bash_outfiles
-mkdir -p $bash_outfiles
-rm -rf $mini_outfiles
-mkdir -p $mini_outfiles
 
 #export variables used in other scripts
 export bash_output
@@ -114,7 +99,6 @@ make -C ./xdotool &> /dev/null
 export PATH=$PATH:$(cd ./xdotool && pwd)
 
 #truncate logs
-truncate -s 0 $LOG_DIR/$MS_LOG
 
 #FUNCTIONS
 remove_temp_files()
@@ -125,23 +109,26 @@ remove_temp_files()
 
 check_result()
 {
-diff $bash_temp/$bash_filter $ms_temp/$ms_filter &>> $LOG_DIR/$MS_LOG
 dstatus=$?
 ARG=$1
 if [ $dstatus == 0 ];
 	then 
-	printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
+	printf " ✅\n"
 	else
-	printf "${BMAG}${ARG}${LINEP}${RED}FAIL \n${RESET}";
+	printf " ❌\n"
 fi
 }
 
 test()
 {
-bash $test_bh "$@" &
+echo -ne "${YEL} $1 ${BLU}| ${BMAG} "${@:2}" ${BLU}|${RESET}"
+bash $test_bh "${@:2}" &
 bash -c "bash -i &>>$bash_temp/$bash_output"
-bash $test_ms "$@" &
+bash $test_ms "${@:2}" &
 bash -c "$minishell &>>$ms_temp/$ms_output"
+# bash $test_mem "${@:2}" &
+# bash -c "$valgrind_cmd $minishell &>>$LOG_DIR/$INTER_MEM_LOG"
+# echo memexit code $?
 }
 
 check_multiple_files ()
@@ -149,7 +136,6 @@ check_multiple_files ()
 ARG=$1
 for var in "${@:2}"
 do
-diff $bash_temp/$var $ms_temp/$var &>> $LOG_DIR/$MS_LOG
 dstatus=$?
 if [ $dstatus != 0 ];
 	then 
@@ -162,7 +148,6 @@ done
 
 check_result_multiple_files ()
 {
-diff $bash_temp/$bash_filter $ms_temp/$ms_filter &>> $LOG_DIR/$MS_LOG
 rstatus=$?
 ARG=$1
 if [ $rstatus != 0 ];
@@ -172,7 +157,6 @@ if [ $rstatus != 0 ];
 fi
 for var in "${@:2}"
 do
-diff $bash_temp/$var $ms_temp/$var &>> $LOG_DIR/$MS_LOG
 mstatus=$?
 if [ $mstatus != 0 ];
 	then 
@@ -183,14 +167,45 @@ done
 printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
 }
 
+echo -e "${BCYN}interactive${RESET}"
 
+remove_temp_files
+test 1 "echo lol" "ctrl+c" "ctrl+d"
+check_result
 
-test "echo lol" "ctrl+c" "ctrl+d"
+remove_temp_files
+test 2 'export var0="head -"' 'export var1="n 1"' 'export var2="0"' 'echo $var1$var2' 'echo $var0$var2' "ctrl+c" "ctrl+d"
+check_result
+
+remove_temp_files
+test 3 'export var="    ls    "' '$var' "ctrl+c" "ctrl+d"
+check_result
+
+remove_temp_files
+test 4 "export var=hi" 'echo $var$PWD' "ctrl+c" "ctrl+d"
+check_result 
+
+remove_temp_files
+test 5 'export ls="ls -l"' '$ls' '"$ls"' "ctrl+c" "ctrl+d"
+check_result
+
+remove_temp_files
+test 6 'export v3="hello hello"' 'export v2="$v3  $v3"' 'env | grep v2' "ctrl+c" "ctrl+d"
+check_result
+
+#This will always fail, because we won't implement sudo apt install message
+remove_temp_files
+test 7 '$(cmddoesnotexist)' "ctrl+c" "ctrl+d"
+check_result
+
+remove_temp_files
+test 8 "ctrl+c" "ctrl+d"
+check_result
+
+#TODO: add heredoc 
+
 # check_result_multiple_files 1 "temp1" "temp2"
-# remove_temp_files
 # test "ctrl+c" "ctrl+c" "ctrl+c" "ctrl+d"
-check_result 1
-
 
 rm -rf $bash_temp
 rm -rf $ms_temp

@@ -14,9 +14,9 @@ ms_filter=ms_filter.tmp
 
 filter()
 {
-awk '{print $NF}' 2> /dev/null $bash_temp/$bash_output >> $bash_temp/$bash_inm 
-sed -i 's/\x1b\[?2004h[^$]*\$//g; s/\x1b\[?2004l//g; s/\x1b\[?2004h//g' 2> /dev/null $bash_temp/$bash_inm 
-tr -cd '[:print:]' 2> /dev/null < $bash_temp/$bash_inm >> $bash_temp/$bash_filter 
+sed -i 's/\x1b\[?2004h[^$]*\$//g; s/\x1b\[?2004l//g; s/\x1b\[?2004h//g; s/^[ \t]*//; s/[ \t]*$//' 2> /dev/null $bash_temp/$bash_output 
+tr -cd '[:print:]' 2> /dev/null < $bash_temp/$bash_output >> $bash_temp/$bash_filter 
+sed -i 's/[[:blank:]]//g' $bash_temp/$bash_filter 
 }
 
 ctrlc()
@@ -46,14 +46,21 @@ case $var in
         ctrl+c)
             ctrlc
         ;;
+        ctrl+backslash)
+			LD_LIBRARY_PATH=xdotool xdotool key ctrl+backslash
+        ;;
         *)
-			sleep 0.001
+			sleep 1
 			if [[ "$var" == *"temp"* ]]; then
 			mkdir -p $bash_temp
   			modified_var=$(echo $var | sed 's/temp/temp_bash\/temp/g')
-			bash -c "$modified_var"
+			LD_LIBRARY_PATH=xdotool xdotool type "$modified_var"
+			sleep 0.0001
+			LD_LIBRARY_PATH=xdotool xdotool key Return
 			else
-  			bash -c "$var" &>>$bash_temp/$bash_output
+			LD_LIBRARY_PATH=xdotool xdotool type "$var"
+			sleep 0.0001
+			LD_LIBRARY_PATH=xdotool xdotool key Return
 			fi
         ;;
     esac
