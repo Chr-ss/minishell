@@ -226,6 +226,7 @@ OUTPUT_FAIL=false
 EXIT_FAIL=false
 OUTFILES_FAIL=false
 MEMORY_FAIL=false
+NORM_FAIL=false
 
 #logs
 LOG_DIR=logs
@@ -297,9 +298,14 @@ fi
 if [ $norminette == 1 ]; 
 then
 bash ./norminette_tester/norminette_tester.sh -d ../../src
-echo $?
+norm_1=$(echo $?)
 bash ./norminette_tester/norminette_tester.sh -d ../../include -npi
-echo $?
+norm_2=$(echo $?)
+if [[ $norm_1 == 1 || $norm_2 == 1 ]];
+then
+FAIL=true
+NORM_FAIL=true
+fi
 fi
 if [ $interactive == 1 ]; 
 then
@@ -442,6 +448,10 @@ if [ $MEMORY_FAIL = true ];
 then 
 echo -e "${RED}Check $MEMORY_LOG ${RESET}"
 echo -e "${RED}run memory case with $valgrind_cmd or check $MS_LOG ${RESET}"
+fi
+if [ $NORM_FAIL = true ];
+then 
+echo -e "${RED}Check norminette.log ${RESET}"
 fi
 rm -rf $bash_outfiles
 rm -rf $mini_outfiles
