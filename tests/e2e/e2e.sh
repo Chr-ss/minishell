@@ -88,7 +88,7 @@ unit=1
 memory=1
 integration=1
 e2e=1
-interactive=0
+interactive=1
 set_only=0
 set_only_multiple=0
 clean=0
@@ -173,7 +173,7 @@ while [ "$#" -gt 0 ]; do
 		;;
 		-oe|--only-e2e)
 		unit=0
-		integration=0
+		interactive=0
 		oe=1
 		if [ $set_only == 1 ]
 		then 
@@ -340,7 +340,7 @@ echo run integration
 fi
 if [ $interactive == 1 ]; 
 then
-echo run interactive
+bash interactive.sh
 fi
 if [ $e2e == 0 ]; 
 then
@@ -382,7 +382,7 @@ while IFS= read -r line; do
 	MINI_OUTFILES=$(cp -r $outfiles/* $mini_outfiles &>> $MS_LOG)
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0')
 	if [ $memory = 1 ]; then
-	echo -e "$line" | $valgrind_cmd ../../minishell $minishell &>> $MS_LOG
+	echo -e "$line" | $valgrind_cmd $minishell &>> $MS_LOG
 	MINI_MEM_CODE=$(echo $?)
 	fi
 
@@ -402,7 +402,7 @@ while IFS= read -r line; do
 	if [[ "$MINI_OUTPUT" == "$BASH_OUTPUT" && "$MINI_EXIT_CODE" == "$BASH_EXIT_CODE" && -z "$OUTFILES_DIFF" ]]; then
 		printf " ✅"
 		((ok++))
-		if [[ "$MINI_ERROR_MSG" != "$BASH_ERROR_MSG" || "$MINI_MEM_CODE" != 0 ]]; then
+		if [[ "$MINI_ERROR_MSG" != "$BASH_ERROR_MSG" ]]; then
 			printf " ⚠️ "
 			FAIL=true
 		fi
@@ -442,7 +442,7 @@ while IFS= read -r line; do
 		echo mini error = \($MINI_ERROR_MSG\) >> $ERROR_LOG
 		echo bash error = \($BASH_ERROR_MSG\) >> $ERROR_LOG
 	fi
-	if [ "$MINI_MEM_CODE" == 42 ]; then
+	if [ "$MINI_MEM_CODE" != 0 ]; then
 		MEMORY_FAIL=true
 		printf "${RED} memory error;${RESET}"
 		echo -e "$x | $line " >> $MEMORY_LOG
@@ -451,6 +451,7 @@ while IFS= read -r line; do
 	printf "\n"
 	cp -r $files_temp/* $files &>> $MS_LOG
 done < $case
+MINI_MEM_CODE=0
 done
 
 chmod 444 $noaccess

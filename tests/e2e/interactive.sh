@@ -207,8 +207,8 @@ check_result
 # check_result_multiple_files 1 "temp1" "temp2"
 # test "ctrl+c" "ctrl+c" "ctrl+c" "ctrl+d"
 
-#rm -rf $bash_temp
-#rm -rf $ms_temp
+rm -rf $bash_temp
+rm -rf $ms_temp
 
 if [ $FAIL = true ];
 then exit 1
