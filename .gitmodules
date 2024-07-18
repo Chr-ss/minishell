@@ -1,3 +1,6 @@
 [submodule "tests/e2e/xdotool"]
 	path = tests/e2e/xdotool
 	url = https://github.com/jordansissel/xdotool.git
+[submodule "tests/e2e/norminette_tester"]
+	path = tests/e2e/norminette_tester
+	url = https://github.com/sairutra/norminette_tester.git

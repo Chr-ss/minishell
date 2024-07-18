@@ -39,34 +39,20 @@ Arguments:
 	This will clean all directories that are not needed, usually
 	temporary directories used by the tester 
 
-  -v, --virtual
-	This will boot up a virtual machine to run the tests in. 
-	This is useful when you don't have root access on your
-	device. To run this flag the dependencies for running in 
-	a virtual machine need to be installed.
-
   -nm, --no-memory
 	This flag will disable the memory tests run in this tester.
 	This flag does not work with all no flags selected
 
-  -nu, --no-unit
-	This flag will disable the unit tests run in this tester.
-	This flag does not work with all no flags selected
-
-  -ni, --no-integration
-	This flag will disable the integration tests run in this tester.
+  -nu, --no-norminette
+	This flag will disable the norminette tests run in this tester.
 	This flag does not work with all no flags selected
 
   -ne, --no-e2e
 	This flag will disable the end-to-end tests run in this tester.
 	This flag does not work with all no flags selected
 
-  -ou, --only-unit
-	This flag will only run the unit tests run in this tester. 
-	This flag does not work with multiple only flags
-
-  -oi, --only-integration
-	This flag will only run the integration tests run in this tester.
+  -ou, --only-norminette
+	This flag will only run the norminette tests run in this tester. 
 	This flag does not work with multiple only flags
 
   -oe, --only-e2e
@@ -84,9 +70,8 @@ usage_fatal() { error "$*"; usage >&2; exit 1; }
 
 check=0
 virtual=0
-unit=1
+norminette=1
 memory=1
-integration=1
 e2e=1
 interactive=1
 set_only=0
@@ -125,33 +110,22 @@ while [ "$#" -gt 0 ]; do
 		memory=0
 		shift 
 		;;
-		-nu|--no-unit)
-		unit=0
+		-nu|--no-norminette)
+		norminette=0
 		shift 
 		;;
-		-ni|--no-integration)
-		integration=0
+		-ni|--no-interactive)
+		interactive=0
 		shift
 		;;
 		-ne|--no-e2e)
 		e2e=0
 		shift
 		;;
-		-ou|--only-unit)
-		integration=0
+		-on|--only-norminette)
 		e2e=0
-		ou=1
-		if [ $set_only == 1 ]
-		then 
-		set_only_multiple=1
-		fi
-		set_only=1
-		shift 
-		;;
-		-oi|--only-integration)
-		unit=0
-		e2e=0
-		oi=1
+		interactive=0
+		norminette=1
 		if [ $set_only == 1 ]
 		then 
 		set_only_multiple=1
@@ -160,7 +134,7 @@ while [ "$#" -gt 0 ]; do
 		shift 
 		;;
 		-oI|--only-interactive)
-		unit=0
+		norminette=0
 		integration=0
 		e2e=0
 		interactive=1
@@ -172,7 +146,7 @@ while [ "$#" -gt 0 ]; do
 		shift 
 		;;
 		-oe|--only-e2e)
-		unit=0
+		norminette=0
 		interactive=0
 		oe=1
 		if [ $set_only == 1 ]
@@ -205,17 +179,12 @@ done
 if [[ $set_only_multiple == 1 ]];
 then 
 usage_fatal "you can only set one '-o*, --only-*' flag"
-exit 1
 fi
-
-#check no flags
-if [[ $unit == 0 && $integration == 0 && $e2e == 0 && $interactive == 0 ]];
+if [[ $norminette == 0 && $e2e == 0 && $norminette == 0 ]];
 then 
 usage_fatal "not all '-n*, --no-*' flags can be selected at the same time"
 exit 1
 fi
-
-#check dependencies
 if [[ $check == 1 ]];
 then 
 command -v docker &> /dev/null
@@ -234,7 +203,6 @@ else
 exit 0
 fi
 fi
-
 
 ##initialize variables
 
@@ -326,17 +294,12 @@ then
 truncate -s 0 $MS_LOG
 fi
 #FUNCTIONS
-if [ $virtual == 1 ]; 
+if [ $norminette == 1 ]; 
 then
-echo run vm
-fi
-if [ $unit == 1 ]; 
-then
-echo run unit
-fi
-if [ $integration == 1 ]; 
-then
-echo run integration
+bash ./norminette_tester/norminette_tester.sh -d ../../src
+echo $?
+bash ./norminette_tester/norminette_tester.sh -d ../../include -npi
+echo $?
 fi
 if [ $interactive == 1 ]; 
 then

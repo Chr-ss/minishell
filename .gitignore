@@ -70,3 +70,4 @@ vagrant
 linux_install
 !temprestart.conf
 *outfiles*
+*.log
