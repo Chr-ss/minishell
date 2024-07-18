@@ -2,6 +2,14 @@
    readline_strdup
    Memcheck:Leak
    match-leak-kinds: reachable
+   ...
+   fun:readline
+   ...
+}
+{
+   readline_strdup
+   Memcheck:Leak
+   match-leak-kinds: reachable
    fun:malloc
    fun:strdup
    fun:_nc_trim_sgr0
