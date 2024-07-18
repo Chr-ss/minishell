@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/27 15:20:04 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/16 19:14:39 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/18 13:37:52 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,6 @@ int	unset(t_msdata *data, char	**argv, char	*arg)
 	new_envp = unset_new_envp(data, env_index);
 	if (new_envp == NULL)
 		return (-1);
-	for (int i = 0; new_envp[i] != NULL; i++)
-	{
-		ft_printf("%s\n", new_envp[i]);
-	}
 	swap_envp(data, new_envp);
 	return (0);
 }

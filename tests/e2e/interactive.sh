@@ -47,6 +47,7 @@
 
 
 #initialize variables
+#colors
 RED="\x1B[31m"
 GRN="\x1B[1;32m"
 YEL="\x1B[33m"
@@ -59,10 +60,16 @@ WHT="\x1B[37m"
 RESET="\x1B[0m"
 LINEP="\033[40G"
 FAIL=false
+
+#logs
 LOG_DIR=logs
 MS_LOG=ms.log
+
+#keys
 ESC=ESC
 CLOSE=CLOSE
+
+#files
 bash_temp=temp_bash
 bash_output=bh_output.tmp
 bash_inm=bh_inmp.tmp
@@ -71,22 +78,22 @@ ms_temp=temp_mini
 ms_output=ms_output.tmp
 ms_inm=ms_inmp.tmp
 ms_filter=ms_filter.tmp
+
+#utils
 ctrlc=./util/ctrlc.sh
 ctrld=./util/ctrld.sh
 test_bh=./util/test_bh.sh
 test_ms=./util/test_ms.sh
-bash_outfiles=./outfiles
-mini_outfiles=./mini_outfiles
+
+#minishell
 minishell=$(find ../../../ -type f -name minishell)
 minishelldir=$(find ../../../ -type d -name minishell)
+
+#prepare files
 rm -rf $bash_temp
 mkdir -p $bash_temp
 rm -rf $ms_temp
 mkdir -p $ms_temp
-rm -rf $bash_outfiles
-mkdir -p $bash_outfiles
-rm -rf $mini_outfiles
-mkdir -p $mini_outfiles
 
 #export variables used in other scripts
 export bash_output
@@ -187,13 +194,20 @@ printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
 
 test "echo lol" "ctrl+c" "ctrl+d"
 # check_result_multiple_files 1 "temp1" "temp2"
-# remove_temp_files
 # test "ctrl+c" "ctrl+c" "ctrl+c" "ctrl+d"
 check_result 1
+remove_temp_files
+
+test "export var0="head -"" "export var1="n 1"" "export var2="0"" 'echo $var1$var2' 'echo $var0$var2' "ctrl+c" "ctrl+d"
+check_result 2
+
+remove_temp_files
+test "export var="    ls    "" '$var' "ctrl+c" "ctrl+d"
+check_result 3
 
 
-rm -rf $bash_temp
-rm -rf $ms_temp
+#rm -rf $bash_temp
+#rm -rf $ms_temp
 
 if [ $FAIL = true ];
 then exit 1
