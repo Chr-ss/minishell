@@ -6,17 +6,19 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/11 13:55:06 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/17 15:04:31 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/execution.h"
 
+bool is_child = 1;
+
 // REFERENCE: https://reactive.so/post/42-a-comprehensive-guide-to-pipex
 // REFERENCE: https://www.gnu.org/software/libc/manual/html_node/
 // Testing-File-Type.html
-// REFERENCE: https://janelbrandon.medium.com/understanding-the-path-variable 
+// REFERENCE: https://janelbrandon.medium.com/understanding-the-path-variable
 // -6eae0936e976
 
 // cat < src/main.c | grep if < src/execution/execution.c
@@ -45,6 +47,12 @@ int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
 	}
 	if (cmd->outfd > 0)
 	{
+		if (data->cmd_head == cmd)
+		{
+			data->org_stdout = dup(STDOUT_FILENO);
+			if (data->org_stdout == -1)
+				error("dup error stdout to data struct", data);
+		}
 		if (dup2(cmd->outfd, STDOUT_FILENO) == -1)
 			error("dup error child outfd to stdout", data);
 		if (close(cmd->outfd) == -1)
@@ -66,7 +74,7 @@ void	execute_child_dup(t_msdata *data, t_cmd *cmd)
 
 	ret = execute_child_dup_fd(data, cmd);
 	if (ret == 1)
-		return ; 
+		return ;
 	if (cmd->pipe != NULL)
 	{
 		if (dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
@@ -97,6 +105,17 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 		if (close(cmd->pipe->pipefd[WR]) == -1)
 			error("close error parent write end of pipe", data);
 	}
+	if (data->cmd_head == cmd)
+	{
+		if (data->org_stdout > 0)
+		{
+
+			if (dup2(data->org_stdout, 1) == -1)
+				error("dup org_stdout to stdout", data);
+			if (close(data->org_stdout) == -1)
+				error("close error org_stdout", data);
+		}
+	}
 }
 
 
@@ -124,6 +143,19 @@ int execute_check_builtin(t_msdata *data, t_cmd *cmd)
 	return (-1);
 }
 
+void	execute_child_minishell(t_cmd *cmd)
+{
+	int		len;
+
+	len = ft_strlen(cmd->cmd);
+	len -= 9;
+	if (len < 0)
+		return ;
+	if(!(ft_strncmp("minishell", cmd->cmd + len, 9)))
+		is_child = 0;
+	return ;
+}
+
 void	execute_child(t_msdata *data, t_cmd *cmd)
 {
 	char	*path_cmd;
@@ -137,7 +169,7 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	if (ret == -1)
 		error("execute_child execute path error\n", data);
 	else if (ret == 1)
-		perror("Command not found");
+		write(2, "minishell: Command not found\n", 29);
 	if (add_command_to_argv(&cmd, &path_cmd) == -1)
 		error("add command to argv malloc error\n", data);
 	execve(path_cmd, cmd->argv, data->envp);
@@ -145,7 +177,6 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 }
 
 // TODO: exit with data->exit_code when bash send kill signal
-// TODO: change stderr messages from error function to perror
 // TODO: add error to system call failure
 void	execute(t_msdata *data)
 {
@@ -161,13 +192,18 @@ void	execute(t_msdata *data)
 	{
 		if (cmd->pipe != NULL)
 		{
-			if (pipe(cmd->pipe->pipefd) == -1) 
+			if (pipe(cmd->pipe->pipefd) == -1)
 				error("pipe error\n", data);
 		}
 		if (cmd->pipe == NULL && cmd == data->cmd_head)
+		{
+			execute_child_dup_fd(data, cmd);
 			statuscode = execute_check_builtin(data, cmd);
+			execute_parent_close_pipe(data, cmd);
+		}
 		if (statuscode == -1)
 		{
+			execute_child_minishell(cmd);
 			pid = fork();
 			if (pid < 0)
 				error("fork error\n", data);
@@ -180,9 +216,10 @@ void	execute(t_msdata *data)
 	while(waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD);
 	// if (WIFSIGNALED(wstatus))
 	// 	statuscode = WEXITSTATUS(wstatus);
-	// else 
+	// else
 	if (WIFEXITED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
 	data->exit_code = statuscode;
+	is_child = 1;
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/13 10:22:10 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/16 19:23:30 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@
 #include "../../../include/minishell.h"
 #include "../../../include/builtins.h"
 
+
+char	*cd_chdir_pwd(void)
+{
+	char	cwd[PATH_MAX];
+	char	*ret;
+
+	if (!getcwd(cwd, PATH_MAX))
+		return (NULL);
+	ret = ft_strdup(cwd);
+	if (ret == NULL)
+		return (NULL);
+	return (ret);
+}
+
 int	cd_chdir(t_msdata *data, char *dir)
 {
 	char	*pwd;
@@ -27,7 +41,7 @@ int	cd_chdir(t_msdata *data, char *dir)
 
 	if(get_envp(data, "PWD", &old_pwd) == -1)
 		error ("cd_chdir get_envp error\n", data);
-	pwd = ft_strdup(dir);
+	pwd = cd_chdir_pwd();
 	if (!pwd || !old_pwd)
 	{
 		if (pwd)
@@ -84,14 +98,14 @@ int	cd(t_msdata *data, char ** argv)
 			error("cd get_envp error", data);
 	}
 	else if (ft_strlen(argv[0]) > PATH_MAX)
-		perror("path too long for cd\n");
+		write(2, "path too long for cd\n", 21);
 	else if (arglen > 1)
-		perror(" too many arguments\n");
+		write(2, "too many arguments\n", 19);
 	else
 		dir = cd_parse(data, argv);
 	if (dir == NULL) // this should change based on the change of cd_parse
 	{
-		perror("cd");
+		write(2, "cd\n", 3);
 		return (1);
 	}
 	if (cd_chdir(data, dir))

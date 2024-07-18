@@ -15,7 +15,7 @@ ms_filter=ms_filter.tmp
 filter()
 {
 awk '{print $NF}' 2> /dev/null $bash_temp/$bash_output >> $bash_temp/$bash_inm 
-sed -i 's/\x1b\[?2004h//g; s/\x1b\[?2004l//g; s/minishell:~//g' 2> /dev/null $bash_temp/$bash_inm 
+sed -i 's/\x1b\[?2004h[^$]*\$//g; s/\x1b\[?2004l//g; s/\x1b\[?2004h//g' 2> /dev/null $bash_temp/$bash_inm 
 tr -cd '[:print:]' 2> /dev/null < $bash_temp/$bash_inm >> $bash_temp/$bash_filter 
 }
 

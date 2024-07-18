@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/11 14:00:12 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/17 14:49:17 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_msdata
 	char		**envp;
 	int			exit_code;
 	char		pwd[PATH_MAX];
+	int			org_stdout;
 	t_expand	*exp;			// struct for line expansion
 }	t_msdata;
 

@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/13 17:38:19 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/16 18:56:52 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_token	type_handler_eof(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 
 t_token	type_handler_error(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
-	perror("Token error.");
+	write (2, "Token error.\n", 12);
 	(void) cmd;
 	(void) data;
 	(void) token;

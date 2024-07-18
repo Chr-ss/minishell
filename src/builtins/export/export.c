@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/11 13:56:53 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/16 18:59:45 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 // export lol=wat wat wat
 // export wat=lol=wat {wat='lol=wat'}
 // export wat= {wat="", echo $wat = ""}
-// export [existing variable]=new_value 
+// export [existing variable]=new_value
 // {[existing variable]=new_value, echo $[existing variable] = new_value}
 
 char	*export_check_value(char *value)
@@ -80,9 +80,41 @@ int export_print_env(t_msdata *data)
 		inner_index = 0;
 		index++;
 	}
+	ft_printf("%s\n", data->envp[index]);
 	index = 0;
 	while (data->envp[index] != NULL)
 		ft_printf("declare -x %s\n", data->envp[index++]);
+	return (0);
+}
+
+/**
+ * @brief To check if first character is a digit, export does not accept this
+ *
+ * @param argv
+ * @return int
+ */
+int export_check_identifier(char *argv)
+{
+	int index;
+
+	index = 0;
+	if (argv)
+	{
+		if (!(ft_isalpha(argv[0])))
+		{
+			write(2, "minishell: export: not a valid identifier\n", 42);
+			return (1);
+		}
+		while (argv[index] != '=' && argv[index] != '\0')
+		{
+			if (!(ft_isalnum(argv[index])))
+			{
+				write(2, "minishell: export: not a valid identifier\n", 42);
+				return (1);
+			}
+			index++;
+		}
+	}
 	return (0);
 }
 
@@ -91,24 +123,30 @@ int	export(t_msdata *data, char **argv)
 	char	*value;
 	char	*key;
 	int		check_envp;
+	int		index;
 
+	index = 0;
 	if (!argv)
 		return (export_print_env(data));
-	else if (double_array_len(argv) > 1)
-		return (-1);
-	key = get_envp_key(argv[0]);
-	if (key == NULL)
-		error("malloc error in envp_get_key in export", data);
-	value = get_envp_value(argv[0]);
-	if (value == NULL)
-		error("malloc error in envp_get_value in export", data);
-	value = export_check_value(value);
-	if (value == NULL)
-		error("malloc error in export_check_value", data);
-	check_envp = get_envp_index(key, data->envp);
-	debugger("check_envp %d\n", check_envp);
-	if (check_envp != -1)
-		unset(data, NULL, key);
-	add_envp(data, key, value);
+	while (argv && argv[index])
+	{
+		if (export_check_identifier(argv[index]))
+			return (1);
+		key = get_envp_key(argv[index]);
+		if (key == NULL)
+			error("malloc error in envp_get_key in export", data);
+		value = get_envp_value(argv[index]);
+		if (value == NULL)
+			error("malloc error in envp_get_value in export", data);
+		value = export_check_value(value);
+		if (value == NULL)
+			error("malloc error in export_check_value", data);
+		check_envp = get_envp_index(key, data->envp);
+		debugger("check_envp %d\n", check_envp);
+		if (check_envp != -1)
+			unset(data, NULL, key);
+		add_envp(data, key, value);
+		index++;
+	}
 	return (0);
 }

@@ -79,9 +79,6 @@ bash_outfiles=./outfiles
 mini_outfiles=./mini_outfiles
 minishell=$(find ../../../ -type f -name minishell)
 minishelldir=$(find ../../../ -type d -name minishell)
-cases="./cases"
-rm -rf logs
-mkdir -p logs
 rm -rf $bash_temp
 mkdir -p $bash_temp
 rm -rf $ms_temp
@@ -110,37 +107,12 @@ make -C $minishelldir re
 #https://stackoverflow.com/questions/30137135/confused-about-docker-t-option-to-allocate-a-pseudo-tty
 #https://gist.github.com/janert/e1d8e6ae74a8c94173ef35fa356ce2da
 
-apt-get update
-apt-get install -y sudo
-sudo apt-get install -y xdotool
+#prepare xdotool
+make -C ./xdotool &> /dev/null
 
-# #prepare dotool
-# dpkg -l | grep libxkbcommon-dev
-# xkb=$?
-# if [ $xkb != 0 ]; 
-# then
-# sudo apt install -y libxkbcommon-dev
-# fi
-# dpkg -l | grep scdoc
-# sc=$?
-# if [ $sc != 0 ]; 
-# then
-# sudo apt install -y scdoc
-# fi
-# dpkg -l | grep golang-go
-# go=$?
-# if [ $go != 0 ]; 
-# then
-# sudo apt install -y golang-go
-# fi
-# sudo apt-get install -y udev
-# command -v dotool
-# do=$?
-# if [ $do != 0 ]; 
-# then
-# (cd dotool && ./build.sh && sudo ./build.sh install)
-# (cd dotool && sudo udevadm control --reload && sudo udevadm trigger)
-# fi
+#add xdotool to path
+export PATH=$PATH:$(cd ./xdotool && pwd)
+
 #truncate logs
 truncate -s 0 $LOG_DIR/$MS_LOG
 
@@ -169,7 +141,7 @@ test()
 bash $test_bh "$@" &
 bash -c "bash -i &>>$bash_temp/$bash_output"
 bash $test_ms "$@" &
-bash -c "bash -i &>>$ms_temp/$ms_output"
+bash -c "$minishell &>>$ms_temp/$ms_output"
 }
 
 check_multiple_files ()
@@ -212,12 +184,6 @@ printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
 }
 
 
-# if [ $FAIL = true ];
-# then echo -e "${RED}Check logs/*.log for errors${RESET}"
-# else 
-# echo -e "${GRE}Congratulations, all tests are succesfull :)${RESET}"
-# rm -rf $LOG_DIR
-# fi
 
 test "echo lol" "ctrl+c" "ctrl+d"
 # check_result_multiple_files 1 "temp1" "temp2"
@@ -226,8 +192,12 @@ test "echo lol" "ctrl+c" "ctrl+d"
 check_result 1
 
 
-# rm -rf $bash_temp
-# rm -rf $ms_temp
+rm -rf $bash_temp
+rm -rf $ms_temp
 
-# exit 0
+if [ $FAIL = true ];
+then exit 1
+else 
+exit 0
+fi
 
