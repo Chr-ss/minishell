@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/17 14:49:17 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/19 18:53:32 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,7 @@ void	free_cmd(t_cmd *cmd);
 
 /**
  * @brief
- * This function will free everything except the cmd structure in the 
+ * This function will free everything except the cmd structure in the
  * data structure
  * @param t_msdata *data
  * @return
@@ -254,7 +254,7 @@ void	free_all(t_msdata *data);
  * @param
  *  char** src
  * @return
- * Function returns int to indicate succesful operation 
+ * Function returns int to indicate succesful operation
  * 0 is succesful operation
  * @exception
  * 1 is unsuccesful operation due to malloc error
@@ -545,6 +545,7 @@ char		*expand(t_msdata *data);
 void		expand_exp_init(t_msdata *data, t_expand *exp);
 void		expand_var_nl(t_msdata *data, t_expand *exp);
 void		expand_quote_check(char c, bool *single_q, bool *double_q);
+void	expand_copy_chars(t_msdata *data, t_expand *exp, int *pos);
 
 // SORT THIS LATER
 void		token_to_strarr(t_msdata *data, char **strarr, t_token token);

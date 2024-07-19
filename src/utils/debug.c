@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/27 15:02:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/10 13:11:31 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/19 19:40:27 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 void	debugger(char *format, ...)
 {
 	va_list	ptr;
-
 
 	if (DEBUG == 1)
 	{

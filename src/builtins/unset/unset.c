@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/27 15:20:04 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/18 13:37:52 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/19 19:45:21 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**unset_new_envp(t_msdata *data, int skip_index)
 			break ;
 		if (old_index == skip_index)
 			old_index++;
-		if(copy_over_str(index, old_index, new_envp, data->envp))
+		if (copy_over_str(index, old_index, new_envp, data->envp))
 			error("copy_over_str, malloc error", data);
 		index++;
 		old_index++;

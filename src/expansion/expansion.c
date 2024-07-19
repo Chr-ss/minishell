@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 16:31:20 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/11 15:11:07 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/19 19:39:25 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,17 @@ static void	expand_copy(t_msdata *data, t_expand *exp)
 	while (data->line[pos])
 	{
 		expand_quote_check(data->line[pos], &single_q, &double_q);
-		if (data->line[pos] == '$' && ft_isdigit((int) data->line[pos + 1]) && single_q == true)
+		if (data->line[pos] == '$' && \
+			ft_isdigit((int) data->line[pos + 1]) && single_q == true)
 			pos += 2;
-		else if (data->line[pos] == '$' && data->line[pos + 1] == '?' && single_q == true)
+		else if (data->line[pos] == '$' && data->line[pos + 1] == '?' \
+			&& single_q == true)
 			expand_exit_code(data, exp, &pos);
-		else if (data->line[pos] != '$' || single_q == false || (data->line[pos] == '$' && !ft_isalpha((int) data->line[pos + 1]) && single_q == true))
+		else if (data->line[pos] != '$' || single_q == false || \
+			(data->line[pos] == '$' && !ft_isalpha((int) data->line[pos + 1]) \
+				&& single_q == true))
 		{
-			if (exp->line_pos == exp->capacity)
-			{
-				exp->line = ft_dynstralloc(exp->line, &exp->capacity);
-				if (!exp->line)
-					error("expesion, malloc error.", data);
-			}
-			exp->line[exp->line_pos] = data->line[pos++];
-			exp->line_pos++;
+			expand_copy_chars(data, exp, &pos);
 		}
 		else if (data->line[pos] == '$' && single_q == true)
 			expand_var(data, exp, &pos);

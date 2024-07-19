@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/09 17:08:36 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 13:50:30 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/19 18:58:09 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,17 @@ void	expand_quote_check(char c, bool *single_q, bool *double_q)
 		*single_q = !*single_q;
 	else if (c == '"' && *single_q == true)
 		*double_q = !*double_q;
+}
+
+void	expand_copy_chars(t_msdata *data, t_expand *exp, int *pos)
+{
+	if (exp->line_pos == exp->capacity)
+	{
+		exp->line = ft_dynstralloc(exp->line, &exp->capacity);
+		if (!exp->line)
+			error("expesion, malloc error.", data);
+	}
+	exp->line[exp->line_pos] = data->line[*pos];
+	(*pos)++;
+	exp->line_pos++;
 }

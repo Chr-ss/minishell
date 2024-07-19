@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/10 14:56:49 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/13 16:51:08 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/19 19:36:53 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_token	type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
 	t_token	infile;
 
-	// debugger("type_handler_rein: Token REIN\n");
 	*pos += token.length;
 	*pos = skipspace(data->line, *pos);
 	token.length = 0;
@@ -53,7 +52,6 @@ t_token	type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
 	t_token	outfile;
 
-	// debugger("type_handler_reout: Token REOUT\n");
 	*pos += token.length;
 	*pos = skipspace(data->line, *pos);
 	token.length = 0;
@@ -71,7 +69,6 @@ t_token	type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
 	t_token	append;
 
-	// debugger("type_handler_append: Token APPEND\n");
 	*pos += token.length;
 	*pos = skipspace(data->line, *pos);
 	token.length = 0;
@@ -85,20 +82,20 @@ t_token	type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 	return (append);
 }
 
-t_token	type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
+t_token	type_handler_heredoc(t_msdata *data, t_cmd *cmd, t_token tkn, int *pos)
 {
 	t_token	heredoc;
 
-	// debugger("type_handler_reout: Token REOUT\n");
-	*pos += token.length;
+	*pos += tkn.length;
 	*pos = skipspace(data->line, *pos);
-	token.length = 0;
+	tkn.length = 0;
 	heredoc = tokenizer(&(data->line[*pos]));
 	if (heredoc.type != TOKEN_WORD)
 		heredoc = unexpected_token(data, heredoc);
 	else
 	{
-		cmd->heredoc = extend_strarr(cmd->heredoc, double_array_len(cmd->heredoc));
+		cmd->heredoc = extend_strarr(cmd->heredoc, \
+			double_array_len(cmd->heredoc));
 		if (!cmd->heredoc)
 			error("type_handler_heredoc; malloc error", data);
 		token_to_strarr(data, cmd->heredoc, heredoc);

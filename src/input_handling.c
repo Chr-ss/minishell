@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/17 14:00:32 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/19 19:05:03 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,4 @@ printf_cmd(data->cmd_head);
 		execute(data);
 		cmd_reset(data);
 	}
-	printf("NOT HERE!\n");
 }

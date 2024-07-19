@@ -6,24 +6,24 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 21:40:05 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/13 11:52:38 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/19 19:32:09 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	return_quoted_length(char *line, char quote)
+static int	quoted_length(char *line, char quote)
 {
-	int	quoted_len;
+	int	q_len;
 	int	i;
 
-	quoted_len = 0;
-	while (line[quoted_len] && line[quoted_len + 1] && line[quoted_len + 1] != quote)
+	q_len = 0;
+	while (line[q_len] && line[q_len + 1] && line[q_len + 1] != quote)
 	{
-		line[quoted_len] = line[quoted_len + 1];
-		quoted_len++;
+		line[q_len] = line[q_len + 1];
+		q_len++;
 	}
-	i = quoted_len;
+	i = q_len;
 	while (line[i + 2])
 	{
 		line[i] = line[i + 2];
@@ -31,146 +31,59 @@ int	return_quoted_length(char *line, char quote)
 	}
 	line[i] = '\0';
 	line[i + 1] = '\0';
-	return (quoted_len);
+	return (q_len);
+}
+
+static int	tokenizer_redirections(t_token *token)
+{
+	if (!*token->start)
+		token->type = TOKEN_EOF;
+	else if (!ft_strncmp(token->start, "|", 1))
+		token->type = TOKEN_PIPE;
+	else if (!ft_strncmp(token->start, "<<", 2))
+	{
+		token->type = TOKEN_HEREDOC;
+		token->length = 2;
+	}
+	else if (!ft_strncmp(token->start, ">>", 2))
+	{
+		token->type = TOKEN_APPEND;
+		token->length = 2;
+	}
+	else if (!ft_strncmp(token->start, "<", 1))
+		token->type = TOKEN_REIN;
+	else if (!ft_strncmp(token->start, ">", 1))
+		token->type = TOKEN_REOUT;
 }
 
 t_token	tokenizer(char *line)
 {
-	t_token	token;
-	char	*temp;
+	t_token	tkn;
 
-	token.start = line;
-	temp = token.start;
-	token.length = 1;
-	if (!*token.start)
-		token.type = TOKEN_EOF;
-	else if (!ft_strncmp(token.start, "|", 1))
-		token.type = TOKEN_PIPE;
-	else if (!ft_strncmp(token.start, "<<", 2))
+	tkn.start = line;
+	tkn.length = 1;
+	tkn.type = TOKEN_ERROR;
+	if (tokenizer_redirections(&tkn))
+		return (tkn);
+	else if (tkn.start && *tkn.start && ft_isprint(*tkn.start) \
+			&& !ft_isbashtoken(*tkn.start) && \
+			!ft_isspace(*tkn.start))
 	{
-		token.type = TOKEN_HEREDOC;
-		token.length = 2;
-	}
-	else if (!ft_strncmp(token.start, ">>", 2))
-	{
-		token.type = TOKEN_APPEND;
-		token.length = 2;
-	}
-	else if (!ft_strncmp(token.start, "<", 1))
-		token.type = TOKEN_REIN;
-	else if (!ft_strncmp(token.start, ">", 1))
-		token.type = TOKEN_REOUT;
-	else if (token.start && *token.start && ft_isprint((int) *token.start) && !ft_isbashtoken((int) *token.start) && !ft_isspace((int) *token.start))
-	{
-		token.type = TOKEN_WORD;
-		token.length = 0;
-		while (temp[token.length] && ft_isprint((int) temp[token.length]) && !ft_isbashtoken((int) temp[token.length]) && !ft_isspace((int) temp[token.length]))
+		tkn.type = TOKEN_WORD;
+		tkn.length = 0;
+		while (tkn.start[tkn.length] && ft_isprint(tkn.start[tkn.length]) \
+				&& !isbash(tkn.start[tkn.length]) && \
+				!ft_isspace(tkn.start[tkn.length]))
 		{
-			if (temp[token.length] == '\'' || temp[token.length] == '"')
-				token.length += return_quoted_length(&temp[token.length], temp[token.length]);
+			if (tkn.start[tkn.length] == '\'' || tkn.start[tkn.length] == '"')
+				tkn.length += quoted_length(&tkn.start[tkn.length], \
+				tkn.start[tkn.length]);
 			else
-				token.length++;
+				tkn.length++;
 		}
 	}
-	else
-		token.type = TOKEN_ERROR;
-	return (token);
+	return (tkn);
 }
-
-// echo "$USER"'$USER'"$USER"
-
-// DEBUGGNG DUNCTION:
-// t_token	tokenizer(char *line)
-// {
-// 	t_token	token;
-// 	char	*temp;
-
-// 	token.start = line;
-// 	temp = token.start;
-// 	token.length = 1;
-// 	if (!*token.start)
-// 	{
-// 		token.type = TOKEN_EOF;
-// 		if (DEBUG == 1)
-// 		{
-// 			write(1, "EOF, ", 5);
-// 			write(1, &token.start[0], token.length);
-// 			write(1, "$\n", 2);
-// 		}
-// 	}
-// 	else if (!ft_strncmp(token.start, "|", 1))
-// 	{
-// 		token.type = TOKEN_PIPE;
-// 		if (DEBUG == 1)
-// 		{
-// 			write(1, "PIPE, ", 6);
-// 			write(1, &token.start[0], token.length);
-// 			write(1, "$\n", 2);
-// 		}
-// 	}
-// 	else if (!ft_strncmp(token.start, "<<", 2))
-// 	{
-// 		token.type = TOKEN_HEREDOC;
-// 		token.length = 2;
-// 		if (DEBUG == 1)
-// 		{
-// 			write(1, "HEREDOC, ", 9);
-// 			write(1, &token.start[0], token.length);
-// 			write(1, "$\n", 2);
-// 		}
-// 	}
-// 	else if (!ft_strncmp(token.start, "<", 1))
-// 	{
-// 		token.type = TOKEN_REIN;
-// 		if (DEBUG == 1)
-// 		{
-// 			write(1, "REIN, ", 6);
-// 			write(1, &token.start[0], token.length);
-// 			write(1, "$\n", 2);
-// 		}
-// 	}
-// 	else if (!ft_strncmp(token.start, ">>", 2))
-// 	{
-// 		token.type = TOKEN_APPEND;
-// 		token.length = 2;
-// 		if (DEBUG == 1)
-// 		{
-// 			write(1, "APPEND, ", 8);
-// 			write(1, &token.start[0], token.length);
-// 			write(1, "$\n", 2);
-// 		}
-// 	}
-// 	else if (!ft_strncmp(token.start, ">", 1))
-// 	{
-// 		token.type = TOKEN_REOUT;
-// 		if (DEBUG == 1)
-// 		{
-// 			write(1, "REOUT, ", 7);
-// 			write(1, &token.start[0], token.length);
-// 			write(1, "$\n", 2);
-// 		}
-// 	}
-// 	else if (token.start && *token.start && ft_isprint((int) *token.start) && !ft_isbashtoken((int) *token.start) && !ft_isspace((int) *token.start))
-// 	{
-// 		token.type = TOKEN_WORD;
-// 		token.length = 0;
-// 		while (temp[token.length] && ft_isprint((int) temp[token.length]) && !ft_isbashtoken((int) temp[token.length]) && !ft_isspace((int) temp[token.length]))
-// 		{
-// 			if (temp[token.length] == '\'' || temp[token.length] == '"')
-// 				token.length += return_quoted_length(&temp[token.length], temp[token.length]);
-// 			token.length++;
-// 		}
-// 		if (DEBUG == 1)
-// 		{
-// 			write(1, "WORD, ", 6);
-// 			write(1, &token.start[0], token.length);
-// 			write(1, "$\n", 2);
-// 		}
-// 	}
-// 	else
-// 		token.type = TOKEN_ERROR;
-// 	return (token);
-// }
 
 int	line_to_token(t_msdata *data, char *line)
 {

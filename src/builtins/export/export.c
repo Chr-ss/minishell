@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/18 13:39:35 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/19 19:46:34 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 // export wat= {wat="", echo $wat = ""}
 // export [existing variable]=new_value
 // {[existing variable]=new_value, echo $[existing variable] = new_value}
-
 char	*export_check_value(char *value)
 {
 	int		index;
@@ -49,7 +48,7 @@ char	*export_check_value(char *value)
 	return (value);
 }
 
-int export_print_env(t_msdata *data)
+int	export_print_env(t_msdata *data)
 {
 	int		index;
 	int		inner_index;
@@ -93,7 +92,7 @@ int export_print_env(t_msdata *data)
  * @param argv
  * @return int
  */
-int export_check_identifier(char *argv)
+int	export_check_identifier(char *argv)
 {
 	int index;
 

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/27 15:02:08 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/16 18:33:42 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/19 19:43:58 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ char	*add_envp_new_entry(char **new_envp, char *key, char *value)
 {
 	char	*new_entry;
 	char	*temp;
-	
+
 	if (value && ft_strncmp(value, "", 1))
 		temp = ft_strjoin(key, "=");
-	else 
+	else
 		temp = key;
 	if (temp == NULL)
 	{
@@ -51,7 +51,7 @@ void	add_envp(t_msdata *data, char *key, char *value)
 	new_envp[len] = NULL;
 	while (data->envp[index] != NULL)
 	{
-		if(copy_over_str(index, index, new_envp, data->envp))
+		if (copy_over_str(index, index, new_envp, data->envp))
 			error("copy_over_str, malloc error", data);
 		index++;
 	}

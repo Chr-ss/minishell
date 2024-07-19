@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/01 15:01:31 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 16:54:31 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/19 19:43:10 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	skipspace(char *str, int pos)
 	return (pos);
 }
 
-int	ft_isbashtoken(int c)
+int	isbash(int c)
 {
 	if (c == '|' || c == '>' || c == '<' || c == 0)
 		return (1);
@@ -33,7 +33,7 @@ char	**extend_strarr(char **strarr, int strarr_size)
 
 	i = 0;
 	strarr_size++;
-	new_strarr = ft_calloc(strarr_size + 1, sizeof(char*));
+	new_strarr = ft_calloc(strarr_size + 1, sizeof(char *));
 	if (!new_strarr)
 	{
 		if (strarr)

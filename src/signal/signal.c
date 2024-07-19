@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/04 13:46:31 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/17 14:03:03 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/19 19:39:47 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 	(void)info;
 	(void)ucontext;
 
-	if (sig == SIGINT && is_child) // ctrl + c
+	if (sig == SIGINT && is_child)
 	{
-		ft_printf("\n"); // Move to a new line
-		rl_on_new_line(); // Regenerate the prompt on a newline
-		rl_replace_line("", 0); // Clear the previous text
+		ft_printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }

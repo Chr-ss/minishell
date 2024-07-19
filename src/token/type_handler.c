@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/16 18:56:52 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/19 19:34:47 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 t_token	type_handler_word(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
-	// debugger("type_handler_word: Token WORD\n");
 	if (!cmd->cmd)
 	{
 		cmd->cmd = ft_strndup(token.start, (size_t) token.length);
@@ -34,7 +33,6 @@ t_token	type_handler_word(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 
 t_token	type_handler_pipe(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
-	// debugger("type_handler_pipe: Token pipe");
 	if (!data->cmd_curr->cmd)
 		token = unexpected_token(data, token);
 	data->cmd_curr->pipe = ft_calloc(1, sizeof(t_cmd));
