@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 21:40:05 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/21 16:16:35 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/21 16:43:34 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ static int	tokenizer_redirections(t_token *token)
 		token->type = TOKEN_REIN;
 	else if (!ft_strncmp(token->start, ">", 1))
 		token->type = TOKEN_REOUT;
-	return (0);
+	else
+		return (0);
+	return (1);
 }
 
 t_token	tokenizer(char *line)
