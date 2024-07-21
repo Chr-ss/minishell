@@ -305,6 +305,7 @@ bash ./norminette_tester/norminette_tester.sh -d ../../src
 norm_1=$(echo $?)
 bash ./norminette_tester/norminette_tester.sh -d ../../include -npi
 norm_2=$(echo $?)
+mv norminette.log logs/
 if [[ $norm_1 == 1 || $norm_2 == 1 ]];
 then
 FAIL=true
@@ -355,7 +356,9 @@ while IFS= read -r line; do
 	MINI_OUTFILES=$(cp -r $outfiles/* $mini_outfiles &>> $MS_LOG)
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0')
 	if [ $memory = 1 ]; then
-	echo -e "$line" | $valgrind_cmd $minishell &>> $MS_LOG
+	echo -e "$x | $line " >> $MEMORY_LOG
+	echo LOG >> $MEMORY_LOG
+	MINI_MEM_LOG=$(echo -e "$line" | $valgrind_cmd $minishell &>> $MEMORY_LOG)
 	MINI_MEM_CODE=$(echo $?)
 	fi
 
@@ -418,7 +421,6 @@ while IFS= read -r line; do
 	if [ "$MINI_MEM_CODE" != 0 ]; then
 		MEMORY_FAIL=true
 		printf "${RED} memory error;${RESET}"
-		echo -e "$x | $line " >> $MEMORY_LOG
 		echo mini memory exit code = $MINI_MEM_CODE >> $MEMORY_LOG
 	fi
 	printf "\n"
