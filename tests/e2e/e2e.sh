@@ -246,7 +246,7 @@ outfiles=./files/outfiles
 bash_outfiles=./files/bash_outfiles
 mini_outfiles=./files/mini_outfiles
 noaccess=./files/noaccess/noaccess
-suppressions=./utils/valgrind_suppresion
+suppressions=./util/valgrind_suppresion
 
 #valgrind
 valgrind_cmd="valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all --suppressions=$suppressions"

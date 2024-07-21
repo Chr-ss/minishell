@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 21:40:05 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/21 15:37:11 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/21 16:16:35 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ int	line_to_token(t_msdata *data, char *line)
 {
 	t_token	token;
 
+	token.start = NULL;
+	token.length = 0;
+	token.type = 0;
 	while (token.type != TOKEN_EOF)
 	{
 		data->pos = skipspace(line, data->pos);
