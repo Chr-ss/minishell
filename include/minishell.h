@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/19 18:53:32 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/21 16:01:23 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,10 +147,12 @@ int	env(t_msdata *data, char **argv);
  *  after modulu operation.
  * @param t_msdata *data
  * @param char **argv
+ * @param int code
+ * @note if argv is NULL then int code will be used
  * @return
  * Function returns nothing
 */
-int			mini_exit(t_msdata *data, char **argv);
+int			mini_exit(t_msdata *data, char **argv, int code);
 
 /**
  * @brief

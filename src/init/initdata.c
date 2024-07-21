@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:50:51 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/17 14:46:14 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/21 15:47:06 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,6 @@ void	initdata(t_msdata *data, char **envp)
 		if (!shlvl)
 			error("initdata: malloc error", data);
 		change_envp("SHLVL", shlvl, data->envp);
+		free(shlvl);
 	}
 }

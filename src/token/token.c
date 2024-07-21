@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 21:40:05 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/19 19:32:09 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/21 15:37:11 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int	tokenizer_redirections(t_token *token)
 		token->type = TOKEN_REIN;
 	else if (!ft_strncmp(token->start, ">", 1))
 		token->type = TOKEN_REOUT;
+	return (0);
 }
 
 t_token	tokenizer(char *line)
@@ -72,7 +73,7 @@ t_token	tokenizer(char *line)
 		tkn.type = TOKEN_WORD;
 		tkn.length = 0;
 		while (tkn.start[tkn.length] && ft_isprint(tkn.start[tkn.length]) \
-				&& !isbash(tkn.start[tkn.length]) && \
+				&& !ft_isbashtoken(tkn.start[tkn.length]) && \
 				!ft_isspace(tkn.start[tkn.length]))
 		{
 			if (tkn.start[tkn.length] == '\'' || tkn.start[tkn.length] == '"')

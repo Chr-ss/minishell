@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/17 15:04:31 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/21 16:01:47 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int execute_check_builtin(t_msdata *data, t_cmd *cmd)
 	else if (!ft_strncmp("unset", cmd->cmd, len))
 		return (unset(data, cmd->argv, NULL));
 	else if (!ft_strncmp("exit", cmd->cmd, len))
-		return (mini_exit(data, cmd->argv));
+		return (mini_exit(data, cmd->argv, 0));
 	else
 		return (-1);
 	return (-1);
@@ -185,6 +185,8 @@ void	execute(t_msdata *data)
 	int		wstatus;
 	int		statuscode;
 
+	pid = -1;
+	wstatus = 0;
 	statuscode = -1;
 	cmd = data->cmd_head;
 	debugger("\n------------execution----------------\n\n");

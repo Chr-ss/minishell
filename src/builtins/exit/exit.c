@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/11 13:52:54 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/21 16:00:16 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // exit 255+ is undefined
 
 // TODO: ARGV should always be made eventhough no arguments given to command
-int	mini_exit(t_msdata *data, char **argv)
+int	mini_exit(t_msdata *data, char **argv, int code)
 {
 	int		ec;
 
@@ -29,6 +29,8 @@ int	mini_exit(t_msdata *data, char **argv)
 	if (argv[0])
 		ec = ft_atoi(argv[0]) % 256;
 	}
+	else 
+		ec = code % 256;
 	free_all(data);
 	exit(ec);
 }

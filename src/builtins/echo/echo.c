@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/28 15:58:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/11 13:26:53 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/21 15:45:28 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	echo(t_msdata *data, char	**argv)
 	if (printline == NULL)
 		error("error in malloc for echo", data);
 	ft_printf("%s", printline);
+	if (printline)
+		free(printline);
 	if (print_nl)
 		echo_nl();
 	return (0);

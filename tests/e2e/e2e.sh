@@ -43,6 +43,10 @@ Arguments:
 	This flag will disable the memory tests run in this tester.
 	This flag does not work with all no flags selected
 
+  -ni, --no-interactive
+	This flag will disable the interactive tests run in this tester.
+	This flag does not work with all no flags selected
+
   -nu, --no-norminette
 	This flag will disable the norminette tests run in this tester.
 	This flag does not work with all no flags selected

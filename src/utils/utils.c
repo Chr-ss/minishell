@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/01 15:01:31 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/19 19:43:10 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/21 15:33:23 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	skipspace(char *str, int pos)
 	return (pos);
 }
 
-int	isbash(int c)
+int	ft_isbashtoken(int c)
 {
 	if (c == '|' || c == '>' || c == '<' || c == 0)
 		return (1);

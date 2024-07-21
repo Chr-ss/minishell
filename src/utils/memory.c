@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/24 18:43:01 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/11 14:00:29 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/21 16:04:53 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	free_data(t_msdata *data)
 		free_char_array(data->envp);
 		data->envp = NULL;
 	}
+	if (data->cmd_head)
+		free(data->cmd_head);
 }
 
 void	free_char_array(char **arr)
