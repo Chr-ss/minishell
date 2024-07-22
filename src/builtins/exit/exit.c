@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/21 16:00:16 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/22 14:29:15 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	mini_exit(t_msdata *data, char **argv, int code)
 	{
 		if (double_array_len(argv) > 1)
 			return (1);
-	if (argv[0])
-		ec = ft_atoi(argv[0]) % 256;
+		if (argv[0])
+			ec = ft_atoi(argv[0]) % 256;
 	}
-	else 
+	else
 		ec = code % 256;
 	free_all(data);
 	exit(ec);
