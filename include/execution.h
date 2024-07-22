@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/22 13:44:28 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/22 15:32:26 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,53 @@
 # define EXECUTION_H
 
 # include "minishell.h"
+
+/**
+ * @brief this function will prepare the child with dup and closing
+ * all the correct fds
+ * @param t_msdata *data 
+ * @param t_cmd *cmd 
+ * @return void 
+ * @exception
+ * if something goes wrong then error function is called
+ */
+void	execute_child_dup(t_msdata *data, t_cmd *cmd);
+
+/**
+ * @brief this function will execute the cmd in a child
+ * @param t_msdata *data 
+ * @param t_cmd *cmd 
+ * @return void 
+ */
+void	execute_child(t_msdata *data, t_cmd *cmd);
+
+/**
+ * @brief this function will check if cmd is minishell and prepares
+ * parent for this.
+ * @param t_cmd *cmd 
+ * @return void 
+ */
+void	execute_child_minishell(t_cmd *cmd);
+
+/**
+ * @brief this function will check if cmd is a builtin, if function
+ * is builtin it will execute and return exit code of builtin.
+ * Otherwise it will return -1
+ * @param t_msdata *data 
+ * @param t_cmd *cmd 
+ * @return int 
+ */
+int	execute_check_builtin(t_msdata *data, t_cmd *cmd);
+
+/**
+ * @brief this function will dup and close all fds for 
+ * the execution of child
+ * @param t_msdata *data 
+ * @param t_cmd *cmd 
+ * @exception if something goes wrong then error function will 
+ * be called
+ */
+int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd);
 
 /**
  * @brief

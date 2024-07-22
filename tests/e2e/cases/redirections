@@ -97,3 +97,6 @@ echo hi | echo >>./outfiles/outfile01 bye >./test_files/invalid_permission
 cat <./outfiles/minishell.h>./outfiles/outfile
 cat <./outfiles/minishell.h|ls
 echo wat | grep wat > ./outfiles/lol.txt
+cat < ../../src/main.c | grep if < ../../src/execution/execution.c
+cat < ../../src/main.c | grep if > ./outfiles/lol.txt
+ls -l | grep cases > ./outfiles/test | cat -e
