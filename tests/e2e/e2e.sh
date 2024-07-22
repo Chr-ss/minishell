@@ -47,7 +47,7 @@ Arguments:
 	This flag will disable the interactive tests run in this tester.
 	This flag does not work with all no flags selected
 
-  -nu, --no-norminette
+  -nn, --no-norminette
 	This flag will disable the norminette tests run in this tester.
 	This flag does not work with all no flags selected
 
@@ -114,7 +114,7 @@ while [ "$#" -gt 0 ]; do
 		memory=0
 		shift 
 		;;
-		-nu|--no-norminette)
+		-nn|--no-norminette)
 		norminette=0
 		shift 
 		;;
