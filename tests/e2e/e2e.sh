@@ -368,6 +368,7 @@ while IFS= read -r line; do
 	rm -rf $outfiles/*
 	rm -rf $bash_outfiles/*
 	BASH_OUTPUT=$(echo -e "$line" | bash 2>>$MS_LOG)
+	BASH_OUTPUT=$(echo $BASH_OUTPUT | xargs -0)
 	echo $BASH_OUTPUT &>> $MS_LOG
 	BASH_EXIT_CODE=$(echo -e "$line" | bash 2>> $MS_LOG ; echo $?)
 	BASH_EXIT_CODE=$(echo "${BASH_EXIT_CODE##* }" | tail -1)
