@@ -6,13 +6,13 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/21 16:02:11 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/22 13:19:38 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-extern bool is_child;
+extern bool g_is_child;
 
 void	input_handling(t_msdata *data)
 {

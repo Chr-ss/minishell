@@ -6,13 +6,13 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:50:51 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/21 15:47:06 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/22 13:19:38 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern bool is_child;
+extern bool g_is_child;
 
 static void	initdata_cpy_envp(t_msdata *data, char **envp)
 {
