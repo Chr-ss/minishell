@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 16:31:20 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/19 19:39:25 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/22 15:03:24 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,18 @@
 
 static void	expand_exit_code(t_msdata *data, t_expand *exp, int *pos)
 {
+	char	*exit_code;
+
 	(*pos)++;
 	(*pos)++;
-	exp->env = ft_itoa(data->exit_code);
+	exit_code = ft_itoa(data->exit_code);
+	if (!exit_code)
+		error("expand_exit_code: malloc error", data);
+	exp->env = exit_code;
 	expand_var_nl(data, exp);
+	if (exit_code)
+		free(exit_code);
+	exp->env = NULL;
 }
 
 static char	*expand_getenv(char **envp, char *env_start, int env_len)
