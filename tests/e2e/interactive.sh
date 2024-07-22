@@ -202,6 +202,20 @@ remove_temp_files
 test 8 "ctrl+c" "ctrl+d"
 check_result
 
+
+mkdir -p outfiles
+remove_temp_files
+test 9 "export CDPATH=.:./outfiles/lol" "mkdir -p ./outfiles/lol" "cd ./outfiles/lol" "pwd" "ctrl+c" "ctrl+d"
+check_result
+rm -rf outfiles
+
+mkdir -p outfiles
+remove_temp_files
+test 10 "mkdir -p ./outfiles/lol" "cd ./outfiles" "cd lol" "pwd" "ctrl+c" "ctrl+d"
+check_result
+rm -rf outfiles
+
+
 #TODO: add heredoc 
 
 # check_result_multiple_files 1 "temp1" "temp2"
