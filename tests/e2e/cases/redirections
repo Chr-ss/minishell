@@ -19,7 +19,6 @@ cat -e > files/outfiles/out1 < files/outfiles/doesnotexsits
 cat -e > files/outfiles/doesnotexsits < files/infile/test2
 #
 cat -e > files/outfiles/test1 < files/infile/test2
-
 # LucasKuhn - minishell_tester
 grep hi <./files/infile/test1
 grep hi "<infile" <         ./files/infile/test1

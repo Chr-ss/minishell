@@ -1,4 +1,3 @@
-
 # LucasKuhn - minishell_tester
 env | sort | grep -v SHLVL | grep -v ^_
 cat ./test_files/infile_big | grep oi
