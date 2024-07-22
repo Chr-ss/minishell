@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/22 13:16:23 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/22 14:26:52 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 # define BUILTINS_H
 
 # include "minishell.h"
+
+/**
+ * @brief this function is responsible to print the env
+ * in export
+ * @param t_msdata *data 
+ * @return int 
+ */
+int		export_print_env(t_msdata *data);
 
 /**
  * @brief
@@ -60,7 +68,6 @@ char	*echo_getline(char **argv, int *print_nl);
  * 0: arg is a -n flag;
  * 1: arg is not -n flag
 */
-int	echo_check_nl(char *arg);
+int		echo_check_nl(char *arg);
 
 #endif	// BUILTINS_H
-
