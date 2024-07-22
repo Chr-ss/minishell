@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/22 13:04:34 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/22 20:51:54 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@
 //https://insanecoding.blogspot.com/2007/11/pathmax-simply-isnt.html
 #include "../../../include/minishell.h"
 #include "../../../include/builtins.h"
+
+int	cd_chdir_free(int ret, char *pwd, char *old_pwd)
+{
+	if (pwd)
+		free(pwd);
+	if (old_pwd)
+		free(old_pwd);
+	return (ret);
+}
 
 char	*cd_chdir_pwd(void)
 {
@@ -50,15 +59,30 @@ int	cd_chdir(t_msdata *data, char *dir)
 		return (EXIT_FAILURE);
 	}
 	if (chdir(dir) == -1)
-		return (EXIT_FAILURE);
+		return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
 	if (change_envp("PWD", pwd, data->envp) == -1)
-		return (EXIT_FAILURE);
+		return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
 	if (change_envp("OLDPWD", old_pwd, data->envp) == -1)
 	{
 		if (change_envp("PWD", old_pwd, data->envp) == -1)
-			return (EXIT_FAILURE);
+			return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
 	}
-	return (EXIT_SUCCESS);
+	return (cd_chdir_free(EXIT_SUCCESS, pwd, old_pwd));
+}
+
+int	cd_error(int arglen, char **argv)
+{
+	if (ft_strlen(argv[0]) > PATH_MAX)
+	{
+		write(2, "path too long for cd\n", 21);
+		return (1);
+	}
+	else if (arglen > 1)
+	{
+		write(2, " too many arguments\n", 20);
+		return (1);
+	}
+	return (0);
 }
 
 int	cd(t_msdata *data, char **argv)
@@ -68,20 +92,18 @@ int	cd(t_msdata *data, char **argv)
 
 	dir = NULL;
 	arglen = double_array_len(argv);
+	if (cd_error(arglen, argv))
+		return (1);
 	if (arglen == 0)
 	{
 		if (get_envp(data, "HOME", &dir) == -1)
 			error("cd get_envp error", data);
 	}
-	else if (ft_strlen(argv[0]) > PATH_MAX)
-		write(2, "path too long for cd\n", 21);
-	else if (arglen > 1)
-		write(2, "too many arguments\n", 19);
 	else
 		dir = cd_parse(data, argv);
 	if (dir == NULL)
 	{
-		write(2, "cd\n", 3);
+		write(2, " No such file or directory\n", 27);
 		return (1);
 	}
 	if (cd_chdir(data, dir))
