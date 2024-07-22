@@ -418,7 +418,7 @@ while IFS= read -r line; do
 		echo mini error = \($MINI_ERROR_MSG\) >> $ERROR_LOG
 		echo bash error = \($BASH_ERROR_MSG\) >> $ERROR_LOG
 	fi
-	if [ "$MINI_MEM_CODE" != 0 ]; then
+	if [ "$MINI_MEM_CODE" == 42 ]; then
 		echo -e "$x | $line " >> $MEMORY_LOG
 		echo LOG >> $MEMORY_LOG
 		MEMORY_FAIL=true
