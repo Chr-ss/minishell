@@ -37,7 +37,8 @@ export hello 1world
 export HELLO-=123
 export =
 export 123
-export 
+# this works, but no bothering changing the env variable of bash / minishell execution
+#export 
 unset
 unset HELLO
 unset HELLO1 HELLO2
