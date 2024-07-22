@@ -6,11 +6,12 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/24 19:15:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/11 13:25:37 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/22 13:16:47 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
+#include "../../../include/builtins.h"
 
 //cd functions
 //dso == dot + slash + operand {./OPERAND}
@@ -106,13 +107,7 @@ char	*cd_parse(t_msdata *data, char **argv)
 	cdpath = NULL;
 	ft_strlcpy(operand, argv[0], 2);
 	if (!ft_strncmp(argv[0], "-", ft_strlen(argv[0])))
-	{
-		ret = get_envp(data, "OLDPWD", &cdpath);
-		if (ret == -1)
-			error("cdparse getenvp error", data);
-		ft_printf("%s\n", cdpath);
-		return (cdpath);
-	}
+		return (cd_parse_oldpwd(data));
 	if (operand[0] == '/')
 		return (argv[0]);
 	else if (operand[0] == '.' || !ft_strncmp(operand, "..", 2))
