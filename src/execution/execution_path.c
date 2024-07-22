@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 11:49:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/22 15:18:50 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/22 17:12:55 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,9 @@ int	execute_path(char	*cmd, t_msdata *data, char **path_cmd)
 	if (ret == -1 || ret == 1)
 		return (ret);
 	path_spl = ft_split(path, ':');
+	free(path);
 	if (!path_spl)
-	{
-		if (path)
-			free(path);
 		return (-1);
-	}
 	ret = execute_path_check(path_spl, cmd, path_cmd);
 	free_char_array(path_spl);
 	if (*path_cmd == NULL && ret == -1)
