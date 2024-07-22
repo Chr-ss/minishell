@@ -6,13 +6,13 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/22 13:19:38 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/22 16:41:35 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-extern bool g_is_child;
+extern bool	g_is_child;
 
 void	input_handling(t_msdata *data)
 {
@@ -29,19 +29,15 @@ void	input_handling(t_msdata *data)
 		data->line = expand(data);
 		if (!data->line)
 			error("input_handling malloc error.", data);
-// EXPAND DEBUG //
-debugger("\nexpanded:~$%s\n\n", data->line);
-// EXPAND DEBUG //
+		debugger("\nexpanded:~$%s\n\n", data->line);
 		if (parsing(data) == -1)
 			continue ;
 		if (line_to_token(data, data->line) == -1)
 			continue ;
 		if (heredoc(data) == -1)
 			break ;
-// CMD PRINTING DEBUG //
-debugger("\n");
-printf_cmd(data->cmd_head);
-// CMD PRINTING DEBUG //
+		debugger("\n");
+		printf_cmd(data->cmd_head);
 		execute(data);
 		cmd_reset(data);
 	}
