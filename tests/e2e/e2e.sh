@@ -236,6 +236,7 @@ NORM_FAIL=false
 LOG_DIR=logs
 MS_LOG=$LOG_DIR/ms.log
 MEMORY_LOG=$LOG_DIR/memory.log
+TEMP_MEMORY_LOG=$LOG_DIR/temp_memory.log
 ERROR_LOG=$LOG_DIR/error_message.log
 OUTPUT_LOG=$LOG_DIR/output_diff.log
 EXIT_LOG=$LOG_DIR/exit_code.log
@@ -356,9 +357,7 @@ while IFS= read -r line; do
 	MINI_OUTFILES=$(cp -r $outfiles/* $mini_outfiles &>> $MS_LOG)
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0')
 	if [ $memory = 1 ]; then
-	echo -e "$x | $line " >> $MEMORY_LOG
-	echo LOG >> $MEMORY_LOG
-	MINI_MEM_LOG=$(echo -e "$line" | $valgrind_cmd $minishell &>> $MEMORY_LOG)
+	MINI_MEM_LOG=$(echo -e "$line" | $valgrind_cmd $minishell &> $TEMP_MEMORY_LOG)
 	MINI_MEM_CODE=$(echo $?)
 	fi
 
@@ -420,8 +419,11 @@ while IFS= read -r line; do
 		echo bash error = \($BASH_ERROR_MSG\) >> $ERROR_LOG
 	fi
 	if [ "$MINI_MEM_CODE" != 0 ]; then
+		echo -e "$x | $line " >> $MEMORY_LOG
+		echo LOG >> $MEMORY_LOG
 		MEMORY_FAIL=true
 		printf "${RED} memory error;${RESET}"
+		cat $TEMP_MEMORY_LOG >> $MEMORY_LOG
 		echo mini memory exit code = $MINI_MEM_CODE >> $MEMORY_LOG
 	fi
 	printf "\n"
@@ -432,7 +434,7 @@ done
 
 chmod 444 $noaccess
 rm -rf $files_temp
-
+rm -rf $TEMP_MEMORY_LOG
 if [ $FAIL = true ];
 then 
 if [ $OUTFILES_FAIL = true ];
