@@ -6,14 +6,14 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/21 16:01:47 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/22 13:19:38 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/execution.h"
 
-bool is_child = 1;
+bool g_is_child = 1;
 
 // REFERENCE: https://reactive.so/post/42-a-comprehensive-guide-to-pipex
 // REFERENCE: https://www.gnu.org/software/libc/manual/html_node/
@@ -152,7 +152,7 @@ void	execute_child_minishell(t_cmd *cmd)
 	if (len < 0)
 		return ;
 	if(!(ft_strncmp("minishell", cmd->cmd + len, 9)))
-		is_child = 0;
+		g_is_child = 0;
 	return ;
 }
 
@@ -222,6 +222,6 @@ void	execute(t_msdata *data)
 	if (WIFEXITED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
 	data->exit_code = statuscode;
-	is_child = 1;
+	g_is_child = 1;
 	return ;
 }

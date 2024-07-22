@@ -6,13 +6,13 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/04 13:46:31 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/19 19:39:47 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/22 13:20:00 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern bool is_child;
+extern bool	g_is_child;
 
 // https://docs.rtems.org/releases/4.5.1-pre3/toolsdoc/
 // gdb-5.0-docs/readline/readline00030.html
@@ -21,8 +21,7 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
-
-	if (sig == SIGINT && is_child)
+	if (sig == SIGINT && g_is_child)
 	{
 		ft_printf("\n");
 		rl_on_new_line();
