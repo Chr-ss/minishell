@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/22 15:27:50 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/22 17:38:37 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ bool	g_is_child = 1;
 // Testing-File-Type.html
 // REFERENCE: https://janelbrandon.medium.com/understanding-the-path-variable
 // -6eae0936e976
-
+// REFERENCE: https://stackoverflow.com/questions/47441871/why-should-we-check
+// -wifexited-after-wait-in-order-to-kill-child-processes-in-lin
+// REFERENCE: https://people.cs.rutgers.edu/~pxk/416/notes/c-tutorials/wait.html
 void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 {
 	if (!(data->cmd_head == cmd))
@@ -81,7 +83,7 @@ void	execute(t_msdata *data)
 	int		statuscode;
 
 	pid = -1;
-	wstatus = 0;
+	wstatus = -1;
 	statuscode = -1;
 	cmd = data->cmd_head;
 	debugger("\n------------execution----------------\n\n");
@@ -92,7 +94,7 @@ void	execute(t_msdata *data)
 	}
 	while (waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD)
 		;
-	if (WIFEXITED(wstatus))
+	if (WIFEXITED(wstatus) || WIFSTOPPED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
 	data->exit_code = statuscode;
 	g_is_child = 1;
