@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/22 15:32:26 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/22 16:40:21 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	execute_child_minishell(t_cmd *cmd);
  * @param t_cmd *cmd 
  * @return int 
  */
-int	execute_check_builtin(t_msdata *data, t_cmd *cmd);
+int		execute_check_builtin(t_msdata *data, t_cmd *cmd);
 
 /**
  * @brief this function will dup and close all fds for 
@@ -60,7 +60,7 @@ int	execute_check_builtin(t_msdata *data, t_cmd *cmd);
  * @exception if something goes wrong then error function will 
  * be called
  */
-int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd);
+int		execute_child_dup_fd(t_msdata *data, t_cmd *cmd);
 
 /**
  * @brief
@@ -74,7 +74,7 @@ int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd);
  * @exception
  *  -1 is unsuccesful operation due to malloc failure
 */
-int	add_command_to_argv(t_cmd	**cmd_s, char	**path_cmd);
+int		add_command_to_argv(t_cmd	**cmd_s, char	**path_cmd);
 
 /**
  * @brief
@@ -90,6 +90,6 @@ int	add_command_to_argv(t_cmd	**cmd_s, char	**path_cmd);
  * @exception
  *  -1 is unsuccesful operation due to malloc failure
 */
-int	execute_path(char	*cmd, t_msdata *data, char **path_cmd);
+int		execute_path(char	*cmd, t_msdata *data, char **path_cmd);
 
 #endif	// EXECUTION_H
