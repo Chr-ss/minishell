@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/11 13:52:04 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/22 13:44:28 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,3 @@ int	add_command_to_argv(t_cmd	**cmd_s, char	**path_cmd);
 int	execute_path(char	*cmd, t_msdata *data, char **path_cmd);
 
 #endif	// EXECUTION_H
-

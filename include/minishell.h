@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/21 16:01:23 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/22 13:39:51 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int			cd(t_msdata *data, char **argv);
  * @return
  * Function returns nothing
 */
-int	pwd(void);
+int			pwd(void);
 
 /**
  * @brief
@@ -136,7 +136,7 @@ int	pwd(void);
  * 0 is succesful operation
  * 1 is unsuccesful operation due to envp not found
 */
-int	env(t_msdata *data, char **argv);
+int			env(t_msdata *data, char **argv);
 
 /**
  * @brief
@@ -168,7 +168,7 @@ int			mini_exit(t_msdata *data, char **argv, int code);
  * @return
  * Function returns nothing
 */
-int	export(t_msdata *data, char **argv);
+int			export(t_msdata *data, char **argv);
 
 /**
  * @brief
@@ -223,7 +223,7 @@ void		debugger(char *format, ...);
  * @return
  * Function returns nothing
 */
-void	free_cmd(t_cmd *cmd);
+void		free_cmd(t_cmd *cmd);
 
 /**
  * @brief
@@ -233,7 +233,7 @@ void	free_cmd(t_cmd *cmd);
  * @return
  * Function returns nothing
 */
-void	free_data(t_msdata *data);
+void		free_data(t_msdata *data);
 
 /**
  * @brief
@@ -242,8 +242,7 @@ void	free_data(t_msdata *data);
  * @return
  * Function returns nothing
 */
-void	free_all(t_msdata *data);
-
+void		free_all(t_msdata *data);
 
 /**
  * @brief
@@ -261,7 +260,7 @@ void	free_all(t_msdata *data);
  * @exception
  * 1 is unsuccesful operation due to malloc error
 */
-int		copy_over_str(int dst_index, int src_index, char**dst, char **src);
+int			copy_over_str(int dst_index, int src_index, char**dst, char **src);
 
 /**
  * @brief
@@ -547,7 +546,7 @@ char		*expand(t_msdata *data);
 void		expand_exp_init(t_msdata *data, t_expand *exp);
 void		expand_var_nl(t_msdata *data, t_expand *exp);
 void		expand_quote_check(char c, bool *single_q, bool *double_q);
-void	expand_copy_chars(t_msdata *data, t_expand *exp, int *pos);
+void		expand_copy_chars(t_msdata *data, t_expand *exp, int *pos);
 
 // SORT THIS LATER
 void		token_to_strarr(t_msdata *data, char **strarr, t_token token);

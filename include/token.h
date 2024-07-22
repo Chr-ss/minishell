@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   lexer.h                                            :+:    :+:            */
+/*   token.h                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/24 21:12:18 by crasche       #+#    #+#                 */
-/*   Updated: 2024/06/02 16:32:26 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/22 13:49:13 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef TOKEN_H
+# define TOKEN_H
 
 typedef enum e_token_type
 {
@@ -32,5 +32,4 @@ typedef struct s_token
 	t_token_type	type;
 }	t_token;
 
-
-#endif	// LEXER_H
+#endif	// TOKEN_H
