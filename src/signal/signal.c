@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/04 13:46:31 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/22 14:03:27 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/22 14:28:20 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 		rl_redisplay();
 	}
 }
+
 //TODO: check if the exit here should be changed to mini_exit or no
+
 void	init_signal(void)
 {
 	struct sigaction	sa;
