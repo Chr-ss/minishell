@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/24 18:43:01 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/21 16:04:53 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/22 14:05:46 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	free_all(t_msdata *data)
 {
 	free_cmd(data->cmd_head);
 	free_data(data);
+	rl_clear_history();
 }
 
 void	free_data(t_msdata *data)
