@@ -49,7 +49,7 @@ cd $PWD
 cd $PWD hi
 cd 123123
 exit 123
-exit 298
+exit 299
 exit +100
 exit "+100"
 exit +"100"
