@@ -326,7 +326,7 @@ fi
 
 x=0
 MINI_MEM_CODE=0
-test_cases=("errors")
+test_cases=("redirections")
 for case in "$cases"/*; do
 
 #uncomment to only do certain test files

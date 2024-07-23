@@ -1,14 +1,15 @@
 #
-echo test > files/outfiles/out1
-echo test > files/static_outfile/empty
-echo test > files/noaccess/noaccess
-echo test > files/outfiles/doesnotexsits
-rm -rf files/static_outfile/lol
-#
 echo test < files/infile/test1
 echo test < files/infile/empty
 echo test < files/noaccess/noaccess
 echo test < files/outfiles/doesnotexsits
+#
+echo test > files/outfiles/out1
+echo test > files/static_outfile/empty
+echo test > files/noaccess/noaccess
+echo test > files/outfiles/doesnotexsits
+rm -rf files/outfiles/doesnotexsits
+rm -rf files/static_outfile/lol
 #
 cat -e > files/outfiles/out1 < files/infile/test2
 cat -e > files/outfiles/out1 < files/infile/empty

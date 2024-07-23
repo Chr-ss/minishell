@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:34:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/22 14:41:17 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 13:48:40 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
 
 	ret = 0;
 	if (cmd->infd < 0 || cmd->outfd < 0)
-		error("error in parsing, cmds not executed", data);
+		return (-1);
 	if (cmd->infd > 0)
 		ret = execute_child_dup_fd_in(data, cmd);
 	if (cmd->outfd > 0)
@@ -65,8 +65,11 @@ void	execute_child_dup(t_msdata *data, t_cmd *cmd)
 	int	ret;
 
 	ret = execute_child_dup_fd(data, cmd);
-	if (ret == 1)
-		return ;
+	if (ret == -1)
+	{
+		free_all(data);
+		exit(1);
+	}
 	if (cmd->pipe != NULL)
 	{
 		if (dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)

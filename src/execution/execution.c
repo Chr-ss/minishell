@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 12:56:59 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 13:49:42 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,11 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 	}
 	if (cmd->pipe == NULL && cmd == data->cmd_head)
 	{
-		execute_child_dup_fd(data, cmd);
+		if (execute_child_dup_fd(data, cmd) == -1)
+		{
+			*statuscode = 1;
+			return ;
+		}
 		*statuscode = execute_check_builtin(data, cmd);
 		execute_parent_close_pipe(data, cmd);
 	}
