@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:02:41 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/19 19:37:57 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/23 12:48:53 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	parsing(t_msdata *data)
 		return (-1);
 	if (parsing_syntax_pipe(data) == -1)
 	{
-		write(2, "syntax error near unexpected token `|'\n", 39);
+		write(2, " syntax error near unexpected token `|'\n", 40);
 		data->exit_code = 2;
 		return (-1);
 	}
