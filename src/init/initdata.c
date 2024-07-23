@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:50:51 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/23 20:06:41 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/23 22:02:39 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,9 @@ void	initdata_shlvl(t_msdata *data, int index)
 
 void	initdata(t_msdata *data, char **envp)
 {
-	char	*shlvl;
 	int		index;
 
 	index = 0;
-	shlvl = NULL;
 	data->cmd_head = ft_calloc(sizeof(t_cmd), 1);
 	if (!data->cmd_head)
 		error("initdata: malloc error", data);

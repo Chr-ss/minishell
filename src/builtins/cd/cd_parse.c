@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/24 19:15:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 18:01:18 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 22:02:09 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ char	*cd_parse_dso(char *operand)
 	dir_check = 0;
 	concat = ft_strjoin("./", operand);
 	dir_check = check_dir(concat);
-	free(concat);
 	if (dir_check == EXIT_FAILURE)
 		return (NULL);
 	else if (dir_check == EXIT_SUCCESS)

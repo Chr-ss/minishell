@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:34:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 20:22:21 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/23 22:48:10 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 
 int	execute_child_dup_fd_out(t_msdata *data, t_cmd *cmd)
 {
-	// if (data->cmd_head == cmd)
-	// {
-		data->org_stdout = dup2(STDOUT_FILENO, 1001);
-		if (data->org_stdout == -1)
-			error("dup error stdout to data struct", data);
-	// }
 	if (dup2(cmd->outfd, STDOUT_FILENO) == -1)
 		error("dup error child outfd to stdout", data);
 	if (close(cmd->outfd) == -1)
@@ -34,12 +28,6 @@ int	execute_child_dup_fd_out(t_msdata *data, t_cmd *cmd)
 
 int	execute_child_dup_fd_in(t_msdata *data, t_cmd *cmd)
 {
-	// if (data->cmd_head == cmd && cmd->pipe == NULL)
-	// {
-		data->org_stdin = dup2(STDIN_FILENO, 1000);
-		if (data->org_stdin == -1)
-			error("dup error stdin to data struct", data);
-	// }
 	if (dup2(cmd->infd, STDIN_FILENO) == -1)
 		error("dup error child infd to stdin", data);
 	if (close(cmd->infd) == -1)
@@ -57,6 +45,12 @@ int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
 	int	ret;
 
 	ret = 0;
+	data->org_stdin = dup2(STDIN_FILENO, 1000);
+	if (data->org_stdin == -1)
+		error("dup error stdin to data struct", data);
+	data->org_stdout = dup2(STDOUT_FILENO, 1001);
+	if (data->org_stdout == -1)
+		error("dup error stdout to data struct", data);
 	if (cmd->infd < 0 || cmd->outfd < 0)
 		return (-1);
 	if (cmd->infd > 0)
@@ -82,8 +76,8 @@ void	execute_child_dup(t_msdata *data, t_cmd *cmd)
 			error("dup error child write end pipe to stdout", data);
 		if (close(cmd->pipe->pipefd[WR]) == -1)
 			error("close error child write end pipe after dub to stdout", data);
-		if (close(cmd->pipe->pipefd[RD]) == -1)
-			error("close error child read end pipe after dub to stdout", data);
+		// if (close(cmd->pipe->pipefd[RD]) == -1)
+		// 	error("close error child read end pipe after dub to stdout", data);
 	}
 	if (!(data->cmd_head == cmd))
 	{

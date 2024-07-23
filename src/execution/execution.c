@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 20:18:25 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/23 22:49:01 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,27 @@ bool	g_is_child = 1;
 // -wifexited-after-wait-in-order-to-kill-child-processes-in-lin
 // REFERENCE: https://people.cs.rutgers.edu/~pxk/416/notes/c-tutorials/wait.html
 
+void	execute_parent_restore_fds(t_msdata *data)
+{
+	if (data->org_stdin > 0)
+	{
+		if (dup2(data->org_stdin, STDIN_FILENO) == -1)
+			error("dup org_stdout to stdout", data);
+		if (close(data->org_stdin) == -1)
+			error("close error org_stdout", data);
+		data->org_stdin = -2;
+	}
+	if (data->org_stdout > 0)
+	{
+		if (dup2(data->org_stdout, STDOUT_FILENO) == -1)
+			error("dup org_stdout to stdout", data);
+		if (close(data->org_stdout) == -1)
+			error("close error org_stdout", data);
+		data->org_stdout = -2;
+	}
+}
+
+
 void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 {
 	if (!(data->cmd_head == cmd))
@@ -33,28 +54,25 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 	}
 	if (cmd->pipe != NULL)
 	{
+		if (close(cmd->pipe->pipefd[RD]) == -1)
+			error("close error parent read end of pipe", data);
 		if (close(cmd->pipe->pipefd[WR]) == -1)
 			error("close error parent write end of pipe", data);
 	}
-	if (data->cmd_head == cmd)
+	if (cmd->pipe == NULL)
 	{
-		if (data->org_stdin > 0)
+		if (cmd->infd > 0)
 		{
-			if (dup2(data->org_stdin, STDIN_FILENO) == -1)
-				error("dup org_stdout to stdout", data);
-			if (close(data->org_stdin) == -1)
-				error("close error org_stdout", data);
-			data->org_stdin = -2;
+			if (close(cmd->infd) == -1)
+				error("close error parent read end of pipe", data);
 		}
-		if (data->org_stdout > 0)
+		if (cmd->outfd > 0)
 		{
-			if (dup2(data->org_stdout, STDOUT_FILENO) == -1)
-				error("dup org_stdout to stdout", data);
-			if (close(data->org_stdout) == -1)
-				error("close error org_stdout", data);
-			data->org_stdout = -2;
+			if (close(cmd->outfd) == -1)
+				error("close error parent read end of pipe", data);
 		}
 	}
+
 }
 
 void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
@@ -74,9 +92,12 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 		if (*pid < 0)
 			error("fork error\n", data);
 		if (*pid == 0)
+		{
 			execute_child(data, cmd);
-		execute_parent_close_pipe(data, cmd);
+			execute_parent_close_pipe(data, cmd);
+		}
 	}
+	execute_parent_restore_fds(data);
 }
 
 // TODO: exit with data->exit_code when bash send kill signal
