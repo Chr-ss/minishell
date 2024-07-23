@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:35:07 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 18:02:32 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 19:59:26 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	char	*path_cmd;
 	int		ret;
 
-	execute_child_dup(data, cmd);
 	ret = execute_check_builtin(data, cmd);
 	if (ret > -1)
 		exit(ret);

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 19:00:19 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 20:18:25 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,21 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 	}
 	if (data->cmd_head == cmd)
 	{
-		if (data->org_stdout > 0)
-		{
-			if (dup2(data->org_stdout, STDOUT_FILENO) == -1)
-				error("dup org_stdout to stdout", data);
-			if (close(data->org_stdout) == -1)
-				error("close error org_stdout", data);
-			data->org_stdout = 0;
-		}
 		if (data->org_stdin > 0)
 		{
 			if (dup2(data->org_stdin, STDIN_FILENO) == -1)
 				error("dup org_stdout to stdout", data);
 			if (close(data->org_stdin) == -1)
 				error("close error org_stdout", data);
-			data->org_stdin = 0;
+			data->org_stdin = -2;
+		}
+		if (data->org_stdout > 0)
+		{
+			if (dup2(data->org_stdout, STDOUT_FILENO) == -1)
+				error("dup org_stdout to stdout", data);
+			if (close(data->org_stdout) == -1)
+				error("close error org_stdout", data);
+			data->org_stdout = -2;
 		}
 	}
 }
@@ -64,16 +64,9 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 		if (pipe(cmd->pipe->pipefd) == -1)
 			error("pipe error\n", data);
 	}
+	execute_child_dup(data, cmd);
 	if (cmd->pipe == NULL && cmd == data->cmd_head)
-	{
-		if (execute_child_dup_fd(data, cmd) == -1)
-		{
-			*statuscode = 1;
-			return ;
-		}
 		*statuscode = execute_check_builtin(data, cmd);
-		execute_parent_close_pipe(data, cmd);
-	}
 	if (*statuscode == -1)
 	{
 		execute_child_minishell(cmd);

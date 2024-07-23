@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:34:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 18:56:49 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 20:22:21 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	execute_child_dup_fd_out(t_msdata *data, t_cmd *cmd)
 {
-	if (data->cmd_head == cmd)
-	{
-		data->org_stdout = dup(STDOUT_FILENO);
+	// if (data->cmd_head == cmd)
+	// {
+		data->org_stdout = dup2(STDOUT_FILENO, 1001);
 		if (data->org_stdout == -1)
 			error("dup error stdout to data struct", data);
-	}
+	// }
 	if (dup2(cmd->outfd, STDOUT_FILENO) == -1)
 		error("dup error child outfd to stdout", data);
 	if (close(cmd->outfd) == -1)
@@ -34,12 +34,12 @@ int	execute_child_dup_fd_out(t_msdata *data, t_cmd *cmd)
 
 int	execute_child_dup_fd_in(t_msdata *data, t_cmd *cmd)
 {
-	if (data->cmd_head == cmd)
-	{
-		data->org_stdin = dup(STDIN_FILENO);
+	// if (data->cmd_head == cmd && cmd->pipe == NULL)
+	// {
+		data->org_stdin = dup2(STDIN_FILENO, 1000);
 		if (data->org_stdin == -1)
 			error("dup error stdin to data struct", data);
-	}
+	// }
 	if (dup2(cmd->infd, STDIN_FILENO) == -1)
 		error("dup error child infd to stdin", data);
 	if (close(cmd->infd) == -1)
