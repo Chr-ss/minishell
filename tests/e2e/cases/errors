@@ -2,7 +2,8 @@
 |
 >
 <
-$
+# $ works but tester does not handle extra $ well in output
+#$
 lol
 wat
 nu

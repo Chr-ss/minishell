@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:35:07 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 13:04:46 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 13:19:10 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	else if (ret == 1)
 	{
 		write(2, "minishell: command not found\n", 29);
-		mini_exit(data, NULL, 127);
+		free_all(data);
+		exit(127);
 	}
 	if (add_command_to_argv(&cmd, &path_cmd) == -1)
 		error("add command to argv malloc error\n", data);

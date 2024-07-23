@@ -329,7 +329,7 @@ MINI_MEM_CODE=0
 test_cases=("errors")
 for case in "$cases"/*; do
 
-# uncomment to only do certain test files
+#uncomment to only do certain test files
 # case_check=${case##*/}
 # case $case_check in
 # 	$test_cases) :;;
