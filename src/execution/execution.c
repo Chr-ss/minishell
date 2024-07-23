@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 12:30:51 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 12:56:59 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ bool	g_is_child = 1;
 // REFERENCE: https://stackoverflow.com/questions/47441871/why-should-we-check
 // -wifexited-after-wait-in-order-to-kill-child-processes-in-lin
 // REFERENCE: https://people.cs.rutgers.edu/~pxk/416/notes/c-tutorials/wait.html
+
 void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 {
 	if (!(data->cmd_head == cmd))
