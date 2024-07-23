@@ -97,6 +97,8 @@ make -C ./xdotool &> /dev/null
 
 #add xdotool to path
 export PATH=$PATH:$(cd ./xdotool && pwd)
+WINDOW_ID=$(LD_LIBRARY_PATH=xdotool xdotool getactivewindow)
+export WINDOW_ID
 
 #truncate logs
 

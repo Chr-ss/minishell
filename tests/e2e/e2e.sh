@@ -59,6 +59,10 @@ Arguments:
 	This flag will only run the norminette tests run in this tester. 
 	This flag does not work with multiple only flags
 
+  -oi, --only-interactive
+	This flag will only run the interactive tests run in this tester. 
+	This flag does not work with multiple only flags
+
   -oe, --only-e2e
 	This flag will only run the end-to-end tests run in this tester.
 	This flag does not work with multiple only flags
@@ -102,14 +106,6 @@ while [ "$#" -gt 0 ]; do
 		clean=1
 		shift 
 		;;
-		-v|--virtual)
-		virtual=1
-		shift 
-		;;
-		-i|--interactive)
-		interactive=1
-		shift 
-		;;
 		-nm|--no-memory)
 		memory=0
 		shift 
@@ -137,7 +133,7 @@ while [ "$#" -gt 0 ]; do
 		set_only=1
 		shift 
 		;;
-		-oI|--only-interactive)
+		-oi|--only-interactive)
 		norminette=0
 		integration=0
 		e2e=0
@@ -184,7 +180,7 @@ if [[ $set_only_multiple == 1 ]];
 then 
 usage_fatal "you can only set one '-o*, --only-*' flag"
 fi
-if [[ $norminette == 0 && $e2e == 0 && $norminette == 0 ]];
+if [[ $norminette == 0 && $e2e == 0 && $norminette == 0 && $interactive == 0 ]];
 then 
 usage_fatal "not all '-n*, --no-*' flags can be selected at the same time"
 exit 1
