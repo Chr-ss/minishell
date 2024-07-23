@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/10 14:56:49 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/19 19:36:53 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/23 18:33:03 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_token	type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 		infile = unexpected_token(data, infile);
 	else
 	{
-		openfile(data, infile, O_TRUNC | O_RDONLY, &cmd->infd);
+		openfile(data, infile, O_RDONLY, &cmd->infd);
 		if (cmd->heredoc)
 			free_char_array(cmd->heredoc);
 		cmd->heredoc = NULL;
@@ -60,7 +60,7 @@ t_token	type_handler_reout(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 		outfile = unexpected_token(data, outfile);
 	else
 	{
-		openfile(data, outfile, O_TRUNC | O_WRONLY, &cmd->outfd);
+		openfile(data, outfile, O_CREAT | O_TRUNC | O_WRONLY, &cmd->outfd);
 	}
 	return (outfile);
 }
@@ -77,7 +77,7 @@ t_token	type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 		append = unexpected_token(data, append);
 	else
 	{
-		openfile(data, append, O_APPEND | O_WRONLY, &cmd->outfd);
+		openfile(data, append, O_CREAT | O_APPEND | O_WRONLY, &cmd->outfd);
 	}
 	return (append);
 }
