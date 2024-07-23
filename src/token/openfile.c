@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/19 19:33:21 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/23 18:14:03 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@ void	openfile(t_msdata *data, t_token token, int open_flag, int *fd)
 	filename = ft_strndup(token.start, token.length);
 	if (!filename)
 		error("openfile: malloc error.", data);
-	new_fd = open(filename, O_CREAT | open_flag, 0644);
+	new_fd = open(filename, open_flag, 0644);
 	if (new_fd == -1)
 	{
-		write(2, filename, ft_strlen(filename));
-		write(2, ": Permission denied\n", 20);
+		perror(" ");
 	}
 	if (*fd)
 	{
