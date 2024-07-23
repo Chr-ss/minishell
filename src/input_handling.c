@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/23 18:51:40 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 23:18:54 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ void	input_handling(t_msdata *data)
 		if (data->line)
 			free(data->line);
 		data->line = NULL;
-		debugger("here again\n\n");
 		data->line = readline("minishell:~$");
-		debugger("here again 2\n\n");
 		if (!data->line)
 			mini_exit(data, NULL, data->exit_code);
 		if (data->line[0])
@@ -42,6 +40,5 @@ void	input_handling(t_msdata *data)
 		printf_cmd(data->cmd_head);
 		execute(data);
 		cmd_reset(data);
-		debugger("\nafter execution\n\n");
 	}
 }

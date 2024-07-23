@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/23 18:34:57 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/23 23:22:50 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void	openfile(t_msdata *data, t_token token, int open_flag, int *fd)
 	if (!filename)
 		error("openfile: malloc error.", data);
 	new_fd = open(filename, open_flag, 0644);
-	if (new_fd == -1)
-		perror(" ");
 	if (*fd)
 	{
 		close(*fd);

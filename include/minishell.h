@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/23 18:55:37 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 23:52:25 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_msdata
 	char		pwd[PATH_MAX];
 	int			org_stdout;
 	int			org_stdin;
+	bool		overrule_exit;
 	t_expand	*exp;			// struct for line expansion
 }	t_msdata;
 

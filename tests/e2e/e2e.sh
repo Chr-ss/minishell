@@ -325,12 +325,12 @@ MINI_MEM_CODE=0
 test_cases=("redirections")
 for case in "$cases"/*; do
 
-#uncomment to only do certain test files
-# case_check=${case##*/}
-# case $case_check in
-# 	$test_cases) :;;
-# 	*)	continue;;
-# esac
+# uncomment to only do certain test files
+case_check=${case##*/}
+case $case_check in
+	$test_cases) :;;
+	*)	continue;;
+esac
 
 
 echo -e "${BCYN}$case${RESET}"
@@ -351,7 +351,7 @@ while IFS= read -r line; do
 	MINI_OUTPUT=${MINI_OUTPUT%'minishell:~$'}
 	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs -0)
 	MINI_OUTFILES=$(cp -r $outfiles/* $mini_outfiles &>> $MS_LOG)
-	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0')
+	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0' | head -n1)
 	if [ $memory = 1 ]; then
 	MINI_MEM_LOG=$(echo -e "$line" | $valgrind_cmd $minishell &> $TEMP_MEMORY_LOG)
 	MINI_MEM_CODE=$(echo $?)

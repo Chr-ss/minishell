@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 22:49:01 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/24 00:40:56 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,17 @@ void	execute_parent_restore_fds(t_msdata *data)
 
 void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 {
-	if (!(data->cmd_head == cmd))
-	{
-		if (close(cmd->pipefd[RD]) == -1)
-			error("close error parent read end of pipe", data);
-	}
+	// if (!(data->cmd_head == cmd))
+	// {
+	// 	if (close(cmd->pipefd[RD]) == -1)
+	// 		error("close error parent read end of pipe", data);
+	// }
 	if (cmd->pipe != NULL)
 	{
 		if (close(cmd->pipe->pipefd[RD]) == -1)
 			error("close error parent read end of pipe", data);
-		if (close(cmd->pipe->pipefd[WR]) == -1)
-			error("close error parent write end of pipe", data);
+		// if (close(cmd->pipe->pipefd[WR]) == -1)
+		// 	error("close error parent write end of pipe", data);
 	}
 	if (cmd->pipe == NULL)
 	{
@@ -82,7 +82,13 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 		if (pipe(cmd->pipe->pipefd) == -1)
 			error("pipe error\n", data);
 	}
-	execute_child_dup(data, cmd);
+	if(execute_child_dup(data, cmd))
+	{
+		data->overrule_exit = true;
+		execute_parent_restore_fds(data);
+		debugger("%d\n", *statuscode);
+		return ;
+	}
 	if (cmd->pipe == NULL && cmd == data->cmd_head)
 		*statuscode = execute_check_builtin(data, cmd);
 	if (*statuscode == -1)
@@ -94,9 +100,9 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 		if (*pid == 0)
 		{
 			execute_child(data, cmd);
-			execute_parent_close_pipe(data, cmd);
 		}
 	}
+	execute_parent_close_pipe(data, cmd);
 	execute_parent_restore_fds(data);
 }
 
@@ -120,10 +126,14 @@ void	execute(t_msdata *data)
 		execute_pipe(data, cmd, &pid, &statuscode);
 		cmd = cmd->pipe;
 	}
+	debugger("after %d\n", statuscode);
 	while (waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD)
 		;
 	if (WIFEXITED(wstatus) || WIFSTOPPED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
+	if (data->overrule_exit == true)
+		statuscode = 1;
+	debugger("after 2 %d\n", statuscode);
 	data->exit_code = statuscode;
 	debugger("\nhere\n\n");
 	g_is_child = 1;

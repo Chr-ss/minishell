@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/22 16:40:21 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 23:17:50 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
  * all the correct fds
  * @param t_msdata *data 
  * @param t_cmd *cmd 
- * @return void 
+ * @return int, 1 is for file descriptor error, 0 is good execution 
  * @exception
  * if something goes wrong then error function is called
  */
-void	execute_child_dup(t_msdata *data, t_cmd *cmd);
+int	execute_child_dup(t_msdata *data, t_cmd *cmd);
 
 /**
  * @brief this function will execute the cmd in a child

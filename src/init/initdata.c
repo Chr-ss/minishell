@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:50:51 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/23 22:02:39 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/23 23:53:33 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	initdata(t_msdata *data, char **envp)
 	data->exit_code = 0;
 	data->org_stdout = -2;
 	data->org_stdin = -2;
+	data->overrule_exit = false;
 	initdata_cpy_envp(data, envp);
 	index = get_envp_index("SHLVL", data->envp);
 	if (index != -1)
