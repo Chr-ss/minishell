@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:34:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 18:02:20 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 18:56:49 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ int	execute_child_dup_fd_out(t_msdata *data, t_cmd *cmd)
 
 int	execute_child_dup_fd_in(t_msdata *data, t_cmd *cmd)
 {
+	if (data->cmd_head == cmd)
+	{
+		data->org_stdin = dup(STDIN_FILENO);
+		if (data->org_stdin == -1)
+			error("dup error stdin to data struct", data);
+	}
 	if (dup2(cmd->infd, STDIN_FILENO) == -1)
 		error("dup error child infd to stdin", data);
 	if (close(cmd->infd) == -1)

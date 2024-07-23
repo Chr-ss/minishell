@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 18:03:06 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 19:00:19 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,19 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 	{
 		if (data->org_stdout > 0)
 		{
-			if (dup2(data->org_stdout, 1) == -1)
+			if (dup2(data->org_stdout, STDOUT_FILENO) == -1)
 				error("dup org_stdout to stdout", data);
 			if (close(data->org_stdout) == -1)
 				error("close error org_stdout", data);
+			data->org_stdout = 0;
+		}
+		if (data->org_stdin > 0)
+		{
+			if (dup2(data->org_stdin, STDIN_FILENO) == -1)
+				error("dup org_stdout to stdout", data);
+			if (close(data->org_stdin) == -1)
+				error("close error org_stdout", data);
+			data->org_stdin = 0;
 		}
 	}
 }
@@ -102,6 +111,7 @@ void	execute(t_msdata *data)
 	if (WIFEXITED(wstatus) || WIFSTOPPED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
 	data->exit_code = statuscode;
+	debugger("\nhere\n\n");
 	g_is_child = 1;
 	return ;
 }
