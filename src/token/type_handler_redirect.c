@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/10 14:56:49 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/23 18:05:14 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/23 18:33:03 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_token	type_handler_rein(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 		infile = unexpected_token(data, infile);
 	else
 	{
-		openfile(data, infile, O_RDONLY | O_TRUNC, &cmd->infd);
+		openfile(data, infile, O_RDONLY, &cmd->infd);
 		if (cmd->heredoc)
 			free_char_array(cmd->heredoc);
 		cmd->heredoc = NULL;
