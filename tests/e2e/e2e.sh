@@ -39,6 +39,10 @@ Arguments:
 	This will clean all directories that are not needed, usually
 	temporary directories used by the tester 
 
+  -i, --interactive
+	This flag will enable the interactive tests run in this tester.
+	This flag does not work with all no flags selected 
+
   -nm, --no-memory
 	This flag will disable the memory tests run in this tester.
 	This flag does not work with all no flags selected
@@ -81,7 +85,7 @@ virtual=0
 norminette=1
 memory=1
 e2e=1
-interactive=1
+interactive=0
 set_only=0
 set_only_multiple=0
 clean=0
@@ -104,6 +108,10 @@ while [ "$#" -gt 0 ]; do
 		;;
 		-C|--clean)
 		clean=1
+		shift 
+		;;
+		-i|--interactive)
+		interactive=1
 		shift 
 		;;
 		-nm|--no-memory)
@@ -311,7 +319,7 @@ fi
 fi
 if [ $interactive == 1 ]; 
 then
-bash interactive.sh
+bash interactive.sh 1
 fi
 if [ $e2e == 0 ]; 
 then
