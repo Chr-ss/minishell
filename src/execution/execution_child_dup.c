@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:34:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 00:34:35 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/24 09:19:50 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ int	execute_child_dup(t_msdata *data, t_cmd *cmd)
 	{
 		if (dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
 			error("dup error child write end pipe to stdout", data);
-		if (close(cmd->pipe->pipefd[WR]) == -1)
-			error("close error child write end pipe after dub to stdout", data);
 	}
 	return (0);
 }

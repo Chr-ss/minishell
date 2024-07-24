@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 09:04:54 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/24 09:20:00 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,32 +47,11 @@ void	execute_parent_restore_fds(t_msdata *data)
 
 void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 {
-	// if (!(data->cmd_head == cmd))
-	// {
-	// 	if (close(cmd->pipefd[RD]) == -1)
-	// 		error("close error parent read end of pipe", data);
-	// }
 	if (cmd->pipe != NULL)
 	{
-		// if (close(cmd->pipe->pipefd[RD]) == -1)
-		// 	error("close error parent read end of pipe", data);
 		if (close(cmd->pipe->pipefd[WR]) == -1)
 			error("close error parent write end of pipe", data);
 	}
-	// if (cmd->pipe == NULL)
-	// {
-	// 	if (cmd->infd > 0)
-	// 	{
-	// 		if (close(cmd->infd) == -1)
-	// 			error("close error parent infd", data);
-	// 	}
-	// 	if (cmd->outfd > 0)
-	// 	{
-	// 		if (close(cmd->outfd) == -1)
-	// 			error("close error parent outfd", data);
-	// 	}
-	// }
-
 }
 
 void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
