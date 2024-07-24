@@ -23,6 +23,7 @@ echo 'exit_code ->$? user ->$USER home -> $HOME'
 echo "$"
 echo '$'
 echo $
+echo -n
 echo $?
 echo $?HELLO
 pwd

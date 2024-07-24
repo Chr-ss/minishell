@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/28 17:06:50 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/05 18:17:59 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/24 17:03:52 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,33 +39,33 @@ char	*echo_getline_malloc(char *ret, char *arg)
 	return (ret);
 }
 
-char	*echo_getline_first_arg(char **argv, int *print_nl, int *index)
+char	*echo_getline_first_arg(char **argv, int *print_nl, int *i, int l)
 {
 	char	*ret;
 
-	ret = ft_strdup(argv[*index]);
+	ret = ft_strdup(argv[*i]);
 	if (ret == NULL)
 		return (NULL);
-	++(*index);
-	while (!echo_check_nl(ret))
+	++(*i);
+	while (!echo_check_nl(ret) && l > 1)
 	{
 		free(ret);
 		*print_nl = 0;
-		ret = ft_strdup(argv[*index]);
+		ret = ft_strdup(argv[*i]);
 		if (ret == NULL)
 			return (NULL);
-		++(*index);
+		++(*i);
 	}
 	return (ret);
 }
 
-char	*echo_getline(char **argv, int *print_nl)
+char	*echo_getline(char **argv, int *print_nl, int arglen)
 {
 	char	*ret;
 	int		index;
 
 	index = 0;
-	ret = echo_getline_first_arg(argv, print_nl, &index);
+	ret = echo_getline_first_arg(argv, print_nl, &index, arglen);
 	if (ret == NULL)
 		return (NULL);
 	while (argv[index] != NULL)

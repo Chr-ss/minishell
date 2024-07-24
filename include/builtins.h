@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/22 15:22:22 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/24 16:55:50 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*cd_parse_oldpwd(t_msdata *data);
  * @exception
  *  function returns NULL if parsing was unsuccesfull due to malloc errors
 */
-char	*echo_getline(char **argv, int *print_nl);
+char	*echo_getline(char **argv, int *print_nl, int arglen);
 
 /**
  * @brief
