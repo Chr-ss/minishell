@@ -35,6 +35,7 @@ FAIL=false
 #logs
 LOG_DIR=logs
 INTER_LOG=interactive.log
+INTER_DIFF_LOG=interactive_diff.log
 INTER_MEM_LOG=interactive_memory.log
 
 #keys
@@ -50,7 +51,7 @@ ms_temp=temp_mini
 ms_output=ms_output.tmp
 ms_inm=ms_inmp.tmp
 ms_filter=ms_filter.tmp
-suppressions=./utils/valgrind_suppresion
+suppressions=./util/valgrind_suppresion
 cases=./cases/interactive
 
 #valgrind
@@ -94,6 +95,8 @@ else
 make -C $minishelldir re
 fi
 
+rm -rf $LOG_DIR/$INTER_MEM_LOG
+
 #https://stackoverflow.com/questions/30137135/confused-about-docker-t-option-to-allocate-a-pseudo-tty
 #https://gist.github.com/janert/e1d8e6ae74a8c94173ef35fa356ce2da
 
@@ -116,14 +119,23 @@ remove_temp_files()
 
 check_result()
 {
+diff $bash_temp/$bash_filter $ms_temp/$ms_filter &>> $LOG_DIR/$INTER_DIFF_LOG
 dstatus=$?
 ARG=$1
-if [ $dstatus == 0 ];
+if [[ $dstatus == 0 && $memstatus != 42 ]];
 	then 
 	printf " ✅\n"
 	else
-	printf " ❌\n"
+	printf " ❌"
+	if [ $dstatus != 0 ];
+	then echo -ne "${RED} diff error ${RESET}"
+	fi 
+	if [ $memstatus == 42 ];
+	then echo -ne "${RED} mem error ${RESET}"
+	fi 
+	printf "\n"
 fi
+memstatus=0
 }
 
 test()
@@ -133,9 +145,14 @@ bash $test_bh "${@:2}" &
 bash -c "bash -i &>>$bash_temp/$bash_output"
 bash $test_ms "${@:2}" &
 bash -c "$minishell &>>$ms_temp/$ms_output"
-# bash $test_mem "${@:2}" &
-# bash -c "$valgrind_cmd $minishell &>>$LOG_DIR/$INTER_MEM_LOG"
-# echo memexit code $?
+if [[ $2 == 1 ]]; then
+echo 
+echo -ne "${BCYN}memcheck: ignore potential output ${RESET}"
+bash $test_mem "${@:2}" &
+bash -c "$valgrind_cmd $minishell &>> $LOG_DIR/$INTER_MEM_LOG"
+memstatus=$(echo $?)
+sleep 1
+fi
 }
 
 check_multiple_files ()
@@ -187,6 +204,7 @@ remove_temp_files
 test 2 'export var0="head -"' 'export var1="n 1"' 'export var2="0"' 'echo $var1$var2' 'echo $var0$var2' "ctrl+c" "ctrl+d"
 check_result
 
+
 remove_temp_files
 test 3 'export var="    ls    "' '$var' "ctrl+c" "ctrl+d"
 check_result
@@ -212,7 +230,6 @@ remove_temp_files
 test 8 "ctrl+c" "ctrl+d"
 check_result
 
-
 mkdir -p outfiles
 remove_temp_files
 test 9 "export CDPATH=.:./outfiles/lol" "mkdir -p ./outfiles/lol" "cd ./outfiles/lol" "pwd" "ctrl+c" "ctrl+d"
@@ -233,6 +250,7 @@ rm -rf outfiles
 
 rm -rf $bash_temp
 rm -rf $ms_temp
+rm -rf $LOG_DIR/$INTER_MEM_LOG
 
 if [ $FAIL = true ];
 then exit 1

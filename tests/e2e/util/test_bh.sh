@@ -15,7 +15,7 @@ export WINDOW_ID
 
 filter()
 {
-sed -i 's/\x1b\[?2004h[^$]*\$//g; s/\x1b\[?2004l//g; s/\x1b\[?2004h//g; s/^[ \t]*//; s/[ \t]*$//' 2> /dev/null $bash_temp/$bash_output 
+sed -i 's/\x1b\[?2004h[^$]*\$//g; s/\x1b\[?2004l//g; s/\x1b\[?2004h//g; s/^[ \t]*//; s/[ \t]*$//; s/\x1b\[0m//g' 2> /dev/null $bash_temp/$bash_output 
 tr -cd '[:print:]' 2> /dev/null < $bash_temp/$bash_output >> $bash_temp/$bash_filter 
 sed -i 's/[[:blank:]]//g' $bash_temp/$bash_filter 
 }

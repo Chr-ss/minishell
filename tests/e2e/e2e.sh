@@ -319,7 +319,11 @@ fi
 fi
 if [ $interactive == 1 ]; 
 then
-bash interactive.sh 1
+if [ $memory = 1 ]; then
+bash interactive.sh 1 1
+else 
+bash interactive.sh 1 0
+fi
 fi
 if [ $e2e == 0 ]; 
 then
