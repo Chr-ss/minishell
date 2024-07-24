@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 11:49:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 09:41:13 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/24 17:28:52 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	execute_path_local(char	*cmd, char **path_cmd)
 		if (str == NULL)
 			return (-1);
 		*path_cmd = str;
-		return (1);
+		return (0);
 	}
-	return (0);
+	return (1);
 }
 
 int	execute_path(char	*cmd, t_msdata *data, char **path_cmd)
@@ -64,7 +64,7 @@ int	execute_path(char	*cmd, t_msdata *data, char **path_cmd)
 	char	**path_spl;
 
 	ret = execute_path_local(cmd, path_cmd);
-	if (ret == -1 || ret == 1)
+	if (ret == -1 || ret == 0)
 		return (ret);
 	ret = get_envp(data, "PATH", &path);
 	if (ret == -1 || ret == 1)
