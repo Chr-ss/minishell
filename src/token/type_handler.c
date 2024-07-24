@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/19 19:34:47 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/24 20:35:05 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ t_token	type_handler_word(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 	return (token);
 }
 
+// if (!data->cmd_curr->cmd)
+// 	token = unexpected_token(data, token);
 t_token	type_handler_pipe(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
-	if (!data->cmd_curr->cmd)
-		token = unexpected_token(data, token);
 	data->cmd_curr->pipe = ft_calloc(1, sizeof(t_cmd));
 	if (!data->cmd_curr->pipe)
 		error("type_handler_pipe; malloc error", data);
