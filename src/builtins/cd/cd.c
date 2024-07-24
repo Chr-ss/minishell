@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 18:01:33 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/24 10:41:32 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,7 @@ int	cd(t_msdata *data, char **argv)
 	}
 	if (cd_chdir(data, dir))
 		error("chdir error", data);
+	if (dir)
+		free(dir);
 	return (EXIT_SUCCESS);
 }

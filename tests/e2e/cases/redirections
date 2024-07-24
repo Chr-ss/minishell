@@ -1,3 +1,4 @@
+#this file contains both redirections/pipes with files that exist and do not exist
 #
 echo test < files/infile/test1
 echo test < files/infile/empty

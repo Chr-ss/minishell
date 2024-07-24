@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/24 19:15:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 22:02:09 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/24 10:41:10 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ char	*cd_parse_dso(char *operand)
 	concat = ft_strjoin("./", operand);
 	dir_check = check_dir(concat);
 	if (dir_check == EXIT_FAILURE)
+	{
+		free(concat);
 		return (NULL);
+	}
 	else if (dir_check == EXIT_SUCCESS)
 		return (concat);
 	else
@@ -100,18 +103,21 @@ char	*cd_parse_pso(char *cdpath, char *operand)
 
 char	*cd_parse(t_msdata *data, char **argv)
 {
-	char	operand[2];
+	char	op[2];
 	char	*cdpath;
 	int		ret;
 
 	cdpath = NULL;
-	ft_strlcpy(operand, argv[0], 2);
+	ft_strlcpy(op, argv[0], 2);
 	if (!ft_strncmp(argv[0], "-", ft_strlen(argv[0])))
 		return (cd_parse_oldpwd(data));
-	if (operand[0] == '/')
-		return (argv[0]);
-	else if (operand[0] == '.' || !ft_strncmp(operand, "..", 2))
-		return (argv[0]);
+	if (op[0] == '/' || op[0] == '.' || !ft_strncmp(op, "..", 2))
+	{
+		cdpath = ft_strdup(argv[0]);
+		if (cdpath == NULL)
+			error("cdpath malloc", data);
+		return (cdpath);
+	}
 	else
 	{
 		ret = get_envp(data, "CDPATH", &cdpath);

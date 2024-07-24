@@ -254,7 +254,7 @@ noaccess=./files/noaccess/noaccess
 suppressions=./util/valgrind_suppresion
 
 #valgrind
-valgrind_cmd="valgrind --error-exitcode=4242 --leak-check=full --show-leak-kinds=all --suppressions=$suppressions"
+valgrind_cmd="valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all --suppressions=$suppressions"
 
 #prepare files
 chmod 000 $noaccess
@@ -330,7 +330,7 @@ fi
 
 x=0
 MINI_MEM_CODE=0
-test_cases=("redirections")
+test_cases=("wildcards")
 for case in "$cases"/*; do
 
 # # uncomment to only do certain test files
@@ -422,7 +422,7 @@ while IFS= read -r line; do
 		echo mini error = \($MINI_ERROR_MSG\) >> $ERROR_LOG
 		echo bash error = \($BASH_ERROR_MSG\) >> $ERROR_LOG
 	fi
-	if [ "$MINI_MEM_CODE" == 4242 ]; then
+	if [ "$MINI_MEM_CODE" == 42 ]; then
 		echo -e "$x | $line " >> $MEMORY_LOG
 		echo LOG >> $MEMORY_LOG
 		MEMORY_FAIL=true
