@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:34:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 09:19:50 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/24 20:15:09 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
 		error("dup error stdout to data struct", data);
 	if (cmd->infd < 0 || cmd->outfd < 0)
 	{
-		perror ("fds ");
 		return (-1);
 	}
 	if (cmd->infd > 0)
