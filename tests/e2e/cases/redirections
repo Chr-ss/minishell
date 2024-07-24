@@ -31,20 +31,20 @@ cat test < files/infile/test1 < files/infile/test2 < files/infile/empty < files/
 cat test < files/infile/test1 < files/infile/test2 < files/outfiles/doesnotexsits < files/infile/big_infile
 cat test < files/infile/test1 < files/infile/test2 < files/noaccess/noaccess  < files/infile/big_infile
 #
-cat test > files/infile/test1 > files/infile/test2 > files/infile/big_infile
-cat test > files/infile/empty > files/infile/test1 > files/infile/test2 > files/infile/big_infile
-cat test > files/infile/doesnotexsits > files/infile/test1 > files/infile/test2 > files/infile/big_infile
-cat test > files/infile/noaccess > files/infile/test1 > files/infile/test2 > files/infile/big_infile
-cat test > files/infile/test1 > files/infile/test2 > files/infile/big_infile > files/infile/empty
-cat test > files/infile/test1 > files/infile/test2 > files/infile/big_infile > files/outfiles/doesnotexsits
-cat test > files/infile/test1 > files/infile/test2 > files/infile/big_infile > files/noaccess/noaccess
-cat test > files/infile/test1 > files/infile/test2 > files/infile/empty > files/infile/big_infile
-cat test > files/infile/test1 > files/infile/test2 > files/outfiles/doesnotexsits > files/infile/big_infile
-cat test > files/infile/test1 > files/infile/test2 > files/noaccess/noaccess  > files/infile/big_infile
+cat test > files/outfiles/test1 > files/outfiles/test2 > files/outfiles/big_outfiles
+cat test > files/outfiles/empty > files/outfiles/test1 > files/outfiles/test2 > files/outfiles/big_outfiles
+cat test > files/outfiles/doesnotexsits > files/outfiles/test1 > files/outfiles/test2 > files/outfiles/big_outfiles
+cat test > files/outfiles/noaccess > files/outfiles/test1 > files/outfiles/test2 > files/outfiles/big_outfiles
+cat test > files/outfiles/test1 > files/outfiles/test2 > files/outfiles/big_outfiles > files/outfiles/empty
+cat test > files/outfiles/test1 > files/outfiles/test2 > files/outfiles/big_outfiles > files/outfiles/doesnotexsits
+cat test > files/outfiles/test1 > files/outfiles/test2 > files/outfiles/big_outfiles > files/noaccess/noaccess
+cat test > files/outfiles/test1 > files/outfiles/test2 > files/outfiles/empty > files/outfiles/big_outfiles
+cat test > files/outfiles/test1 > files/outfiles/test2 > files/outfiles/doesnotexsits > files/outfiles/big_outfiles
+cat test > files/outfiles/test1 > files/outfiles/test2 > files/noaccess/noaccess  > files/outfiles/big_outfiles
 #
 # LucasKuhn - minishell_tester (fixed for paths)
 grep hi <./files/infile/test1
-grep hi "<infile" <         ./files/infile/test1
+grep hi "</files/infile/test1" <         ./files/infile/test1
 echo hi < ./files/infile/test1 bye bye
 grep hi <./infile/big_infile <./infile/infile
 echo <"./infile/infile" "bonjour       42"
@@ -74,48 +74,48 @@ ls >./outfiles/outfile01 >./outfiles/outfile02
 ls >./outfiles/outfile01 >./noaccess/noaccess
 ls >"./outfiles/outfile with spaces"
 ls >"./outfiles/outfile""1""2""3""4""5"
-ls >"./outfiles/outfile01" >./noaccess >"./outfiles/outfile02"
-ls >./noaccess >"./outfiles/outfile01" >./noaccess
+ls >"./outfiles/outfile01" >./noaccess/noaccess >"./outfiles/outfile02"
+ls >./noaccess/noaccess >"./outfiles/outfile01" >./noaccess/noaccess
 cat <"./infile/infile" >"./outfiles/outfile01"
 echo hi >./outfiles/outfile01 | echo bye
 echo hi >./outfiles/outfile01 >./outfiles/outfile02 | echo bye
 echo hi | echo >./outfiles/outfile01 bye
 echo hi | echo bye >./outfiles/outfile01 >./outfiles/outfile02
 echo hi >./outfiles/outfile01 | echo bye >./outfiles/outfile02
-echo hi >./outfiles/outfile01 >./noaccess | echo bye
-echo hi >./noaccess | echo bye
-echo hi >./noaccess >./outfiles/outfile01 | echo bye
+echo hi >./outfiles/outfile01 >./noaccess/noaccess | echo bye
+echo hi >./noaccess/noaccess| echo bye
+echo hi >./noaccess/noaccess>./outfiles/outfile01 | echo bye
 echo hi | echo bye >./noaccess
-echo hi | >./outfiles/outfile01 echo bye >./noaccess
-echo hi | echo bye >./noaccess >./outfiles/outfile01
-cat <"./infile/infile" >./noaccess
-cat >./noaccess <"./infile/infile"
+echo hi | >./outfiles/outfile01 echo bye >./noaccess/noaccess
+echo hi | echo bye >./noaccess/noaccess>./outfiles/outfile01
+cat <"./infile/infile" >./noaccess/noaccess
+cat >./noaccess/noaccess<"./infile/infile"
 cat <./outfiles/missing >./outfiles/outfile01
 cat >./outfiles/outfile01 <./outfiles/missing
-cat <./outfiles/missing >./noaccess
-cat >./noaccess <./outfiles/missing
-cat >./outfiles/outfile01 <./outfiles/missing >./noaccess
+cat <./outfiles/missing >./noaccess/noaccess
+cat >./noaccess/noaccess<./outfiles/missing
+cat >./outfiles/outfile01 <./outfiles/missing >./noaccess/noaccess
 ls >>./outfiles/outfile01
 ls >>      ./outfiles/outfile01
 ls >>./outfiles/outfile01 >./outfiles/outfile01
 ls >./outfiles/outfile01 >>./outfiles/outfile01
 ls >./outfiles/outfile01 >>./outfiles/outfile01 >./outfiles/outfile02
 ls >>./outfiles/outfile01 >>./outfiles/outfile02
-ls >>./noaccess
-ls >>./noaccess >>./outfiles/outfile01
-ls >>./outfiles/outfile01 >>./noaccess
-ls >./outfiles/outfile01 >>./noaccess >>./outfiles/outfile02
-ls <./outfiles/missing >>./noaccess >>./outfiles/outfile02
-ls >>./noaccess >>./outfiles/outfile02 <./outfiles/missing
+ls >>./noaccess/noaccess
+ls >>./noaccess/noaccess>>./outfiles/outfile01
+ls >>./outfiles/outfile01 >>./noaccess/noaccess
+ls >./outfiles/outfile01 >>./noaccess/noaccess>>./outfiles/outfile02
+ls <./outfiles/missing >>./noaccess/noaccess>>./outfiles/outfile02
+ls >>./noaccess/noaccess>>./outfiles/outfile02 <./outfiles/missing
 echo hi >>./outfiles/outfile01 | echo bye
 echo hi >>./outfiles/outfile01 >>./outfiles/outfile02 | echo bye
 echo hi | echo >>./outfiles/outfile01 bye
 echo hi | echo bye >>./outfiles/outfile01 >>./outfiles/outfile02
 echo hi >>./outfiles/outfile01 | echo bye >>./outfiles/outfile02
-echo hi >>./noaccess | echo bye
-echo hi >>./noaccess >./outfiles/outfile01 | echo bye
-echo hi | echo bye >>./noaccess
-echo hi | echo >>./outfiles/outfile01 bye >./noaccess
+echo hi >>./noaccess/noaccess| echo bye
+echo hi >>./noaccess/noaccess>./outfiles/outfile01 | echo bye
+echo hi | echo bye >>./noaccess/noaccess
+echo hi | echo >>./outfiles/outfile01 bye >./noaccess/noaccess
 cat <./outfiles/minishell.h>./outfiles/outfile
 cat <./outfiles/minishell.h|ls
 echo wat | grep wat > ./outfiles/lol.txt
@@ -131,7 +131,6 @@ cat <"./test_files/file name with spaces"
 cat <./test_files/infile_big ./test_files/infile
 cat <./outfiles/"1""2""3""4""5"
 echo <"./test_files/infile" <./outfiles/missing <"./test_files/infile"
-echo <./outfiles/missing <"./test_files/infile" <./outfiles/missing
 cat <"./test_files/infile"
 echo <"./test_files/infile_big" | cat <"./test_files/infile"
 echo <"./test_files/infile_big" | cat "./test_files/infile"

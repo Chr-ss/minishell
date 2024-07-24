@@ -17,10 +17,14 @@ ls | ls <
     | echo test | cat -e
 echo >>>>
 echo >>>
+the next testscase is a special case in bash and note handled like bash
 cat <<<
+the next testscase is a special case in bash and note handled like bash
 cat <<<<
 echo test | <
 echo test |<
+the next testscase is a special case in bash and note handled like bash
 echo test | <>
 echo test | <<
+the next testscase is a special case in bash and note handled like bash
 echo test || <<
