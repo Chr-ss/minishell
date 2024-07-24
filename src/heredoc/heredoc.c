@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/24 16:58:28 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/24 17:17:55 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 
 extern int	g_sigint ;
 
+static void	read_heredoc_clear_dataline(t_msdata *data)
+{
+	if (data->line)
+		free(data->line);
+	data->line = NULL;
+}
+
 static void	read_heredoc(t_msdata *data, t_cmd *cmd, int i, int write_pipe)
 {
 	while (1)
 	{
-		if (data->line)
-			free(data->line);
-		data->line = NULL;
+		read_heredoc_clear_dataline(data);
 		data->line = readline(">");
 		if (!data->line)
 			return ;
@@ -29,9 +34,7 @@ static void	read_heredoc(t_msdata *data, t_cmd *cmd, int i, int write_pipe)
 			error("read_heredoc: expand malloc error.", data);
 		if (ft_strcmp(data->line, cmd->heredoc[i]) == 0)
 		{
-			if (data->line)
-				free(data->line);
-			data->line = NULL;
+			read_heredoc_clear_dataline(data);
 			return ;
 		}
 		if (cmd->heredoc[i + 1] == NULL)
@@ -39,9 +42,7 @@ static void	read_heredoc(t_msdata *data, t_cmd *cmd, int i, int write_pipe)
 			write(write_pipe, data->line, ft_strlen(data->line));
 			write(write_pipe, "\n", 1);
 		}
-		if (data->line)
-			free(data->line);
-		data->line = NULL;
+		read_heredoc_clear_dataline(data);
 	}
 }
 
