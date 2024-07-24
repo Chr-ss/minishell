@@ -68,6 +68,13 @@ test_mem=./util/test_mem.sh
 minishell=$(find ../../../ -type f -name minishell)
 minishelldir=$(find ../../../ -type d -name minishell)
 
+#prepare variables
+memstatus=0
+mem=true
+if [[ $2 == 0 ]]; then
+mem=false
+fi
+
 #prepare files
 rm -rf $bash_temp
 mkdir -p $bash_temp
@@ -145,7 +152,7 @@ bash $test_bh "${@:2}" &
 bash -c "bash -i &>>$bash_temp/$bash_output"
 bash $test_ms "${@:2}" &
 bash -c "$minishell &>>$ms_temp/$ms_output"
-if [[ $2 == 1 ]]; then
+if [[ $mem == true ]]; then
 echo 
 echo -ne "${BCYN}memcheck: ignore potential output ${RESET}"
 bash $test_mem "${@:2}" &
@@ -195,6 +202,11 @@ echo -e "${BCYN}interactive${RESET}"
 echo -e "${RED}Watch out! safer to run tests in seperate terminal window instead of VScode${RESET}"
 echo -e "${RED}tester send keystrokes to window that tester is activated in${RESET}"
 echo -e "${RED}if you misclick in vscode it will send keystrokes to that section${RESET}"
+
+
+remove_temp_files
+test 0 'cat <<EOF' 'blabla' 'EOF' "ctrl+c" "ctrl+d" 
+check_result
 
 remove_temp_files
 test 1 "echo lol" "ctrl+c" "ctrl+d"
