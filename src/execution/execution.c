@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 20:53:41 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/24 20:57:08 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void	execute(t_msdata *data)
 	wstatus = -1;
 	statuscode = -1;
 	cmd = data->cmd_head;
-	debugger("\n------------execution----------------\n\n");
 	while (cmd)
 	{
 		if (cmd->cmd)
@@ -120,5 +119,4 @@ void	execute(t_msdata *data)
 		statuscode = 1;
 	data->exit_code = statuscode;
 	g_is_child = 1;
-	return ;
 }
