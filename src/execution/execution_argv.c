@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:08:54 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/22 15:32:55 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 22:02:24 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,10 @@ int	add_command_to_argv_copy(t_cmd	**cmd_s, char **new_argv)
 
 int	add_command_to_argv(t_cmd	**cmd_s, char **path_cmd)
 {
-	int		index;
 	int		arglen;
 	char	**new_argv;
 	char	*path;
 
-	index = 0;
 	arglen = double_array_len((*cmd_s)->argv);
 	new_argv = ft_calloc(sizeof(char *) * (arglen + 2), 1);
 	if (new_argv == NULL)

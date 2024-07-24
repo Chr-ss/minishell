@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/22 16:41:35 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/24 09:40:29 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,12 @@ void	input_handling(t_msdata *data)
 		data->line = expand(data);
 		if (!data->line)
 			error("input_handling malloc error.", data);
-		debugger("\nexpanded:~$%s\n\n", data->line);
 		if (parsing(data) == -1)
 			continue ;
 		if (line_to_token(data, data->line) == -1)
 			continue ;
 		if (heredoc(data) == -1)
 			break ;
-		debugger("\n");
 		printf_cmd(data->cmd_head);
 		execute(data);
 		cmd_reset(data);

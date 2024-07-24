@@ -1,14 +1,15 @@
 #
-echo test > files/outfiles/out1
-echo test > files/static_outfile/empty
-echo test > files/noaccess/noaccess
-echo test > files/outfiles/doesnotexsits
-rm -rf files/static_outfile/lol
-#
 echo test < files/infile/test1
 echo test < files/infile/empty
 echo test < files/noaccess/noaccess
 echo test < files/outfiles/doesnotexsits
+#
+echo test > files/outfiles/out1
+echo test > files/static_outfile/empty
+echo test > files/noaccess/noaccess
+echo test > files/outfiles/doesnotexsits
+rm -rf files/outfiles/doesnotexsits
+rm -rf files/static_outfile/lol
 #
 cat -e > files/outfiles/out1 < files/infile/test2
 cat -e > files/outfiles/out1 < files/infile/empty
@@ -19,7 +20,6 @@ cat -e > files/outfiles/out1 < files/outfiles/doesnotexsits
 cat -e > files/outfiles/doesnotexsits < files/infile/test2
 #
 cat -e > files/outfiles/test1 < files/infile/test2
-
 # LucasKuhn - minishell_tester
 grep hi <./files/infile/test1
 grep hi "<infile" <         ./files/infile/test1
@@ -97,6 +97,4 @@ echo hi | echo >>./outfiles/outfile01 bye >./test_files/invalid_permission
 cat <./outfiles/minishell.h>./outfiles/outfile
 cat <./outfiles/minishell.h|ls
 echo wat | grep wat > ./outfiles/lol.txt
-cat < ../../src/main.c | grep if < ../../src/execution/execution.c
-cat < ../../src/main.c | grep if > ./outfiles/lol.txt
 ls -l | grep cases > ./outfiles/test | cat -e

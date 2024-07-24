@@ -71,3 +71,4 @@ linux_install
 !temprestart.conf
 *outfiles*
 *.log
+kuhn_tester

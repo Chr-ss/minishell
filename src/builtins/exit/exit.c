@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/22 14:29:15 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 18:01:51 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,44 @@
 //exit ; echo $? = 0 
 // exit 255+ is undefined
 
+int	mini_exit_error(char **argv)
+{
+	int	index;
+
+	index = 0;
+	if (double_array_len(argv) > 1)
+	{
+		write(2, "exit: too many arguments\n", 25);
+		return (1);
+	}
+	if ((argv && argv[0][index] == '-') || (argv && argv[0][index] == '+'))
+		index++;
+	while (argv && argv[0][index])
+	{
+		if (!ft_isdigit(argv[0][index++]))
+		{
+			write(2, " numeric argument required\n", 27);
+			return (2);
+		}
+	}
+	return (0);
+}
+
 // TODO: ARGV should always be made eventhough no arguments given to command
 int	mini_exit(t_msdata *data, char **argv, int code)
 {
 	int		ec;
+	int		ret;
 
+	ret = 0;
 	ec = 0;
+	if (isatty(STDIN_FILENO))
+		ft_printf("exit\n");
 	if (argv)
 	{
-		if (double_array_len(argv) > 1)
-			return (1);
+		ret = mini_exit_error(argv);
+		if (ret)
+			return (ret);
 		if (argv[0])
 			ec = ft_atoi(argv[0]) % 256;
 	}

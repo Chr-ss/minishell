@@ -39,6 +39,10 @@ Arguments:
 	This will clean all directories that are not needed, usually
 	temporary directories used by the tester 
 
+  -i, --interactive
+	This flag will enable the interactive tests run in this tester.
+	This flag does not work with all no flags selected 
+
   -nm, --no-memory
 	This flag will disable the memory tests run in this tester.
 	This flag does not work with all no flags selected
@@ -47,7 +51,7 @@ Arguments:
 	This flag will disable the interactive tests run in this tester.
 	This flag does not work with all no flags selected
 
-  -nu, --no-norminette
+  -nn, --no-norminette
 	This flag will disable the norminette tests run in this tester.
 	This flag does not work with all no flags selected
 
@@ -57,6 +61,10 @@ Arguments:
 
   -ou, --only-norminette
 	This flag will only run the norminette tests run in this tester. 
+	This flag does not work with multiple only flags
+
+  -oi, --only-interactive
+	This flag will only run the interactive tests run in this tester. 
 	This flag does not work with multiple only flags
 
   -oe, --only-e2e
@@ -77,7 +85,7 @@ virtual=0
 norminette=1
 memory=1
 e2e=1
-interactive=1
+interactive=0
 set_only=0
 set_only_multiple=0
 clean=0
@@ -102,10 +110,6 @@ while [ "$#" -gt 0 ]; do
 		clean=1
 		shift 
 		;;
-		-v|--virtual)
-		virtual=1
-		shift 
-		;;
 		-i|--interactive)
 		interactive=1
 		shift 
@@ -114,7 +118,7 @@ while [ "$#" -gt 0 ]; do
 		memory=0
 		shift 
 		;;
-		-nu|--no-norminette)
+		-nn|--no-norminette)
 		norminette=0
 		shift 
 		;;
@@ -137,7 +141,7 @@ while [ "$#" -gt 0 ]; do
 		set_only=1
 		shift 
 		;;
-		-oI|--only-interactive)
+		-oi|--only-interactive)
 		norminette=0
 		integration=0
 		e2e=0
@@ -184,7 +188,7 @@ if [[ $set_only_multiple == 1 ]];
 then 
 usage_fatal "you can only set one '-o*, --only-*' flag"
 fi
-if [[ $norminette == 0 && $e2e == 0 && $norminette == 0 ]];
+if [[ $norminette == 0 && $e2e == 0 && $norminette == 0 && $interactive == 0 ]];
 then 
 usage_fatal "not all '-n*, --no-*' flags can be selected at the same time"
 exit 1
@@ -236,6 +240,7 @@ NORM_FAIL=false
 LOG_DIR=logs
 MS_LOG=$LOG_DIR/ms.log
 MEMORY_LOG=$LOG_DIR/memory.log
+TEMP_MEMORY_LOG=$LOG_DIR/temp_memory.log
 ERROR_LOG=$LOG_DIR/error_message.log
 OUTPUT_LOG=$LOG_DIR/output_diff.log
 EXIT_LOG=$LOG_DIR/exit_code.log
@@ -249,7 +254,7 @@ noaccess=./files/noaccess/noaccess
 suppressions=./util/valgrind_suppresion
 
 #valgrind
-valgrind_cmd="valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all --suppressions=$suppressions"
+valgrind_cmd="valgrind --error-exitcode=4242 --leak-check=full --show-leak-kinds=all --suppressions=$suppressions"
 
 #prepare files
 chmod 000 $noaccess
@@ -314,7 +319,7 @@ fi
 fi
 if [ $interactive == 1 ]; 
 then
-bash interactive.sh
+bash interactive.sh 1
 fi
 if [ $e2e == 0 ]; 
 then
@@ -325,10 +330,10 @@ fi
 
 x=0
 MINI_MEM_CODE=0
-test_cases=("errors")
+test_cases=("redirections")
 for case in "$cases"/*; do
 
-# uncomment to only do certain test files
+# # uncomment to only do certain test files
 # case_check=${case##*/}
 # case $case_check in
 # 	$test_cases) :;;
@@ -354,11 +359,9 @@ while IFS= read -r line; do
 	MINI_OUTPUT=${MINI_OUTPUT%'minishell:~$'}
 	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs -0)
 	MINI_OUTFILES=$(cp -r $outfiles/* $mini_outfiles &>> $MS_LOG)
-	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0')
+	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0' | head -n1)
 	if [ $memory = 1 ]; then
-	echo -e "$x | $line " >> $MEMORY_LOG
-	echo LOG >> $MEMORY_LOG
-	MINI_MEM_LOG=$(echo -e "$line" | $valgrind_cmd $minishell &>> $MEMORY_LOG)
+	MINI_MEM_LOG=$(echo -e "$line" | $valgrind_cmd $minishell &> $TEMP_MEMORY_LOG)
 	MINI_MEM_CODE=$(echo $?)
 	fi
 
@@ -368,6 +371,7 @@ while IFS= read -r line; do
 	rm -rf $outfiles/*
 	rm -rf $bash_outfiles/*
 	BASH_OUTPUT=$(echo -e "$line" | bash 2>>$MS_LOG)
+	BASH_OUTPUT=$(echo $BASH_OUTPUT | xargs -0)
 	echo $BASH_OUTPUT &>> $MS_LOG
 	BASH_EXIT_CODE=$(echo -e "$line" | bash 2>> $MS_LOG ; echo $?)
 	BASH_EXIT_CODE=$(echo "${BASH_EXIT_CODE##* }" | tail -1)
@@ -418,9 +422,12 @@ while IFS= read -r line; do
 		echo mini error = \($MINI_ERROR_MSG\) >> $ERROR_LOG
 		echo bash error = \($BASH_ERROR_MSG\) >> $ERROR_LOG
 	fi
-	if [ "$MINI_MEM_CODE" != 0 ]; then
+	if [ "$MINI_MEM_CODE" == 4242 ]; then
+		echo -e "$x | $line " >> $MEMORY_LOG
+		echo LOG >> $MEMORY_LOG
 		MEMORY_FAIL=true
 		printf "${RED} memory error;${RESET}"
+		cat $TEMP_MEMORY_LOG >> $MEMORY_LOG
 		echo mini memory exit code = $MINI_MEM_CODE >> $MEMORY_LOG
 	fi
 	printf "\n"
@@ -431,7 +438,7 @@ done
 
 chmod 444 $noaccess
 rm -rf $files_temp
-
+rm -rf $TEMP_MEMORY_LOG
 if [ $FAIL = true ];
 then 
 if [ $OUTFILES_FAIL = true ];

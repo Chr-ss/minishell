@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 13:45:17 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/19 19:42:41 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/23 23:53:55 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,5 @@ void	cmd_reset(t_msdata *data)
 		error("cmd_reset: malloc error.", data);
 	data->cmd_curr = data->cmd_head;
 	data->pos = 0;
+	data->overrule_exit = false;
 }

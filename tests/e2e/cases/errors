@@ -2,7 +2,11 @@
 |
 >
 <
-$
+# $ works but tester does not handle extra $ well in output
+#$
+lol
+wat
+nu
 $1
 echo "test
 echo 'test

@@ -87,7 +87,12 @@ export ctrld
 export minishell
 
 #prepare minishell
+if [[ $1 == 1 ]];
+then 
+:
+else 
 make -C $minishelldir re
+fi
 
 #https://stackoverflow.com/questions/30137135/confused-about-docker-t-option-to-allocate-a-pseudo-tty
 #https://gist.github.com/janert/e1d8e6ae74a8c94173ef35fa356ce2da
@@ -97,6 +102,8 @@ make -C ./xdotool &> /dev/null
 
 #add xdotool to path
 export PATH=$PATH:$(cd ./xdotool && pwd)
+WINDOW_ID=$(LD_LIBRARY_PATH=xdotool xdotool getactivewindow)
+export WINDOW_ID
 
 #truncate logs
 
@@ -168,6 +175,9 @@ printf "${BMAG}${ARG}${LINEP}${GRN}OK \n${RESET}";
 }
 
 echo -e "${BCYN}interactive${RESET}"
+echo -e "${RED}Watch out! safer to run tests in seperate terminal window instead of VScode${RESET}"
+echo -e "${RED}tester send keystrokes to window that tester is activated in${RESET}"
+echo -e "${RED}if you misclick in vscode it will send keystrokes to that section${RESET}"
 
 remove_temp_files
 test 1 "echo lol" "ctrl+c" "ctrl+d"

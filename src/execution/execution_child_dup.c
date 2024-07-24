@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:34:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/22 14:41:17 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/24 09:19:50 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 
 int	execute_child_dup_fd_out(t_msdata *data, t_cmd *cmd)
 {
-	if (data->cmd_head == cmd)
-	{
-		data->org_stdout = dup(STDOUT_FILENO);
-		if (data->org_stdout == -1)
-			error("dup error stdout to data struct", data);
-	}
 	if (dup2(cmd->outfd, STDOUT_FILENO) == -1)
 		error("dup error child outfd to stdout", data);
 	if (close(cmd->outfd) == -1)
@@ -51,8 +45,17 @@ int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
 	int	ret;
 
 	ret = 0;
+	data->org_stdin = dup2(STDIN_FILENO, 1000);
+	if (data->org_stdin == -1)
+		error("dup error stdin to data struct", data);
+	data->org_stdout = dup2(STDOUT_FILENO, 1001);
+	if (data->org_stdout == -1)
+		error("dup error stdout to data struct", data);
 	if (cmd->infd < 0 || cmd->outfd < 0)
-		error("error in parsing, cmds not executed", data);
+	{
+		perror ("fds ");
+		return (-1);
+	}
 	if (cmd->infd > 0)
 		ret = execute_child_dup_fd_in(data, cmd);
 	if (cmd->outfd > 0)
@@ -60,22 +63,13 @@ int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
 	return (ret);
 }
 
-void	execute_child_dup(t_msdata *data, t_cmd *cmd)
+int	execute_child_dup(t_msdata *data, t_cmd *cmd)
 {
 	int	ret;
 
 	ret = execute_child_dup_fd(data, cmd);
-	if (ret == 1)
-		return ;
-	if (cmd->pipe != NULL)
-	{
-		if (dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
-			error("dup error child write end pipe to stdout", data);
-		if (close(cmd->pipe->pipefd[WR]) == -1)
-			error("close error child write end pipe after dub to stdout", data);
-		if (close(cmd->pipe->pipefd[RD]) == -1)
-			error("close error child read end pipe after dub to stdout", data);
-	}
+	if (ret == -1)
+		return (1);
 	if (!(data->cmd_head == cmd))
 	{
 		if (dup2(cmd->pipefd[RD], STDIN_FILENO) == -1)
@@ -83,4 +77,10 @@ void	execute_child_dup(t_msdata *data, t_cmd *cmd)
 		if (close(cmd->pipefd[RD]) == -1)
 			error("close error child read end pipe after dub to stdin", data);
 	}
+	if (cmd->pipe != NULL)
+	{
+		if (dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
+			error("dup error child write end pipe to stdout", data);
+	}
+	return (0);
 }

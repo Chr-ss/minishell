@@ -1,6 +1,5 @@
 echo hello world
 rm -rf files/static_outfile/lol
-
 # LucasKuhn - minishell_tester
 echo hello world
 echo "hello world"
@@ -38,7 +37,8 @@ export hello 1world
 export HELLO-=123
 export =
 export 123
-export 
+# this works, but no bothering changing the env variable of bash / minishell execution
+#export 
 unset
 unset HELLO
 unset HELLO1 HELLO2
@@ -49,12 +49,15 @@ cd $PWD
 cd $PWD hi
 cd 123123
 exit 123
-exit 298
+exit 299
 exit +100
 exit "+100"
 exit +"100"
 exit -100
 exit "-100"
 exit -"100"
+exit --100
+exit -"-100"
+exit +++100
 exit hello
 exit 42 world

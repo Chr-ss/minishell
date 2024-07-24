@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/22 14:26:16 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 18:02:11 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,10 @@ int	export_parse(t_msdata *data, char **argv, int index)
 	if (check_envp != -1)
 		unset(data, NULL, key);
 	add_envp(data, key, value);
+	if (value)
+		free(value);
+	if (key)
+		free(key);
 	return (0);
 }
 

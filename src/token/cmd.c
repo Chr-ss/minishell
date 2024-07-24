@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/05 21:56:01 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/10 14:56:08 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/24 09:25:42 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_token	token_to_cmd(t_msdata *data, t_token token, int *pos)
 {
 	t_token (*type_handler[8])(t_msdata * data, \
 		t_cmd * cmd, t_token token, int *pos);
+	debugger("token_to_cmd errno %d\n", errno);
 	init_type_handler(type_handler);
 	token = type_handler[token.type](data, data->cmd_curr, token, pos);
 	return (token);

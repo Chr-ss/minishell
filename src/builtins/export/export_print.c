@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 13:51:40 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/22 14:11:19 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/23 18:02:03 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,20 @@ void	export_pes(t_msdata *data, int index, int inner_index)
 	}
 }
 
+void	export_print_env_quotes(t_msdata *data, int index)
+{
+	char	*key;
+	char	*value;
+
+	key = get_envp_key(data->envp[index]);
+	value = get_envp_value(data->envp[index]);
+	if (key == NULL || value == NULL)
+		error("export_print_env_quotes malloc err", data);
+	ft_printf("declare -x %s=\"%s\"\n", key, value);
+	free(key);
+	free(value);
+}
+
 int	export_print_env(t_msdata *data)
 {
 	int		index;
@@ -58,6 +72,6 @@ int	export_print_env(t_msdata *data)
 	}
 	index = 0;
 	while (data->envp[index] != NULL)
-		ft_printf("declare -x %s\n", data->envp[index++]);
+		export_print_env_quotes(data, index++);
 	return (0);
 }
