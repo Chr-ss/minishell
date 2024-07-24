@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 10:41:32 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/24 17:12:08 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	cd(t_msdata *data, char **argv)
 
 	dir = NULL;
 	arglen = double_array_len(argv);
-	if (cd_error(arglen, argv))
+	if (arglen != 0 && cd_error(arglen, argv))
 		return (1);
 	if (arglen == 0)
 	{

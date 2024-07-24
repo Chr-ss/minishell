@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 09:45:47 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/24 17:08:00 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ void	execute(t_msdata *data)
 	debugger("\n------------execution----------------\n\n");
 	while (cmd)
 	{
-		execute_pipe(data, cmd, &pid, &statuscode);
+		if (cmd->cmd)
+			execute_pipe(data, cmd, &pid, &statuscode);
 		cmd = cmd->pipe;
 	}
 	while (waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD)
