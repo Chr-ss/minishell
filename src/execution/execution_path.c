@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 11:49:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 18:02:46 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/24 09:41:13 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int	execute_path(char	*cmd, t_msdata *data, char **path_cmd)
 	if (!path_spl)
 		return (-1);
 	ret = execute_path_check(path_spl, cmd, path_cmd);
-	debugger("ret: %d\n", ret);
 	free_char_array(path_spl);
 	if (*path_cmd == NULL && ret == -1)
 		return (-1);

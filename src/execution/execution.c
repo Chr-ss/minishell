@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 09:20:00 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/24 09:45:47 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,24 @@ void	execute_parent_restore_fds(t_msdata *data)
 	}
 }
 
-
 void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 {
 	if (cmd->pipe != NULL)
 	{
 		if (close(cmd->pipe->pipefd[WR]) == -1)
 			error("close error parent write end of pipe", data);
+	}
+}
+
+void	execute_pipe_child(t_msdata *data, t_cmd *cmd, int *pid)
+{
+	execute_child_minishell(cmd);
+	*pid = fork();
+	if (*pid < 0)
+		error("fork error\n", data);
+	if (*pid == 0)
+	{
+		execute_child(data, cmd);
 	}
 }
 
@@ -61,12 +72,11 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 		if (pipe(cmd->pipe->pipefd) == -1)
 			error("pipe error\n", data);
 	}
-	if(execute_child_dup(data, cmd))
+	if (execute_child_dup(data, cmd))
 	{
 		data->overrule_exit = true;
 		execute_parent_close_pipe(data, cmd);
 		execute_parent_restore_fds(data);
-		debugger("%d\n", *statuscode);
 		return ;
 	}
 	if (cmd->pipe == NULL && cmd == data->cmd_head)
@@ -74,16 +84,7 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 	if (cmd->pipe == NULL && *statuscode)
 		data->overrule_exit = false;
 	if (*statuscode == -1)
-	{
-		execute_child_minishell(cmd);
-		*pid = fork();
-		if (*pid < 0)
-			error("fork error\n", data);
-		if (*pid == 0)
-		{
-			execute_child(data, cmd);
-		}
-	}
+		execute_pipe_child(data, cmd, pid);
 	execute_parent_close_pipe(data, cmd);
 	execute_parent_restore_fds(data);
 }
@@ -108,16 +109,13 @@ void	execute(t_msdata *data)
 		execute_pipe(data, cmd, &pid, &statuscode);
 		cmd = cmd->pipe;
 	}
-	debugger("after %d\n", statuscode);
 	while (waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD)
 		;
 	if (WIFEXITED(wstatus) || WIFSTOPPED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
 	if (data->overrule_exit == true)
 		statuscode = 1;
-	debugger("after 2 %d\n", statuscode);
 	data->exit_code = statuscode;
-	debugger("\nhere\n\n");
 	g_is_child = 1;
 	return ;
 }

@@ -6,12 +6,13 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/23 18:04:13 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/24 09:53:17 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+// uncomment check_tty for tester
 int	main(int argc, char **argv, char **envp)
 {
 	t_msdata	data;
@@ -19,7 +20,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (argc > 1)
 		error("Invalid argument count.", &data);
-// maybe add check_tty();
+	check_tty();
 	init_signal();
 	initdata(&data, envp);
 	input_handling(&data);
