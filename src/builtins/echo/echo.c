@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/28 15:58:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 17:02:44 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/24 17:45:12 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	echo(t_msdata *data, char	**argv)
 		return (echo_nl());
 	if (arglen == 1)
 		print_nl = echo_check_nl(argv[0]);
-	else
+	if (print_nl)
 	{
 		printline = echo_getline(argv, &print_nl, arglen);
 		if (printline == NULL)
