@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/24 09:40:29 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/24 19:29:16 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	input_handling(t_msdata *data)
 		if (data->line)
 			free(data->line);
 		data->line = NULL;
-		data->line = readline("minishell:~$");
+		data->line = readline("minishell:~$ ");
 		if (!data->line)
 			mini_exit(data, NULL, data->exit_code);
 		if (data->line[0])

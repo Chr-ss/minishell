@@ -37,11 +37,11 @@ Arguments:
 
   -C, --clean
 	This will clean all directories that are not needed, usually
-	temporary directories used by the tester 
+	temporary directories used by the tester
 
   -i, --interactive
 	This flag will enable the interactive tests run in this tester.
-	This flag does not work with all no flags selected 
+	This flag does not work with all no flags selected
 
   -nm, --no-memory
 	This flag will disable the memory tests run in this tester.
@@ -60,11 +60,11 @@ Arguments:
 	This flag does not work with all no flags selected
 
   -ou, --only-norminette
-	This flag will only run the norminette tests run in this tester. 
+	This flag will only run the norminette tests run in this tester.
 	This flag does not work with multiple only flags
 
   -oi, --only-interactive
-	This flag will only run the interactive tests run in this tester. 
+	This flag will only run the interactive tests run in this tester.
 	This flag does not work with multiple only flags
 
   -oe, --only-e2e
@@ -104,23 +104,23 @@ while [ "$#" -gt 0 ]; do
 		continue;;
 		-c|--check)
 		check=1
-		shift 
+		shift
 		;;
 		-C|--clean)
 		clean=1
-		shift 
+		shift
 		;;
 		-i|--interactive)
 		interactive=1
-		shift 
+		shift
 		;;
 		-nm|--no-memory)
 		memory=0
-		shift 
+		shift
 		;;
 		-nn|--no-norminette)
 		norminette=0
-		shift 
+		shift
 		;;
 		-ni|--no-interactive)
 		interactive=0
@@ -135,11 +135,11 @@ while [ "$#" -gt 0 ]; do
 		interactive=0
 		norminette=1
 		if [ $set_only == 1 ]
-		then 
+		then
 		set_only_multiple=1
 		fi
 		set_only=1
-		shift 
+		shift
 		;;
 		-oi|--only-interactive)
 		norminette=0
@@ -147,22 +147,22 @@ while [ "$#" -gt 0 ]; do
 		e2e=0
 		interactive=1
 		if [ $set_only == 1 ]
-		then 
+		then
 		set_only_multiple=1
 		fi
 		set_only=1
-		shift 
+		shift
 		;;
 		-oe|--only-e2e)
 		norminette=0
 		interactive=0
 		oe=1
 		if [ $set_only == 1 ]
-		then 
+		then
 		set_only_multiple=1
 		fi
 		set_only=1
-		shift 
+		shift
 		;;
 		-h|--help)
 		usage;
@@ -185,27 +185,27 @@ done
 
 #check only flags
 if [[ $set_only_multiple == 1 ]];
-then 
+then
 usage_fatal "you can only set one '-o*, --only-*' flag"
 fi
 if [[ $norminette == 0 && $e2e == 0 && $norminette == 0 && $interactive == 0 ]];
-then 
+then
 usage_fatal "not all '-n*, --no-*' flags can be selected at the same time"
 exit 1
 fi
 if [[ $check == 1 ]];
-then 
+then
 command -v docker &> /dev/null
 vbox=$?
 if [[ $vbox == 0 ]];
-then 
+then
 echo docker Installed
 else
 echo docker Not Installed, needed to run with --virtual option, otherwise not neccessary
 cstatus=1
 fi
 if [[ $cstatus == 1 ]];
-then 
+then
 exit 1
 else
 exit 0
@@ -268,15 +268,15 @@ files=./files
 clean()
 {
 rm -rf $LOG_DIR
-rm -rf $outfiles 
-rm -rf $bash_outfiles 
-rm -rf $mini_outfiles 
+rm -rf $outfiles
+rm -rf $bash_outfiles
+rm -rf $mini_outfiles
 rm -rf $static_outfile_temp
 exit
 }
 
 if [[ $clean == 1 ]];
-then 
+then
 clean
 exit
 fi
@@ -304,7 +304,7 @@ then
 truncate -s 0 $MS_LOG
 fi
 #FUNCTIONS
-if [ $norminette == 1 ]; 
+if [ $norminette == 1 ];
 then
 bash ./norminette_tester/norminette_tester.sh -d ../../src
 norm_1=$(echo $?)
@@ -317,15 +317,15 @@ FAIL=true
 NORM_FAIL=true
 fi
 fi
-if [ $interactive == 1 ]; 
+if [ $interactive == 1 ];
 then
 if [ $memory = 1 ]; then
 bash interactive.sh 1 1
-else 
+else
 bash interactive.sh 1 0
 fi
 fi
-if [ $e2e == 0 ]; 
+if [ $e2e == 0 ];
 then
 exit 0
 fi
@@ -351,7 +351,7 @@ while IFS= read -r line; do
 	then
 	continue
 	fi
-	
+
 	x=$(( $x + 1 ))
 	echo -ne "${YEL} $x ${BLU}| ${BMAG}$line ${BLU}|${RESET}"
 	cp -r $files/* $files_temp/ &>> $MS_LOG
@@ -360,7 +360,7 @@ while IFS= read -r line; do
 	MINI_OUTPUT=$(echo -e "$line" | $minishell 2>>$MS_LOG)
 	MINI_EXIT_CODE=$(echo $?)
 	MINI_OUTPUT=${MINI_OUTPUT#*"$line"}
-	MINI_OUTPUT=${MINI_OUTPUT%'minishell:~$'}
+	MINI_OUTPUT=${MINI_OUTPUT%'minishell:~$ '}
 	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs -0)
 	MINI_OUTFILES=$(cp -r $outfiles/* $mini_outfiles &>> $MS_LOG)
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0' | head -n1)
@@ -397,7 +397,7 @@ while IFS= read -r line; do
 
 	if [ "$OUTFILES_DIFF" ]; then
 		OUTFILES_FAIL=true
-		printf "${RED} outfiles error;${RESET}" 
+		printf "${RED} outfiles error;${RESET}"
 		echo -e "$x | $line |${RESET}" >> $OUTFILES_LOG
 		echo "$OUTFILES_DIFF" >> $OUTFILES_LOG
 		echo mini outfiles: >> $OUTFILES_LOG
@@ -444,36 +444,36 @@ chmod 444 $noaccess
 rm -rf $files_temp
 rm -rf $TEMP_MEMORY_LOG
 if [ $FAIL = true ];
-then 
+then
 if [ $OUTFILES_FAIL = true ];
-then 
+then
 echo -e "${RED}Check $OUTFILES_LOG${RESET}"
 fi
 if [ $OUTPUT_FAIL = true ];
-then 
+then
 echo -e "${RED}Check $OUTPUT_LOG ${RESET}"
 fi
 if [ $EXIT_FAIL = true ];
-then 
+then
 echo -e "${RED}Check $EXIT_LOG ${RESET}"
 fi
 if [ $ERROR_FAIL = true ];
-then 
+then
 echo -e "${RED}Check $ERROR_LOG ${RESET}"
 fi
 if [ $MEMORY_FAIL = true ];
-then 
+then
 echo -e "${RED}Check $MEMORY_LOG ${RESET}"
 echo -e "${RED}run memory case with $valgrind_cmd or check $MS_LOG ${RESET}"
 fi
 if [ $NORM_FAIL = true ];
-then 
+then
 echo -e "${RED}Check norminette.log ${RESET}"
 fi
 rm -rf $bash_outfiles
 rm -rf $mini_outfiles
 exit 1
-else 
+else
 echo -e "${GRE}Congratulations, all tests are succesfull :)${RESET}"
 clean
 fi
