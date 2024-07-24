@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 20:30:30 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/24 20:53:41 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ void	execute(t_msdata *data)
 	{
 		if (cmd->cmd)
 			execute_pipe(data, cmd, &pid, &statuscode);
+		else
+			statuscode = 1;
 		cmd = cmd->pipe;
 	}
 	while (waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD)
