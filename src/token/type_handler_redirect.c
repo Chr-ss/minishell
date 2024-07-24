@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/10 14:56:49 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/23 18:33:03 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/24 09:30:06 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ t_token	type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 	*pos = skipspace(data->line, *pos);
 	token.length = 0;
 	append = tokenizer(&(data->line[*pos]));
+	debugger("append errno %d\n", errno);
 	if (append.type != TOKEN_WORD)
 		append = unexpected_token(data, append);
 	else
