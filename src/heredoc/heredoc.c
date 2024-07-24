@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/24 15:15:56 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/24 16:58:28 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static void	read_heredoc(t_msdata *data, t_cmd *cmd, int i, int write_pipe)
 			free(data->line);
 		data->line = NULL;
 		data->line = readline(">");
+		if (!data->line)
+			return ;
 		data->line = expand(data);
 		if (!data->line)
 			error("read_heredoc: expand malloc error.", data);
