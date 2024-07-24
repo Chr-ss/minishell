@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 08:35:23 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/24 09:04:54 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 	}
 	if (cmd->pipe == NULL && cmd == data->cmd_head)
 		*statuscode = execute_check_builtin(data, cmd);
+	if (cmd->pipe == NULL && *statuscode)
+		data->overrule_exit = false;
 	if (*statuscode == -1)
 	{
 		execute_child_minishell(cmd);
