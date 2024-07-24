@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/16 18:55:42 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/24 15:15:56 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ static void	read_heredoc(t_msdata *data, t_cmd *cmd, int i, int write_pipe)
 {
 	while (1)
 	{
+		if (data->line)
+			free(data->line);
+		data->line = NULL;
 		data->line = readline(">");
 		data->line = expand(data);
 		if (!data->line)
