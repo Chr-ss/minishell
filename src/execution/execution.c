@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 20:57:08 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/25 11:45:36 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	execute(t_msdata *data)
 			statuscode = 1;
 		cmd = cmd->pipe;
 	}
-	while (waitpid(pid, &wstatus, 0) != -1 || errno != ECHILD)
+	while (waitpid(-1, &wstatus, 0) != -1 || errno != ECHILD)
 		;
 	if (WIFEXITED(wstatus) || WIFSTOPPED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
