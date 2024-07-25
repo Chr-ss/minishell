@@ -39,6 +39,11 @@ Arguments:
 	This will clean all directories that are not needed, usually
 	temporary directories used by the tester
 
+  -k <"arr">, --cases <"arr">
+	This flag passes together with an array of strings will only test
+	the cases that are passed. It is used as follows
+	bash e2e.sh -k "builtins pipes quotes"
+
   -i, --interactive
 	This flag will enable the interactive tests run in this tester.
 	This flag does not work with all no flags selected
@@ -109,6 +114,11 @@ while [ "$#" -gt 0 ]; do
 		-C|--clean)
 		clean=1
 		shift
+		;;
+		-k|--cases)
+		test_cases=$2
+		check_cases=1
+		shift 2
 		;;
 		-i|--interactive)
 		interactive=1
@@ -275,6 +285,9 @@ rm -rf $static_outfile_temp
 exit
 }
 
+
+
+
 if [[ $clean == 1 ]];
 then
 clean
@@ -330,20 +343,26 @@ then
 exit 0
 fi
 
+
+
+
+
+
 # https://github.com/LucasKuhn/minishell_tester
 
 x=0
 MINI_MEM_CODE=0
-test_cases=("pipes")
 for case in "$cases"/*; do
 
-# uncomment to only do certain test files
-# case_check=${case##*/}
-# case $case_check in
-# 	$test_cases) :;;
-# 	*)	continue;;
-# esac
-
+if [[ $check_cases == 1 ]]; then 
+	case_check=${case##*/}
+	if [[ $(echo ${test_cases[@]} | fgrep -w $case_check) ]]
+	then
+	echo $case_check
+	else
+		continue ;
+	fi
+fi
 
 echo -e "${BCYN}$case${RESET}"
 while IFS= read -r line; do
