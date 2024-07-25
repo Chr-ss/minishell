@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/25 13:35:46 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/25 13:47:32 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/25 20:35:33 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	handle_signal_execution(int sig, siginfo_t *info, void *ucontext)
 	if (sig == SIGINT)
 	{
 		kill(g_pid, SIGQUIT);
-		printf("\n");
+		if (waitpid(0, &sig, 0) == -1)
+			printf("\n");
 	}
 }
 
