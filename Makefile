@@ -18,6 +18,9 @@ all:	$(NAME)
 debug: CFLAGS += -DDEBUG
 debug: fclean $(NAME)
 
+test: CFLAGS += -DTEST
+test: fclean $(NAME)
+
 $(NAME):	$(OBJ)	$(LIBFT)
 		@$(CC) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
 		@printf "$(CREATED)" $@ $(CUR_DIR)

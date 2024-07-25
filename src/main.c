@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/24 10:54:13 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/25 11:18:47 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (argc > 1)
 		error("Invalid argument count.", &data);
-	check_tty();
+	if (!TEST)
+		check_tty();
 	init_signal();
 	initdata(&data, envp);
 	input_handling(&data);

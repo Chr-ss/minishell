@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/23 23:52:25 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/25 11:18:27 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@
 
 # ifndef DEBUG
 #  define DEBUG 0
+# endif
+
+# ifndef TEST
+#  define TEST 0
 # endif
 
 enum e_pipe

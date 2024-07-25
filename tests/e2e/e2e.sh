@@ -293,7 +293,7 @@ rm -rf $files_temp
 mkdir -p $files_temp
 
 #prepare minishell
-make -C $minishelldir re
+make -C $minishelldir test
 
 #add minishell to path
 export PATH=$PATH:$(cd $minishelldir && pwd)
@@ -334,10 +334,10 @@ fi
 
 x=0
 MINI_MEM_CODE=0
-test_cases=("wildcards")
+test_cases=("pipes")
 for case in "$cases"/*; do
 
-# # uncomment to only do certain test files
+# uncomment to only do certain test files
 # case_check=${case##*/}
 # case $case_check in
 # 	$test_cases) :;;
