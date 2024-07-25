@@ -358,7 +358,7 @@ if [[ $check_cases == 1 ]]; then
 	case_check=${case##*/}
 	if [[ $(echo ${test_cases[@]} | fgrep -w $case_check) ]]
 	then
-	echo $case_check
+	:
 	else
 		continue ;
 	fi

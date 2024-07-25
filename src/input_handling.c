@@ -6,13 +6,14 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/24 19:29:16 by crasche       ########   odam.nl         */
+/*   Updated: 2024/07/25 13:32:18 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-extern bool	g_is_child;
+// extern bool	g_is_child;
+extern pid_t	g_pid;
 
 void	input_handling(t_msdata *data)
 {

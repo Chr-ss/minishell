@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/24 09:42:00 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/07/25 12:58:56 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ void	execute_child(t_msdata *data, t_cmd *cmd);
 /**
  * @brief this function will check if cmd is minishell and prepares
  * parent for this.
+ * @param t_msdata *data 
  * @param t_cmd *cmd 
  * @return void 
  */
-void	execute_child_minishell(t_cmd *cmd);
+void	execute_child_minishell(t_msdata *data, t_cmd *cmd);
 
 /**
  * @brief this function will check if cmd is a builtin, if function

@@ -6,44 +6,82 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/04 13:46:31 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/22 14:28:20 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/25 13:47:27 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern bool	g_is_child;
+extern pid_t	g_pid;
 
 // https://docs.rtems.org/releases/4.5.1-pre3/toolsdoc/
 // gdb-5.0-docs/readline/readline00030.html
 
-void	handle_signal(int sig, siginfo_t *info, void *ucontext)
+void	init_signal_interactive(struct sigaction *sa, t_msdata *data)
 {
-	(void)info;
-	(void)ucontext;
-	if (sig == SIGINT && g_is_child)
+	int	ret;
+
+	debugger("interactive\n");
+	ret = 0;
+	sa->sa_sigaction = handle_signal;
+	signal(SIGQUIT, SIG_IGN);
+	ret += sigaction(SIGINT, sa, 0);
+	if (ret)
 	{
-		ft_printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (data)
+			error("signal handler error", data);
+		else
+			exit(EXIT_FAILURE);
 	}
 }
 
-//TODO: check if the exit here should be changed to mini_exit or no
+void	init_signal_minishell(struct sigaction *sa, t_msdata *data)
+{
+	int	ret;
 
-void	init_signal(void)
+	debugger("minishell\n");
+	ret = 0;
+	sa->sa_sigaction = handle_signal_minishell;
+	ret += sigaction(SIGINT, sa, 0);
+	ret += sigaction(SIGQUIT, sa, 0);
+	if (ret)
+	{
+		if (data)
+			error("signal handler error", data);
+		else
+			exit(EXIT_FAILURE);
+	}
+}
+
+void	init_signal_execution(struct sigaction *sa, t_msdata *data)
+{
+	int	ret;
+
+	debugger("exe\n");
+	ret = 0;
+	sa->sa_sigaction = handle_signal_execution;
+	ret += sigaction(SIGINT, sa, 0);
+	ret += sigaction(SIGQUIT, sa, 0);
+	if (ret)
+	{
+		if (data)
+			error("signal handler error", data);
+		else
+			exit(EXIT_FAILURE);
+	}
+}
+
+void	init_signal(t_msdata *data, bool execution, bool minishell)
 {
 	struct sigaction	sa;
-	int					ret;
 
-	ret = 0;
 	ft_memset(&sa, 0, sizeof(sa));
-	sa.sa_sigaction = handle_signal;
 	sa.sa_flags = SA_RESTART | SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
-	signal(SIGQUIT, SIG_IGN);
-	ret += sigaction(SIGINT, &sa, 0);
-	if (ret)
-		exit(EXIT_FAILURE);
+	if (!execution)
+		init_signal_interactive(&sa, data);
+	else if (minishell && execution)
+		init_signal_minishell(&sa, data);
+	else
+		init_signal_execution(&sa, data);
 }

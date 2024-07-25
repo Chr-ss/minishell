@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/25 11:18:27 by spenning      ########   odam.nl         */
+/*   Updated: 2024/07/25 13:47:17 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,52 @@ typedef struct s_msdata
 /**
  * @brief
  * This function initializes the signal handlers for this
- *  program
- * @param
- *  void
+ * program. If data is passed, it will call error function if 
+ * signal handler init will fail, otherwise if null is passed
+ * only exit will be called. passed If execution is set to true, 
+ * then ctrl+\ is not ignored. If minishell is true, then it will
+ * initialize minishell, minishell should also have execution as true
+ * @param t_msdata *data
+ * @param bool execution
+ * @param bool minishell
+ * @note init_signal(NULL, false, false) when minishell starts
+ * @note init_signal(data, true, False) when in execution and cmd 
+ * is not minishell
+ * @note init_signal(data, true, true) when in execution and cmd 
+ * is not minishell
  * @return
  *  void
  * @exception
  *  exit (EXIT_FAILURE)
 */
-void		init_signal(void);
+void		init_signal(t_msdata *data, bool execution, bool minishell);
+
+/**
+ * @brief 
+ * this is the signal handler for interactive mode in minishell
+ * @param sig 
+ * @param info 
+ * @param ucontext 
+ */
+void		handle_signal(int sig, siginfo_t *info, void *ucontext);
+
+/**
+ * @brief 
+ * this is the signal handler for minishell in minishell
+ * @param sig 
+ * @param info 
+ * @param ucontext 
+ */
+void		handle_signal_minishell(int sig, siginfo_t *info, void *ucontext);
+
+/**
+ * @brief 
+ * this is the signal handler for execution mode
+ * @param sig 
+ * @param info 
+ * @param ucontext 
+ */
+void		handle_signal_execution(int sig, siginfo_t *info, void *ucontext);
 
 // INITDATA.c
 

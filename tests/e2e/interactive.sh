@@ -216,7 +216,6 @@ remove_temp_files
 test 2 'export var0="head -"' 'export var1="n 1"' 'export var2="0"' 'echo $var1$var2' 'echo $var0$var2' "ctrl+c" "ctrl+d"
 check_result
 
-
 remove_temp_files
 test 3 'export var="    ls    "' '$var' "ctrl+c" "ctrl+d"
 check_result
@@ -254,8 +253,22 @@ test 10 "mkdir -p ./outfiles/lol" "cd ./outfiles" "cd lol" "pwd" "ctrl+c" "ctrl+
 check_result
 rm -rf outfiles
 
+remove_temp_files
+test 11 './minishell' "ctrl+c" 'ctrl+\' "ctrl+c" "ctrl+d" 
+check_result
 
-#TODO: add heredoc 
+remove_temp_files
+test 12 'cat' "ctrl+c" "ctrl+c" "ctrl+d" 
+check_result
+
+remove_temp_files
+test 13 'cat' 'ctrl+\' "ctrl+c" "ctrl+d" 
+check_result
+
+remove_temp_files
+test 14 'sleep infinity | ls' 'ctrl+\' "ctrl+c" "ctrl+d" 
+check_result
+
 
 # check_result_multiple_files 1 "temp1" "temp2"
 # test "ctrl+c" "ctrl+c" "ctrl+c" "ctrl+d"
