@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 13:45:17 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/23 23:53:55 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/01 17:12:48 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	free_cmd(t_cmd *cmd)
 		cmd_close_fd(&cmd->outfd);
 	if (cmd->pipefd[0] > 0)
 		cmd_close_fd(&cmd->pipefd[0]);
-	if (cmd->pipefd[0] > 0)
+	if (cmd->pipefd[1] > 0)
 		cmd_close_fd(&cmd->pipefd[1]);
 }
 
