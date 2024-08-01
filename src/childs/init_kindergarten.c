@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 15:51:26 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 16:48:20 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 17:05:33 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,8 @@ void	kill_all_childs(t_msdata* data)
 	temp = data->childs;
 	while (temp != NULL)
 	{
-		kill(temp->pid, SIGKILL);
+		if (temp->pid != 0)
+			kill(temp->pid, SIGKILL);
 		temp = temp->next;
 	}
 }

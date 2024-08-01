@@ -6,14 +6,12 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:35:07 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 15:17:12 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/01 17:26:10 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/execution.h"
-
-extern pid_t	g_pid;
 
 int	execute_check_builtin(t_msdata *data, t_cmd *cmd)
 {
@@ -37,19 +35,6 @@ int	execute_check_builtin(t_msdata *data, t_cmd *cmd)
 	else
 		return (-1);
 	return (-1);
-}
-
-void	execute_child_minishell(t_msdata *data, t_cmd *cmd)
-{
-	int		len;
-
-	len = ft_strlen(cmd->cmd);
-	len -= 9;
-	if (len < 0)
-		return ;
-	if (!(ft_strncmp("minishell", cmd->cmd + len, 9)))
-		init_signal(data, true, true);
-	return ;
 }
 
 void	execute_child(t_msdata *data, t_cmd *cmd)

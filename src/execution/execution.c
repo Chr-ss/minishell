@@ -6,15 +6,14 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 16:38:24 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 18:19:12 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/execution.h"
 
-// bool	g_is_child = 1;
-pid_t	g_pid;
+extern int	g_sig;
 
 // REFERENCE: https://reactive.so/post/42-a-comprehensive-guide-to-pipex
 // REFERENCE: https://www.gnu.org/software/libc/manual/html_node/
@@ -54,20 +53,20 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 	}
 }
 
-void	execute_pipe_child(t_msdata *data, t_cmd *cmd, int *g_pid)
+void	execute_pipe_child(t_msdata *data, t_cmd *cmd, int *pid)
 {
-	*g_pid = fork();
-	if (*g_pid < 0)
+	*pid = fork();
+	if (*pid < 0)
 		error("fork error", data);
-	if (*g_pid == 0)
+	if (*pid == 0)
 	{
 		execute_child(data, cmd);
 	}
 	else
-		add_child(*g_pid, data);
+		add_child(*pid, data);
 }
 
-void	execute_pipe(t_msdata *data, t_cmd *cmd, int *g_pid, int *statuscode)
+void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 {
 	if (cmd->pipe != NULL)
 	{
@@ -86,9 +85,8 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *g_pid, int *statuscode)
 	if (cmd->pipe == NULL && *statuscode)
 		data->overrule_exit = false;
 	if (*statuscode == -1)
-		execute_pipe_child(data, cmd, g_pid);
-	init_signal(data, true, false);
-	execute_child_minishell(data, cmd);
+		execute_pipe_child(data, cmd, pid);
+	init_signal(data, true);
 	execute_parent_close_pipe(data, cmd);
 	execute_parent_restore_fds(data);
 }
@@ -101,21 +99,40 @@ void	execute(t_msdata *data)
 	t_cmd	*cmd;
 	int		wstatus;
 	int		statuscode;
+	int		pid;
+	pid_t	result;
 
+	pid = 0;
 	wstatus = -1;
 	statuscode = -1;
 	cmd = data->cmd_head;
 	while (cmd)
 	{
 		if (cmd->cmd)
-			execute_pipe(data, cmd, &g_pid, &statuscode);
+			execute_pipe(data, cmd, &pid, &statuscode);
 		else
 			statuscode = 1;
 		cmd = cmd->pipe;
 	}
-	while (waitpid(-1, &wstatus, 0) != -1 || errno != ECHILD)
-		;
-	init_signal(data, false, false);
+	while (1)
+	{
+		result = waitpid(-1, &wstatus, 0);
+		if (errno == ECHILD)
+			break;
+		if (result == -1)
+		{
+			debugger("hello from  %d\n", getpid());
+			if (errno == EINTR)
+			{
+				if (g_sig == 3 && data->childs->next->pid == pid)
+					kill(pid, SIGUSR1);
+				continue;
+			}
+			else
+				break;
+		}
+	}
+	init_signal(data, false);
 	if (WIFEXITED(wstatus) || WIFSTOPPED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
 	print_childs(data);

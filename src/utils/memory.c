@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/24 18:43:01 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 16:27:38 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 17:02:39 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	free_data(t_msdata *data)
 	if (data->childs)
 	{
 		kill_all_childs(data);
-		while (data->childs)
+		while (data->childs->next)
 			delete_last_child(data);
 	}
 }

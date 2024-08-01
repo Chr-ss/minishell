@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/01 16:37:07 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 17:15:20 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,15 @@ typedef struct s_msdata
  * initialize minishell, minishell should also have execution as true
  * @param t_msdata *data
  * @param bool execution
- * @param bool minishell
- * @note init_signal(NULL, false, false) when minishell starts
- * @note init_signal(data, true, False) when in execution and cmd 
- * is not minishell
- * @note init_signal(data, true, true) when in execution and cmd 
- * is not minishell
+ * @note init_signal(NULL, false, false) when minishell starts in 
+ * interactive mode
+ * @note init_signal(data, true) when in execution mode 
  * @return
  *  void
  * @exception
  *  exit (EXIT_FAILURE)
 */
-void		init_signal(t_msdata *data, bool execution, bool minishell);
+void		init_signal(t_msdata *data, bool execution);
 
 /**
  * @brief 

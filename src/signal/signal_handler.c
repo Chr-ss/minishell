@@ -6,14 +6,13 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/25 13:35:46 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/25 20:35:33 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/01 18:20:59 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// extern bool	g_is_child;
-extern pid_t	g_pid;
+int	g_sig;
 
 void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 {
@@ -32,25 +31,9 @@ void	handle_signal_execution(int sig, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
-	debugger("send signal %d to %d\n", sig, g_pid);
-	if (sig == SIGQUIT)
-	{
-		kill(g_pid, SIGINT);
-		printf("\n");
-	}
-	if (sig == SIGINT)
-	{
-		kill(g_pid, SIGQUIT);
-		if (waitpid(0, &sig, 0) == -1)
-			printf("\n");
-	}
-}
+	(void)sig;
 
-void	handle_signal_minishell(int sig, siginfo_t *info, void *uc)
-{
-	(void)info;
-	(void)uc;
-	debugger("send signal %d to %d\n", sig, g_pid);
-	if (sig == SIGINT)
-		kill(g_pid, SIGQUIT);
+	g_sig = sig;
+	if (sig == SIGUSR1)
+		printf("\n");
 }
