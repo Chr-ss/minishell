@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:50:51 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/25 13:33:16 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 15:52:07 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	initdata(t_msdata *data, char **envp)
 	data->cmd_head = ft_calloc(sizeof(t_cmd), 1);
 	if (!data->cmd_head)
 		error("initdata: malloc error", data);
+	init_kindergarten(data);
 	data->cmd_curr = data->cmd_head;
 	data->line = NULL;
 	data->pos = 0;

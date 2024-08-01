@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 15:17:17 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/01 16:38:24 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	execute_pipe_child(t_msdata *data, t_cmd *cmd, int *g_pid)
 	{
 		execute_child(data, cmd);
 	}
+	else
+		add_child(*g_pid, data);
 }
 
 void	execute_pipe(t_msdata *data, t_cmd *cmd, int *g_pid, int *statuscode)
@@ -116,6 +118,8 @@ void	execute(t_msdata *data)
 	init_signal(data, false, false);
 	if (WIFEXITED(wstatus) || WIFSTOPPED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);
+	print_childs(data);
+	reset_childs(data);
 	if (data->overrule_exit == true)
 		statuscode = 1;
 	data->exit_code = statuscode;
