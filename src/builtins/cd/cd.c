@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 17:12:08 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 15:17:03 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	cd_chdir(t_msdata *data, char *dir)
 	char	*old_pwd;
 
 	if (get_envp(data, "PWD", &old_pwd) == -1)
-		error ("cd_chdir get_envp error\n", data);
+		error ("cd_chdir get_envp error", data);
 	pwd = cd_chdir_pwd();
 	if (!pwd || !old_pwd)
 	{

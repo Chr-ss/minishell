@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:35:07 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/25 13:32:18 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 15:17:12 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 		exit(ret);
 	ret = execute_path(cmd->cmd, data, &path_cmd);
 	if (ret == -1)
-		error("execute_child execute path error\n", data);
+		error("execute_child execute path error", data);
 	else if (ret == 1)
 	{
 		write(2, "minishell: command not found\n", 29);
@@ -71,7 +71,7 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 		exit(127);
 	}
 	if (add_command_to_argv(&cmd, &path_cmd) == -1)
-		error("add command to argv malloc error\n", data);
+		error("add command to argv malloc error", data);
 	ret = execve(path_cmd, cmd->argv, data->envp);
 	debugger("execve ret: %d\n", ret);
 	free_all(data);

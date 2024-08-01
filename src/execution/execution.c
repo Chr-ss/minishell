@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/25 13:32:40 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 15:17:17 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	execute_pipe_child(t_msdata *data, t_cmd *cmd, int *g_pid)
 {
 	*g_pid = fork();
 	if (*g_pid < 0)
-		error("fork error\n", data);
+		error("fork error", data);
 	if (*g_pid == 0)
 	{
 		execute_child(data, cmd);
@@ -70,7 +70,7 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *g_pid, int *statuscode)
 	if (cmd->pipe != NULL)
 	{
 		if (pipe(cmd->pipe->pipefd) == -1)
-			error("pipe error\n", data);
+			error("pipe error", data);
 	}
 	if (execute_child_dup(data, cmd))
 	{
