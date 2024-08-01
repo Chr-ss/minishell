@@ -1,38 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   signal_handler.c                                   :+:    :+:            */
+/*   init_kindergarten.c                                :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/07/25 13:35:46 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 18:42:14 by spenning      ########   odam.nl         */
+/*   Created: 2024/08/01 15:51:26 by spenning      #+#    #+#                 */
+/*   Updated: 2024/08/01 19:10:42 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	g_sig;
-
-void	handle_signal(int sig, siginfo_t *info, void *ucontext)
+void	init_kindergarten(t_msdata *data)
 {
-	(void)info;
-	(void)ucontext;
-	if (sig == SIGINT)
-	{
-		ft_printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-void	handle_signal_execution(int sig, siginfo_t *info, void *ucontext)
-{
-	(void)info;
-	(void)ucontext;
-	(void)sig;
-	g_sig = sig;
-	if (sig == SIGUSR1)
-		printf("\n");
+	data->childs = ft_calloc(sizeof(t_childs), 1);
+	if (data->childs == NULL)
+		error("init_kindergarten: malloc error", data);
+	data->childs->pid = 0;
+	data->childs->next = NULL;
 }

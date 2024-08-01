@@ -6,13 +6,11 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/04 13:46:31 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/25 13:47:27 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 18:20:00 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-extern pid_t	g_pid;
 
 // https://docs.rtems.org/releases/4.5.1-pre3/toolsdoc/
 // gdb-5.0-docs/readline/readline00030.html
@@ -26,24 +24,7 @@ void	init_signal_interactive(struct sigaction *sa, t_msdata *data)
 	sa->sa_sigaction = handle_signal;
 	signal(SIGQUIT, SIG_IGN);
 	ret += sigaction(SIGINT, sa, 0);
-	if (ret)
-	{
-		if (data)
-			error("signal handler error", data);
-		else
-			exit(EXIT_FAILURE);
-	}
-}
-
-void	init_signal_minishell(struct sigaction *sa, t_msdata *data)
-{
-	int	ret;
-
-	debugger("minishell\n");
-	ret = 0;
-	sa->sa_sigaction = handle_signal_minishell;
-	ret += sigaction(SIGINT, sa, 0);
-	ret += sigaction(SIGQUIT, sa, 0);
+	ret += sigaction(SIGUSR1, sa, 0);
 	if (ret)
 	{
 		if (data)
@@ -62,6 +43,7 @@ void	init_signal_execution(struct sigaction *sa, t_msdata *data)
 	sa->sa_sigaction = handle_signal_execution;
 	ret += sigaction(SIGINT, sa, 0);
 	ret += sigaction(SIGQUIT, sa, 0);
+	ret += sigaction(SIGUSR1, sa, 0);
 	if (ret)
 	{
 		if (data)
@@ -71,17 +53,15 @@ void	init_signal_execution(struct sigaction *sa, t_msdata *data)
 	}
 }
 
-void	init_signal(t_msdata *data, bool execution, bool minishell)
+void	init_signal(t_msdata *data, bool execution)
 {
 	struct sigaction	sa;
 
 	ft_memset(&sa, 0, sizeof(sa));
-	sa.sa_flags = SA_RESTART | SA_SIGINFO;
+	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
 	if (!execution)
 		init_signal_interactive(&sa, data);
-	else if (minishell && execution)
-		init_signal_minishell(&sa, data);
 	else
 		init_signal_execution(&sa, data);
 }

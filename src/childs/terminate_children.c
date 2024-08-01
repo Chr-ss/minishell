@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   signal_handler.c                                   :+:    :+:            */
+/*   terminate_children.c                               :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/07/25 13:35:46 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 18:42:14 by spenning      ########   odam.nl         */
+/*   Created: 2024/08/01 19:04:45 by spenning      #+#    #+#                 */
+/*   Updated: 2024/08/01 19:10:09 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	g_sig;
-
-void	handle_signal(int sig, siginfo_t *info, void *ucontext)
+void	kill_all_childs(t_msdata *data)
 {
-	(void)info;
-	(void)ucontext;
-	if (sig == SIGINT)
+	t_childs	*temp;
+
+	temp = data->childs;
+	while (temp != NULL)
 	{
-		ft_printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (temp->pid != 0)
+			kill(temp->pid, SIGKILL);
+		temp = temp->next;
 	}
-}
-
-void	handle_signal_execution(int sig, siginfo_t *info, void *ucontext)
-{
-	(void)info;
-	(void)ucontext;
-	(void)sig;
-	g_sig = sig;
-	if (sig == SIGUSR1)
-		printf("\n");
 }

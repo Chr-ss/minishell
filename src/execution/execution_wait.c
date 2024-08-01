@@ -1,38 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   signal_handler.c                                   :+:    :+:            */
+/*   execution_wait.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/07/25 13:35:46 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 18:42:14 by spenning      ########   odam.nl         */
+/*   Created: 2024/08/01 18:23:52 by spenning      #+#    #+#                 */
+/*   Updated: 2024/08/01 18:49:53 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	g_sig;
+extern int	g_sig;
 
-void	handle_signal(int sig, siginfo_t *info, void *ucontext)
+int	execute_wait(int pid, int *wstatus, t_msdata *data)
 {
-	(void)info;
-	(void)ucontext;
-	if (sig == SIGINT)
+	pid_t	result;
+
+	result = waitpid(-1, wstatus, 0);
+	if (errno == ECHILD)
+		return (0);
+	if (result == -1)
 	{
-		ft_printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		debugger("interruption in pid: %d\n", getpid());
+		if (errno == EINTR)
+		{
+			if (g_sig == 3 && data->childs->next->pid == pid)
+				kill(pid, SIGUSR1);
+			return (1);
+		}
+		else
+			return (0);
 	}
-}
-
-void	handle_signal_execution(int sig, siginfo_t *info, void *ucontext)
-{
-	(void)info;
-	(void)ucontext;
-	(void)sig;
-	g_sig = sig;
-	if (sig == SIGUSR1)
-		printf("\n");
+	return (1);
 }

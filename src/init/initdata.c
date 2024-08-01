@@ -6,13 +6,11 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:50:51 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/25 13:33:16 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 17:27:22 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-extern pid_t	g_pid;
 
 static void	initdata_cpy_envp(t_msdata *data, char **envp)
 {
@@ -58,6 +56,7 @@ void	initdata(t_msdata *data, char **envp)
 	data->cmd_head = ft_calloc(sizeof(t_cmd), 1);
 	if (!data->cmd_head)
 		error("initdata: malloc error", data);
+	init_kindergarten(data);
 	data->cmd_curr = data->cmd_head;
 	data->line = NULL;
 	data->pos = 0;
@@ -66,7 +65,6 @@ void	initdata(t_msdata *data, char **envp)
 	data->org_stdout = -2;
 	data->org_stdin = -2;
 	data->overrule_exit = false;
-	g_pid = getpid();
 	initdata_cpy_envp(data, envp);
 	index = get_envp_index("SHLVL", data->envp);
 	if (index != -1)

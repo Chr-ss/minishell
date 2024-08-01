@@ -6,13 +6,11 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/24 17:17:55 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/01 17:26:53 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-extern int	g_sigint ;
 
 static void	read_heredoc_clear_dataline(t_msdata *data)
 {
