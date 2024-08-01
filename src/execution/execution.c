@@ -6,14 +6,12 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 18:19:12 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 18:31:02 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/execution.h"
-
-extern int	g_sig;
 
 // REFERENCE: https://reactive.so/post/42-a-comprehensive-guide-to-pipex
 // REFERENCE: https://www.gnu.org/software/libc/manual/html_node/
@@ -100,7 +98,6 @@ void	execute(t_msdata *data)
 	int		wstatus;
 	int		statuscode;
 	int		pid;
-	pid_t	result;
 
 	pid = 0;
 	wstatus = -1;
@@ -114,24 +111,7 @@ void	execute(t_msdata *data)
 			statuscode = 1;
 		cmd = cmd->pipe;
 	}
-	while (1)
-	{
-		result = waitpid(-1, &wstatus, 0);
-		if (errno == ECHILD)
-			break;
-		if (result == -1)
-		{
-			debugger("hello from  %d\n", getpid());
-			if (errno == EINTR)
-			{
-				if (g_sig == 3 && data->childs->next->pid == pid)
-					kill(pid, SIGUSR1);
-				continue;
-			}
-			else
-				break;
-		}
-	}
+	while (execute_wait(pid, &wstatus, data));
 	init_signal(data, false);
 	if (WIFEXITED(wstatus) || WIFSTOPPED(wstatus))
 		statuscode = WEXITSTATUS(wstatus);

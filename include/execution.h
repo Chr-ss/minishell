@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/25 12:58:56 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 18:31:52 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,16 @@ int		add_command_to_argv(t_cmd	**cmd_s, char	**path_cmd);
  *  -1 is unsuccesful operation due to malloc failure
 */
 int		execute_path(char	*cmd, t_msdata *data, char **path_cmd);
+
+/**
+ * @brief this function goes into waitpid to wait for the child processes 
+ * @param int pid
+ * @param int *wstatus
+ * @param t_msdata *data
+ * @return int 
+ * @note 1 is continue waiting
+ * @note 0 stop waitin
+ */
+int	execute_wait(int pid, int *wstatus, t_msdata* data);
 
 #endif	// EXECUTION_H
