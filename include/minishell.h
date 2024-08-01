@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/01 17:15:20 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 18:51:55 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,11 @@ enum e_pipe
 	WR
 }	;
 
-
 typedef struct s_childs
 {
 	int				pid;		//pid of child
 	struct s_childs	*next;		// if NULL no more child
 }	t_childs;
-
 
 typedef struct s_cmd
 {
@@ -157,7 +155,7 @@ void		initdata(t_msdata *data, char **envp);
  * @brief This function will kill all children from parent process
  * @param t_msdata *data 
  */
-void	kill_all_childs(t_msdata* data);
+void		kill_all_childs(t_msdata *data);
 
 /**
  * @brief This function will initialize the childs structure in data structure.
@@ -173,27 +171,26 @@ void		init_kindergarten(t_msdata *data);
  * @param t_msdata *data 
  * @exception if function fails then error function is called
  */
-void	add_child(int	pid, t_msdata* data);
+void		add_child(int pid, t_msdata *data);
 
 /**
  * @brief this function deletes last child in linked list
  * @param t_msdata *data 
  */
-void	delete_last_child(t_msdata* data);
+void		delete_last_child(t_msdata *data);
 
 /**
  * @brief this function resets childs linked list after execution
  * @param t_msdata *data 
  */
-void	reset_childs(t_msdata* data);
+void		reset_childs(t_msdata *data);
 
 /**
- * @brief this function prints all childs
+ * @brief this function will call all active childs from child
+ * structure
  * @param t_msdata *data 
  */
-void	print_childs(t_msdata* data);
-
-void	kill_all_childs(t_msdata* data);
+void		kill_all_childs(t_msdata *data);
 // BUILT-INS:
 
 /**

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 18:23:52 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 18:32:10 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/01 18:49:53 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_sig;
 
-int	execute_wait(int pid, int *wstatus, t_msdata* data)
+int	execute_wait(int pid, int *wstatus, t_msdata *data)
 {
 	pid_t	result;
 
