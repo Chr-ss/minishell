@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 13:45:17 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/01 17:12:48 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/02 13:37:39 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	cmd_close_fd(int *fd)
 	*fd = 0;
 }
 
-// TODO: this doesn't free the whole structure?
 void	free_cmd(t_cmd *cmd)
 {
 	if (cmd->cmd)
