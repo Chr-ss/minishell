@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/24 16:55:50 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 15:58:27 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,17 @@ char	*cd_parse(t_msdata *data, char **argv);
 
 /**
  * @brief
- * This function retrieves the oldpwd and passes it as string back
+ * This function retrieves the oldpwd and passes it as string back 
  * @param t_msdata *data
- * @return
- * Function returns malloced char * of oldpwd path
+ * @param char **argv
+ * @param char *cdpath
+ * @return 
+ * Function returns int to indicate succesful operation or not, 0 is succesful operation 1 is unsuccesful operation 
  * @exception
  *  function goed to error function if oldpwd 
  *  cannot be retrieved due to malloc error
 */
-char	*cd_parse_oldpwd(t_msdata *data);
+int	*cd_parse_oldpwd(t_msdata *data, char **argv, char *cdpath);
 
 /**
  * @brief

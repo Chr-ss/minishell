@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 15:17:03 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/02 15:54:57 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,8 @@ int	cd(t_msdata *data, char **argv)
 	}
 	else
 		dir = cd_parse(data, argv);
-	if (dir == NULL)
-	{
-		write(2, " No such file or directory\n", 27);
+	if (cd_parse_oldpwd(data, argv, dir))
 		return (1);
-	}
 	if (cd_chdir(data, dir))
 		error("chdir error", data);
 	if (dir)

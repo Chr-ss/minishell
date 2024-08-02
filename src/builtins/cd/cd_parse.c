@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/24 19:15:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 10:41:10 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/02 15:55:26 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,6 @@ char	*cd_parse(t_msdata *data, char **argv)
 
 	cdpath = NULL;
 	ft_strlcpy(op, argv[0], 2);
-	if (!ft_strncmp(argv[0], "-", ft_strlen(argv[0])))
-		return (cd_parse_oldpwd(data));
 	if (op[0] == '/' || op[0] == '.' || !ft_strncmp(op, "..", 2))
 	{
 		cdpath = ft_strdup(argv[0]);
