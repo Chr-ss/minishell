@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/27 15:20:04 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 15:15:10 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/02 15:36:05 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,24 @@ int	unset(t_msdata *data, char	**argv, char	*arg)
 {
 	int		env_index;
 	char	**new_envp;
+	int		index;
 
+	index = 0;
 	if (!arg && !argv)
 		return (0);
-	if (arg != NULL)
-		env_index = get_envp_index(arg, data->envp);
-	else
-		env_index = get_envp_index(argv[0], data->envp);
-	if (env_index == -1)
-		return (0);
-	new_envp = unset_new_envp(data, env_index);
-	if (new_envp == NULL)
-		return (-1);
-	swap_envp(data, new_envp);
+	while (argv && argv[index])
+	{
+		if (arg != NULL)
+			env_index = get_envp_index(arg, data->envp);
+		else
+			env_index = get_envp_index(argv[index], data->envp);
+		if (env_index == -1)
+			return (0);
+		new_envp = unset_new_envp(data, env_index);
+		if (new_envp == NULL)
+			return (-1);
+		swap_envp(data, new_envp);
+		index++;
+	}
 	return (0);
 }
