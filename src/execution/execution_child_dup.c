@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:34:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 20:15:09 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/02 19:00:08 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
 	int	ret;
 
 	ret = 0;
-	data->org_stdin = dup2(STDIN_FILENO, 1000);
+	data->org_stdin = dup2(STDIN_FILENO, TEMPFDIN);
 	if (data->org_stdin == -1)
 		error("dup error stdin to data struct", data);
-	data->org_stdout = dup2(STDOUT_FILENO, 1001);
+	data->org_stdout = dup2(STDOUT_FILENO, TEMPFDOUT);
 	if (data->org_stdout == -1)
 		error("dup error stdout to data struct", data);
 	if (cmd->infd < 0 || cmd->outfd < 0)

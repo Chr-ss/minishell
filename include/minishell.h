@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/01 18:51:55 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 16:33:51 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@
 # include <sys/wait.h>
 
 # define DYNSTRING 8
+
+# define TEMPFDIN 4000
+# define TEMPFDOUT 4001
 
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
@@ -92,16 +95,16 @@ typedef struct s_msdata
 /**
  * @brief
  * This function initializes the signal handlers for this
- * program. If data is passed, it will call error function if 
+ * program. If data is passed, it will call error function if
  * signal handler init will fail, otherwise if null is passed
- * only exit will be called. passed If execution is set to true, 
+ * only exit will be called. passed If execution is set to true,
  * then ctrl+\ is not ignored. If minishell is true, then it will
  * initialize minishell, minishell should also have execution as true
  * @param t_msdata *data
  * @param bool execution
- * @note init_signal(NULL, false, false) when minishell starts in 
+ * @note init_signal(NULL, false, false) when minishell starts in
  * interactive mode
- * @note init_signal(data, true) when in execution mode 
+ * @note init_signal(data, true) when in execution mode
  * @return
  *  void
  * @exception
@@ -110,29 +113,29 @@ typedef struct s_msdata
 void		init_signal(t_msdata *data, bool execution);
 
 /**
- * @brief 
+ * @brief
  * this is the signal handler for interactive mode in minishell
- * @param sig 
- * @param info 
- * @param ucontext 
+ * @param sig
+ * @param info
+ * @param ucontext
  */
 void		handle_signal(int sig, siginfo_t *info, void *ucontext);
 
 /**
- * @brief 
+ * @brief
  * this is the signal handler for minishell in minishell
- * @param sig 
- * @param info 
- * @param ucontext 
+ * @param sig
+ * @param info
+ * @param ucontext
  */
 void		handle_signal_minishell(int sig, siginfo_t *info, void *ucontext);
 
 /**
- * @brief 
+ * @brief
  * this is the signal handler for execution mode
- * @param sig 
- * @param info 
- * @param ucontext 
+ * @param sig
+ * @param info
+ * @param ucontext
  */
 void		handle_signal_execution(int sig, siginfo_t *info, void *ucontext);
 
@@ -153,7 +156,7 @@ void		initdata(t_msdata *data, char **envp);
 
 /**
  * @brief This function will kill all children from parent process
- * @param t_msdata *data 
+ * @param t_msdata *data
  */
 void		kill_all_childs(t_msdata *data);
 
@@ -161,34 +164,34 @@ void		kill_all_childs(t_msdata *data);
  * @brief This function will initialize the childs structure in data structure.
  * first pid will be set to null and first next to NULL.
  * @param t_msdata *data
- * @exception if function fails it will call error function 
+ * @exception if function fails it will call error function
  */
 void		init_kindergarten(t_msdata *data);
 
 /**
  * @brief this function adds a child to the childs linked list
- * @param int	pid 
- * @param t_msdata *data 
+ * @param int	pid
+ * @param t_msdata *data
  * @exception if function fails then error function is called
  */
 void		add_child(int pid, t_msdata *data);
 
 /**
  * @brief this function deletes last child in linked list
- * @param t_msdata *data 
+ * @param t_msdata *data
  */
 void		delete_last_child(t_msdata *data);
 
 /**
  * @brief this function resets childs linked list after execution
- * @param t_msdata *data 
+ * @param t_msdata *data
  */
 void		reset_childs(t_msdata *data);
 
 /**
  * @brief this function will call all active childs from child
  * structure
- * @param t_msdata *data 
+ * @param t_msdata *data
  */
 void		kill_all_childs(t_msdata *data);
 // BUILT-INS:
