@@ -273,6 +273,11 @@ remove_temp_files
 test 15 'export lol' 'env' "ctrl+c" "ctrl+d" 
 check_result
 
+remove_temp_files
+test 16 'sleep 10' "ctrl+c" "ctrl+c" "ctrl+d" 
+check_result
+
+
 
 
 # check_result_multiple_files 1 "temp1" "temp2"
