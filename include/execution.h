@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/02 14:45:22 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 20:03:48 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 /**
  * @brief this function will prepare the child with dup and closing
  * all the correct fds
- * @param t_msdata *data 
- * @param t_cmd *cmd 
- * @return int, 1 is for file descriptor error, 0 is good execution 
+ * @param t_msdata *data
+ * @param t_cmd *cmd
+ * @return int, 1 is for file descriptor error, 0 is good execution
  * @exception
  * if something goes wrong then error function is called
  */
@@ -28,18 +28,18 @@ int		execute_child_dup(t_msdata *data, t_cmd *cmd);
 
 /**
  * @brief this function will execute the cmd in a child
- * @param t_msdata *data 
- * @param t_cmd *cmd 
- * @return void 
+ * @param t_msdata *data
+ * @param t_cmd *cmd
+ * @return void
  */
 void	execute_child(t_msdata *data, t_cmd *cmd);
 
 /**
  * @brief this function will check if cmd is minishell and prepares
  * parent for this.
- * @param t_msdata *data 
- * @param t_cmd *cmd 
- * @return void 
+ * @param t_msdata *data
+ * @param t_cmd *cmd
+ * @return void
  */
 void	execute_child_minishell(t_msdata *data, t_cmd *cmd);
 
@@ -47,18 +47,18 @@ void	execute_child_minishell(t_msdata *data, t_cmd *cmd);
  * @brief this function will check if cmd is a builtin, if function
  * is builtin it will execute and return exit code of builtin.
  * Otherwise it will return -1
- * @param t_msdata *data 
- * @param t_cmd *cmd 
- * @return int 
+ * @param t_msdata *data
+ * @param t_cmd *cmd
+ * @return int
  */
 int		execute_check_builtin(t_msdata *data, t_cmd *cmd);
 
 /**
- * @brief this function will dup and close all fds for 
+ * @brief this function will dup and close all fds for
  * the execution of child
- * @param t_msdata *data 
- * @param t_cmd *cmd 
- * @exception if something goes wrong then error function will 
+ * @param t_msdata *data
+ * @param t_cmd *cmd
+ * @exception if something goes wrong then error function will
  * be called
  */
 int		execute_child_dup_fd(t_msdata *data, t_cmd *cmd);
@@ -94,11 +94,11 @@ int		add_command_to_argv(t_cmd	**cmd_s, char	**path_cmd);
 int		execute_path(char	*cmd, t_msdata *data, char **path_cmd);
 
 /**
- * @brief this function goes into waitpid to wait for the child processes 
+ * @brief this function goes into waitpid to wait for the child processes
  * @param int pid
  * @param int *wstatus
  * @param t_msdata *data
- * @return int 
+ * @return int
  * @note 1 is continue waiting
  * @note 0 stop waitin
  */
@@ -109,6 +109,6 @@ int		execute_wait(int pid, int *wstatus, t_msdata *data);
  * @param int wstatus
  * @param int *statuscode
  */
-void execute_exit(int wstatus, int *statuscode);
+void	execute_exit(int wstatus, int *statuscode);
 
 #endif	// EXECUTION_H

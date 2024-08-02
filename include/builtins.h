@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/02 15:58:27 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 20:03:33 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 /**
  * @brief this function is responsible to print the env
  * in export
- * @param t_msdata *data 
- * @return int 
+ * @param t_msdata *data
+ * @return int
  */
 int		export_print_env(t_msdata *data);
 
@@ -36,17 +36,18 @@ char	*cd_parse(t_msdata *data, char **argv);
 
 /**
  * @brief
- * This function retrieves the oldpwd and passes it as string back 
+ * This function retrieves the oldpwd and passes it as string back
  * @param t_msdata *data
  * @param char **argv
  * @param char *cdpath
- * @return 
- * Function returns int to indicate succesful operation or not, 0 is succesful operation 1 is unsuccesful operation 
+ * @return
+ * Function returns int to indicate succesful operation or not, 0 is
+ * succesful operation 1 is unsuccesful operation
  * @exception
- *  function goed to error function if oldpwd 
+ *  function goed to error function if oldpwd
  *  cannot be retrieved due to malloc error
 */
-int	*cd_parse_oldpwd(t_msdata *data, char **argv, char *cdpath);
+int		*cd_parse_oldpwd(t_msdata *data, char **argv, char *cdpath);
 
 /**
  * @brief
@@ -66,7 +67,7 @@ char	*echo_getline(char **argv, int *print_nl, int arglen);
  * This function will check if char *arg param is a -n flag
  * @param t_msdata *data
  * @param int *print_nl
- * @return 
+ * @return
  * 0: arg is a -n flag;
  * 1: arg is not -n flag
 */
