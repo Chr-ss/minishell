@@ -6,12 +6,14 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 18:49:33 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 14:45:03 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/execution.h"
+
+extern int	g_sig;
 
 // REFERENCE: https://reactive.so/post/42-a-comprehensive-guide-to-pipex
 // REFERENCE: https://www.gnu.org/software/libc/manual/html_node/
@@ -114,8 +116,7 @@ void	execute(t_msdata *data)
 	while (execute_wait(pid, &wstatus, data))
 		;
 	init_signal(data, false);
-	if (WIFEXITED(wstatus) || WIFSTOPPED(wstatus))
-		statuscode = WEXITSTATUS(wstatus);
+	execute_exit(wstatus, &statuscode);
 	if (data->overrule_exit == true)
 		statuscode = 1;
 	data->exit_code = statuscode;
