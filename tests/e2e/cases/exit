@@ -5,4 +5,6 @@ export wat=wat
 unset edius iueshdiues
 cd - > files/outfiles/tester.txt
 cd - | cat
+./src
+/lol
 # echo | cd wat
