@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 14:59:44 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 19:55:42 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 {
 	if (cmd->pipe != NULL)
 	{
-		if (close(cmd->pipe->pipefd[WR]) == -1)
+		if (cmd->pipe->pipefd[WR] && close(cmd->pipe->pipefd[WR]) == -1)
 			error("close error parent write end of pipe", data);
 	}
 }

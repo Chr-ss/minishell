@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:34:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 19:30:02 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/02 19:59:32 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	execute_child_dup_fd_out(t_msdata *data, t_cmd *cmd)
 	{
 		if (close(cmd->pipe->pipefd[WR]) == -1)
 			error("close err child RDend pipe after fd dub to stdin", data);
+		cmd->pipe->pipefd[WR] = 0;
 	}
 	return (1);
 }
@@ -36,6 +37,7 @@ int	execute_child_dup_fd_in(t_msdata *data, t_cmd *cmd)
 	{
 		if (close(cmd->pipefd[RD]) == -1)
 			error("close err child RDend pipe after fd dub to stdout", data);
+		cmd->pipefd[RD] = 0;
 	}
 	return (1);
 }
@@ -71,14 +73,14 @@ int	execute_child_dup(t_msdata *data, t_cmd *cmd)
 		return (1);
 	if (!(data->cmd_head == cmd))
 	{
-		if (dup2(cmd->pipefd[RD], STDIN_FILENO) == -1)
+		if (cmd->pipefd[RD] && dup2(cmd->pipefd[RD], STDIN_FILENO) == -1)
 			error("dup error child read end pipe to stdin", data);
-		if (close(cmd->pipefd[RD]) == -1)
+		if (cmd->pipefd[RD] && close(cmd->pipefd[RD]) == -1)
 			error("close error child read end pipe after dub to stdin", data);
 	}
 	if (cmd->pipe != NULL)
 	{
-		if (dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
+		if (cmd->pipefd[WR] && dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
 			error("dup error child write end pipe to stdout", data);
 	}
 	return (0);
