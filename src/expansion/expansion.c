@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 16:31:20 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/02 13:48:40 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/02 15:19:00 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ static void	expand_copy(t_msdata *data, t_expand *exp)
 			&& single_q == true)
 			expand_exit_code(data, exp, &pos);
 		else if (data->line[pos] != '$' || single_q == false || \
-			(data->line[pos] == '$' && !ft_isalpha((int) data->line[pos + 1]) &&
-			data->line[pos + 1] != '_' && single_q == true))
+			(data->line[pos] == '$' && !ft_isalpha((int) data->line[pos + 1]) \
+			&& data->line[pos + 1] != '_' && single_q == true))
 		{
 			expand_copy_chars(data, exp, &pos);
 		}

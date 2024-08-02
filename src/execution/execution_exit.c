@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 14:41:59 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 14:50:08 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 15:19:22 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int	g_sig;
 
-void execute_exit(int wstatus, int *statuscode)
+void	execute_exit(int wstatus, int *statuscode)
 {
 	if (WIFEXITED(wstatus) || WIFSTOPPED(wstatus))
 		*statuscode = WEXITSTATUS(wstatus);
