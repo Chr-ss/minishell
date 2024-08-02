@@ -277,6 +277,10 @@ remove_temp_files
 test 16 'sleep 10' "ctrl+c" "ctrl+c" "ctrl+d" 
 check_result
 
+remove_temp_files
+test 17 'bash' 'export var1=test' 'minishell' 'export min1=one one=min1 h=t' 'unset var1' 'env' "ctrl+c" "ctrl+d" 
+check_result
+
 
 
 
