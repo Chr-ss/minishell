@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 18:01:51 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 14:59:29 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	mini_exit_error(char **argv)
 	return (0);
 }
 
-// TODO: ARGV should always be made eventhough no arguments given to command
 int	mini_exit(t_msdata *data, char **argv, int code)
 {
 	int		ec;
