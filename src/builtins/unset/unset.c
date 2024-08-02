@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/27 15:20:04 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/22 19:51:27 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 15:15:10 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ char	**unset_new_envp(t_msdata *data, int skip_index)
 	new_envp = ft_calloc(envp_len, sizeof(char *));
 	if (new_envp == NULL)
 		return (NULL);
-	new_envp[--envp_len] = NULL;
 	while (data->envp[old_index] != NULL)
 	{
 		if (old_index == envp_len)
 			break ;
 		if (old_index == skip_index)
 			old_index++;
+		if (old_index == envp_len)
+			break ;
 		if (copy_over_str(index, old_index, new_envp, data->envp))
 			error("copy_over_str, malloc error", data);
 		index++;
