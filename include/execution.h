@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/01 18:34:46 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 14:45:22 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,12 @@ int		execute_path(char	*cmd, t_msdata *data, char **path_cmd);
  * @note 0 stop waitin
  */
 int		execute_wait(int pid, int *wstatus, t_msdata *data);
+
+/**
+ * @brief this function sets the exit code after execution finishes
+ * @param int wstatus
+ * @param int *statuscode
+ */
+void execute_exit(int wstatus, int *statuscode);
 
 #endif	// EXECUTION_H
