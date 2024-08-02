@@ -144,7 +144,7 @@ if [[ $dstatus == 0 && $memstatus != 42 ]];
 fi
 memstatus=0
 }
-
+#TODO: add exit code check
 test()
 {
 echo -ne "${YEL} $1 ${BLU}| ${BMAG} "${@:2}" ${BLU}|${RESET}"
