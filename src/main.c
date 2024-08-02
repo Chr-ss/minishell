@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/01 17:14:12 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 13:38:31 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argv;
 	if (argc > 1)
-		error("Invalid argument count.", &data);
+	{
+		write(1, "Invalid argument count.\n", 24);
+		return (1);
+	}
 	if (!TEST)
 		check_tty();
 	debugger("pid %d\n", getpid());
