@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 13:08:58 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 16:39:58 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 16:52:42 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ int	cd_parse_oldpwd(t_msdata *data, char **argv, char *cdpath)
 	}
 	else if (cdpath == NULL)
 		write(2, "minishell: No such file or directory\n", 37);
-	return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:35:07 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 17:26:10 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 16:27:28 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 		error("execute_child execute path error", data);
 	else if (ret == 1)
 	{
-		write(2, "minishell: command not found\n", 29);
 		free_all(data);
 		exit(127);
 	}
