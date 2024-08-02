@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/02 16:33:51 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/02 19:30:17 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@
 
 # define DYNSTRING 8
 
-# define TEMPFDIN 4000
-# define TEMPFDOUT 4001
+# define FDMAX 1024
 
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
