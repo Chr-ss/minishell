@@ -6,23 +6,13 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 18:02:11 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 14:37:46 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 #include "../../../include/builtins.h"
-// TESTCASES
-// export
-// export lol
-// export lol lol lol
-// export lol=wat
-// export=
-// export lol=wat wat wat
-// export wat=lol=wat {wat='lol=wat'}
-// export wat= {wat="", echo $wat = ""}
-// export [existing variable]=new_value
-// {[existing variable]=new_value, echo $[existing variable] = new_value}
+
 char	*export_check_value(char *value)
 {
 	int		index;
@@ -61,14 +51,14 @@ int	export_check_identifier(char *argv)
 	index = 0;
 	if (argv)
 	{
-		if (!(ft_isalpha(argv[0])))
+		if (!(ft_isalpha(argv[0])) && argv[0] != '_')
 		{
 			write(2, "minishell: export: not a valid identifier\n", 42);
 			return (1);
 		}
 		while (argv[index] != '=' && argv[index] != '\0')
 		{
-			if (!(ft_isalnum(argv[index])))
+			if (!(ft_isalnum(argv[index])) && argv[index] != '_')
 			{
 				write(2, "minishell: export: not a valid identifier\n", 42);
 				return (1);
