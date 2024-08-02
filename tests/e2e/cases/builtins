@@ -38,6 +38,9 @@ export hello 1world
 export HELLO-=123
 export =
 export 123
+export lol | env | grep lol
+export test_test
+export _=test
 # this works, but no bothering changing the env variable of bash / minishell execution
 #export 
 unset

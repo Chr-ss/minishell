@@ -269,6 +269,11 @@ remove_temp_files
 test 14 'sleep infinity | ls' 'ctrl+\' "ctrl+c" "ctrl+d" 
 check_result
 
+remove_temp_files
+test 15 'export lol' 'env' "ctrl+c" "ctrl+d" 
+check_result
+
+
 
 # check_result_multiple_files 1 "temp1" "temp2"
 # test "ctrl+c" "ctrl+c" "ctrl+c" "ctrl+d"
