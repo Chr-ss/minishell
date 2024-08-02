@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 14:45:03 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/02 14:59:44 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,6 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 	execute_parent_restore_fds(data);
 }
 
-// TODO: exit with data->exit_code when bash send kill signal
-// TODO: add error to system call failure
-// TODO: check if wifsignal should still be added
 void	execute(t_msdata *data)
 {
 	t_cmd	*cmd;
