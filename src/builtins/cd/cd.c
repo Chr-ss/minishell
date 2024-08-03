@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 12:02:08 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/03 15:51:06 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	cd(t_msdata *data, char **argv)
 		dir = cd_parse(data, argv);
 	if (cd_parse_oldpwd(data, argv, dir))
 		return (1);
-	if (cd_chdir(data, dir))
+	if (dir && cd_chdir(data, dir))
 		error("chdir error", data);
 	if (dir)
 		free(dir);
