@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/03 15:41:31 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/03 18:25:17 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,13 @@ void		delete_last_child(t_msdata *data);
  * @param t_msdata *data
  */
 void		reset_childs(t_msdata *data);
+
+/**
+ * @brief this function gets last child in struct
+ * @param t_msdata *data
+ */
+t_childs	*get_last_child(t_msdata *data);
+
 
 /**
  * @brief this function will call all active childs from child

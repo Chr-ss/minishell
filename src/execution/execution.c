@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 15:40:35 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/03 18:46:27 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,27 @@ void	execute_pipe_child(t_msdata *data, t_cmd *cmd, int *pid)
 	}
 }
 
+void	execute_parent_restore_fds(t_msdata *data)
+{
+	if (data->org_stdin > 0)
+	{
+		if (dup2(data->org_stdin, STDIN_FILENO) == -1)
+			error("dup org_stdout to stdout", data);
+		if (close(data->org_stdin) == -1)
+			error("close error org_stdout", data);
+		data->org_stdin = -2;
+	}
+	if (data->org_stdout > 0)
+	{
+		if (dup2(data->org_stdout, STDOUT_FILENO) == -1)
+			error("dup org_stdout to stdout", data);
+		if (close(data->org_stdout) == -1)
+			error("close error org_stdout", data);
+		data->org_stdout = -2;
+	}
+}
+
+
 void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 {
 	debugger(BMAG "cmd: %s\n" RESET, cmd->cmd);
@@ -66,7 +87,12 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 			error("pipe error", data);
 	}
 	if (cmd->pipe == NULL && cmd == data->cmd_head)
+	{
 		*statuscode = execute_check_builtin(data, cmd);
+		execute_parent_restore_fds(data);
+	}
+	if (cmd->pipe == NULL && *statuscode)
+		data->overrule_exit = false;
 	if (*statuscode == -1)
 		execute_pipe_child(data, cmd, pid);
 	init_signal(data, execution);
@@ -78,7 +104,9 @@ void	execute(t_msdata *data)
 	int		wstatus;
 	int		statuscode;
 	int		pid;
+	t_childs	*last;
 
+	last = NULL;
 	pid = 0;
 	wstatus = -1;
 	statuscode = -1;
@@ -91,8 +119,11 @@ void	execute(t_msdata *data)
 			statuscode = 1;
 		cmd = cmd->pipe;
 	}
-	while (execute_wait(pid, &wstatus, data))
+	last = get_last_child(data);
+	while (execute_wait(last->pid, &wstatus, data))
 		;
+	if (data->overrule_exit == true)
+		statuscode = 1;
 	init_signal(data, interactive);
 	execute_exit(wstatus, &statuscode);
 	data->exit_code = statuscode;
