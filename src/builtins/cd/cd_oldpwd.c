@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 13:08:58 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 12:02:02 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/03 15:53:35 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	cd_parse_oldpwd(t_msdata *data, char **argv, char *cdpath)
 {
 	int		ret;
 
-	if (!ft_strncmp(argv[0], "-", ft_strlen(argv[0])) && cdpath == NULL)
+	if (argv && !ft_strncmp(argv[0], "-", ft_strlen(argv[0])) && \
+	cdpath == NULL)
 	{
 		ret = get_envp(data, "OLDPWD", &cdpath);
 		if (ret == -1)
