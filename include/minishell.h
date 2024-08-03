@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/03 12:11:46 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/03 15:41:31 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ void		handle_signal_execution(int sig, siginfo_t *info, void *ucontext);
  * @param info
  * @param ucontext
  */
-void	handle_signal_heredoc(int sig, siginfo_t *info, void *ucontext);
+void		handle_signal_heredoc(int sig, siginfo_t *info, void *ucontext);
 
 /**
  * @brief
@@ -173,7 +173,7 @@ void	handle_signal_heredoc(int sig, siginfo_t *info, void *ucontext);
  * @param info
  * @param ucontext
  */
-void	handle_signal_after_heredoc(int sig, siginfo_t *info, void *ucontext);
+void		handle_signal_after_heredoc(int sig, siginfo_t *info, void *ucontext);
 
 // INITDATA.c
 
