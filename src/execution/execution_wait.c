@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 18:23:52 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 18:49:53 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/03 13:08:11 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	execute_wait(int pid, int *wstatus, t_msdata *data)
 		return (0);
 	if (result == -1)
 	{
-		debugger("interruption in pid: %d\n", getpid());
+		debugger(RED "Parent interruption in pid: %d\n" RESET, getpid());
 		if (errno == EINTR)
 		{
 			if (g_sig == 3 && data->childs->next->pid == pid)

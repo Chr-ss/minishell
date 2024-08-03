@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/01 19:36:12 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/03 11:08:57 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_token	type_handler_pipe(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 
 t_token	type_handler_eof(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 {
-	debugger("type_handler_eof: Token EOF");
+	debugger(RED "type_handler_eof: Token EOF" RESET);
 	(void) cmd;
 	(void) data;
 	(void) pos;

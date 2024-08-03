@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 19:05:43 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 19:11:36 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/03 13:02:36 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	add_child(int pid, t_msdata *data)
 	end = get_last_child(data);
 	if (end != NULL)
 	{
-		debugger("adding %d to child linked list\n", pid);
+		debugger(RED "Parent: Adding %d to child linked list\n" RESET, pid);
 		new_child->pid = pid;
 		new_child->next = NULL;
 		end->next = new_child;

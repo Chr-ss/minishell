@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:02:41 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/23 12:48:53 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/03 12:03:17 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,19 @@ int	parsing(t_msdata *data)
 		return (-1);
 	if (parsing_syntax_pipe(data) == -1)
 	{
-		write(2, " syntax error near unexpected token `|'\n", 40);
+		write(STDERR_FILENO, " syntax error near unexpected token `|'\n", 40);
 		data->exit_code = 2;
 		return (-1);
 	}
 	if (parsing_syntax_quotes(data) == -1)
 	{
-		write(2, " unexpected EOF while looking for matching `''\n", 47);
+		write(STDERR_FILENO, " unexpected EOF while looking for matching `''\n", 47);
 		data->exit_code = 2;
 		return (-1);
 	}
 	if (parsing_syntax_quotes(data) == -2)
 	{
-		write(2, " unexpected EOF while looking for matching `\"'\n", 48);
+		write(STDERR_FILENO, " unexpected EOF while looking for matching `\"'\n", 48);
 		data->exit_code = 2;
 		return (-1);
 	}
