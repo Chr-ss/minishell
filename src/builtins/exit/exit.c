@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 14:59:29 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/03 11:18:08 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int	mini_exit(t_msdata *data, char **argv, int code)
 
 	ret = 0;
 	ec = 0;
-	if (isatty(STDIN_FILENO))
-		ft_printf("exit\n");
 	if (argv)
 	{
 		ret = mini_exit_error(argv);
@@ -59,5 +57,7 @@ int	mini_exit(t_msdata *data, char **argv, int code)
 	else
 		ec = code % 256;
 	free_all(data);
+	if (isatty(STDIN_FILENO))
+		ft_printf("exit\n");
 	exit(ec);
 }
