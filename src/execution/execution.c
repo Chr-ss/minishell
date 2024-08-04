@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/04 09:37:24 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/04 16:00:53 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,17 @@ void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
 	if (!(data->cmd_head == cmd))
 	{
 		if (cmd->pipefd[WR])
-			debugger (RED "Parent: closing cmd->pipefd[WR] %d\n" RESET, cmd->pipefd[WR]);
+		{
+			debugger (RED "Parent: closing cmd->pipefd[WR] %d\n" RESET, \
+				cmd->pipefd[WR]);
+		}
 		if (cmd->pipefd[WR] && close(cmd->pipefd[WR]) == -1)
 			error("close error parent cmd->pipefd[WR]", data);
 		if (cmd->pipefd[RD])
-			debugger (RED "Parent: closing cmd->pipefd[RD] %d\n" RESET, cmd->pipefd[RD]);
+		{
+			debugger (RED "Parent: closing cmd->pipefd[RD] %d\n" RESET, \
+				cmd->pipefd[RD]);
+		}
 		if (cmd->pipefd[RD] && close(cmd->pipefd[RD]) == -1)
 			error("close error parent cmd->pipefd[RD]", data);
 	}
@@ -77,7 +83,6 @@ void	execute_parent_restore_fds(t_msdata *data)
 	}
 }
 
-
 void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 {
 	debugger(BMAG "cmd: %s\n" RESET, cmd->cmd);
@@ -98,10 +103,10 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 
 void	execute(t_msdata *data)
 {
-	t_cmd	*cmd;
-	int		wstatus;
-	int		statuscode;
-	int		pid;
+	t_cmd		*cmd;
+	int			wstatus;
+	int			statuscode;
+	int			pid;
 	t_childs	*last;
 
 	last = NULL;

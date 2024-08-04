@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:34:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 15:42:50 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/04 15:55:42 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	execute_child_dup_fd_out(t_msdata *data, t_cmd *cmd)
 {
-	debugger(BLU "cmd->outfd %d duped to -> %d\n" RESET, cmd->outfd, STDOUT_FILENO);
+	debugger(BLU "cmd->outfd %d duped to -> %d\n" RESET, \
+		cmd->outfd, STDOUT_FILENO);
 	if (dup2(cmd->outfd, STDOUT_FILENO) == -1)
 		error("dup error child cmd->outfd", data);
 	debugger(BLU "closing cmd->outfd: %d\n" RESET, cmd->outfd);
@@ -25,7 +26,8 @@ int	execute_child_dup_fd_out(t_msdata *data, t_cmd *cmd)
 
 int	execute_child_dup_fd_in(t_msdata *data, t_cmd *cmd)
 {
-	debugger(BLU "cmd->infd %d duped to -> %d\n" RESET, cmd->infd, STDIN_FILENO);
+	debugger(BLU "cmd->infd %d duped to -> %d\n" RESET, \
+		cmd->infd, STDIN_FILENO);
 	if (dup2(cmd->infd, STDIN_FILENO) == -1)
 		error("dup error child cmd->infd", data);
 	debugger(BLU "closing cmd->infd: %d\n" RESET, cmd->infd);
@@ -49,4 +51,3 @@ int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
 		ret = execute_child_dup_fd_out(data, cmd);
 	return (ret);
 }
-

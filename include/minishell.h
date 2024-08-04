@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/03 18:25:17 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/04 15:55:06 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,30 +71,32 @@ enum e_signal
 {
 	interactive,
 	execution,
-	hd, 
+	hd,
 	afterhd
-}	;
+};
 
+// pid = of child
+// next = if NULL no more child
 typedef struct s_childs
 {
-	int				pid;		//pid of child
-	struct s_childs	*next;		// if NULL no more child
+	int				pid;
+	struct s_childs	*next;
 }	t_childs;
 
 typedef struct s_cmd
 {
-	char			*cmd;		// can be used for execution
-	char			**argv;		// can be used for execution
-	char			**heredoc;	// heredoc delimiters
-	struct s_cmd	*pipe;		// if NULL no more pipe
-	int				infd;		// if -1 do not execute cmd | if 0 no change
-	int				outfd;		// if -1 do not execute cmd | if 0 no change
-	int				pipefd[2];	// holds the pipe from previous cmd to current
+	char			*cmd;
+	char			**argv;
+	char			**heredoc;
+	struct s_cmd	*pipe;
+	int				infd;
+	int				outfd;
+	int				pipefd[2];
 }	t_cmd;
 
 typedef struct s_msdata
 {
-	t_cmd		*cmd_head;		// head of CMD struct
+	t_cmd		*cmd_head;
 	t_cmd		*cmd_curr;
 	char		*line;
 	int			pos;
@@ -105,7 +107,7 @@ typedef struct s_msdata
 	int			org_stdin;
 	bool		overrule_exit;
 	t_childs	*childs;
-	t_expand	*exp;			// struct for line expansion
+	t_expand	*exp;
 }	t_msdata;
 
 // SIGNAL:
@@ -115,7 +117,7 @@ typedef struct s_msdata
  * This function initializes the signal handlers for this
  * program. If data is passed, it will call error function if
  * signal handler init will fail, otherwise if null is passed
- * only exit will be called. 
+ * only exit will be called.
  * @param t_msdata *data
  * @param int type
  * @note init_signal(NULL, interactive) when minishell starts in
@@ -156,7 +158,6 @@ void		handle_signal_minishell(int sig, siginfo_t *info, void *ucontext);
  */
 void		handle_signal_execution(int sig, siginfo_t *info, void *ucontext);
 
-
 /**
  * @brief
  * this is the signal handler for heredoc mode
@@ -173,7 +174,8 @@ void		handle_signal_heredoc(int sig, siginfo_t *info, void *ucontext);
  * @param info
  * @param ucontext
  */
-void		handle_signal_after_heredoc(int sig, siginfo_t *info, void *ucontext);
+void		handle_signal_after_heredoc(int sig, siginfo_t *info, \
+										void *ucontext);
 
 // INITDATA.c
 
@@ -229,7 +231,6 @@ void		reset_childs(t_msdata *data);
  * @param t_msdata *data
  */
 t_childs	*get_last_child(t_msdata *data);
-
 
 /**
  * @brief this function will call all active childs from child

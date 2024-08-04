@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 12:03:34 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/04 15:47:45 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,16 @@ int	export_check_identifier(char *argv)
 	{
 		if (!(ft_isalpha(argv[0])) && argv[0] != '_')
 		{
-			write(STDERR_FILENO, "minishell: export: not a valid identifier\n", 42);
+			write(STDERR_FILENO, \
+				"minishell: export: not a valid identifier\n", 42);
 			return (1);
 		}
 		while (argv[index] != '=' && argv[index] != '\0')
 		{
 			if (!(ft_isalnum(argv[index])) && argv[index] != '_')
 			{
-				write(STDERR_FILENO, "minishell: export: not a valid identifier\n", 42);
+				write(STDERR_FILENO, \
+					"minishell: export: not a valid identifier\n", 42);
 				return (1);
 			}
 			index++;

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 14:41:59 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 20:08:01 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/04 15:57:26 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ void	execute_exit(int *wstatus, int *statuscode)
 	{
 		*statuscode = (g_sig + 127);
 		if (WTERMSIG(*wstatus) == 13)
-		*statuscode = 0;
+			*statuscode = 0;
 	}
 }

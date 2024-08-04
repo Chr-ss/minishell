@@ -6,17 +6,20 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:34:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 15:43:26 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/04 15:59:27 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/execution.h"
 
-void execute_child_dup_read(t_msdata *data, t_cmd *cmd)
+void	execute_child_dup_read(t_msdata *data, t_cmd *cmd)
 {
 	if (cmd->pipefd[RD])
-		debugger (BLU "cmd->pipefd[RD] %d duped to -> %d\n" RESET, cmd->pipefd[RD], STDIN_FILENO);
+	{
+		debugger (BLU "cmd->pipefd[RD] %d duped to -> %d\n" RESET, \
+			cmd->pipefd[RD], STDIN_FILENO);
+	}
 	if (cmd->pipefd[RD] && dup2(cmd->pipefd[RD], STDIN_FILENO) == -1)
 		error("dup error child cmd->pipefd[RD] to stdin", data);
 	if (cmd->pipefd[RD] && close(cmd->pipefd[RD]) == -1)
@@ -25,18 +28,21 @@ void execute_child_dup_read(t_msdata *data, t_cmd *cmd)
 		error("close error cmd->pipefd[WR]", data);
 }
 
-void execute_child_dup_write(t_msdata *data, t_cmd *cmd)
+void	execute_child_dup_write(t_msdata *data, t_cmd *cmd)
 {
 	if (cmd->pipe->pipefd[WR])
-		debugger (BLU "cmd->pipe->pipefd[WR] %d duped to -> %d\n" RESET, cmd->pipefd[WR], STDOUT_FILENO);
-	if (cmd->pipe->pipefd[WR] && dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
+	{
+		debugger (BLU "cmd->pipe->pipefd[WR] %d duped to -> %d\n" RESET, \
+			cmd->pipefd[WR], STDOUT_FILENO);
+	}
+	if (cmd->pipe->pipefd[WR] && \
+		dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
 		error("dup error pipe->pipefd[WR] to stdout", data);
 	if (cmd->pipe->pipefd[WR] && close(cmd->pipe->pipefd[WR]) == -1)
 		error("close error cmd->pipe->pipefd[WR]", data);
 	if (cmd->pipe->pipefd[RD] && close(cmd->pipe->pipefd[RD]) == -1)
 		error("close error cmd->pipe->pipefd[RD]", data);
 }
-
 
 int	execute_child_dup(t_msdata *data, t_cmd *cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:35:07 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/04 09:39:55 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/04 15:56:57 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,21 @@
 int	execute_check_builtin_fd_functions(t_cmd *cmd, int len)
 {
 	if (!ft_strncmp("echo", cmd->cmd, len))
-		return(1); 
+		return (1);
 	else if (!ft_strncmp("cd", cmd->cmd, len))
-		return(1); 
+		return (1);
 	else if (!ft_strncmp("env", cmd->cmd, len))
-		return(1); 
+		return (1);
 	else if (!ft_strncmp("export", cmd->cmd, len))
-		return(1); 
+		return (1);
 	else if (!ft_strncmp("pwd", cmd->cmd, len))
-		return(1); 
+		return (1);
 	else if (!ft_strncmp("unset", cmd->cmd, len))
-		return(1); 
+		return (1);
 	else if (!ft_strncmp("exit", cmd->cmd, len))
-		return(1); 
-	else return (0);
+		return (1);
+	else
+		return (0);
 	return (0);
 }
 
@@ -50,7 +51,6 @@ int	execute_check_builtin_fd(t_msdata *data, t_cmd *cmd, int len)
 	}
 	return (0);
 }
-
 
 int	execute_check_builtin(t_msdata *data, t_cmd *cmd)
 {
