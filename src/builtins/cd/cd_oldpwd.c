@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 13:08:58 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 15:53:35 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/04 09:28:18 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	cd_parse_oldpwd(t_msdata *data, char **argv, char *cdpath)
 			error("cdparse getenvp error", data);
 		if (ret == 1)
 		{
+			if (cdpath)
+				free(cdpath);
 			write(STDERR_FILENO, "minishell: OLDPWD not set\n", 26);
 			return (ret);
 		}
