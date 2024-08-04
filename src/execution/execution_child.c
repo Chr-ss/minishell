@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:35:07 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 18:57:04 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/04 09:39:55 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	else if (ret == 1)
 	{
 		free_all(data);
-		exit(1);
+		exit(127);
 	}
 	if (add_command_to_argv(&cmd, &path_cmd) == -1)
 		error("add command to argv malloc error", data);

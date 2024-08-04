@@ -1,0 +1,6 @@
+#added because they were failing for no reason in other files
+echo hi >>./outfiles/outfile01 | echo bye 
+echo hi | echo bye >>./noaccess/noaccess 
+echo wat | grep wat > ./outfiles/lol.txt 
+echo hi | cat <"./test_files/infile"
+ 

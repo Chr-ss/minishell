@@ -1,0 +1,77 @@
+# LucasKuhn - minishell_tester (fixed for paths)
+grep hi <./files/infile/test1
+grep hi "</files/infile/test1" <         ./files/infile/test1
+echo hi < ./files/infile/test1 bye bye
+grep hi <./infile/big_infile <./infile/infile
+echo <"./infile/infile" "bonjour       42"
+cat <"./infile/test1 name with spaces"
+cat <./infile/big_infile ./infile/infile
+cat <./outfiles/"1""2""3""4""5"
+echo <"./infile/infile" <./outfiles/missing <"./infile/infile"
+echo <./outfiles/missing <"./infile/infile" <./outfiles/missing
+cat <"./infile/infile"
+echo <"./infile/big_infile" | cat <"./infile/infile"
+echo <"./infile/big_infile" | cat "./infile/infile"
+echo <"./infile/big_infile" | echo <"./infile/infile"
+echo hi | cat <"./infile/infile"
+echo hi | cat "./infile/infile"
+cat <"./infile/infile" | echo hi
+cat <"./infile/infile" | grep hello
+cat <"./infile/big_infile" | echo hi
+cat <./outfiles/missing
+cat <./outfiles/missing | cat
+cat <./outfiles/missing | echo oi
+cat <./outfiles/missing | cat <"./infile/infile"
+echo <./outfiles/123 <./outfiles/456 hi | echo 42
+ls >./outfiles/outfile01
+ls >         ./outfiles/outfile01
+echo hi >         ./outfiles/outfile01 bye
+ls >./outfiles/outfile01 >./outfiles/outfile02
+ls >./outfiles/outfile01 >./noaccess/noaccess
+ls >"./outfiles/outfile with spaces"
+ls >"./outfiles/outfile""1""2""3""4""5"
+ls >"./outfiles/outfile01" >./noaccess/noaccess >"./outfiles/outfile02"
+ls >./noaccess/noaccess >"./outfiles/outfile01" >./noaccess/noaccess
+cat <"./infile/infile" >"./outfiles/outfile01"
+echo hi >./outfiles/outfile01 | echo bye
+echo hi >./outfiles/outfile01 >./outfiles/outfile02 | echo bye
+echo hi | echo >./outfiles/outfile01 bye
+echo hi | echo bye >./outfiles/outfile01 >./outfiles/outfile02
+echo hi >./outfiles/outfile01 | echo bye >./outfiles/outfile02
+echo hi >./outfiles/outfile01 >./noaccess/noaccess | echo bye
+echo hi >./noaccess/noaccess| echo bye
+echo hi >./noaccess/noaccess>./outfiles/outfile01 | echo bye
+echo hi | echo bye >./noaccess
+echo hi | >./outfiles/outfile01 echo bye >./noaccess/noaccess
+echo hi | echo bye >./noaccess/noaccess>./outfiles/outfile01
+cat <"./infile/infile" >./noaccess/noaccess
+cat >./noaccess/noaccess<"./infile/infile"
+cat <./outfiles/missing >./outfiles/outfile01
+cat >./outfiles/outfile01 <./outfiles/missing
+cat <./outfiles/missing >./noaccess/noaccess
+cat >./noaccess/noaccess<./outfiles/missing
+cat >./outfiles/outfile01 <./outfiles/missing >./noaccess/noaccess
+ls >>./outfiles/outfile01
+ls >>      ./outfiles/outfile01
+ls >>./outfiles/outfile01 >./outfiles/outfile01
+ls >./outfiles/outfile01 >>./outfiles/outfile01
+ls >./outfiles/outfile01 >>./outfiles/outfile01 >./outfiles/outfile02
+ls >>./outfiles/outfile01 >>./outfiles/outfile02
+ls >>./noaccess/noaccess
+ls >>./noaccess/noaccess>>./outfiles/outfile01
+ls >>./outfiles/outfile01 >>./noaccess/noaccess
+ls >./outfiles/outfile01 >>./noaccess/noaccess>>./outfiles/outfile02
+ls <./outfiles/missing >>./noaccess/noaccess>>./outfiles/outfile02
+ls >>./noaccess/noaccess>>./outfiles/outfile02 <./outfiles/missing
+echo hi >>./outfiles/outfile01 | echo bye
+echo hi >>./outfiles/outfile01 >>./outfiles/outfile02 | echo bye
+echo hi | echo >>./outfiles/outfile01 bye
+echo hi | echo bye >>./outfiles/outfile01 >>./outfiles/outfile02
+echo hi >>./noaccess/noaccess| echo bye
+echo hi >>./noaccess/noaccess>./outfiles/outfile01 | echo bye
+echo hi | echo >>./outfiles/outfile01 bye >./noaccess/noaccess
+cat <./outfiles/minishell.h>./outfiles/outfile
+cat <./outfiles/minishell.h|ls
+ls -l | grep cases > ./outfiles/test | cat -e
+#just to remove noaccess which is generated
+rm -rf noaccess

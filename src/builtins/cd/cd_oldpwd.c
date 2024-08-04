@@ -6,33 +6,33 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 13:08:58 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/04 09:28:18 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/04 09:59:30 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
-int	cd_parse_oldpwd(t_msdata *data, char **argv, char *cdpath)
+int	cd_parse_oldpwd(t_msdata *data, char **argv, char **cdpath)
 {
 	int		ret;
 
 	if (argv && !ft_strncmp(argv[0], "-", ft_strlen(argv[0])) && \
-	cdpath == NULL)
+	*cdpath == NULL)
 	{
-		ret = get_envp(data, "OLDPWD", &cdpath);
+		ret = get_envp(data, "OLDPWD", cdpath);
 		if (ret == -1)
 			error("cdparse getenvp error", data);
 		if (ret == 1)
 		{
-			if (cdpath)
-				free(cdpath);
+			if (*cdpath)
+				free(*cdpath);
 			write(STDERR_FILENO, "minishell: OLDPWD not set\n", 26);
 			return (ret);
 		}
-		ft_printf("%s\n", cdpath);
+		ft_printf("%s\n", *cdpath);
 		return (ret);
 	}
-	else if (cdpath == NULL)
+	else if (*cdpath == NULL)
 		write(STDERR_FILENO, "minishell: No such file or directory\n", 37);
 	return (0);
 }

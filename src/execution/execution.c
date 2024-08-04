@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 18:46:27 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/04 09:37:24 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 		*statuscode = execute_check_builtin(data, cmd);
 		execute_parent_restore_fds(data);
 	}
-	if (cmd->pipe == NULL && *statuscode)
-		data->overrule_exit = false;
 	if (*statuscode == -1)
 		execute_pipe_child(data, cmd, pid);
 	init_signal(data, execution);
@@ -120,11 +118,8 @@ void	execute(t_msdata *data)
 		cmd = cmd->pipe;
 	}
 	last = get_last_child(data);
-	while (execute_wait(last->pid, &wstatus, data))
+	while (execute_wait(last->pid, &wstatus, data, &statuscode))
 		;
-	if (data->overrule_exit == true)
-		statuscode = 1;
 	init_signal(data, interactive);
-	execute_exit(wstatus, &statuscode);
 	data->exit_code = statuscode;
 }

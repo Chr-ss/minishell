@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/02 20:03:33 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/04 09:55:26 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*cd_parse(t_msdata *data, char **argv);
  *  function goed to error function if oldpwd
  *  cannot be retrieved due to malloc error
 */
-int		*cd_parse_oldpwd(t_msdata *data, char **argv, char *cdpath);
+int		*cd_parse_oldpwd(t_msdata *data, char **argv, char **cdpath);
 
 /**
  * @brief

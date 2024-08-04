@@ -377,7 +377,8 @@ while IFS= read -r line; do
 	rm -rf $outfiles/*
 	rm -rf $mini_outfiles/*
 	MINI_OUTPUT=$(echo -e "$line" | $minishell 2>>$MS_LOG)
-	MINI_EXIT_CODE=$(echo $?)
+	MINI_EXIT_CODE=$(echo -e "$line" | $minishell &>> /dev/null ; echo $?)
+	MINI_EXIT_CODE=$(echo "${MINI_EXIT_CODE##* }" | tail -1)
 	MINI_OUTPUT=${MINI_OUTPUT#*"$line"}
 	MINI_OUTPUT=${MINI_OUTPUT%'minishell:~$ '}
 	MINI_OUTPUT=$(echo $MINI_OUTPUT | xargs -0)
@@ -385,7 +386,7 @@ while IFS= read -r line; do
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0' | head -n1)
 	if [ $memory = 1 ]; then
 	MINI_MEM_LOG=$(echo -e "$line" | $valgrind_cmd $minishell &> $TEMP_MEMORY_LOG)
-	MINI_MEM_CODE=$(echo $?)
+	MINI_MEM_CODE=$?
 	fi
 
 	cp -r $files_temp/* $files &>> $MS_LOG
