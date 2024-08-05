@@ -311,10 +311,6 @@ else
 bash interactive.sh 1 0
 fi
 fi
-if [ $e2e == 0 ];
-then
-exit 0
-fi
 
 minishelldir=$(cd ../../ && pwd)
 
@@ -344,6 +340,10 @@ then
 FAIL=true
 NORM_FAIL=true
 fi
+fi
+if [ $e2e == 0 ];
+then
+exit 0
 fi
 # https://github.com/LucasKuhn/minishell_tester
 
