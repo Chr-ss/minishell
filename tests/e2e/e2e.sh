@@ -329,7 +329,7 @@ files_temp=./files_temp
 files=./files
 
 #add minishell to path
-export PATH=$PATH:$(cd $minishelldir && pwd)
+export PATH=$PATH:$(echo $minishelldir)
 
 #norminette
 if [ $norminette == 1 ];
