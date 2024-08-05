@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/05 19:41:33 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/05 19:47:02 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int		echo_check_nl(char *arg);
  * @param char *dirname
  * @note if dir does not exists it free dirname
  */
-void cd_parse_pso_check(char **dirname);
-
+void	cd_parse_pso_check(char **dirname);
 
 #endif	// BUILTINS_H
