@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/24 19:15:45 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 15:55:26 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/05 19:41:15 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ char	*cd_parse_pso(char *cdpath, char *operand)
 			break ;
 		index++;
 	}
+	cd_parse_pso_check(&dirname);
 	free_char_array(sp_cdpath);
 	return (dirname);
 }

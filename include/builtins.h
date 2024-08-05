@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/04 09:55:26 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/05 19:41:33 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,13 @@ char	*echo_getline(char **argv, int *print_nl, int arglen);
  * 1: arg is not -n flag
 */
 int		echo_check_nl(char *arg);
+
+/**
+ * @brief double check pso dir
+ * @param char *dirname
+ * @note if dir does not exists it free dirname
+ */
+void cd_parse_pso_check(char **dirname);
+
 
 #endif	// BUILTINS_H
