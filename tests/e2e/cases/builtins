@@ -26,6 +26,9 @@ echo $
 echo -n
 echo $?
 echo $?HELLO
+e test
+ec hotest
+ech otest
 pwd
 pwd oi
 export hello

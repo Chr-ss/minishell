@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   execution_child.c                                  :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: spenning <spenning@student.codam.nl>         +#+                     */
+/*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:35:07 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/04 15:56:57 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/05 18:50:29 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 
 int	execute_check_builtin_fd_functions(t_cmd *cmd, int len)
 {
-	if (!ft_strncmp("echo", cmd->cmd, len))
+	if (!ft_strncmp("echo", cmd->cmd, 4) && len == 4)
 		return (1);
-	else if (!ft_strncmp("cd", cmd->cmd, len))
+	else if (!ft_strncmp("cd", cmd->cmd, 2) && len == 2)
 		return (1);
-	else if (!ft_strncmp("env", cmd->cmd, len))
+	else if (!ft_strncmp("env", cmd->cmd, 3) && len == 3)
 		return (1);
-	else if (!ft_strncmp("export", cmd->cmd, len))
+	else if (!ft_strncmp("export", cmd->cmd, 6) && len == 6)
 		return (1);
-	else if (!ft_strncmp("pwd", cmd->cmd, len))
+	else if (!ft_strncmp("pwd", cmd->cmd, 3) && len == 3)
 		return (1);
-	else if (!ft_strncmp("unset", cmd->cmd, len))
+	else if (!ft_strncmp("unset", cmd->cmd, 5) && len == 5)
 		return (1);
-	else if (!ft_strncmp("exit", cmd->cmd, len))
+	else if (!ft_strncmp("exit", cmd->cmd, 4) && len == 4)
 		return (1);
 	else
 		return (0);
@@ -61,19 +61,19 @@ int	execute_check_builtin(t_msdata *data, t_cmd *cmd)
 	ret = execute_check_builtin_fd(data, cmd, len);
 	if (ret == -1)
 		return (1);
-	if (!ft_strncmp("echo", cmd->cmd, len))
+	if (!ft_strncmp("echo", cmd->cmd, 4) && len == 4)
 		return (echo(data, cmd->argv));
-	else if (!ft_strncmp("cd", cmd->cmd, len))
+	else if (!ft_strncmp("cd", cmd->cmd, 2) && len == 2)
 		return (cd(data, cmd->argv));
-	else if (!ft_strncmp("env", cmd->cmd, len))
+	else if (!ft_strncmp("env", cmd->cmd, 3) && len == 3)
 		return (env(data, cmd->argv));
-	else if (!ft_strncmp("export", cmd->cmd, len))
+	else if (!ft_strncmp("export", cmd->cmd, 6) && len == 6)
 		return (export(data, cmd->argv));
-	else if (!ft_strncmp("pwd", cmd->cmd, len))
+	else if (!ft_strncmp("pwd", cmd->cmd, 3) && len == 3)
 		return (pwd());
-	else if (!ft_strncmp("unset", cmd->cmd, len))
+	else if (!ft_strncmp("unset", cmd->cmd, 5) && len == 5)
 		return (unset(data, cmd->argv, NULL));
-	else if (!ft_strncmp("exit", cmd->cmd, len))
+	else if (!ft_strncmp("exit", cmd->cmd, 4) && len == 4)
 		return (mini_exit(data, cmd->argv, 0));
 	return (-1);
 }
