@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:43:42 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 14:34:05 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/03 12:03:30 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	env(t_msdata *data, char **argv)
 	arglen = double_array_len(argv);
 	if (arglen > 0)
 	{
-		write(2, "env\n", 4);
+		write(STDERR_FILENO, "env\n", 4);
 		return (127);
 	}
 	index = 0;

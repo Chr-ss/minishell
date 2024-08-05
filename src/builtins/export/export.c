@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 14:37:46 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/04 15:47:45 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,16 @@ int	export_check_identifier(char *argv)
 	{
 		if (!(ft_isalpha(argv[0])) && argv[0] != '_')
 		{
-			write(2, "minishell: export: not a valid identifier\n", 42);
+			write(STDERR_FILENO, \
+				"minishell: export: not a valid identifier\n", 42);
 			return (1);
 		}
 		while (argv[index] != '=' && argv[index] != '\0')
 		{
 			if (!(ft_isalnum(argv[index])) && argv[index] != '_')
 			{
-				write(2, "minishell: export: not a valid identifier\n", 42);
+				write(STDERR_FILENO, \
+					"minishell: export: not a valid identifier\n", 42);
 				return (1);
 			}
 			index++;
@@ -87,7 +89,6 @@ int	export_parse(t_msdata *data, char **argv, int index)
 	if (value == NULL)
 		error("malloc error in export_check_value", data);
 	check_envp = get_envp_index(key, data->envp);
-	debugger("check_envp %d\n", check_envp);
 	if (check_envp != -1)
 		unset(data, NULL, key);
 	add_envp(data, key, value);

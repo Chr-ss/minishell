@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/24 18:43:01 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 17:02:39 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/04 09:31:14 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	free_data(t_msdata *data)
 		kill_all_childs(data);
 		while (data->childs->next)
 			delete_last_child(data);
+		if (data->childs)
+			free(data->childs);
 	}
 }
 

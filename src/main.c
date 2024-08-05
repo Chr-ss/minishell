@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/02 13:38:31 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/03 11:02:17 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	if (!TEST)
 		check_tty();
-	debugger("pid %d\n", getpid());
-	init_signal(NULL, false);
+	debugger(GRN "Minishell instance with pid: %d\n" RESET, getpid());
+	init_signal(NULL, interactive);
 	initdata(&data, envp);
 	input_handling(&data);
 	rl_clear_history();

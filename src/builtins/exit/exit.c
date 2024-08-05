@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 11:18:08 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/03 12:02:24 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	mini_exit_error(char **argv)
 	index = 0;
 	if (double_array_len(argv) > 1)
 	{
-		write(2, "exit: too many arguments\n", 25);
+		write(STDERR_FILENO, "exit: too many arguments\n", 25);
 		return (1);
 	}
 	if ((argv && argv[0][index] == '-') || (argv && argv[0][index] == '+'))
@@ -32,7 +32,7 @@ int	mini_exit_error(char **argv)
 	{
 		if (!ft_isdigit(argv[0][index++]))
 		{
-			write(2, " numeric argument required\n", 27);
+			write(STDERR_FILENO, " numeric argument required\n", 27);
 			return (2);
 		}
 	}

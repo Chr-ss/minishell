@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/02 19:30:17 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/04 15:55:06 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,32 +50,53 @@
 #  define TEST 0
 # endif
 
+# define RED   "\x1B[31m"
+# define GRN   "\x1B[1;32m"
+# define YEL   "\x1B[33m"
+# define BLU   "\x1B[34m"
+# define MAG   "\x1B[35m"
+# define BMAG   "\x1B[1;35m"
+# define CYN   "\x1B[36m"
+# define BCYN   "\x1B[1;36m"
+# define WHT   "\x1B[37m"
+# define RESET "\x1B[0m"
+
 enum e_pipe
 {
 	RD,
 	WR
 }	;
 
+enum e_signal
+{
+	interactive,
+	execution,
+	hd,
+	afterhd
+};
+
+// pid = of child
+// next = if NULL no more child
 typedef struct s_childs
 {
-	int				pid;		//pid of child
-	struct s_childs	*next;		// if NULL no more child
+	int				pid;
+	struct s_childs	*next;
 }	t_childs;
 
 typedef struct s_cmd
 {
-	char			*cmd;		// can be used for execution
-	char			**argv;		// can be used for execution
-	char			**heredoc;	// heredoc delimiters
-	struct s_cmd	*pipe;		// if NULL no more pipe
-	int				infd;		// if -1 do not execute cmd | if 0 no change
-	int				outfd;		// if -1 do not execute cmd | if 0 no change
-	int				pipefd[2];	// holds the pipe from previous cmd to current
+	char			*cmd;
+	char			**argv;
+	char			**heredoc;
+	struct s_cmd	*pipe;
+	int				infd;
+	int				outfd;
+	int				pipefd[2];
 }	t_cmd;
 
 typedef struct s_msdata
 {
-	t_cmd		*cmd_head;		// head of CMD struct
+	t_cmd		*cmd_head;
 	t_cmd		*cmd_curr;
 	char		*line;
 	int			pos;
@@ -86,7 +107,7 @@ typedef struct s_msdata
 	int			org_stdin;
 	bool		overrule_exit;
 	t_childs	*childs;
-	t_expand	*exp;			// struct for line expansion
+	t_expand	*exp;
 }	t_msdata;
 
 // SIGNAL:
@@ -96,20 +117,19 @@ typedef struct s_msdata
  * This function initializes the signal handlers for this
  * program. If data is passed, it will call error function if
  * signal handler init will fail, otherwise if null is passed
- * only exit will be called. passed If execution is set to true,
- * then ctrl+\ is not ignored. If minishell is true, then it will
- * initialize minishell, minishell should also have execution as true
+ * only exit will be called.
  * @param t_msdata *data
- * @param bool execution
- * @note init_signal(NULL, false, false) when minishell starts in
+ * @param int type
+ * @note init_signal(NULL, interactive) when minishell starts in
  * interactive mode
- * @note init_signal(data, true) when in execution mode
+ * @note init_signal(data, execution) when in execution mode
+ * @note init_signal(data, heredoc) when in heredoc mode
  * @return
  *  void
  * @exception
  *  exit (EXIT_FAILURE)
 */
-void		init_signal(t_msdata *data, bool execution);
+void		init_signal(t_msdata *data, int type);
 
 /**
  * @brief
@@ -137,6 +157,25 @@ void		handle_signal_minishell(int sig, siginfo_t *info, void *ucontext);
  * @param ucontext
  */
 void		handle_signal_execution(int sig, siginfo_t *info, void *ucontext);
+
+/**
+ * @brief
+ * this is the signal handler for heredoc mode
+ * @param sig
+ * @param info
+ * @param ucontext
+ */
+void		handle_signal_heredoc(int sig, siginfo_t *info, void *ucontext);
+
+/**
+ * @brief
+ * this is the signal handler for after heredoc mode
+ * @param sig
+ * @param info
+ * @param ucontext
+ */
+void		handle_signal_after_heredoc(int sig, siginfo_t *info, \
+										void *ucontext);
 
 // INITDATA.c
 
@@ -186,6 +225,12 @@ void		delete_last_child(t_msdata *data);
  * @param t_msdata *data
  */
 void		reset_childs(t_msdata *data);
+
+/**
+ * @brief this function gets last child in struct
+ * @param t_msdata *data
+ */
+t_childs	*get_last_child(t_msdata *data);
 
 /**
  * @brief this function will call all active childs from child

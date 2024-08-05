@@ -11,9 +11,10 @@ OBJDIR		=	build
 OBJ			=	$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 LIBFT		=	libft/libft.a
+SUBMOD_FLAG	=	libft/Makefile
 
 
-all:	$(NAME)
+all:		$(NAME)
 
 debug: CFLAGS += -DDEBUG
 debug: fclean $(NAME)
@@ -21,28 +22,32 @@ debug: fclean $(NAME)
 test: CFLAGS += -DTEST
 test: fclean $(NAME)
 
-$(NAME):	$(OBJ)	$(LIBFT)
-		@$(CC) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
-		@printf "$(CREATED)" $@ $(CUR_DIR)
+$(NAME):	$(SUBMOD_FLAG) $(LIBFT)	$(OBJ)
+			@$(CC) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
+			@printf "$(CREATED)" $@ $(CUR_DIR)
 
 $(OBJDIR)/%.o:	$(SRCDIR)/%.c
-		@mkdir -p $(@D)
-		@$(CC) $(CFLAGS) -c $< -o $@
-		@printf "$(UPDATED)" $@ $(CUR_DIR)
+			@mkdir -p $(@D)
+			@$(CC) $(CFLAGS) -c $< -o $@
+			@printf "$(UPDATED)" $@ $(CUR_DIR)
+
+$(SUBMOD_FLAG):
+			git	submodule	init
+			git	submodule	update
 
 $(LIBFT):
-		@$(MAKE) --no-print-directory -C $(@D) all
-		@printf "$(CREATED)" $@ $(dir $(abspath $(LIBFT)))
+			@$(MAKE) --no-print-directory -C $(@D) all
+			@printf "$(MADE)" $@ $(dir $(abspath $(LIBFT)))
 
 clean:
-		$(RM) $(OBJDIR)
-		@printf "$(REMOVED)" $(OBJDIR) $(CUR_DIR)
+			$(RM) $(OBJDIR)
+			@printf "$(REMOVED)" $(OBJDIR) $(CUR_DIR)
 
 fclean: clean
-		$(RM) $(NAME) $(NAME_DEBUG)
-		@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
+			$(RM) $(NAME) $(NAME_DEBUG)
+			@printf "$(REMOVED)" $(NAME) $(CUR_DIR)
 
-re:				fclean all
+re:			fclean all
 
 info-%:
 	$(info $($*))
@@ -67,5 +72,6 @@ RESET	:= \033[0m
 
 CUR_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 REMOVED	:= \t$(RED)$(BOLD)REMOVED %s (%s) $(RESET)\n
+MADE	:= \t$(GREEN)$(BOLD)MAKE -C %s (%s) $(RESET)\n
 CREATED	:= \t$(GREEN)$(BOLD)CREATED %s (%s) $(RESET)\n
 UPDATED	:= \t$(BLUE)$(BOLD)CREATED OR UPDATED %s (%s) $(RESET)\n

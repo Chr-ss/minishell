@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/10 14:56:49 by crasche       #+#    #+#                 */
-/*   Updated: 2024/07/24 20:22:43 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/03 12:03:15 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 t_token	unexpected_token(t_msdata *data, t_token token)
 {
 	(void)data;
-	write(2, "minishell: syntax error near unexpected token `", 47);
+	write(STDERR_FILENO, "minishell: syntax error near unexpected token `", 47);
 	if (token.start && !token.start[0])
-		write(2, "newline", 7);
+		write(STDERR_FILENO, "newline", 7);
 	else
-		write(2, token.start, token.length);
-	write(2, "'\n", 2);
+		write(STDERR_FILENO, token.start, token.length);
+	write(STDERR_FILENO, "'\n", 2);
 	data->exit_code = 2;
 	token.start = NULL;
 	token.length = 0;
@@ -74,7 +74,6 @@ t_token	type_handler_append(t_msdata *data, t_cmd *cmd, t_token token, int *pos)
 	*pos = skipspace(data->line, *pos);
 	token.length = 0;
 	append = tokenizer(&(data->line[*pos]));
-	debugger("append errno %d\n", errno);
 	if (append.type != TOKEN_WORD)
 		append = unexpected_token(data, append);
 	else if (cmd->infd >= 0 && cmd->outfd >= 0)

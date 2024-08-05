@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/25 13:35:46 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/01 18:42:14 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/05 17:20:48 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_sig = sig;
 	}
 }
 
@@ -35,4 +36,26 @@ void	handle_signal_execution(int sig, siginfo_t *info, void *ucontext)
 	g_sig = sig;
 	if (sig == SIGUSR1)
 		printf("\n");
+}
+
+void	handle_signal_heredoc(int sig, siginfo_t *info, void *ucontext)
+{
+	(void)info;
+	(void)ucontext;
+	if (sig == SIGINT)
+	{
+		close(STDIN_FILENO);
+	}
+}
+
+void	handle_signal_after_heredoc(int sig, siginfo_t *info, void *ucontext)
+{
+	(void)info;
+	(void)ucontext;
+	if (sig == SIGINT)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }

@@ -285,6 +285,10 @@ remove_temp_files
 test 18 'bash' 'unset PWD OLDPWD' 'minishell' 'cd -' "ctrl+c" "ctrl+d" 
 check_result
 
+remove_temp_files
+test 19 'cat | cat | ls' 'Enter' 'Enter' "ctrl+c" "ctrl+d" 
+check_result
+
 
 
 

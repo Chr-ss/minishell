@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 16:52:09 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/04 09:59:49 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ int	cd_error(int arglen, char **argv)
 {
 	if (ft_strlen(argv[0]) > PATH_MAX)
 	{
-		write(2, "path too long for cd\n", 21);
+		write(STDERR_FILENO, "path too long for cd\n", 21);
 		return (1);
 	}
 	else if (arglen > 1)
 	{
-		write(2, " too many arguments\n", 20);
+		write(STDERR_FILENO, " too many arguments\n", 20);
 		return (1);
 	}
 	return (0);
@@ -101,12 +101,13 @@ int	cd(t_msdata *data, char **argv)
 	}
 	else
 		dir = cd_parse(data, argv);
-	if (cd_parse_oldpwd(data, argv, dir))
+	if (cd_parse_oldpwd(data, argv, &dir))
 		return (1);
-	debugger("dir %s\n", dir);
-	if (cd_chdir(data, dir))
+	if (dir && cd_chdir(data, dir))
 		error("chdir error", data);
 	if (dir)
 		free(dir);
+	else
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

@@ -6,62 +6,42 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:34:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 19:59:32 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/04 15:59:27 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/execution.h"
 
-int	execute_child_dup_fd_out(t_msdata *data, t_cmd *cmd)
+void	execute_child_dup_read(t_msdata *data, t_cmd *cmd)
 {
-	if (dup2(cmd->outfd, STDOUT_FILENO) == -1)
-		error("dup error child outfd to stdout", data);
-	if (close(cmd->outfd) == -1)
-		error("close error child outfd after dub to stdout", data);
-	if (cmd->pipe != NULL)
+	if (cmd->pipefd[RD])
 	{
-		if (close(cmd->pipe->pipefd[WR]) == -1)
-			error("close err child RDend pipe after fd dub to stdin", data);
-		cmd->pipe->pipefd[WR] = 0;
+		debugger (BLU "cmd->pipefd[RD] %d duped to -> %d\n" RESET, \
+			cmd->pipefd[RD], STDIN_FILENO);
 	}
-	return (1);
+	if (cmd->pipefd[RD] && dup2(cmd->pipefd[RD], STDIN_FILENO) == -1)
+		error("dup error child cmd->pipefd[RD] to stdin", data);
+	if (cmd->pipefd[RD] && close(cmd->pipefd[RD]) == -1)
+		error("close error cmd->pipefd[RD]", data);
+	if (cmd->pipefd[WR] && close(cmd->pipefd[WR]) == -1)
+		error("close error cmd->pipefd[WR]", data);
 }
 
-int	execute_child_dup_fd_in(t_msdata *data, t_cmd *cmd)
+void	execute_child_dup_write(t_msdata *data, t_cmd *cmd)
 {
-	if (dup2(cmd->infd, STDIN_FILENO) == -1)
-		error("dup error child infd to stdin", data);
-	if (close(cmd->infd) == -1)
-		error("close error child infd after dub to stdin", data);
-	if (!(data->cmd_head == cmd))
+	if (cmd->pipe->pipefd[WR])
 	{
-		if (close(cmd->pipefd[RD]) == -1)
-			error("close err child RDend pipe after fd dub to stdout", data);
-		cmd->pipefd[RD] = 0;
+		debugger (BLU "cmd->pipe->pipefd[WR] %d duped to -> %d\n" RESET, \
+			cmd->pipefd[WR], STDOUT_FILENO);
 	}
-	return (1);
-}
-
-int	execute_child_dup_fd(t_msdata *data, t_cmd *cmd)
-{
-	int	ret;
-
-	ret = 0;
-	data->org_stdin = dup2(STDIN_FILENO, FDMAX - 1);
-	if (data->org_stdin == -1)
-		error("dup error stdin to data struct", data);
-	data->org_stdout = dup2(STDOUT_FILENO, FDMAX - 2);
-	if (data->org_stdout == -1)
-		error("dup error stdout to data struct", data);
-	if (cmd->infd < 0 || cmd->outfd < 0)
-	{
-		return (-1);
-	}
-	if (cmd->infd > 0)
-		ret = execute_child_dup_fd_in(data, cmd);
-	if (cmd->outfd > 0)
-		ret = execute_child_dup_fd_out(data, cmd);
-	return (ret);
+	if (cmd->pipe->pipefd[WR] && \
+		dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
+		error("dup error pipe->pipefd[WR] to stdout", data);
+	if (cmd->pipe->pipefd[WR] && close(cmd->pipe->pipefd[WR]) == -1)
+		error("close error cmd->pipe->pipefd[WR]", data);
+	if (cmd->pipe->pipefd[RD] && close(cmd->pipe->pipefd[RD]) == -1)
+		error("close error cmd->pipe->pipefd[RD]", data);
 }
 
 int	execute_child_dup(t_msdata *data, t_cmd *cmd)
@@ -72,16 +52,8 @@ int	execute_child_dup(t_msdata *data, t_cmd *cmd)
 	if (ret == -1)
 		return (1);
 	if (!(data->cmd_head == cmd))
-	{
-		if (cmd->pipefd[RD] && dup2(cmd->pipefd[RD], STDIN_FILENO) == -1)
-			error("dup error child read end pipe to stdin", data);
-		if (cmd->pipefd[RD] && close(cmd->pipefd[RD]) == -1)
-			error("close error child read end pipe after dub to stdin", data);
-	}
+		execute_child_dup_read(data, cmd);
 	if (cmd->pipe != NULL)
-	{
-		if (cmd->pipefd[WR] && dup2(cmd->pipe->pipefd[WR], STDOUT_FILENO) == -1)
-			error("dup error child write end pipe to stdout", data);
-	}
+		execute_child_dup_write(data, cmd);
 	return (0);
 }

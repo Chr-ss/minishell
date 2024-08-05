@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/02 20:03:48 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/03 19:56:58 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,17 +98,18 @@ int		execute_path(char	*cmd, t_msdata *data, char **path_cmd);
  * @param int pid
  * @param int *wstatus
  * @param t_msdata *data
+ * @param int *statuscode
  * @return int
  * @note 1 is continue waiting
  * @note 0 stop waitin
  */
-int		execute_wait(int pid, int *wstatus, t_msdata *data);
+int		execute_wait(int pid, int *wstatus, t_msdata *data, int *statuscode);
 
 /**
  * @brief this function sets the exit code after execution finishes
  * @param int wstatus
  * @param int *statuscode
  */
-void	execute_exit(int wstatus, int *statuscode);
+void	execute_exit(int *wstatus, int *statuscode);
 
 #endif	// EXECUTION_H

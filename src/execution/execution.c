@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 19:55:42 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/04 16:00:53 by crasche       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,45 @@ extern int	g_sig;
 // REFERENCE: https://stackoverflow.com/questions/47441871/why-should-we-check
 // -wifexited-after-wait-in-order-to-kill-child-processes-in-lin
 // REFERENCE: https://people.cs.rutgers.edu/~pxk/416/notes/c-tutorials/wait.html
+
+void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
+{
+	if (!(data->cmd_head == cmd))
+	{
+		if (cmd->pipefd[WR])
+		{
+			debugger (RED "Parent: closing cmd->pipefd[WR] %d\n" RESET, \
+				cmd->pipefd[WR]);
+		}
+		if (cmd->pipefd[WR] && close(cmd->pipefd[WR]) == -1)
+			error("close error parent cmd->pipefd[WR]", data);
+		if (cmd->pipefd[RD])
+		{
+			debugger (RED "Parent: closing cmd->pipefd[RD] %d\n" RESET, \
+				cmd->pipefd[RD]);
+		}
+		if (cmd->pipefd[RD] && close(cmd->pipefd[RD]) == -1)
+			error("close error parent cmd->pipefd[RD]", data);
+	}
+}
+
+void	execute_pipe_child(t_msdata *data, t_cmd *cmd, int *pid)
+{
+	*pid = fork();
+	if (*pid < 0)
+		error("fork error", data);
+	if (*pid == 0)
+	{
+		if (execute_child_dup(data, cmd))
+			exit (1);
+		execute_child(data, cmd);
+	}
+	else
+	{
+		execute_parent_close_pipe(data, cmd);
+		add_child(*pid, data);
+	}
+}
 
 void	execute_parent_restore_fds(t_msdata *data)
 {
@@ -44,60 +83,33 @@ void	execute_parent_restore_fds(t_msdata *data)
 	}
 }
 
-void	execute_parent_close_pipe(t_msdata *data, t_cmd *cmd)
-{
-	if (cmd->pipe != NULL)
-	{
-		if (cmd->pipe->pipefd[WR] && close(cmd->pipe->pipefd[WR]) == -1)
-			error("close error parent write end of pipe", data);
-	}
-}
-
-void	execute_pipe_child(t_msdata *data, t_cmd *cmd, int *pid)
-{
-	*pid = fork();
-	if (*pid < 0)
-		error("fork error", data);
-	if (*pid == 0)
-	{
-		execute_child(data, cmd);
-	}
-	else
-		add_child(*pid, data);
-}
-
 void	execute_pipe(t_msdata *data, t_cmd *cmd, int *pid, int *statuscode)
 {
+	debugger(BMAG "cmd: %s\n" RESET, cmd->cmd);
 	if (cmd->pipe != NULL)
 	{
 		if (pipe(cmd->pipe->pipefd) == -1)
 			error("pipe error", data);
 	}
-	if (execute_child_dup(data, cmd))
-	{
-		data->overrule_exit = true;
-		execute_parent_close_pipe(data, cmd);
-		execute_parent_restore_fds(data);
-		return ;
-	}
 	if (cmd->pipe == NULL && cmd == data->cmd_head)
+	{
 		*statuscode = execute_check_builtin(data, cmd);
-	if (cmd->pipe == NULL && *statuscode)
-		data->overrule_exit = false;
+		execute_parent_restore_fds(data);
+	}
 	if (*statuscode == -1)
 		execute_pipe_child(data, cmd, pid);
-	init_signal(data, true);
-	execute_parent_close_pipe(data, cmd);
-	execute_parent_restore_fds(data);
+	init_signal(data, execution);
 }
 
 void	execute(t_msdata *data)
 {
-	t_cmd	*cmd;
-	int		wstatus;
-	int		statuscode;
-	int		pid;
+	t_cmd		*cmd;
+	int			wstatus;
+	int			statuscode;
+	int			pid;
+	t_childs	*last;
 
+	last = NULL;
 	pid = 0;
 	wstatus = -1;
 	statuscode = -1;
@@ -110,11 +122,9 @@ void	execute(t_msdata *data)
 			statuscode = 1;
 		cmd = cmd->pipe;
 	}
-	while (execute_wait(pid, &wstatus, data))
+	last = get_last_child(data);
+	while (execute_wait(last->pid, &wstatus, data, &statuscode))
 		;
-	init_signal(data, false);
-	execute_exit(wstatus, &statuscode);
-	if (data->overrule_exit == true)
-		statuscode = 1;
+	init_signal(data, interactive);
 	data->exit_code = statuscode;
 }

@@ -4,3 +4,7 @@
 [submodule "tests/e2e/norminette_tester"]
 	path = tests/e2e/norminette_tester
 	url = https://github.com/sairutra/norminette_tester.git
+[submodule "libft"]
+	path = libft
+	url = git@github.com:Chr-ss/libft.git
+	branch = static_libft_minishell
