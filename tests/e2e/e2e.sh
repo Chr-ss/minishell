@@ -266,15 +266,6 @@ suppressions=./util/valgrind_suppresion
 #valgrind
 valgrind_cmd="valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all --suppressions=$suppressions"
 
-#prepare files
-chmod 000 $noaccess
-minishell=$(find ../../../ -type f -name minishell)
-minishelldir=$(find ../../../ -type d -name minishell)
-cases="./cases"
-files_temp=./files_temp
-files=./files
-
-
 clean()
 {
 rm -rf $LOG_DIR
@@ -304,12 +295,6 @@ rm -rf $mini_outfiles
 mkdir -p $mini_outfiles
 rm -rf $files_temp
 mkdir -p $files_temp
-
-#prepare minishell
-make -C $minishelldir test
-
-#add minishell to path
-export PATH=$PATH:$(cd $minishelldir && pwd)
 
 #truncate logs
 if [ -f $MS_LOG ]
@@ -343,10 +328,20 @@ then
 exit 0
 fi
 
+minishelldir=$(find ../../../ -type d -name minishell)
 
+#prepare minishell
+make -C $minishelldir test
 
+#prepare files
+chmod 000 $noaccess
+minishell=$(find ../../../ -type f -name minishell)
+cases="./cases"
+files_temp=./files_temp
+files=./files
 
-
+#add minishell to path
+export PATH=$PATH:$(cd $minishelldir && pwd)
 
 # https://github.com/LucasKuhn/minishell_tester
 
