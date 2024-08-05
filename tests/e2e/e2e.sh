@@ -262,6 +262,7 @@ bash_outfiles=./files/bash_outfiles
 mini_outfiles=./files/mini_outfiles
 noaccess=./files/noaccess/noaccess
 suppressions=./util/valgrind_suppresion
+files_temp=files_temp
 
 #valgrind
 valgrind_cmd="valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all --suppressions=$suppressions"
@@ -301,6 +302,19 @@ if [ -f $MS_LOG ]
 then
 truncate -s 0 $MS_LOG
 fi
+#FUNCTIONS
+if [ $interactive == 1 ];
+then
+if [ $memory = 1 ]; then
+bash interactive.sh 1 1
+else
+bash interactive.sh 1 0
+fi
+fi
+if [ $e2e == 0 ];
+then
+exit 0
+fi
 
 minishelldir=$(find ../../../ -type d -name minishell)
 
@@ -317,7 +331,7 @@ files=./files
 #add minishell to path
 export PATH=$PATH:$(cd $minishelldir && pwd)
 
-#FUNCTIONS
+#norminette
 if [ $norminette == 1 ];
 then
 bash ./norminette_tester/norminette_tester.sh -d ../../src
@@ -330,18 +344,6 @@ then
 FAIL=true
 NORM_FAIL=true
 fi
-fi
-if [ $interactive == 1 ];
-then
-if [ $memory = 1 ]; then
-bash interactive.sh 1 1
-else
-bash interactive.sh 1 0
-fi
-fi
-if [ $e2e == 0 ];
-then
-exit 0
 fi
 # https://github.com/LucasKuhn/minishell_tester
 
