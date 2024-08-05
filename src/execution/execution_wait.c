@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 18:23:52 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 20:01:23 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/05 16:31:02 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	execute_wait(int pid, int *wstatus, t_msdata *data, int *statuscode)
 {
 	pid_t	result;
 
-	result = waitpid(-1, wstatus, 0);
+	result = waitpid(pid, wstatus, 0);
 	execute_exit(wstatus, statuscode);
 	if (errno == ECHILD)
 		return (0);

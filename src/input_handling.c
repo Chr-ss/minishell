@@ -6,11 +6,22 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/26 17:45:15 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/01 18:49:28 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/05 16:46:34 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+extern int	g_sig;
+
+void	input_handling_exitcode(t_msdata *data)
+{
+	if (g_sig == SIGINT)
+	{
+		data->exit_code = 130;
+		g_sig = 0;
+	}
+}
 
 void	input_handling(t_msdata *data)
 {
@@ -20,6 +31,7 @@ void	input_handling(t_msdata *data)
 			free(data->line);
 		data->line = NULL;
 		data->line = readline("minishell:~$ ");
+		input_handling_exitcode(data);
 		if (!data->line)
 			mini_exit(data, NULL, data->exit_code);
 		if (data->line[0])

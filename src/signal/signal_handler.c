@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/25 13:35:46 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/04 15:17:59 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/05 16:41:39 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	handle_signal(int sig, siginfo_t *info, void *ucontext)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_sig = sig;
 	}
 }
 
