@@ -37,7 +37,7 @@ $(SUBMOD_FLAG):
 
 $(LIBFT):
 			@$(MAKE) --no-print-directory -C $(@D) all
-			@printf "$(CREATED)" $@ $(dir $(abspath $(LIBFT)))
+			@printf "$(MADE)" $@ $(dir $(abspath $(LIBFT)))
 
 clean:
 			$(RM) $(OBJDIR)
@@ -72,5 +72,6 @@ RESET	:= \033[0m
 
 CUR_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 REMOVED	:= \t$(RED)$(BOLD)REMOVED %s (%s) $(RESET)\n
+MADE	:= \t$(GREEN)$(BOLD)MAKE -C %s (%s) $(RESET)\n
 CREATED	:= \t$(GREEN)$(BOLD)CREATED %s (%s) $(RESET)\n
 UPDATED	:= \t$(BLUE)$(BOLD)CREATED OR UPDATED %s (%s) $(RESET)\n
