@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 18:23:52 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/05 17:27:45 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/05 20:20:13 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,10 @@ int	execute_wait(int pid, int *wstatus, t_msdata *data, int *statuscode)
 			return (0);
 	}
 	return (1);
+}
+
+void	execute_wait_all_children(int *wstatus)
+{
+	while (waitpid(-1, wstatus, 0) != -1 || errno != ECHILD)
+		;
 }

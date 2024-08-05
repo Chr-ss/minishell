@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/03 19:56:58 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/05 20:21:08 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,11 @@ int		execute_wait(int pid, int *wstatus, t_msdata *data, int *statuscode);
  * @param int *statuscode
  */
 void	execute_exit(int *wstatus, int *statuscode);
+
+/**
+ * @brief this function waits until all children are done
+ * @param int *wstatus
+ */
+void	execute_wait_all_children(int *wstatus);
 
 #endif	// EXECUTION_H
