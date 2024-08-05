@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 18:23:52 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/05 17:26:23 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/05 17:27:45 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "../../include/execution.h"
 
 extern int	g_sig;
-
 
 int	execute_wait_minishell(t_cmd *cmd)
 {
