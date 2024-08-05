@@ -316,7 +316,7 @@ then
 exit 0
 fi
 
-minishelldir=$(find ../../../ -type d -name minishell)
+minishelldir=$(cd ../../ && pwd)
 
 #prepare minishell
 make -C $minishelldir test
