@@ -301,6 +301,22 @@ if [ -f $MS_LOG ]
 then
 truncate -s 0 $MS_LOG
 fi
+
+minishelldir=$(find ../../../ -type d -name minishell)
+
+#prepare minishell
+make -C $minishelldir test
+
+#prepare files
+chmod 000 $noaccess
+minishell=$(find ../../../ -type f -name minishell)
+cases="./cases"
+files_temp=./files_temp
+files=./files
+
+#add minishell to path
+export PATH=$PATH:$(cd $minishelldir && pwd)
+
 #FUNCTIONS
 if [ $norminette == 1 ];
 then
@@ -327,22 +343,6 @@ if [ $e2e == 0 ];
 then
 exit 0
 fi
-
-minishelldir=$(find ../../../ -type d -name minishell)
-
-#prepare minishell
-make -C $minishelldir test
-
-#prepare files
-chmod 000 $noaccess
-minishell=$(find ../../../ -type f -name minishell)
-cases="./cases"
-files_temp=./files_temp
-files=./files
-
-#add minishell to path
-export PATH=$PATH:$(cd $minishelldir && pwd)
-
 # https://github.com/LucasKuhn/minishell_tester
 
 x=0
