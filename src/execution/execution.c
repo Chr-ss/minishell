@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/04 16:00:53 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/05 20:05:54 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ void	execute(t_msdata *data)
 	}
 	last = get_last_child(data);
 	while (execute_wait(last->pid, &wstatus, data, &statuscode))
+		;
+	while (waitpid(-1, &wstatus, 0) != -1 || errno != ECHILD)
 		;
 	init_signal(data, interactive);
 	data->exit_code = statuscode;

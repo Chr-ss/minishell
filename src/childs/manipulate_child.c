@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/01 19:05:43 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 13:02:36 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/05 19:54:08 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	delete_last_child(t_msdata *data)
 
 void	reset_childs(t_msdata *data)
 {
+	kill_all_childs(data);
 	while (data->childs->next != NULL)
 		delete_last_child(data);
 }
