@@ -382,11 +382,11 @@ while IFS= read -r line; do
 	MINI_OUTFILES=$(cp -r $outfiles/* $mini_outfiles &>> $MS_LOG)
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0' | head -n1)
 	if [ $memory = 1 ]; then
-	first=$PATH
-	second="/*,"
-	IGNORE_CHILD="--trace-children-skip="${first//:/$second}
-	valgrind_cmd_ignore="$valgrind_cmd $IGNORE_CHILD"
-	MINI_MEM_LOG=$(echo -e "$line" | $valgrind_cmd_ignore $minishell &> $TEMP_MEMORY_LOG)
+	# first=$PATH
+	# second="/*,"
+	# IGNORE_CHILD="--trace-children-skip="${first//:/$second}
+	# valgrind_cmd_ignore="$valgrind_cmd $IGNORE_CHILD"
+	MINI_MEM_LOG=$(echo -e "$line" | $valgrind_cmd $minishell &> $TEMP_MEMORY_LOG)
 	MINI_MEM_CODE=$?
 	fi
 
@@ -447,7 +447,7 @@ while IFS= read -r line; do
 		echo mini error = \($MINI_ERROR_MSG\) >> $ERROR_LOG
 		echo bash error = \($BASH_ERROR_MSG\) >> $ERROR_LOG
 	fi
-	if [ "$MINI_MEM_CODE" == 1 ]; then
+	if [ "$MINI_MEM_CODE" == 42 ]; then
 		FAIL=true
 		echo -e "$x | $line " >> $MEMORY_LOG
 		echo LOG >> $MEMORY_LOG
