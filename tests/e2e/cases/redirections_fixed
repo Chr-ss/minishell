@@ -73,5 +73,6 @@ echo hi | echo >>./outfiles/outfile01 bye >./noaccess/noaccess
 cat <./outfiles/minishell.h>./outfiles/outfile
 cat <./outfiles/minishell.h|ls
 ls -l | grep cases > ./outfiles/test | cat -e
+echo hi | cat > ./outfiles/hi.txt | ls
 #just to remove noaccess which is generated
 rm -rf noaccess
