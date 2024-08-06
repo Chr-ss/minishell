@@ -265,7 +265,7 @@ suppressions=./util/valgrind_suppresion
 files_temp=files_temp
 
 #valgrind
-valgrind_cmd="valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all --suppressions=$suppressions"
+valgrind_cmd="valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all --trace-children=yes --suppressions=$suppressions"
 
 clean()
 {

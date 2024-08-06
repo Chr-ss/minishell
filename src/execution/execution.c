@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/02 12:51:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/05 20:20:25 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/06 17:38:50 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	execute_pipe_child(t_msdata *data, t_cmd *cmd, int *pid)
 	if (*pid == 0)
 	{
 		if (execute_child_dup(data, cmd))
-			exit (1);
+			mini_exit (data, NULL, 1);
 		execute_child(data, cmd);
 	}
 	else

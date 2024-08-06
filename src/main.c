@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:29:43 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/03 11:02:17 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/06 17:40:46 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ int	main(int argc, char **argv, char **envp)
 	initdata(&data, envp);
 	input_handling(&data);
 	rl_clear_history();
-	exit(data.exit_code);
+	mini_exit(&data, NULL, data.exit_code);
 	return (data.exit_code);
 }

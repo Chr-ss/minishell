@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:35:07 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/05 18:50:29 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/06 17:36:35 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,20 +86,16 @@ void	execute_child(t_msdata *data, t_cmd *cmd)
 	path_cmd = NULL;
 	ret = execute_check_builtin(data, cmd);
 	if (ret > -1)
-		exit(ret);
+		mini_exit(data, NULL, ret);
 	ret = execute_path(cmd->cmd, data, &path_cmd);
 	if (ret == -1)
 		error("execute_child execute path error", data);
 	else if (ret == 1)
-	{
-		free_all(data);
-		exit(127);
-	}
+		mini_exit(data, NULL, 127);
 	if (add_command_to_argv(&cmd, &path_cmd) == -1)
 		error("add command to argv malloc error", data);
 	ret = execve(path_cmd, cmd->argv, data->envp);
 	debugger("execve ret: %d\n", ret);
-	free_all(data);
 	free(path_cmd);
-	exit(0);
+	mini_exit(data, NULL, 0);
 }
