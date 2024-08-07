@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/05 19:20:17 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/07 10:10:54 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@
 
 int	cd_chdir_free(int ret, char *pwd, char *old_pwd)
 {
-	if (pwd)
-		free(pwd);
-	if (old_pwd)
-		free(old_pwd);
+	free(pwd);
+	free(old_pwd);
 	return (ret);
 }
 
@@ -51,20 +49,16 @@ int	cd_chdir(t_msdata *data, char *dir)
 		error ("cd_chdir get_envp error", data);
 	pwd = cd_chdir_pwd();
 	if (!pwd || !old_pwd)
-	{
-		if (pwd)
-			free(pwd);
-		if (old_pwd)
-			free(old_pwd);
-		return (EXIT_FAILURE);
-	}
+		return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
+	if (check_dir(dir) != 0)
+		return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
 	if (chdir(dir) == -1)
 		return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
-	if (change_envp("PWD", pwd, data->envp) == -1)
+	if (change_envp("PWD", pwd, data->envp))
 		return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
-	if (change_envp("OLDPWD", old_pwd, data->envp) == -1)
-	{
-		if (change_envp("PWD", old_pwd, data->envp) == -1)
+	if (change_envp("OLDPWD", old_pwd, data->envp))
+	{	
+		if (change_envp("PWD", old_pwd, data->envp))
 			return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
 	}
 	return (cd_chdir_free(EXIT_SUCCESS, pwd, old_pwd));
@@ -105,7 +99,7 @@ int	cd(t_msdata *data, char **argv)
 		return (1);
 	debugger("dir %s\n", dir);
 	if (dir && cd_chdir(data, dir))
-		error("chdir error", data);
+		perror("chdir error");
 	if (dir)
 		free(dir);
 	else

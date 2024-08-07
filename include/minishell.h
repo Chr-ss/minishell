@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/04 15:55:06 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/07 09:56:22 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -526,8 +526,8 @@ int			double_array_len(char **vector);
  * @param
  *  char *dirname
  * @return
- *  0 is not found;
- *  1 is found
+ *  0 is found;
+ *  1 is not found
  * @exception
  *  -1 is error
 */
