@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/07 10:10:54 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/07 21:19:26 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	cd_chdir(t_msdata *data, char *dir)
 	if (change_envp("PWD", pwd, data->envp))
 		return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
 	if (change_envp("OLDPWD", old_pwd, data->envp))
-	{	
+	{
 		if (change_envp("PWD", old_pwd, data->envp))
 			return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
 	}
