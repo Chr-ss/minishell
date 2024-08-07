@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/07 10:26:17 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/07 21:05:04 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,31 @@ int	export_check_identifier(char *argv)
 	return (0);
 }
 
+char	*export_get_envp_key(char *input)
+{
+	int		index;
+	char	*key;
+
+	index = 0;
+	while (input[index] != '\0')
+	{
+		if (input[index] == '=')
+		{
+			index++;
+			if (input[index] != '\0')
+				index--;
+			break ;
+		}
+		index++;
+	}
+	index++;
+	key = ft_calloc(index, 1);
+	if (key == NULL)
+		return (NULL);
+	ft_strlcpy(key, input, index);
+	return (key);
+}
+
 int	export_parse(t_msdata *data, char **argv, int index)
 {
 	char	*key;
@@ -79,7 +104,7 @@ int	export_parse(t_msdata *data, char **argv, int index)
 
 	if (export_check_identifier(argv[index]))
 		return (1);
-	key = get_envp_key(argv[index]);
+	key = export_get_envp_key(argv[index]);
 	if (key == NULL)
 		error("malloc error in envp_get_key in export", data);
 	value = get_envp_value(argv[index]);

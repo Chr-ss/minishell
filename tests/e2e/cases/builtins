@@ -44,6 +44,8 @@ export 123
 export lol | env | grep lol
 export test_test
 export _=test
+export key | grep key
+export key= | grep key
 # this works, but no bothering changing the env variable of bash / minishell execution
 #export 
 unset
