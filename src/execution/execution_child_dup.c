@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:34:39 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/04 15:59:27 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/07 21:11:02 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int	execute_child_dup(t_msdata *data, t_cmd *cmd)
 	ret = execute_child_dup_fd(data, cmd);
 	if (ret == -1)
 		return (1);
-	if (!(data->cmd_head == cmd))
+	if (!(data->cmd_head == cmd) && !ret)
 		execute_child_dup_read(data, cmd);
-	if (cmd->pipe != NULL)
+	if (cmd->pipe != NULL && !ret)
 		execute_child_dup_write(data, cmd);
 	return (0);
 }
