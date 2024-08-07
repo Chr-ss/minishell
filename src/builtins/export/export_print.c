@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 13:51:40 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/23 18:02:03 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/07 19:17:01 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ void	export_print_env_quotes(t_msdata *data, int index)
 	value = get_envp_value(data->envp[index]);
 	if (key == NULL || value == NULL)
 		error("export_print_env_quotes malloc err", data);
-	ft_printf("declare -x %s=\"%s\"\n", key, value);
+	if (ft_strchr(data->envp[index], '='))
+		ft_printf("declare -x %s=\"%s\"\n", key, value);
+	else
+		ft_printf("declare -x %s %s\n", key, value);
 	free(key);
 	free(value);
 }
