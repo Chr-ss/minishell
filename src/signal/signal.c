@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/04 13:46:31 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/06 17:39:40 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/07 17:14:29 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ void	init_signal_interactive(struct sigaction *sa, t_msdata *data)
 		if (data)
 			error("signal handler error", data);
 		else
-			mini_exit(data, NULL, EXIT_FAILURE);
+		{
+			free_all(data);
+			exit(EXIT_FAILURE);
+		}
 	}
 }
 
@@ -50,7 +53,10 @@ void	init_signal_execution(struct sigaction *sa, t_msdata *data, bool *exec)
 		if (data)
 			error("signal handler error", data);
 		else
-			mini_exit(data, NULL, EXIT_FAILURE);
+		{
+			free_all(data);
+			exit(EXIT_FAILURE);
+		}
 	}
 }
 
@@ -68,7 +74,10 @@ void	init_signal_heredoc(struct sigaction *sa, t_msdata *data)
 		if (data)
 			error("signal handler error", data);
 		else
-			mini_exit(data, NULL, EXIT_FAILURE);
+		{
+			free_all(data);
+			exit(EXIT_FAILURE);
+		}
 	}
 }
 
@@ -88,7 +97,10 @@ void	init_signal_after_heredoc(struct sigaction *sa, \
 		if (data)
 			error("signal handler error", data);
 		else
-			mini_exit(data, NULL, EXIT_FAILURE);
+		{
+			free_all(data);
+			exit(EXIT_FAILURE);
+		}
 	}
 }
 
