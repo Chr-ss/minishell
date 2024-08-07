@@ -39,6 +39,10 @@ Arguments:
 	This will clean all directories that are not needed, usually
 	temporary directories used by the tester
 
+  -cp, --children
+	This include valgrind checking for memory leaks in child processes 
+	in the memory tests
+
   -k <"arr">, --cases <"arr">
 	This flag passes together with an array of strings will only test
 	the cases that are passed. It is used as follows
@@ -94,6 +98,7 @@ interactive=0
 set_only=0
 set_only_multiple=0
 clean=0
+childcheck=0
 
 
 # parse options
@@ -113,6 +118,10 @@ while [ "$#" -gt 0 ]; do
 		;;
 		-C|--clean)
 		clean=1
+		shift
+		;;
+		-cp|--children)
+		childcheck=1
 		shift
 		;;
 		-k|--cases)
@@ -265,7 +274,10 @@ suppressions=./util/valgrind_suppresion
 files_temp=files_temp
 
 #valgrind
-valgrind_cmd="valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all --trace-children=yes --suppressions=$suppressions"
+if [ $childcheck == 1 ]; then
+chilren="--trace-children=yes"
+fi
+valgrind_cmd="valgrind --error-exitcode=42 --leak-check=full --show-leak-kinds=all $children --suppressions=$suppressions"
 
 clean()
 {
@@ -382,12 +394,18 @@ while IFS= read -r line; do
 	MINI_OUTFILES=$(cp -r $outfiles/* $mini_outfiles &>> $MS_LOG)
 	MINI_ERROR_MSG=$(trap "" PIPE && echo "$line" | $minishell 2>&1 >> $MS_LOG | grep -oa '[^:]*$' | tr -d '\0' | head -n1)
 	if [ $memory = 1 ]; then
-	# first=$PATH
-	# second="/*,"
-	# IGNORE_CHILD="--trace-children-skip="${first//:/$second}
-	# valgrind_cmd_ignore="$valgrind_cmd $IGNORE_CHILD"
+	if [ $childcheck == 1 ]; then
+	chilren="--trace-children=yes"
+	first=$PATH
+	second="/*,"
+	IGNORE_CHILD="--trace-children-skip="${first//:/$second}
+	valgrind_cmd_ignore="$valgrind_cmd $IGNORE_CHILD"
 	MINI_MEM_LOG=$(echo -e "$line" | $valgrind_cmd $minishell &> $TEMP_MEMORY_LOG)
 	MINI_MEM_CODE=$?
+	else
+	MINI_MEM_LOG=$(echo -e "$line" | $valgrind_cmd $minishell &> $TEMP_MEMORY_LOG)
+	MINI_MEM_CODE=$?
+	fi
 	fi
 
 	cp -r $files_temp/* $files &>> $MS_LOG
