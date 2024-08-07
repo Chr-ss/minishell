@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/04 15:47:45 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/07 10:20:30 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	export_parse(t_msdata *data, char **argv, int index)
 	if (value == NULL)
 		error("malloc error in export_check_value", data);
 	check_envp = get_envp_index(key, data->envp);
+	printf("check_envp %d\n", check_envp);
 	if (check_envp != -1)
 		unset(data, NULL, key);
 	add_envp(data, key, value);

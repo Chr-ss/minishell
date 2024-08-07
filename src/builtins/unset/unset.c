@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/27 15:20:04 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/02 15:36:05 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/07 10:22:18 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	unset(t_msdata *data, char	**argv, char	*arg)
 	index = 0;
 	if (!arg && !argv)
 		return (0);
-	while (argv && argv[index])
+	while ((argv && argv[index]) || arg)
 	{
 		if (arg != NULL)
 			env_index = get_envp_index(arg, data->envp);
