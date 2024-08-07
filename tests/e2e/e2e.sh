@@ -409,7 +409,6 @@ while IFS= read -r line; do
 	fi
 
 	cp -r $files_temp/* $files &>> $MS_LOG
-	cp -r $files/* $files_temp &>> $MS_LOG
 
 	rm -rf $outfiles/*
 	rm -rf $bash_outfiles/*
@@ -421,10 +420,9 @@ while IFS= read -r line; do
 	BASH_OUTFILES=$(cp -r $outfiles/* $bash_outfiles &>>$MS_LOG)
 	BASH_ERROR_MSG=$(trap "" PIPE && echo "$line" | bash 2>&1 >> $MS_LOG | grep -o '[^:]*$' | head -n1)
 
-
-	if [[ "$MINI_OUTPUT" == "$BASH_OUTPUT" && "$MINI_EXIT_CODE" == "$BASH_EXIT_CODE" && -z "$OUTFILES_DIFF" ]]; then
+	OUTFILES_DIFF=$(diff -r $bash_outfiles $mini_outfiles &>> $MS_LOG && echo $?)
+	if [[ "$MINI_OUTPUT" == "$BASH_OUTPUT" && "$MINI_EXIT_CODE" == "$BASH_EXIT_CODE" && "$OUTFILES_DIFF" == "0" ]]; then
 		printf " ✅"
-		((ok++))
 		if [[ "$MINI_ERROR_MSG" != "$BASH_ERROR_MSG" ]]; then
 			printf " ⚠️ "
 			FAIL=true
@@ -434,15 +432,12 @@ while IFS= read -r line; do
 		FAIL=true
 	fi
 
-	if [ "$OUTFILES_DIFF" ]; then
+	if [ "$OUTFILES_DIFF" != "0" ]; then
 		OUTFILES_FAIL=true
 		printf "${RED} outfiles error;${RESET}"
-		echo -e "$x | $line |${RESET}" >> $OUTFILES_LOG
+		echo -e "$x | $line " >> $OUTFILES_LOG
 		echo "$OUTFILES_DIFF" >> $OUTFILES_LOG
-		echo mini outfiles: >> $OUTFILES_LOG
-		cat $mini_outfiles/* >> $OUTFILES_LOG
-		echo bash outfiles: >> $OUTFILES_LOG
-		cat $bash_outfiles/* >> $OUTFILES_LOG
+		diff -r $bash_outfiles $mini_outfiles &>> $OUTFILES_LOG
 	fi
 	if [ "$MINI_OUTPUT" != "$BASH_OUTPUT" ]; then
 		OUTPUT_FAIL=true
@@ -475,6 +470,9 @@ while IFS= read -r line; do
 		echo mini memory exit code = $MINI_MEM_CODE >> $MEMORY_LOG
 	fi
 	printf "\n"
+	rm -rf $mini_outfiles/*
+	rm -rf $bash_outfiles/*
+	rm -rf $outfiles
 	cp -r $files_temp/* $files &>> $MS_LOG
 done < $case
 MINI_MEM_CODE=0
@@ -512,6 +510,7 @@ echo -e "${RED}Check norminette.log ${RESET}"
 fi
 rm -rf $bash_outfiles
 rm -rf $mini_outfiles
+rm -rf $outfiles
 exit 1
 else
 echo -e "${GRE}Congratulations, all tests are succesfull :)${RESET}"
