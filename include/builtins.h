@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/05 19:47:02 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/08 21:08:54 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,15 @@ int		echo_check_nl(char *arg);
  * @note if dir does not exists it free dirname
  */
 void	cd_parse_pso_check(char **dirname);
+
+/**
+ * @brief checks if env can be added or not to envp in data struct
+ * @param t_msdata *data
+ * @param char *input
+ * @param char *key
+ * @param char *value
+ */
+void export_envp(t_msdata *data, char *input, char *key, char *value);
+
 
 #endif	// BUILTINS_H

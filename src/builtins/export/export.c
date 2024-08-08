@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/07 21:05:04 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/08 21:08:14 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ int	export_parse(t_msdata *data, char **argv, int index)
 {
 	char	*key;
 	char	*value;
-	int		check_envp;
 
 	if (export_check_identifier(argv[index]))
 		return (1);
@@ -113,10 +112,7 @@ int	export_parse(t_msdata *data, char **argv, int index)
 	value = export_check_value(value);
 	if (value == NULL)
 		error("malloc error in export_check_value", data);
-	check_envp = get_envp_index(key, data->envp);
-	if (check_envp != -1)
-		unset(data, NULL, key);
-	add_envp(data, key, value);
+	export_envp(data, argv[index], key, value);
 	if (value)
 		free(value);
 	if (key)
