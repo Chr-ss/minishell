@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/04 13:46:31 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/07 17:14:29 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/08 15:19:36 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	init_signal_heredoc(struct sigaction *sa, t_msdata *data)
 	ret = 0;
 	sa->sa_sigaction = handle_signal_heredoc;
 	ret += sigaction(SIGINT, sa, 0);
-	ret += sigaction(SIGQUIT, sa, 0);
+	signal(SIGQUIT, SIG_IGN);
 	if (ret)
 	{
 		if (data)
@@ -91,7 +91,7 @@ void	init_signal_after_heredoc(struct sigaction *sa, \
 	ret = 0;
 	sa->sa_sigaction = handle_signal_after_heredoc;
 	ret += sigaction(SIGINT, sa, 0);
-	ret += sigaction(SIGQUIT, sa, 0);
+	signal(SIGQUIT, SIG_IGN);
 	if (ret)
 	{
 		if (data)

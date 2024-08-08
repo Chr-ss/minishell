@@ -6,13 +6,13 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 13:45:17 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/02 13:37:39 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/08 15:09:16 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	cmd_close_fd(int *fd)
+void	cmd_close_fd(int *fd)
 {
 	close(*fd);
 	*fd = 0;

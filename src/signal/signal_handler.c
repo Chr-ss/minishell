@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/25 13:35:46 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/05 17:20:48 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/08 15:19:17 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	handle_signal_heredoc(int sig, siginfo_t *info, void *ucontext)
 	if (sig == SIGINT)
 	{
 		close(STDIN_FILENO);
+		printf("\n");
 	}
 }
 

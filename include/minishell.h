@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/07 09:56:22 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/08 15:23:19 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,6 +338,13 @@ int			unset(t_msdata *data, char **argv, char *arg);
 int			echo(t_msdata *data, char **argv);
 
 // UTILS:
+
+/**
+ * @brief closes fd and sets fd to zero
+ * 
+ * @param int *fd 
+ */
+void		cmd_close_fd(int *fd);
 
 /**
  * @brief

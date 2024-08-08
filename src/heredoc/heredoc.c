@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/12 16:17:52 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/04 15:46:31 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/08 15:21:58 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	heredoc_line(t_msdata *data, t_cmd *cmd, int i, int write_pipe)
 	return (0);
 }
 
-static void	read_heredoc(t_msdata *data, t_cmd *cmd, int i, int write_pipe)
+static int	read_heredoc(t_msdata *data, t_cmd *cmd, int i, int *write_pipe)
 {
 	while (1)
 	{
@@ -50,15 +50,18 @@ static void	read_heredoc(t_msdata *data, t_cmd *cmd, int i, int write_pipe)
 		{
 			dup2(FDMAX - 3, STDIN_FILENO);
 			close(FDMAX - 3);
+			cmd_close_fd(write_pipe);
+			cmd_close_fd(&cmd->infd);
+			cmd->infd = -1;
 			init_signal(data, afterhd);
 			debugger(BLU "here \n" RESET);
-			return ;
+			return (1);
 		}
 		data->line = expand(data);
 		if (!data->line)
 			error("read_heredoc: expand malloc error.", data);
-		if (heredoc_line(data, cmd, i, write_pipe))
-			return ;
+		if (heredoc_line(data, cmd, i, *write_pipe))
+			return (0);
 	}
 }
 
@@ -78,10 +81,11 @@ static int	heredoc_cmds(t_msdata *data, t_cmd *cmd)
 	cmd->infd = fd[0];
 	while (cmd->heredoc[i])
 	{
-		read_heredoc(data, cmd, i, fd[1]);
+		if (read_heredoc(data, cmd, i, &fd[1]))
+			break ;
 		i++;
 	}
-	if (close(fd[1]) == -1)
+	if (fd[1] && close(fd[1]) == -1)
 	{
 		write(STDERR_FILENO, "heredoc_cmds: error closing write_end.\n", 39);
 		return (-1);
