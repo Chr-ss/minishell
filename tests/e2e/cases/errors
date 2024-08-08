@@ -28,3 +28,6 @@ echo test | <>
 echo test | <<
 the next testscase is a special case in bash and note handled like bash
 echo test || <<
+/bin/ls/notfound
+""
+''

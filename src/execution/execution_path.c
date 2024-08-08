@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 11:49:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 12:03:37 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/08 16:10:43 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	execute_path_check(char **path_spl, char *cmd, char **path_cmd)
 	return (1);
 }
 
-int	execute_path_local(char	*cmd, char **path_cmd)
+int	execute_path_local(t_msdata *data, char	*cmd, char **path_cmd)
 {
 	int		ret;
 	char	*str;
@@ -84,6 +84,8 @@ int	execute_path_local(char	*cmd, char **path_cmd)
 		write(STDERR_FILENO, "minishell: ", 11);
 		ft_putstr_fd(cmd, 2);
 		write(STDERR_FILENO, ": No such file or directory\n", 28);
+		free_all(data);
+		exit(126);
 		return (0);
 	}
 	return (1);
@@ -95,7 +97,9 @@ int	execute_path(char	*cmd, t_msdata *data, char **path_cmd)
 	char	*path;
 	char	**path_spl;
 
-	ret = execute_path_local(cmd, path_cmd);
+	if (cmd && cmd[0] == '\0')
+		return (execute_path_error());
+	ret = execute_path_local(data, cmd, path_cmd);
 	if (ret == -1 || ret == 0)
 		return (ret);
 	ret = get_envp(data, "PATH", &path);
