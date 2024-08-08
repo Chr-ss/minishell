@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 14:41:59 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/04 15:57:26 by crasche       ########   odam.nl         */
+/*   Updated: 2024/08/08 17:18:59 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,12 @@ void	execute_exit(int *wstatus, int *statuscode)
 		if (WTERMSIG(*wstatus) == 13)
 			*statuscode = 0;
 	}
+}
+
+void	execute_path_local_exit(void)
+{
+	if (errno == 2)
+		exit(127);
+	else if (errno == 20)
+		exit(126);
 }

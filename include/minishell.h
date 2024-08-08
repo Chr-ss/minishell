@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/08 15:23:19 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/08 17:21:53 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -671,6 +671,12 @@ void		cmd_clear(t_msdata *data);
  *  exit(EXIT_FAILURE) over error
 */
 void		cmd_reset(t_msdata *data);
+
+/**
+ * @brief This functions exists based on errno in execute_path_local
+ * 
+ */
+void		execute_path_local_exit(void);
 
 /**
  * @brief

@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/04 11:49:12 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/08 16:10:43 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/08 17:21:37 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ int	execute_path_local(t_msdata *data, char	*cmd, char **path_cmd)
 		ft_putstr_fd(cmd, 2);
 		write(STDERR_FILENO, ": No such file or directory\n", 28);
 		free_all(data);
-		exit(126);
-		return (0);
+		execute_path_local_exit();
 	}
 	return (1);
 }
