@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/07 21:19:26 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/09 14:43:08 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,28 @@ char	*cd_chdir_pwd(void)
 int	cd_chdir(t_msdata *data, char *dir)
 {
 	char	*pwd;
-	char	*old_pwd;
+	char	*oldpwd;
 
-	if (get_envp(data, "PWD", &old_pwd) == -1)
-		error ("cd_chdir get_envp error", data);
-	pwd = cd_chdir_pwd();
-	if (!pwd || !old_pwd)
-		return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
-	if (check_dir(dir) != 0)
-		return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
+	oldpwd = ft_strdup(data->pwd);
+	if (oldpwd == NULL)
+		error ("cd: oldpwd malloc error", data);
+	pwd = NULL;
 	if (chdir(dir) == -1)
-		return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
-	if (change_envp("PWD", pwd, data->envp))
-		return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
-	if (change_envp("OLDPWD", old_pwd, data->envp))
 	{
-		if (change_envp("PWD", old_pwd, data->envp))
-			return (cd_chdir_free(EXIT_FAILURE, pwd, old_pwd));
+		perror("cd");
+		return (cd_chdir_free(EXIT_FAILURE, pwd, oldpwd));
 	}
-	return (cd_chdir_free(EXIT_SUCCESS, pwd, old_pwd));
+	pwd = cd_chdir_pwd();
+	if (pwd == NULL)
+		error ("cd: pwd malloc error", data);
+	if (change_envp("PWD", pwd, data))
+		add_envp(data, "PWD", pwd);
+	if (change_envp("OLDPWD", oldpwd, data))
+		add_envp(data, "OLDPWD", oldpwd);
+	data->pwd = ft_strdup(pwd);
+	if (data->pwd == NULL)
+		error("pwd to data->pwd malloc error", data);
+	return (cd_chdir_free(EXIT_SUCCESS, pwd, oldpwd));
 }
 
 int	cd_error(int arglen, char **argv)
@@ -97,9 +100,8 @@ int	cd(t_msdata *data, char **argv)
 		dir = cd_parse(data, argv);
 	if (cd_parse_oldpwd(data, argv, &dir))
 		return (1);
-	debugger("dir %s\n", dir);
 	if (dir && cd_chdir(data, dir))
-		perror("chdir error");
+		return (EXIT_FAILURE);
 	if (dir)
 		free(dir);
 	else

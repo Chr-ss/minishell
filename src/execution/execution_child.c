@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 14:35:07 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/07 17:13:23 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/09 14:05:54 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	execute_check_builtin(t_msdata *data, t_cmd *cmd)
 	else if (!ft_strncmp("export", cmd->cmd, 6) && len == 6)
 		return (export(data, cmd->argv));
 	else if (!ft_strncmp("pwd", cmd->cmd, 3) && len == 3)
-		return (pwd());
+		return (pwd(data));
 	else if (!ft_strncmp("unset", cmd->cmd, 5) && len == 5)
 		return (unset(data, cmd->argv, NULL));
 	else if (!ft_strncmp("exit", cmd->cmd, 4) && len == 4)

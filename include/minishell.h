@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/08 17:21:53 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/09 14:27:44 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ typedef struct s_msdata
 	int			pos;
 	char		**envp;
 	int			exit_code;
-	char		pwd[PATH_MAX];
+	char		*pwd;
 	int			org_stdout;
 	int			org_stdin;
 	bool		overrule_exit;
@@ -257,7 +257,7 @@ int			cd(t_msdata *data, char **argv);
  * @return
  * Function returns nothing
 */
-int			pwd(void);
+int			pwd(t_msdata *data);
 
 /**
  * @brief
@@ -484,11 +484,12 @@ int			get_envp(t_msdata *data, char *envp, char **env);
 will change the value of $HOME to "HOME=/home/else"
  * @param char* key
  * @param char* env
- * @param char** envp
+ * @param t_msdata *data
  * @return 0 is a succesful operation
  * @exception 1 is a unsuccesful operation
+ * @note will go to error function when malloc error happens
  */
-int			change_envp(char *key, char *env, char **envp);
+int			change_envp(char *key, char *env, t_msdata *data);
 
 /**
  * @brief

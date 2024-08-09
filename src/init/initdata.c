@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:50:51 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/05 16:41:13 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/09 14:26:40 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,37 @@ void	initdata_shlvl(t_msdata *data, int index)
 	shlvl = ft_itoa(++index);
 	if (!shlvl)
 		error("initdata: malloc error", data);
-	change_envp("SHLVL", shlvl, data->envp);
+	if(change_envp("SHLVL", shlvl, data))
+		perror("SHLVL change error");
 	free(shlvl);
+}
+
+
+void	initdata_pwd(t_msdata *data)
+{
+	char	cwd[PATH_MAX];
+	char	*pwd;
+	
+	pwd = NULL;
+	pwd = get_envp_value("PWD");
+	if (pwd == NULL)
+		error("initdata PWD malloc error", data);
+	if (!ft_strncmp(pwd, "", ft_strlen(pwd)))
+		free (pwd);
+	else
+	{
+		data->pwd = pwd;
+		return ;
+	}
+	if (!getcwd(cwd, PATH_MAX))
+	{
+		free_all(data);
+		perror("getcwd() failed");
+		exit(0);
+	}
+	data->pwd=ft_strdup(cwd);
+	if (data->pwd == NULL)
+		error("cwd malloc fail", data);
 }
 
 void	initdata(t_msdata *data, char **envp)
@@ -69,4 +98,5 @@ void	initdata(t_msdata *data, char **envp)
 	index = get_envp_index("SHLVL", data->envp);
 	if (index != -1)
 		initdata_shlvl(data, index);
+	initdata_pwd(data);
 }
