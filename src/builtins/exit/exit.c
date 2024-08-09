@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/03 12:02:24 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/09 15:33:07 by mynodeus      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,41 @@ int	mini_exit_error(char **argv)
 	{
 		if (!ft_isdigit(argv[0][index++]))
 		{
-			write(STDERR_FILENO, " numeric argument required\n", 27);
+			write(STDERR_FILENO, "exit: numeric argument required\n", 32);
 			return (2);
 		}
 	}
 	return (0);
+}
+
+int	mini_exit_long_long_error(void)
+{
+	write(STDERR_FILENO, "exit: numeric argument required\n", 32);
+	return (2);
+}
+
+
+int mini_exit_long_long_check(char *code)
+{
+	int	len;
+
+	len = ft_strlen(code);
+	if (len > 20)
+		return (mini_exit_long_long_error());
+	if (len == 20)
+	{
+		if ((code[0] == '-' && ft_strcmp(code,"-9223372036854775808") > 0) || \
+			(code[0] == '+' &&	ft_strcmp(code,"+9223372036854775807") > 0))
+			return (mini_exit_long_long_error());
+	}
+	else
+	{
+		if (len > 19)
+			return (mini_exit_long_long_error());
+		else if (len == 19 && ft_strcmp(code,"9223372036854775807") > 0)
+			return (mini_exit_long_long_error());
+	}
+	return (ft_atoi(code) % 256);
 }
 
 int	mini_exit(t_msdata *data, char **argv, int code)
@@ -52,7 +82,7 @@ int	mini_exit(t_msdata *data, char **argv, int code)
 		if (ret)
 			return (ret);
 		if (argv[0])
-			ec = ft_atoi(argv[0]) % 256;
+			ec = mini_exit_long_long_check(argv[0]);
 	}
 	else
 		ec = code % 256;
