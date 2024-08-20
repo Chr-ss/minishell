@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 16:32:33 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/08 21:08:54 by spenning      ########   odam.nl         */
+/*   Updated: 2024/08/20 18:01:46 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	cd_parse_pso_check(char **dirname);
  * @param char *key
  * @param char *value
  */
-void export_envp(t_msdata *data, char *input, char *key, char *value);
-
+void	export_envp(t_msdata *data, char *input, char *key, char *value);
 
 #endif	// BUILTINS_H

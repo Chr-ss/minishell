@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/25 14:59:21 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/09 15:33:07 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/20 17:57:50 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ int	mini_exit_long_long_error(void)
 	return (2);
 }
 
-
-int mini_exit_long_long_check(char *code)
+int	mini_exit_long_long_check(char *code)
 {
 	int	len;
 
@@ -55,15 +54,15 @@ int mini_exit_long_long_check(char *code)
 		return (mini_exit_long_long_error());
 	if (len == 20)
 	{
-		if ((code[0] == '-' && ft_strcmp(code,"-9223372036854775808") > 0) || \
-			(code[0] == '+' &&	ft_strcmp(code,"+9223372036854775807") > 0))
+		if ((code[0] == '-' && ft_strcmp(code, "-9223372036854775808") > 0) \
+		|| (code[0] == '+' && ft_strcmp(code, "+9223372036854775807") > 0))
 			return (mini_exit_long_long_error());
 	}
 	else
 	{
 		if (len > 19)
 			return (mini_exit_long_long_error());
-		else if (len == 19 && ft_strcmp(code,"9223372036854775807") > 0)
+		else if (len == 19 && ft_strcmp(code, "9223372036854775807") > 0)
 			return (mini_exit_long_long_error());
 	}
 	return (ft_atoi(code) % 256);

@@ -6,7 +6,7 @@
 /*   By: crasche <crasche@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/02 13:50:51 by crasche       #+#    #+#                 */
-/*   Updated: 2024/08/09 14:26:40 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/20 18:00:53 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,16 @@ void	initdata_shlvl(t_msdata *data, int index)
 	shlvl = ft_itoa(++index);
 	if (!shlvl)
 		error("initdata: malloc error", data);
-	if(change_envp("SHLVL", shlvl, data))
+	if (change_envp("SHLVL", shlvl, data))
 		perror("SHLVL change error");
 	free(shlvl);
 }
-
 
 void	initdata_pwd(t_msdata *data)
 {
 	char	cwd[PATH_MAX];
 	char	*pwd;
-	
+
 	pwd = NULL;
 	pwd = get_envp_value("PWD");
 	if (pwd == NULL)
@@ -72,7 +71,7 @@ void	initdata_pwd(t_msdata *data)
 		perror("getcwd() failed");
 		exit(0);
 	}
-	data->pwd=ft_strdup(cwd);
+	data->pwd = ft_strdup(cwd);
 	if (data->pwd == NULL)
 		error("cwd malloc fail", data);
 }
