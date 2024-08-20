@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/24 18:43:01 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/09 14:04:22 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/20 18:12:27 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	free_data(t_msdata *data)
 	}
 	if (data->cmd_head)
 		free(data->cmd_head);
+	if (data->pwd)
+		free(data->pwd);
 	if (data->childs)
 	{
 		kill_all_childs(data);
@@ -41,8 +43,6 @@ void	free_data(t_msdata *data)
 		if (data->childs)
 			free(data->childs);
 	}
-	if (data->pwd)
-		free(data->pwd);
 }
 
 void	free_char_array(char **arr)

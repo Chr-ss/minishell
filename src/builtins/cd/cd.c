@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/18 14:41:51 by spenning      #+#    #+#                 */
-/*   Updated: 2024/08/09 14:43:08 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/20 18:13:32 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	cd_chdir(t_msdata *data, char *dir)
 		add_envp(data, "PWD", pwd);
 	if (change_envp("OLDPWD", oldpwd, data))
 		add_envp(data, "OLDPWD", oldpwd);
+	free(data->pwd);
 	data->pwd = ft_strdup(pwd);
 	if (data->pwd == NULL)
 		error("pwd to data->pwd malloc error", data);
