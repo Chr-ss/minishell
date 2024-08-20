@@ -5,7 +5,55 @@ CC			=	cc
 CFLAGS		=	-Wall -Werror -Wextra -Wunused -Wuninitialized -Wunreachable-code -g3 # -MMD -fsanitize=address # -Ofast
 
 SRCDIR		=	src
-SRC			=	$(shell find $(SRCDIR) -iname "*.c")
+SRC			=	src/token/type_handler_redirect.c	\
+				src/token/openfile.c	\
+				src/token/printf_cmd.c	\
+				src/token/token.c	\
+				src/token/cmd.c	\
+				src/token/type_handler.c	\
+				src/init/initdata.c	\
+				src/input_handling.c	\
+				src/utils/cmd_reset.c	\
+				src/utils/memory.c	\
+				src/utils/etc.c	\
+				src/utils/io.c	\
+				src/utils/debug.c	\
+				src/utils/utils.c	\
+				src/utils/envp.c	\
+				src/utils/add_envp.c	\
+				src/utils/get_envp.c	\
+				src/heredoc/heredoc.c	\
+				src/builtins/unset/unset.c	\
+				src/builtins/echo/echo_getline.c	\
+				src/builtins/echo/echo.c	\
+				src/builtins/pwd/pwd.c	\
+				src/builtins/env/env.c	\
+				src/builtins/exit/exit.c	\
+				src/builtins/cd/cd_parse.c	\
+				src/builtins/cd/cd_oldpwd.c	\
+				src/builtins/cd/cd.c	\
+				src/builtins/cd/cd_parse_check.c	\
+				src/builtins/export/export_envp.c	\
+				src/builtins/export/export.c	\
+				src/builtins/export/export_print.c	\
+				src/expansion/expansion_utils.c	\
+				src/expansion/expansion.c	\
+				src/childs/init_kindergarten.c	\
+				src/childs/manipulate_child.c	\
+				src/childs/terminate_children.c	\
+				src/main.c	\
+				src/execution/execution_exit.c	\
+				src/execution/execution_argv.c	\
+				src/execution/execution_child_dup.c	\
+				src/execution/execution_wait.c	\
+				src/execution/execution_child.c	\
+				src/execution/execution.c	\
+				src/execution/execution_child_dup_fd.c	\
+				src/execution/execution_path.c	\
+				src/parsing/parsing.c	\
+				src/error/error.c	\
+				src/signal/signal_handler.c	\
+				src/signal/signal.c
 
 OBJDIR		=	build
 OBJ			=	$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
