@@ -6,7 +6,7 @@
 /*   By: spenning <spenning@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/28 14:34:53 by spenning      #+#    #+#                 */
-/*   Updated: 2024/07/24 10:42:24 by mynodeus      ########   odam.nl         */
+/*   Updated: 2024/08/21 16:05:05 by spenning      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	get_envp_index(char *env, char **envp)
 		key = get_envp_key(envp[index]);
 		if (key == NULL)
 			return (-1);
-		if (!ft_strncmp(env, key, ft_strlen(key)))
+		if (!ft_strncmp(env, key, ft_strlen(env)))
 		{
 			free(key);
 			return (index);
