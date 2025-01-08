@@ -107,6 +107,8 @@ cd minishell
 make
 ```
 
+
+
 ## SOURCES / ACKNOWLEDGEMENTS
 
 > Documentation in README
